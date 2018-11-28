@@ -1,0 +1,168 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model AsiatekPagedList<ActionListModel>
+
+
+@{
+    string updateTargetId = "Admin_Action_ActionSetting_divActionsGrid";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    int currentPage = Model.CurrentPageIndex;
+    string actionName = ViewBag.ActionName;
+    int controllerID = ViewBag.ControllerID;
+    int areaID = ViewBag.AreaID;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+}
+
+
+
+
+<button id="btnAddActionInfo">@UIText.AddActionInfo</button>
+@if (Model.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+
+    using (Ajax.BeginForm("DeleteAction", "Action", new AjaxOptions()
+    {
+        UpdateTargetId = updateTargetId,
+    }))
+    {
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="currentPage" value="@currentPage" />
+    <input type="hidden" name="actionName" value="@actionName" />
+    <input type="hidden" name="areaID" value="@areaID" />
+    <input type="hidden" name="controllerID" value="@controllerID" />
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.ID)</th>
+                <th>@Html.DisplayNameFor(m => m.ActionName)</th>
+                <th>@Html.DisplayNameFor(m => m.ControllerName)</th>
+                <th>@Html.DisplayNameFor(m => m.AreaName)</th>
+                <th>@Html.DisplayNameFor(m => m.Description)</th>
+                <th>@editText</th>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.ActionName</td>
+                    <td>@item.ControllerName</td>
+                    <td>@item.AreaName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <input type="button" value="@editText" onclick="edit(@item.ID)"/>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="actid" value="@item.ID" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="button" value="@delText" onclick="beginDelete()"/>
+                    <input type="submit" id="subDeleteArea" value="" style="display: none;" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    }
+
+
+    @Ajax.AsiatekAjaxPager(Model, cp =>
+{
+    return new AjaxOptions()
+    {
+        UpdateTargetId = updateTargetId,
+        Url = Url.Action("ActionPagedGrid", "Action", new { currentPage = cp, actionName = ViewBag.ActionName, controllerID = ViewBag.ControllerID, areaID = ViewBag.AreaID })
+    };
+})
+
+    @Scripts.Render("~/asiatek/pagerJS")
+
+}
+
+
+
+
+
+<script>
+
+    var beginDelete = function ()
+    {
+        var _message='@UIText.PleaseSelectItem';
+        if ($(":checkbox:checked").length == 0)
+        {
+            $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+            return;
+        }
+        _message='@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message,'@informationTitle','@UIText.Confirm','@UIText.Cancel',function(){
+            $("#subDeleteArea").trigger("click");
+        });
+    }
+
+   
+
+    var edit = function (id)
+    {
+        var _url="@Url.Content("~/Admin/Action/EditActionInfo")";
+        var _data={id:id};
+        var _title="@editText";
+        $.showEditDialog(_url,_data,_title,editCallBack);
+    }
+
+
+    var setAddBtn=function(){
+        $("#btnAddActionInfo").on("click",function(){
+            var _url="@Url.Content("~/Admin/Action/AddActionInfo")";
+            var _data={};
+            var _title="@editText";
+            $.showEditDialog(_url,_data,_title,editCallBack);
+            
+        });
+    }
+
+
+
+
+    var editCallBack=function(){
+        $.get("@Url.Action("ActionPagedGrid", "Action")", { currentPage :'@currentPage', actionName: '@actionName',controllerID:'@controllerID', areaID: '@areaID' }, function (result)
+           {
+               if ($.handleAjaxError(result)) {
+                   return;
+               }
+               $("#@updateTargetId").html(result);
+        });
+       }
+
+
+
+    var showMessage=function(){
+        var _message = "@ViewBag.Message";
+        $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+    }
+
+    $(function ()
+    {
+        var _$chkAllObj = $("#chkAll");
+        var _$chkObjs = $("input[name='actid']");
+        $.setCheckBox(_$chkAllObj,_$chkObjs);
+        setAddBtn();
+        showMessage();
+    });
+
+
+</script>

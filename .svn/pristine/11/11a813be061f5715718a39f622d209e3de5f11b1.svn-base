@@ -1,0 +1,235 @@
+﻿using Asiatek.TMS.Controllers;
+using Asiatek.TMS.Filters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace Asiatek.TMS.Areas.Reports.Controllers
+{
+    public class HomeController : BaseController
+    {
+
+        public ActionResult Index()
+        {
+            //直接转到第一个报表页面
+            var subFuns = base.GetCurrentSubFunctionsInfo();
+            var first = subFuns.First();
+            RouteValueDictionary rvd = new RouteValueDictionary();
+            rvd.Add("controller", first.ControllerName);
+            rvd.Add("action", first.ActionName);
+            rvd.Add("area", first.AreaName);
+            return RedirectToRoute(rvd);
+        }
+
+
+        #region 报表类型1(超速、掉线、疲劳、累计驾驶、停车）
+        //超速报表
+        public ActionResult OverSpeedRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //掉线报表
+        public ActionResult OfflineRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //疲劳驾驶
+        public ActionResult FatigueDrivingRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //疲劳驾驶预警 
+        public ActionResult FatigueDrivingEarlyWarningRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //当天累计驾驶超时
+        public ActionResult AccumulatedDrivingOvertime()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //超时停车
+        public ActionResult OvertimeParking()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 报表类型2(里程统计）
+        //里程报表
+        public ActionResult MileageStatisticsRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 报表类型3(紧急报警、危险预警）
+        //紧急报警
+        public ActionResult EmergencyAlarmRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //危险预警
+        public ActionResult DangerWarningRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 报表类型4(设备故障报表、电源异常报表、异常明细汇总报表）
+        //设备故障报表
+        public ActionResult EquipmentFailureRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //电源异常报表
+        public ActionResult PowerAbnormalRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //异常明细汇总报表
+        public ActionResult ExDetailsSummaryRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 报表类型5(区域异常报表、路线异常报表）
+        //区域异常报表
+        public ActionResult RegionAbnormalRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //路线异常报表
+        public ActionResult RouteAbnormalRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region  温度相关
+        //温度报表
+        public ActionResult TemperRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+
+        //温度异常报表
+        public ActionResult TemperExceptionRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+        #region 离线报表
+        public ActionResult VehicleOffLineRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 异常处理报表
+        public ActionResult ExceptionHandleRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 夜间行驶报表
+        public ActionResult NightDrivingRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 南钢区域超速报表
+        public ActionResult NGAreaOverSpeedRpt()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 江苏医药温度报表
+         public ActionResult TemperForJSYY()
+        {
+            this.BaseSetting();
+            return View();
+        }
+        #endregion
+
+        #region 马钢嘉华卸料异常报表
+         public ActionResult MGJHExpForIllegalDischarg()
+         {
+             this.BaseSetting();
+             return View();
+         }
+        #endregion
+
+         #region 马钢嘉华营运报表
+         public ActionResult MGJHService()
+         {
+             this.BaseSetting();
+             return View();
+         }
+         #endregion
+
+         #region 龙华总务门岗异常报表
+         public ActionResult LHZWGateExceptionRpt()
+         {
+             this.BaseSetting();
+             return View();
+         }
+         #endregion
+
+        #region 其他
+        private void BaseSetting()
+        {
+            //其他页面是进入的index后，点击菜单然后ajax加载分部视图，所以Title就是一开始的Index的名称
+            //但是报表这里比较特殊，打开的是完整的页面
+            ViewBag.Title = base.GetViewTitle("Reports", "Home", "Index");
+            //用一个rtpFlag进行权限控制
+            base.SetSession("rptFlag", true);
+        }
+
+        [AsiatekSubordinateFunction("Index", "Home", "Reports")]
+        public ActionResult GetReportMenus()
+        {
+            var subFuns = base.GetSubFunctionsInfo("Reports", "Home", "Index");
+            return PartialView("_ReportMenus", subFuns);
+        }
+        #endregion
+
+
+    }
+}

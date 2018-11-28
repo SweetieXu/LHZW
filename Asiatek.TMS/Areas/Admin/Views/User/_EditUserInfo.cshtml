@@ -1,0 +1,136 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model UserEditModel
+@using (Ajax.BeginForm("EditUserInfo", "User", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditUser" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ID)
+    
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.UserName)：</td>
+                <td>@Html.TextBoxFor(m => m.UserName, new { disabled = "disabled" })</td>
+                <td>@Html.LabelForRequired(m => m.NickName)：</td>
+                <td>@Html.TextBoxFor(m => m.NickName)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.UserName)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.NickName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.StrucID)：</td>
+                <td>   
+                    @Html.TextBoxFor(m=>m.StrucName)
+                    @Html.HiddenFor(m => m.StrucID)
+                </td>
+                <td>@Html.LabelForRequired(m => m.RoleID)：</td>
+                <td>@Html.DropDownListFor(m => m.RoleID, Model.RoleSelectList)</td>
+            </tr>
+             <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.StrucID)</td>
+                <td></td>
+                <td></td>
+            </tr>
+           
+            <tr>
+                <td>@Html.LabelFor(m => m.ContactNumber1)：</td>
+                <td>@Html.TextBoxFor(m => m.ContactNumber1)</td>
+                <td>@Html.LabelFor(m => m.ContactNumber2)：</td>
+                <td>@Html.TextBoxFor(m => m.ContactNumber2)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ContactNumber1)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ContactNumber2)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.VehicleViewMode)：</td>
+                 <td>
+                    @Html.RadioButtonFor(m => m.VehicleViewMode, true, new { id = "rdoDefaultMode"})
+                    <label for="rdoDefaultMode">@UIText.DefaultMode</label>
+                    @Html.RadioButtonFor(m => m.VehicleViewMode, false, new { id = "rdoFreeMode" })
+                    <label for="rdoFreeMode">@UIText.FreeMode</label>
+                </td>
+                <td>@Html.LabelFor(m => m.ContactAddress)：</td>
+                <td>@Html.TextBoxFor(m => m.ContactAddress)</td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td>@Html.ValidationMessageFor(m => m.ContactAddress)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="3">
+                    @Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmEditUser = $("#frmEditUser");
+    $frmEditUser.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    $frmEditUser.fixUnobtrusiveValidation();
+
+    @*    $.get("@Url.Content("~/Admin/Structure/GetStructures")", {}, function (result)
+    {
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        for (var i = 0; i < result.length; i++)
+        {
+            var obj = result[i];
+            if (obj.ID == '@Model.StrucID')
+            {
+                $("#ddlEditUserStrucs").val(obj.StrucName);
+                $("#hidEditUserStrucID").val(obj.ID);
+            }
+        }
+    });*@
+
+    $("#StrucName").bind("input propertychange", function () {
+        $("#StrucID").val("");
+        $("span[data-valmsg-for='StrucID']").show();
+    })
+    $("#StrucName").autocomplete({
+        delay: 500,
+        minLength: 1,
+        appendTo: $("#frmEditUser"),
+        select: function (event, ui) {
+            $("span[data-valmsg-for='StrucID']").hide();
+            $("#StrucID").val(ui.item.ID);
+        },
+        source: function (request, response) {
+            $.get('@Url.Content("~/Admin/Structure/GetStructuresByStructureName")', { structuresName: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+        });
+</script>
+
+

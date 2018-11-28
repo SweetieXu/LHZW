@@ -1,0 +1,92 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model List<MSBindVehicleListModel>
+
+@if (Model.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    <div style="overflow-y: auto;margin-right:-10px;padding-right:5px;" id="divVehicle">
+        <table class="table table-striped table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <label>@UIText.Operation</label>
+                    </th>
+                    <th>@Html.DisplayNameFor(m => m[0].VehicleName)</th>
+                    <th>@Html.DisplayNameFor(m => m[0].PlateNum)</th>
+                    <th>@Html.DisplayNameFor(m => m[0].VIN)</th>
+                    <th>@Html.DisplayNameFor(m => m[0].ScheduleName)</th>
+                    <th>@Html.DisplayNameFor(m => m[0].FirstMaintenanceMile)</th>
+                    <th>@Html.DisplayNameFor(m => m[0].FirstMaintenanceTime)</th>
+                    <th>@Html.DisplayNameFor(m => m[0].CreateTime)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="btn btn-primary"  onclick="doUnBind('@item.VehicleID','@item.ScheduleID')" title="@UIText.UnBindVehicle">
+                                <span class="glyphicon glyphicon-arrow-right"></span>
+                            </span>
+                        </td>
+                        <td>
+                            <label>@item.VehicleName</label>
+                        </td>
+                        <td>
+                            <label>@item.PlateNum</label>
+                        </td>
+                        <td>
+                            <label>@item.VIN</label>
+                        </td>
+                        <td>
+                            <label>@item.ScheduleName</label>
+                        </td>
+                        <td>
+                            <label>@item.FirstMaintenanceMile</label>
+                        </td>
+                        <td>
+                            <label>@item.FirstMaintenanceTime.ToString("yyyy-MM-dd")</label>
+                        </td>
+                        <td>
+                            <label>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+<script>
+    // 设置内层div的最大高度 超出高度后自动出现滚动条
+    $("#divVehicle").css("max-height", ($(window).height() * 0.8) + "px");
+
+    var doUnBind = function (vehicleID, scheduleID) {
+        $.showConfirmDialog('@UIText.ConfirmUnBindVehicle', '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Content("~/Admin/MaintenanceSchedule/DelVehicleFromMaintenanceSchedule")",
+                data: {
+                    vehicleID: vehicleID,
+                    scheduleID: scheduleID
+                },
+                success: function (result) {
+                    if ($.handleAjaxError(result)) {
+                        return;
+                    }
+                    // 刷新当前列表
+                    unBind(scheduleID);
+                }
+            });
+        });
+    }
+</script>
+
+
+
+
+

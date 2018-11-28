@@ -1,0 +1,84 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<NightBanSearchModel, NightBanListModel>
+
+@using (Ajax.BeginForm("GetNightBanInfo", "NightBan", new AjaxOptions()
+    {
+        UpdateTargetId = "Admin_TM_NightBan_divTM",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET"
+    }, new { id = "frmSearchNightBan" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.NightBanName)：</td>
+            <td>
+                <input type="search" name="NightBanName" value="" placeholder="@(UIText.PleaseInput + DisplayText.Name)"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.NightBanAddress)：</td>
+            <td>
+                <input type="search" name="NightBanAddress" value="" placeholder="@(UIText.PleaseInput + DisplayText.NightBanAddress)"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.IsEnabled)：</td>
+            <td>
+                @Html.DropDownList("IsEnabled", new List<SelectListItem> 
+                                 { new SelectListItem { Text = @DisplayText.PleaseSelect, Value = "-1"},
+                                   new SelectListItem { Text = @DisplayText.Yes, Value = "1"},
+                                   new SelectListItem { Text = @DisplayText.No, Value = "0"}
+                                 })
+            </td>
+            <td colspan="6">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddNightBan">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDeleteNightBan">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="7"></td>
+        </tr>
+    </table>
+}
+
+
+
+<div id="Admin_TM_NightBan_divTM">
+    @Html.Partial("_NightBanPagedGrid")
+</div>
+
+
+
+<script>
+    $("#frmSearchNightBan").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnAddNightBan").on("click", function () {
+        var _url = "@Url.Content("~/Admin/NightBan/AddNightBan")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnDeleteNightBan").on("click", function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='nbid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#frmDelNightBan").submit();
+        });
+    });
+</script>
+
+
+
+
+

@@ -1,0 +1,127 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  RoleSettingModel
+
+@{
+    string updateTargetId = "Admin_Role_RoleSetting_divRolesGrid";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h1>@Asiatek.Resource.UIText.NoDatas</h1>
+}
+else
+{
+    var firstObj = pagedDatas.First();
+    using (Ajax.BeginForm("DeleteRole", "Role", new AjaxOptions()
+    {
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelRole" }))
+    {
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+                <th>@UIText.Operation</th>
+                <th>@Html.DisplayNameFor(m => firstObj.RoleName)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.RoleLevel)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.IsDefault)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.Description)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    <td>
+                        @if (!item.IsDefault)
+                        {
+                            <input type="checkbox" name="roleid" value="@item.ID"  id="chkRID@(item.ID)"/>
+                        }
+                    </td>
+                    <td>
+                        <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>
+                    </td>
+                    <td>
+                        <label for="chkRID@(item.ID)">@item.RoleName</label>
+                    </td>
+                    <td>@item.RoleLevel</td>
+                    <td>@Html.CheckBoxFor(m => item.IsDefault, new { disabled = "disabled" })</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    
+    
+                
+    @Ajax.AsiatekAjaxPagerBootstrap(pagedDatas, new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "Role",
+    ActionName = "GetRoleInfo",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+
+
+<script>
+
+    //删除完成后
+    var delCallBack = function (result)
+    {
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+
+    //刷新搜索表单
+    var refreshSearchForm = function ()
+    {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchRole #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchRole").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+    var edit = function (id)
+    {
+        var _url = "@Url.Content("~/Admin/Role/EditRole")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    var $chkAllObj = $("#chkAll");
+    var $chkObjs = $("input[name='roleid']");
+    $.setCheckBox($chkAllObj, $chkObjs);
+</script>
+
+
+
+
+

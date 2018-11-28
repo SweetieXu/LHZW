@@ -1,0 +1,18 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OtherError</title>
+</head>
+<body>
+    <div>
+        <h1>@Asiatek.Resource.UIText.ErrorOccurred</h1>
+        <h2>@Html.ActionLink(Asiatek.Resource.UIText.Return, "Welcome", "Home")</h2>
+    </div>
+</body>
+</html>

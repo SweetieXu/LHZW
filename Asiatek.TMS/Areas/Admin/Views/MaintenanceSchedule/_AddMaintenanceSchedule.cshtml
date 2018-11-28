@@ -1,0 +1,267 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model AddMaintenanceScheduleModel
+
+<style>
+    .textBoxClass {
+        width:150px;
+        display:inline;
+    }
+    .inputClass {
+        width:100px;
+        min-height: 20px!important;
+    }
+</style>
+
+@using (Ajax.BeginForm("AddMaintenanceSchedule", "MaintenanceSchedule", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddMaintenanceSchedule" }))
+{
+    @Html.AntiForgeryToken()
+
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ScheduleName)：</td>
+                <td>@Html.TextBoxFor(m => m.ScheduleName)</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.ScheduleName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.RulesType)：</td>
+                <td>@Html.DropDownList("RulesType", new List<SelectListItem> 
+                        { 
+                        new SelectListItem { Text = @UIText.MileagePeriod, Value = "1"},
+                        new SelectListItem { Text = @UIText.TimePeriod, Value = "2"},
+                        new SelectListItem { Text = @UIText.MileageAndTimePeriod, Value = "3"}
+                        })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="MileSetting">
+                        @DisplayText.Per 
+                        @Html.TextBoxFor(m => m.SettingMile, new { @class="textBoxClass"}) 
+                        @DisplayText.Kilometre，
+                        @DisplayText.Advance 
+                        @Html.TextBoxFor(m => m.PreMile, new { @class="textBoxClass"}) 
+                        @DisplayText.Kilometre@DisplayText.Warning
+                    </div>
+                    @* 最初是设计每多少个月，提前多少天进行预警，由于当时间间隔设置为月份的时候，计算预警时间比较繁琐复杂，所以将这边的间隔时间改为天，同时数据库字段也由SettingMonth改为SettingDay *@
+                    <div id="TimeSetting" style="margin-top:5px;display:none">
+                        @DisplayText.Per 
+                        @Html.TextBoxFor(m => m.SettingDay, new { @class="textBoxClass"})
+                        @DisplayText.Day，
+                        @DisplayText.Advance 
+                        @Html.TextBoxFor(m => m.PreDay, new { @class="textBoxClass"})
+                        @DisplayText.Day@DisplayText.Warning
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.MaintenanceProjectDetails)：</td>
+                <td><span style="color:red;">@DisplayText.MaintenanceProject@DisplayText.MustInput</span></td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="btn btn-primary btn-sm" title="@UIText.AddButton" id="btnAddDetail">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </span>
+                </td>
+                <td>
+                    <div>
+                        <table class="table table-condensed" id="tbMaintenanceProjectDetails">
+                            <thead>
+                                <tr style="height:28px;">
+                                    <th>@Html.LabelFor(m => m.MaintenanceProjectDetails[0].ProjectName)</th>
+                                    <th>@Html.LabelFor(m => m.MaintenanceProjectDetails[0].PartsName)</th>
+                                    <th>@Html.LabelFor(m => m.MaintenanceProjectDetails[0].PartsBrand)</th>
+                                    <th>@Html.LabelFor(m => m.MaintenanceProjectDetails[0].PartsVersion)</th>
+                                    <th>@Html.LabelFor(m => m.MaintenanceProjectDetails[0].Num)</th>
+                                    <th>@Html.LabelFor(m => m.MaintenanceProjectDetails[0].Unit)</th>
+                                    <th>@Html.LabelFor(m => m.MaintenanceProjectDetails[0].UnitPrice)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)</td>
+                <td>@Html.TextAreaFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmAddMaintenanceSchedule = $("#frmAddMaintenanceSchedule");
+    $frmAddMaintenanceSchedule.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+
+  //到期规则设置显示
+    $("#RulesType").click(function () {
+        var rulesType = $("#RulesType").val();
+        if (rulesType == 1) {
+            $("#MileSetting").show();
+            $("#TimeSetting").hide();
+        }
+        if (rulesType == 2) {
+            $("#MileSetting").hide();
+            $("#TimeSetting").show();
+        }
+        if (rulesType == 3) {
+            $("#MileSetting").show();
+            $("#TimeSetting").show();
+        }
+    });
+
+    var i = 0;
+    //保养内容添加行
+    $("#btnAddDetail").on("click", function () {
+        var _$tbody = $("#tbMaintenanceProjectDetails").find("tbody");
+        //标记当前表格行数，标识name值，保证name中i顺序增加
+        var n = $("#tbMaintenanceProjectDetails").find("tbody>tr").length;     
+        //i一直增加来标记tr，中间有删除行，id还是一直增加，并不影响model提交；删除行后，删除行后面的行数要重新赋值name，否则name中i间断，提交不成功
+        var _$tr = $("<tr id='tr_" + i + "'></tr>");
+        _$tr.append($("<td><textarea class='inputClass form-control' name='MaintenanceProjectDetails[" + n + "].ProjectName' ></textarea></td>"));
+        _$tr.append($("<td><textarea class='inputClass form-control' name='MaintenanceProjectDetails[" + n + "].PartsName' ></textarea></td>"));
+        _$tr.append($("<td><textarea class='inputClass form-control' name='MaintenanceProjectDetails[" + n + "].PartsBrand' ></textarea></td>"));
+        _$tr.append($("<td><textarea class='inputClass form-control' name='MaintenanceProjectDetails[" + n + "].PartsVersion' ></textarea></td>"));
+        _$tr.append($("<td><textarea class='inputClass form-control' name='MaintenanceProjectDetails[" + n + "].Num' ></textarea></td>"));
+        _$tr.append($("<td><textarea class='inputClass form-control' name='MaintenanceProjectDetails[" + n + "].Unit' ></textarea></td>"));
+        _$tr.append($("<td><textarea class='inputClass form-control' name='MaintenanceProjectDetails[" + n + "].UnitPrice' ></textarea></td>"));
+        _$tr.append($("<td><div id='detailBtnDiv_" + i + "'><span class='btn btn-primary btn-sm' title='@UIText.DeleteButton' onclick='btnDelDetail(" + i + ",this)'><span class='glyphicon glyphicon-minus'></span></span></div></td>"));
+        _$tbody.append(_$tr);
+        i++;
+    });
+
+    //保养内容删除行   根据行数删除
+    function btnDelDetail(tr_id,Obj) {
+        //tr_id值和id相同，是一直增加的，删除时要获取当前行，不同于tr_id
+        var currentRow = Obj.parentNode.parentNode.parentNode;   //当前要删除的行的td
+        var currentIndex = $("#tbMaintenanceProjectDetails tr").index($(currentRow));
+        var ln = $("#tbMaintenanceProjectDetails").find("tbody>tr").length;    //保养项目的行数
+        //删除行
+        $('#tr_' + tr_id).remove();
+        //为了保证保存的时候name是顺序添加的，所以移除一行之后，将删除行后面行的name中i-1；删除最后一行时候不用修改
+        if (ln >= 1) { 
+            for (var n = currentIndex; n < ln; n++) {
+                var i = n - 1;
+                $("#tbMaintenanceProjectDetails tr:eq(" + n + ") td:eq(" + 0 + ") textarea").attr("name", "MaintenanceProjectDetails[" + i + "].ProjectName");
+                $("#tbMaintenanceProjectDetails tr:eq(" + n + ") td:eq(" + 1 + ") textarea").attr("name", "MaintenanceProjectDetails[" + i + "].PartsName");
+                $("#tbMaintenanceProjectDetails tr:eq(" + n + ") td:eq(" + 2 + ") textarea").attr("name", "MaintenanceProjectDetails[" + i + "].PartsBrand");
+                $("#tbMaintenanceProjectDetails tr:eq(" + n + ") td:eq(" + 3 + ") textarea").attr("name", "MaintenanceProjectDetails[" + i + "].PartsVersion");
+                $("#tbMaintenanceProjectDetails tr:eq(" + n + ") td:eq(" + 4 + ") textarea").attr("name", "MaintenanceProjectDetails[" + i + "].Num");
+                $("#tbMaintenanceProjectDetails tr:eq(" + n + ") td:eq(" + 5 + ") textarea").attr("name", "MaintenanceProjectDetails[" + i + "].Unit");
+                $("#tbMaintenanceProjectDetails tr:eq(" + n + ") td:eq(" + 6 + ") textarea").attr("name", "MaintenanceProjectDetails[" + i + "].UnitPrice");
+            }
+        }
+    };
+    
+    $frmAddMaintenanceSchedule.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+    var reg = /^\+?[1-9][0-9]*$/;  //正整数
+    var reg2 = /^(0|[1-9]\d*|[1-9]\d*\.\d+|0\.\d*[1-9]\d*)$/;  //验证整数或者正浮点数
+
+    //验证到期规则以及保养内容
+    var checkForm = function () {
+        var rulesType = $("#RulesType").val();
+        var tb = $("#tbMaintenanceProjectDetails");
+        var ln = tb.find("tbody>tr").length;    //当前添加的保养项目的行数
+        if (rulesType == 1) {           //里程周期验证  必填且为整数
+            if ($("#SettingMile").val() == "" || $("#PreMile").val() == "") {
+                var _message = '@DataAnnotations.PleaseInputCycleSettingInfo';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            if (!reg.test($("#SettingMile").val()) || !reg.test($("#PreMile").val())) {
+                var _message = '@DataAnnotations.SettingMileAndSettingDayPleaseInputInteger';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+        }
+        if (rulesType == 2) {            //时间周期   必填且为整数
+            if ($("#SettingDay").val() == "" || $("#PreDay").val() == "") {
+                var _message = '@DataAnnotations.PleaseInputCycleSettingInfo';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            if (!reg.test($("#SettingDay").val()) || !reg.test($("#PreDay").val())) {
+                var _message = '@DataAnnotations.SettingMileAndSettingDayPleaseInputInteger';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+        }
+        if (rulesType == 3) {             //里程或时间周期   必填且为整数
+            if ($("#SettingMile").val() == "" || $("#PreMile").val() == "" || $("#SettingDay").val() == "" || $("#PreDay").val() == "") {
+                var _message = '@DataAnnotations.PleaseInputCycleSettingInfo';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            if (!reg.test($("#SettingMile").val()) || !reg.test($("#PreMile").val()) || !reg.test($("#PreDay").val()) || !reg.test($("#PreDay").val())) {
+                var _message = '@DataAnnotations.SettingMileAndSettingDayPleaseInputInteger';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+        }
+        if (ln > 0) {
+            //保养内容验证      保养项目必填且数量和单价为数字  （这边无法直接验证tbMaintenanceProjectDetails是否为空）
+            //id是一直增加的，与当前所在行数没有保持一致，所以不能直接以当前行数作为id标识，根据表格行列来取值
+            for (var i = 1; i <= ln; i++) {
+                if (tb[0].rows[i].cells[0].getElementsByTagName("textarea")[0].value == "") {
+                    var _message = '@DataAnnotations.PleaseInputMaintenanceProjectDetails';
+                    $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+                var num = tb[0].rows[i].cells[4].getElementsByTagName("textarea")[0].value;
+                var unitPrice = tb[0].rows[i].cells[6].getElementsByTagName("textarea")[0].value;
+                if ((num != "" && !reg.test(num)) || (unitPrice != "" && !reg2.test(unitPrice))) {     //数量和单价为数字
+                    var _message = '@DataAnnotations.NumAndUnitPriceMustNumber';
+                      $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                      return false;
+                  }
+            }
+        }
+        else {        //无保养内容
+            var _message = '@DataAnnotations.PleaseInputMaintenanceProjectDetails';
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        return true;
+     }
+</script>

@@ -1,0 +1,232 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model StructureSettingModel
+
+
+@using (Ajax.BeginForm("GetStructureInfo", "Structure", new AjaxOptions()
+    {
+        UpdateTargetId = "Admin_Structure_StructureSetting_divStructures",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET",
+    }, new { id = "frmSearchStruc" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.StrucAccountOrName)：</td>
+            <td>
+                <input type="search" name="StrucAccountOrName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.StrucAccountOrName)"/></td>
+            <td>@Html.LabelFor(m => m.IsCascaded)：</td>
+            <td>@Html.CheckBoxFor(m => m.IsCascaded)</td>
+             <td>@Html.LabelFor(m => m.Nightban)：</td>
+            <td>
+                @Html.DropDownList("Nightban", new List<SelectListItem> 
+                                 { new SelectListItem { Text = "请选择", Value = "-1 "},
+                                   new SelectListItem { Text = "未启用", Value = "0"},
+                                   new SelectListItem { Text = "已启用", Value = "1"}
+                                 })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>@UIText.InspectType：</label></td>
+            <td>
+                <span id="spOtherInspectTypes">
+                    @Html.CheckBoxFor(m => m.InspectType1)@Html.LabelFor(m => m.InspectType1)
+                    @Html.CheckBoxFor(m => m.InspectType2)@Html.LabelFor(m => m.InspectType2)
+                    @Html.CheckBoxFor(m => m.InspectType3)@Html.LabelFor(m => m.InspectType3)
+                </span>
+                @Html.CheckBoxFor(m => m.InspectTypeAny, new { id = "chkInspectTypeAny" })
+                <label for="chkInspectTypeAny">@Html.DisplayNameFor(m => m.InspectTypeAny)</label>
+            </td>
+            <td>
+                <label>@UIText.ExNoticeType：</label></td>
+            <td colspan="3">
+                <span id="spOtherExNoticeTypes">
+                    @Html.CheckBoxFor(m => m.ExNoticeType1)@Html.LabelFor(m => m.ExNoticeType1)
+                    @Html.CheckBoxFor(m => m.ExNoticeType3)@Html.LabelFor(m => m.ExNoticeType3)
+                </span>
+                @Html.CheckBoxFor(m => m.ExNoticeTypeAny, new { id = "chkExNoticeTypeAny" })
+                <label for="chkExNoticeTypeAny">@Html.DisplayNameFor(m => m.ExNoticeTypeAny)</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddStructureInfo">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelStruc">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+                <span class="btn btn-warning" title="@UIText.DistributionTransportIndustry" id="btnDistributionTransportIndustry">
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                </span>
+                <span class="btn btn-primary" title="@UIText.DistributionBusinessScope" id="btnDistribution">
+                    <span class="glyphicon glyphicon-share-alt"></span>
+                </span>
+                <span class="btn btn-info" title="@UIText.OpenNightban" id="btnOpenNightban">
+                    <span class="glyphicon glyphicon-record"></span>
+                </span>
+                <span class="btn btn-warning" title="@UIText.CloseNightban" id="btnCloseNightban">
+                    <span class="glyphicon glyphicon-record"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+    
+}
+
+
+
+<div id="Admin_Structure_StructureSetting_divStructures">
+    @Html.Partial("_StructurePagedGrid", Model)
+</div>
+
+
+
+<script>
+    $("#frmSearchStruc").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+    var $chkInspectTypeAny = $("#chkInspectTypeAny");
+    var $chkExNoticeTypeAny = $("#chkExNoticeTypeAny");
+    var $otherInspectTypes = $("#spOtherInspectTypes").find("input:checkbox");
+    var $otherExNoticeTypes = $("#spOtherExNoticeTypes").find("input:checkbox");
+
+    $chkInspectTypeAny.change(function () {
+        var _checked = $chkInspectTypeAny.prop("checked");
+        if (_checked) {
+            $otherInspectTypes.prop("checked", false);
+        }
+    });
+
+    $chkExNoticeTypeAny.change(function () {
+        var _checked = $chkExNoticeTypeAny.prop("checked");
+        if (_checked) {
+            $otherExNoticeTypes.prop("checked", false);
+        }
+    });
+
+    $otherInspectTypes.change(function () {
+        var _checkLength = $otherInspectTypes.filter(":checked").length;
+        if (_checkLength > 0) {
+            $chkInspectTypeAny.prop("checked", false);
+        }
+
+    });
+
+    $otherExNoticeTypes.change(function () {
+        var _checkLength = $otherExNoticeTypes.filter(":checked").length;
+        if (_checkLength > 0) {
+            $chkExNoticeTypeAny.prop("checked", false);
+        }
+    });
+
+
+    $("#btnAddStructureInfo").on("click", function () {
+        var _url = "@Url.Content("~/Admin/Structure/AddStructureInfo")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnDelStruc").on("click", function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='strucid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#frmDelStruc").submit();
+        });
+    });
+
+    // 分配经营范围
+    $("#btnDistribution").click(function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='strucid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+
+        var ids = "";
+        $("input[name='strucid']:checked").each(function () {
+            ids += $(this).val() + ",";
+        });
+        var _url = "@Url.Content("~/Admin/Structure/BusinessScope")";
+        var _data = { strucIDList: ids };
+        var _title = "@UIText.DistributionBusinessScope";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm, "35%");
+    });
+
+    // 分配运输行业
+    $("#btnDistributionTransportIndustry").click(function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='strucid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+
+        var ids = "";
+        $("input[name='strucid']:checked").each(function () {
+            ids += $(this).val() + ",";
+        });
+        var _url = "@Url.Content("~/Admin/Structure/TransportIndustry")";
+        var _data = { strucIDList: ids };
+        var _title = "@UIText.DistributionTransportIndustry";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm, "35%");
+    });
+
+    // 启用夜间禁行分析
+    $("#btnOpenNightban").click(function () {
+        nightban(1);
+    });
+    // 关闭夜间禁行分析
+    $("#btnCloseNightban").click(function () {
+        nightban(0);
+    });
+
+    var nightban = function (isNightBan) {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='strucid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        var ids = "";
+        $("input[name='strucid']:checked").each(function () {
+            ids += $(this).val() + ",";
+        });
+
+        var msg = isNightBan == 1 ? '@(UIText.Confirm + UIText.OpenNightban)' : '@(UIText.Confirm + UIText.CloseNightban)';
+        $.showConfirmDialog(msg, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $.ajax({
+                url: "@Url.Content("~/Admin/Structure/NightBan")",
+                data: {
+                    strucIDList: ids,
+                    isNightBan: isNightBan,
+                    __RequestVerificationToken: $('@Html.AntiForgeryToken()').val()
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function (result, status) {
+                    if ($.handleAjaxError(result)) {
+                        return;
+                    }
+                    $.showPromptDialog(result.Message, '@UIText.InformationTitle', '@UIText.Close');
+                    if (result.Success) {
+                        // 刷新分页列表
+                        refreshSearchForm();
+                    }
+                },
+                fail: function (err, status) {
+                    console.log(err)
+                }
+            });
+        });
+    }
+</script>
+
+
+

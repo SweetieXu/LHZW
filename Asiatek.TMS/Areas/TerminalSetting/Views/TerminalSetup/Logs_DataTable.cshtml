@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "Logs_DataTable";
+    string updateTargetId = "dataTable";
+}
+@using Asiatek.Common
+@using Asiatek.Model.TerminalSetting
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<TerminalSetupLogs_QueryModel, TerminalSetupLogs_DataModel>
+
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <td>序号</td>
+            <td>车牌号</td>
+            <td>操作时间</td>
+            <td>操作类型</td>
+            <td>设置信息</td>
+            <td>返回结果</td>
+            <td>操作人员</td>
+            <td>客户端IP地址</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dataentity in Model.PagedDatas)
+        {
+            if (dataentity.Succeeded)
+            {
+            <tr>
+                <td>@dataentity.RowNumber</td>
+                <td>@dataentity.PlateNum</td>
+                <td>@dataentity.SetDTime.ToString("yyyy-MM-dd hh:mm:ss")</td>
+                <td>@EnumDescriptionAttribute.GetDescriptionValue(dataentity.SetType.GetType(), dataentity.SetType)</td>
+                <td><a href="javascript:void(0)" onclick="showDialog(@dataentity.RowNumber)">查看</a></td>
+                <td>@(dataentity.Succeeded ? "操作成功" : "操作失败")</td>
+                <td>@dataentity.SetUserName</td>
+                <td>@dataentity.WanIP</td>
+            </tr>
+            }
+            else
+            {
+                <tr class="danger">
+                    <td>@dataentity.RowNumber</td>
+                    <td>@dataentity.PlateNum</td>
+                    <td>@dataentity.SetDTime.ToString("yyyy-MM-dd hh:mm:ss")</td>
+                    <td>@EnumDescriptionAttribute.GetDescriptionValue(dataentity.SetType.GetType(), dataentity.SetType)</td>
+                    <td><a href="#" onclick="showDialog(@dataentity.RowNumber)">查看</a></td>
+                    <td>@(dataentity.Succeeded ? "操作成功" : "操作失败")</td>
+                    <td>@dataentity.SetUserName</td>
+                    <td>@dataentity.WanIP</td>
+                </tr>
+            }
+        }
+
+        @{
+            long LastRow = Model.PagedDatas[Model.PagedDatas.Count - 1].RowNumber;
+            int NullRowCount = 10 - Model.PagedDatas.Count;
+        }
+
+        @for (int i = 1; i <= NullRowCount; i++)
+        {
+            <tr>
+                <td>@(LastRow + i)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@(Ajax.AsiatekAjaxPagerBootstrap<TerminalSetupLogs_QueryModel, TerminalSetupLogs_DataModel>(new AjaxPagerOptions()
+{
+    HttpMethod = "POST",
+    AreaName = "TerminalSetting",
+    ControllerName = "TerminalSetup",
+    ActionName = "LoadLogs",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+}));
+            
+<style>
+    table.setInfo td {
+        text-align: center;
+        width: 50%;
+    }
+</style>
+
+<script>
+    var settings = {
+        1: {
+            SettingType: '文本设置',
+            PlateNum: '南钢0019',
+            data: {
+                消息类型: '紧急',
+                消息文本: '这是一段超级超级超级超级超级超级超级超级超级超级超级超级超级超级超级超级超级超级超级长的紧急消息文本'
+            }
+        },
+        2: {
+            SettingType: '电话本设置',
+            PlateNum: '',
+            data: {
+                
+            }
+        }
+    };
+
+    //var settings = JSON.parse('@ViewBag.Settings')
+
+    function initializeDialog(rowid) {
+        var settingValue = settings[rowid];
+        var html = 
+        '<div title="' + settingValue.SettingType + '">' +
+            '<table class="table table-bordered setInfo">' +
+                '<caption>' + settingValue.PlateNum + '</caption>' +
+                '<thead>' +
+                    '<tr class="active">' +
+                        '<td>@UIText.TerminalSetting_KeyName</td>' +
+                        '<td>@UIText.TerminalSetting_ValueName</td>' +
+                    '</tr>' +
+                '</thead>' +
+                '<tbody>';
+        for (key in settingValue.data) {
+            html += 
+                '<tr>' +
+                    '<td>' + key + '</td>' +
+                    '<td><p>' + settingValue.data[key] + '</p></td>' +
+                '</tr>';
+        }
+        html +=
+                '</tbody>' +
+            '</table>' +
+        '</div>';
+        return $(html);
+    }
+
+    function showDialog(rowid) {
+        var e = initializeDialog(rowid);
+        e.dialog({
+            resizable: false,
+            modal: true,
+            dom: e,
+            width: 500,
+            buttons: {
+                "关闭": function () {
+                    $(this).dialog("close");
+                    $(this).dialog('option', 'dom').remove();
+                },
+            }
+        });
+    }
+
+</script>
+

@@ -1,0 +1,115 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<VehicleTemperatureAlarmRulesSearchModel, VehicleTemperatureAlarmRulesListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+
+    string updateTargetId = "Admin_TemperatureAlarmRule_TemperatureAlarmRuleDistribution_divTemperatureAlarmRuleDistribution";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+                <th>@Html.DisplayNameFor(m => m.PlateNum)</th>
+                <th>@Html.DisplayNameFor(m => m.VehicleName)</th>
+                <th>@Html.DisplayNameFor(m => m.VIN)</th>
+                <th>@Html.DisplayNameFor(m => m.StrucName)</th>
+                <th>@Html.DisplayNameFor(m => m.RuleName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="vid" value="@item.VID" id="chkVID@(item.VID)" />
+                    </td>
+                    <td>
+                        <label for="chkVID@(item.VID)">@item.PlateNum</label>
+                    </td>
+                    <td>
+                        <label>@item.VehicleName</label>
+                    </td>
+                    <td>
+                        <label>@item.VIN</label>
+                    </td>
+                    <td>
+                        <label>@item.StrucName</label>
+                    </td>
+                    <td>
+                        <label>@item.RuleName</label>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+    
+    
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+    {
+
+        AreaName = "Admin",
+        ControllerName = "TemperatureAlarmRule",
+        ActionName = "GetTemperatureAlarmRuleDistribution",
+        UpdateTargetId = updateTargetId,
+        OnSuccess = "commonAjaxSuccess",
+    });
+
+
+}
+
+
+
+<script>
+
+
+    //删除完成后
+    var deleteCallBack = function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //重新提交查询表单
+        refreshSearchForm();
+    }
+
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchTemperatureAlarmRuleDistribution #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchTemperatureAlarmRuleDistribution").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='vid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+</script>
+
+
+
+

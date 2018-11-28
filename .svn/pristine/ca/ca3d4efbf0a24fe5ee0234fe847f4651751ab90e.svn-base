@@ -1,0 +1,70 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<TransportManagementSearchModel, TransportManagementListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string updateTargetId = "Admin_TM_TransportManagement_divTM";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.Code)</th>
+                <th>@Html.DisplayNameFor(m => m.Name)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    <td>
+                        <label>@item.Code</label>
+                    </td>
+                    <td>
+                        <label>@item.Name</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+   
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+    AreaName = "Admin",
+    ControllerName = "TransportManagement",
+    ActionName = "GetTransportManagement",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+}
+
+<script>
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchTransportManagement #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchTransportManagement").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+</script>
+
+
+
+

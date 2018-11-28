@@ -1,0 +1,254 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<NeedDealExceptionSearchModel, NeedDealExceptionListModel>
+
+
+@using (Ajax.BeginForm("GetNeedDealAlarmList", "Home", new AjaxOptions()
+    {
+        UpdateTargetId = "Home_NeddDealAlarmList_divAlarms",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET"
+    }, new { id = "frmSearchNeedDealAlarmList" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>
+                @Html.DropDownList("EndState", Model.SearchModel.EndStates)
+            </td>
+            <td>
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+<div id="Home_NeddDealAlarmList_divAlarms">
+    @Html.Partial("_NeedDealAlarmPagedGrid", Model)
+</div>
+
+
+<div id="divDealAlarmWin" title="@UIText.Deal" style="display: none;" class="form-inline">
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>
+                    <input type="hidden" name="divDealAlarmWin_hidNeedDealAlarmEid" id="divDealAlarmWin_hidNeedDealAlarmEid" value="" />
+                    <input type="hidden" name="divDealAlarmWin_hidTerminalCode" id="divDealAlarmWin_hidTerminalCode" value="" />
+                    <input type="hidden" name="divDealAlarmWin_hidLinkedServerName" id="divDealAlarmWin_hidLinkedServerName" value="" />
+                    <label>@DisplayText.ExName：</label>
+                </td>
+                <td colspan="3">
+                    <label id="divDealAlarmWin_lblEN"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>@DisplayText.VehicleName：</label>
+                </td>
+                <td colspan="3">
+                    <label id="divDealAlarmWin_lblVN"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>@DisplayText.ExSignalStartTime：</label>
+                </td>
+                <td colspan="3">
+                    <label id="divDealAlarmWin_lblSST"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>@DisplayText.ExStartAddress：</label>
+                </td>
+                <td colspan="3">
+                    <label id="divDealAlarmWin_lblSA"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>@DisplayText.ExSignalEndTime：</label>
+                </td>
+                <td colspan="3">
+                    <label id="divDealAlarmWin_lblSET"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>@DisplayText.ExEndAddress：</label>
+                </td>
+                <td colspan="3">
+                    <label id="divDealAlarmWin_lblEA"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>@DisplayText.Status：</label>
+                </td>
+                <td colspan="3">
+                    <label id="divDealAlarmWin_lblAlarmState"></label>
+                </td>
+            </tr>
+              <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr id="tr_speed">
+                <td style="width: 170px;">
+                    <label>@DisplayText.MaxSpeed：</label>
+                </td>
+                <td style="width: 150px;">
+                    <label id="divDealAlarmWin_lblAlarmSpeed"></label>
+                </td>
+                <td style="width: 150px;">
+                    <label>@DisplayText.OverspeedThreshold：</label>
+                </td>
+                  <td style="width: 300px;">
+                    <label id="divDealAlarmWin_lblOverspeedThreshold"></label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>@UIText.ProcessingResultDescription：</label></td>
+                <td colspan="3">
+                    <input type="text" name="txtDealAlarmRemark" id="txtDealAlarmRemark" value="" class="form-control" style="width: 450px" />
+                    <input type="button" value="@UIText.Deal" class="btn btn-warning" id="btnDealAlarm" />
+                    <input type="checkbox" name="chkSavetxtDealAlarmRemark" id="chkSavetxtDealAlarmRemark" value="" checked="checked" />
+                    <label for="chkSavetxtDealAlarmRemark">@UIText.KeepEnteredContent</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>@(UIText.Send+UIText.VoiceMessage)：</label>
+                </td>
+                <td colspan="3">
+                    <input type="text" name="txtVoice" id="txtVoice" value="" class="form-control" style="width: 450px" maxlength="100" />
+                    <input type="button" value="@UIText.Send" class="btn btn-success" id="btnSendVoice" />
+                    <input type="checkbox" name="chkSavetxtVoice" id="chkSavetxtVoice" value="" checked="checked" />
+                    <label for="chkSavetxtVoice">@UIText.KeepEnteredContent</label>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    $("#frmSearchNeedDealAlarmList").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+
+    var $divDealAlarmWin = $("#divDealAlarmWin");
+    var $hidNeedDealAlarmEid = $("#divDealAlarmWin_hidNeedDealAlarmEid");
+    var $btnDealAlarm = $("#btnDealAlarm");
+    var $btnSendVoice = $("#btnSendVoice");
+    var $chkSavetxtVoice = $("#chkSavetxtVoice");
+    var $chkSavetxtDealAlarmRemark = $("#chkSavetxtDealAlarmRemark");
+    var showDealAlarmWin = function (obj) {
+        var _item = $(obj).data("item");
+        if (_item.EN != "超速") {
+            $("#tr_speed").hide();
+        } else {
+            $("#tr_speed").show();
+        };
+        $("#divDealAlarmWin_hidNeedDealAlarmEid").val(_item.EID);
+        $("#divDealAlarmWin_hidTerminalCode").val(_item.TC);
+        $("#divDealAlarmWin_hidLinkedServerName").val(_item.LSN);
+        $("#divDealAlarmWin_lblEN").text(_item.EN);
+        $("#divDealAlarmWin_lblVN").text(_item.VN);
+        $("#divDealAlarmWin_lblSST").text(_item.SST);
+        $("#divDealAlarmWin_lblSA").text(_item.SA);
+        $("#divDealAlarmWin_lblSET").text(_item.SET);
+        $("#divDealAlarmWin_lblEA").text(_item.EA);
+        $("#divDealAlarmWin_lblAlarmState").text(_item.SET === "" ? "@UIText.UnFinished" : "@UIText.Finished");
+        $("#divDealAlarmWin_lblAlarmSpeed").text(_item.MS);
+        $("#divDealAlarmWin_lblOverspeedThreshold").text(_item.OS);
+        $divDealAlarmWin.dialog({
+            modal: true,
+            resizable: false,
+            width: 830,
+            close: function () {
+                var _savetxtVoice = $chkSavetxtVoice.prop("checked");
+                var _savetxtDealAlarmRemark = $chkSavetxtDealAlarmRemark.prop("checked");
+                if (!_savetxtDealAlarmRemark) {
+                    $("#txtDealAlarmRemark").val("");
+                }
+                if (!_savetxtVoice) {
+                    $("#txtVoice").val("");
+                }
+                refreshSearchForm();
+            }
+        });
+    }
+
+    $btnDealAlarm.on("click", function () {
+        $.showConfirmDialog("@UIText.ConfirmDeal", "@UIText.InformationTitle", "@UIText.Confirm", "@UIText.Cancel", function () {
+            $btnDealAlarm.prop("disabled", true);
+            $btnSendVoice.prop("disabled", true);
+            var _token = $('@Html.AntiForgeryToken()').val();
+            var _eid = $("#divDealAlarmWin_hidNeedDealAlarmEid").val();
+            var _dealInfo = $("#txtDealAlarmRemark").val();
+            var _linkedServerName = $("#divDealAlarmWin_hidLinkedServerName").val();
+            var data = { __RequestVerificationToken: _token, eid: _eid, dealInfo: _dealInfo, linkedServerName: _linkedServerName };
+            $.post("@Url.Content("~/Home/DealAlarm")", data, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                $.showPromptDialog(result.Message);
+                $btnDealAlarm.prop("disabled", false);
+                $btnSendVoice.prop("disabled", false);
+            });
+        });
+    });
+
+    $btnSendVoice.on("click", function () {
+        var _$txtVoice = $("#txtVoice");
+        var _VoiceMsg = _$txtVoice.val();
+        if (_VoiceMsg == undefined || _VoiceMsg == "" || _VoiceMsg == null || _VoiceMsg.trim().length == 0) {
+            $.showPromptDialog("@(UIText.PleaseInput + UIText.VoiceMessage)");
+            return;
+        }
+
+        $.showConfirmDialog("@UIText.ConfirmSend", "@UIText.InformationTitle", "@UIText.Confirm", "@UIText.Cancel", function () {
+            $btnDealAlarm.prop("disabled", true);
+            $btnSendVoice.prop("disabled", true);
+            var _token = $('@Html.AntiForgeryToken()').val();
+            var _tc = $("#divDealAlarmWin_hidTerminalCode").val();
+            var data = { __RequestVerificationToken: _token, TerminalCode: _tc, VoiceMsg: _VoiceMsg.trim() };
+            $.post("@Url.Content("~/Home/SendVoice")", data, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                $.showPromptDialog(result.Message);
+                $btnDealAlarm.prop("disabled", false);
+                $btnSendVoice.prop("disabled", false);
+            });
+        });
+    });
+</script>

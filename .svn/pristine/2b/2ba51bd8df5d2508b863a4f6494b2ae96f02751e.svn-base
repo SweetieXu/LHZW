@@ -1,0 +1,366 @@
+﻿using Asiatek.AjaxPager;
+using Asiatek.DBUtility;
+using Asiatek.Model;
+using Asiatek.Resource;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+
+namespace Asiatek.BLL.MSSQL
+{
+    public class SimCodeBLL
+    {
+        #region   查询
+        public static AsiatekPagedList<SimCodeListModels> GetPagedSimCode(SimCodeSearchModels model, int searchPage, int pageSize)
+        {
+            string joinStr = string.Empty;
+            joinStr = @"LEFT JOIN Structures T ON S.OwnerStrucID=T.ID
+LEFT JOIN Structures T1 ON S.UseStrucID=T1.ID
+LEFT JOIN ServiceProvider P ON S.ServiceProviderID=P.ID
+LEFT JOIN CommunicationType C ON S.CommMode=C.ID";
+
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@tableName","SimCodeList S"),
+                new SqlParameter("@joinStr",joinStr),
+                new SqlParameter("@pageSize",pageSize),
+                new SqlParameter("@currentPage",searchPage),
+                new SqlParameter("@orderBy","S.ID"),
+                new SqlParameter("@showColumns",@"S.ID ,
+        SimCode,
+        CommMode,
+        PurchaseDate,
+        OpeningDate,
+        ExpiryDate,
+        S.Remark,
+        S.Status,P.Name AS ServiceProvider,C.Name AS CName,T.StrucName AS OwnerStrucName,T1.StrucName AS UseStrucName"),
+            };
+
+            string conditionStr = " S.Status<>9 ";//不查询删除
+            if (!string.IsNullOrWhiteSpace(model.SimCode))
+            {
+                conditionStr += " AND S.SimCode LIKE '%" + model.SimCode + "%'";
+            }
+            if (model.CommMode != -1)
+            {
+                conditionStr += " AND S.CommMode = " + model.CommMode + "";
+            }
+            if (model.OwnerStrucID != -1)
+            {
+                conditionStr += " AND S.OwnerStrucID =" + model.OwnerStrucID + "";
+            }
+            if (model.UseStrucID != -1)
+            {
+                conditionStr += " AND S.UseStrucID =" + model.UseStrucID + "";
+            }
+            if (model.ServiceProviderID != -1)
+            {
+                conditionStr += " AND S.ServiceProviderID =" + model.ServiceProviderID + "";
+            }
+
+            if (!string.IsNullOrWhiteSpace(conditionStr))
+            {
+                paras.Add(new SqlParameter("@conditionStr", conditionStr));
+            }
+
+            paras.Add(new SqlParameter()
+            {
+                ParameterName = "@totalItemCount",
+                Direction = ParameterDirection.Output,
+                SqlDbType = SqlDbType.Int
+            });
+            paras.Add(new SqlParameter()
+            {
+                ParameterName = "@newCurrentPage",
+                Direction = ParameterDirection.Output,
+                SqlDbType = SqlDbType.Int
+            });
+            List<SimCodeListModels> list = ConvertToList<SimCodeListModels>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.StoredProcedure, "Proc_GetPagedDatas", paras.ToArray()));
+            int totalItemCount = Convert.ToInt32(paras[paras.Count - 2].Value);
+            int newCurrentPage = Convert.ToInt32(paras[paras.Count - 1].Value);
+            return list.ToPagedList(newCurrentPage, pageSize, totalItemCount);
+        }
+        #endregion
+
+        #region   新增
+
+        /// <summary>
+        /// 检查SIM卡号是否重复
+        /// </summary>
+        public static bool CheckSIMCodeExists(string SIMCode)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@SIMCode",SqlDbType.VarChar,13),
+            };
+            paras[0].Value = SIMCode.Trim();
+
+
+            string sql = "SELECT COUNT(0) FROM dbo.SimCodeList WHERE SimCode=@SIMCode";
+            var result = MSSQLHelper.ExecuteScalar(CommandType.Text, sql, paras.ToArray());
+            if (result == null)//如果发生错误，防止添加进非法数据，所以发生错误当作存在
+            {
+                return true;
+            }
+            return Convert.ToInt32(result) > 0;
+        }
+        public static OperationResult AddSimCode(AddSimCodeModels model,int CreateUserID)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ID",SqlDbType.BigInt),
+                new SqlParameter("@SimCode",SqlDbType.NVarChar,13),
+                new SqlParameter("@CommMode",SqlDbType.TinyInt),
+                new SqlParameter("@OwnerStrucID",SqlDbType.Int),
+                new SqlParameter("@UseStrucID",SqlDbType.Int),
+                new SqlParameter("@ServiceProviderID",SqlDbType.Int),
+                new SqlParameter("@PurchaseDate",SqlDbType.NVarChar,50),
+                new SqlParameter("@OpeningDate",SqlDbType.NVarChar,50),
+                new SqlParameter("@ExpiryDate",SqlDbType.NVarChar,50),
+                new SqlParameter("@Remark",SqlDbType.NVarChar,50),
+                new SqlParameter("@CreateUserID",SqlDbType.Int),
+            };
+
+            paras[0].Value = model.ID;
+            paras[1].Value = model.SimCode.Trim();
+            paras[2].Value = model.CommMode;
+            paras[3].Value = model.OwnerStrucID;
+            paras[4].Value = model.UseStrucID;
+            paras[5].Value = model.ServiceProviderID;
+            paras[6].Value = model.PurchaseDate;
+            paras[7].Value = model.OpeningDate;
+            paras[8].Value = model.ExpiryDate;
+
+            if (string.IsNullOrWhiteSpace(model.Remark))
+            {
+                paras[9].Value = DBNull.Value;
+            }
+            else
+            {
+                paras[9].Value = model.Remark;
+            }
+            paras[10].Value = CreateUserID;
+            #region  SQL
+            string sql = @"INSERT INTO dbo.SimCodeList(SimCode,CommMode,OwnerStrucID,UseStrucID,ServiceProviderID,PurchaseDate,
+                                   OpeningDate,ExpiryDate,Remark,Status,CreateUserID) VALUES (@SimCode,@CommMode,@OwnerStrucID,
+                                   @UseStrucID,@ServiceProviderID,@PurchaseDate,@OpeningDate,@ExpiryDate,@Remark,'0',@CreateUserID)";
+            #endregion
+
+            bool result = MSSQLHelper.ExecuteNonQuery(CommandType.Text, sql, paras.ToArray()) > 0;
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.OperationSuccess : PromptInformation.DBError
+            };
+        }
+        #endregion
+
+        #region   编辑
+        /// <summary>
+        /// 检查编辑时SIM卡号是否重复
+        /// </summary>
+        public static bool CheckEditSIMCodeExists(string SIMCode, int id)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@SIMCode",SqlDbType.NVarChar,200),
+                new SqlParameter("@ID",SqlDbType.Int),
+            };
+            paras[0].Value = SIMCode.Trim();
+            paras[1].Value = id;
+
+
+            string sql = "SELECT COUNT(0) FROM dbo.SimCodeList WHERE SimCode=@SIMCode AND ID<>@ID";
+            var result = MSSQLHelper.ExecuteScalar(CommandType.Text, sql, paras.ToArray());
+            if (result == null)//如果发生错误，防止添加进非法数据，所以发生错误当作存在
+            {
+                return true;
+            }
+            return Convert.ToInt32(result) > 0;
+        }
+
+        public static SelectResult<EditSimCodeModels> GetSimCodeID(int id)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@id",SqlDbType.Int),
+            };
+            paras[0].Value = id;
+            string sql = @"  SELECT a.[ID]
+                                      ,a.[SimCode]
+                                      ,a.[CommMode]
+                                      ,OStr.StrucName AS OwnerStrucName
+                                      ,a.[OwnerStrucID]
+                                      ,UStr.StrucName AS UseStrucName
+                                      ,a.[UseStrucID]
+                                      ,a.[ServiceProviderID]
+                                      ,a.[PurchaseDate]
+                                      ,a.[OpeningDate]
+                                      ,a.[ExpiryDate]
+                                      ,a.[Remark]
+                                      ,a.[Status] FROM dbo.SimCodeList AS a LEFT JOIN Structures AS OStr ON a.OwnerStrucID = OStr.ID
+      LEFT JOIN Structures AS UStr ON a.UseStrucID = UStr.ID WHERE a.ID=@id";
+            List<EditSimCodeModels> list = ConvertToList<EditSimCodeModels>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql, paras.ToArray()));
+
+            EditSimCodeModels data = null;
+            string msg = string.Empty;
+
+            if (list == null)
+            {
+                msg = PromptInformation.DBError;
+            }
+            else if (list.Count == 0)
+            {
+                msg = PromptInformation.NotExists;
+            }
+            else
+            {
+                data = list[0];
+            }
+            return new SelectResult<EditSimCodeModels>()
+            {
+                DataResult = data,
+                Message = msg
+            };
+        }
+
+
+        public static OperationResult EditSimCode(EditSimCodeModels model,int EditUserID)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ID",SqlDbType.BigInt),
+                new SqlParameter("@SimCode",SqlDbType.NVarChar,13),
+                new SqlParameter("@CommMode",SqlDbType.TinyInt),
+                new SqlParameter("@OwnerStrucID",SqlDbType.Int),
+                new SqlParameter("@UseStrucID",SqlDbType.Int),
+                new SqlParameter("@ServiceProviderID",SqlDbType.Int),
+                new SqlParameter("@PurchaseDate",SqlDbType.NVarChar,50),
+                new SqlParameter("@OpeningDate",SqlDbType.NVarChar,50),
+                new SqlParameter("@ExpiryDate",SqlDbType.NVarChar,50),
+                new SqlParameter("@Remark",SqlDbType.NVarChar,50),
+                new SqlParameter("@EditUserID",SqlDbType.Int),
+                new SqlParameter("@EditTime",SqlDbType.DateTime)
+            };
+
+            paras[0].Value = model.ID;
+            paras[1].Value = model.SimCode.Trim();
+            paras[2].Value = model.CommMode;
+            paras[3].Value = model.OwnerStrucID;
+            paras[4].Value = model.UseStrucID;
+            paras[5].Value = model.ServiceProviderID;
+            paras[6].Value = model.PurchaseDate;
+            paras[7].Value = model.OpeningDate;
+            paras[8].Value = model.ExpiryDate;
+
+            if (string.IsNullOrWhiteSpace(model.Remark))
+            {
+                paras[9].Value = DBNull.Value;
+            }
+            else
+            {
+                paras[9].Value = model.Remark;
+            }
+            paras[10].Value = EditUserID;
+            paras[11].Value = DateTime.Now;
+            #region  SQL
+            string sql;
+
+            sql = @"UPDATE  dbo.SimCodeList
+SET     SimCode=@SimCode,CommMode = @CommMode,OwnerStrucID=@OwnerStrucID,
+        UseStrucID=@UseStrucID,ServiceProviderID = @ServiceProviderID,PurchaseDate = @PurchaseDate,
+        OpeningDate = @OpeningDate,ExpiryDate = @ExpiryDate,Remark=@Remark,EditUserID=@EditUserID,EditTime=@EditTime
+WHERE   ID = @ID";
+            #endregion
+
+
+            int result = MSSQLHelper.ExecuteNonQuery(CommandType.Text, sql, paras.ToArray());
+            string msg = string.Empty;
+            switch (result)
+            {
+                case 1:
+                    msg = PromptInformation.OperationSuccess;
+                    break;
+                case 0:
+                    msg = PromptInformation.NotExists;
+                    break;
+                case -1:
+                    msg = PromptInformation.DBError;
+                    break;
+            }
+            return new OperationResult()
+            {
+                Success = result > 0,
+                Message = msg
+            };
+        }
+        #endregion
+
+        #region   删除
+        /// <summary>
+        /// 物理删除
+        /// </summary>
+        public static OperationResult DeleteSimCode(string[] ids)
+        {
+            string[] sqls = new string[ids.Length];
+            SqlParameter[][] paras = new SqlParameter[ids.Length][];
+            for (int i = 0; i < ids.Length; i++)
+            {  
+                // 已经被使用的sim不能被删除
+                sqls[i] = @"DELETE FROM dbo.SimCodeList WHERE ID=@ID AND Status  <> 1";
+                paras[i] = new SqlParameter[1];
+                SqlParameter temp = new SqlParameter("@ID", SqlDbType.Int);
+                temp.Value = ids[i];
+                paras[i][0] = temp;
+            }
+            bool result = MSSQLHelper.ExecuteTransaction(CommandType.Text, sqls, paras);
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.DeleteSuccess : PromptInformation.DeleteFailure
+            };
+        }
+        #endregion
+
+        #region   通讯方式
+        public static List<CommunicationTypeDDLModel> GetCommMode()
+        {
+            string sql = "SELECT ID,Name FROM dbo.CommunicationType where Status<>9 order by ID asc";
+            return ConvertToList<CommunicationTypeDDLModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql));
+        }
+        #endregion
+
+        #region   服务商
+        public static List<ServiceProviderDDLModel> GetServiceProvider()
+        {
+            string sql = "SELECT ID,Name FROM dbo.ServiceProvider where Status<>9 ORDER BY ID";
+            return ConvertToList<ServiceProviderDDLModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql));
+        }
+        #endregion
+
+        #region 获取所有未使用未删除的SIM卡列表
+        /// <summary>
+        /// 获取单位下拉列表信息
+        /// 包含单位ID、单位名称
+        /// </summary>
+        public static List<SimCodeDDLModel> GetNotUserdSimCodeList(string simCode, int? simCodeId)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@SimCode",SqlDbType.VarChar)
+            };
+            paras[0].Value = "%" + simCode + "%";
+            string sql = "SELECT  [ID],[SimCode] FROM  [dbo].[SimCodeList] WHERE [Status]<> 9 AND [Status] <> 1 AND SimCode LIKE @SimCode ";
+            if (simCodeId.HasValue && simCodeId.Value > 0)
+            {
+                sql += " UNION SELECT  [ID],[SimCode] FROM  [dbo].[SimCodeList] WHERE ID = " + simCodeId;
+            }
+
+            return ConvertToList<SimCodeDDLModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql, paras.ToArray()));
+        }
+        #endregion
+    }
+}

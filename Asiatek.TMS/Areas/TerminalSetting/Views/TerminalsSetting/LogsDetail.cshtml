@@ -1,0 +1,48 @@
+﻿@using Asiatek.Model.TerminalSetting
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.Common
+@model TerminalSettingLogDetailModel
+
+<form id="frmTerminalSettingLogDetail">
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelFor(m => m.TerminalCode)：</td>
+                <td>@Html.LabelForModel(Model.TerminalCode)</td>
+                <td>@Html.LabelFor(m => m.PlateNum)：</td>
+                <td>@Html.LabelForModel(Model.PlateNum)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.SetType)：</td>
+                <td>@Html.LabelForModel(EnumDescriptionAttribute.GetDescriptionValue(Model.SetType.GetType(), Model.SetType))</td>
+                <td>@Html.LabelFor(m => m.Succeeded)：</td>
+                <td>@Html.LabelForModel(Model.Succeeded?@PromptInformation.OperationSuccess.TrimEnd('！'):@PromptInformation.OperationFailure.TrimEnd('！'))</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.WanIP)：</td>
+                <td>@Html.LabelForModel(Model.WanIP)</td>
+                <td>@Html.LabelFor(m => m.SetUserName)：</td>
+                <td>@Html.LabelForModel(Model.SetUserName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.SetInfo)：</td>
+                <td colspan="3" style="max-width: 620px;">@Html.LabelForModel(Model.SetInfo)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Result)：</td>
+                <td colspan="3" style="max-width: 620px;">@Html.LabelForModel(Model.Result)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
+
+<script>
+    var $frmTerminalSettingLogDetail = $("#frmTerminalSettingLogDetail");
+    $frmTerminalSettingLogDetail.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmTerminalSettingLogDetail.fixUnobtrusiveValidation();
+</script>
+
+

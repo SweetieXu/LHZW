@@ -1,0 +1,55 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<VehicleMaintainSearchModels, VehicleMaintainListModels>
+
+
+
+
+@using (Ajax.BeginForm("GetPlateColorsInfo", "VehicleMaintain", new AjaxOptions()
+    {
+        UpdateTargetId = "Admin_VehicleMaintain_SelectPlateColors_divVehicles",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET"
+    }, new { id = "frmSearchVehicle" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.PlateCode)：</td>
+            <td>
+                <input type="search" name="PlateCode" value=""  placeholder="@(UIText.PleaseInput + DisplayText.PlateCode)"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.PlateName)：</td>
+            <td>
+                <input type="search" name="PlateName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.PlateColor)"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddVehiclePlate">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+}
+
+
+<div id="Admin_VehicleMaintain_SelectPlateColors_divVehicles">
+    @Html.Partial("_PlateColorGrid", Model)
+</div>
+
+
+<script>
+    $("#frmSearchVehicle").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnAddVehiclePlate").on("click", function () {
+        var _url = "@Url.Content("~/Admin/VehicleMaintain/AddPlateColors")";
+            var _data = {};
+            var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+        });
+</script>

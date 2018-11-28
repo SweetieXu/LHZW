@@ -1,0 +1,59 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model TerminalManufacturerAddModel
+
+
+
+@using (Ajax.BeginForm("AddTerminalManufacturer", "TerminalManufacturer", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddTerminalManufacturer" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ManufacturerName)：</td>
+                <td>@Html.TextBoxFor(m => m.ManufacturerName)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ManufacturerName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ManufacturerCode)：</td>
+                <td>@Html.TextBoxFor(m => m.ManufacturerCode)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ManufacturerCode)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.Nationality)：</td>
+                <td>@Html.EditorFor(m => m.Nationality)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Nationality)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmAddTerminalManufacturer = $("#frmAddTerminalManufacturer");
+    $frmAddTerminalManufacturer.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmAddTerminalManufacturer.fixUnobtrusiveValidation();
+</script>
+
+

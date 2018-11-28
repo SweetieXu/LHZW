@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Logs";
+}
+@using Asiatek.Common
+@using Asiatek.Resource
+@using Asiatek.TMS.Helpers
+@using Asiatek.AjaxPager
+@using Asiatek.Model.TerminalSetting
+
+@model SearchDataWithPagedDatas<TerminalSetupLogs_QueryModel, TerminalSetupLogs_DataModel>
+
+<style>
+    input {
+        margin-left:10px;
+    }
+
+    #dataTable td {
+        text-align: center;
+    }
+</style>
+<div class="container">
+    @using (Ajax.BeginForm("LoadLogs", "TerminalSetup", new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "dataTable",
+            OnSuccess = "commonAjaxSuccess",
+        }, new { id="awd" }))
+    {
+    <table class="table">
+        <tr>
+            <td><div class="form-group"><label for="companyName">@UIText.TerminalSetting_CompanyName</label><input class="form-control" id="companyName" name="CompanyName" type="text" /></div></td>
+            <td><div class="form-group"><label for="plateNumber">@UIText.TerminalSetting_PlateNumber</label><input class="form-control" id="plateNumber" name="PlateNumber" type="text" /></div></td>
+            <td><div class="form-group"><label for="terminalCode">@UIText.TerminalSetting_TerminalCode</label><input class="form-control" id="terminalCode" name="TerminalCode" type="text" /></div></td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label for="settingType">@UIText.TerminalSetting_SettingType</label>
+                    <select class="form-control" name="SettingType" id="settingType" style="margin-left:10px;">
+                        <option></option>
+                        @foreach (TerminalSettingType value in Enum.GetValues(typeof(TerminalSettingType)))
+                        {
+                            <option value="@((byte)value)">@EnumDescriptionAttribute.GetDescriptionValue(value.GetType(), value)</option>
+                        }
+                    </select>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label>@UIText.TerminalSetting_StartTime</label>
+                    <input type="datetime-local" class="form-control" id="startTime" name="StartTime" />
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label>@UIText.TerminalSetting_EndTime</label>
+                    <input type="datetime-local" class="form-control" id="endTime" name="EndTime" />
+                </div>
+            </td>
+        </tr>
+        <tr><td></td><td></td><td><button class="btn btn-primary pull-right">@UIText.Search</button></td></tr>
+    </table>
+    }
+    <div id ="dataTable">
+        @*Html.Partial("Logs_DataTable", Model)*@
+    </div>
+</div>

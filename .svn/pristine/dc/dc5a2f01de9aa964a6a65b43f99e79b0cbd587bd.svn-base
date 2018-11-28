@@ -1,0 +1,287 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model StructureEditModel
+
+
+@using (Html.BeginForm("EditStructureInfo", "Structure",
+    FormMethod.Post,
+    new
+    {
+        id = "frmEditStructure",
+        enctype = "multipart/form-data",
+    })
+ )
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ID)
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.StrucAccount)：</td>
+                <td>@Html.TextBoxFor(m => m.StrucAccount, new { @readonly = "readonly" })</td>
+                <td>@Html.LabelForRequired(m => m.StrucName)：</td>
+                <td>@Html.TextBoxFor(m => m.StrucName)</td>
+                <td>@Html.LabelForRequired(m => m.ParentID)：</td>
+                <td>
+                    @*  @Html.DropDownListFor(m => m.ParentID, Model.ParentStructureSelectList)*@
+                    @*  <select id="ddlEditStrucParentStrucs">
+                    </select>
+                    <input type="hidden" name="ParentID" value="@Model.ParentID" id="hidEditStrucParentID" />*@
+                    @Html.TextBoxFor(m => m.ParentStructureName)
+                    @Html.HiddenFor(m => m.ParentID)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.StrucName)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ParentID)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.InspectMobiles)：</td>
+                <td colspan="3">
+                    @Html.TextBoxFor(m => m.InspectMobiles)
+                </td>
+                <td>
+                    <label>@UIText.InspectType</label>：</td>
+                <td>
+                    @Html.CheckBoxFor(m => m.InspectType1, new { id = "chkEditStrucInspectType1" })<label for="chkEditStrucInspectType1">@DisplayText.NotificationTypePlateform</label>
+                    @Html.CheckBoxFor(m => m.InspectType2, new { id = "chkEditStrucInspectType2" })<label for="chkEditStrucInspectType2">@DisplayText.NotificationTypeMessage</label>
+                    @Html.CheckBoxFor(m => m.InspectType3, new { id = "chkEditStrucInspectType3" })<label for="chkEditStrucInspectType3">@DisplayText.NotificationTypeGuanXin</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.InspectMobiles)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.ExMobiles)：</td>
+                <td colspan="3">
+                    @Html.TextBoxFor(m => m.ExMobiles)
+                </td>
+                <td>
+                    <label>@UIText.ExNoticeType</label>：</td>
+                <td>
+                    @Html.CheckBoxFor(m => m.ExNoticeType1, new { id = "chkEditStrucExNoticeType1" })<label for="chkEditStrucExNoticeType1">@DisplayText.NotificationTypePlateform</label>
+                    @Html.CheckBoxFor(m => m.ExNoticeType3, new { id = "chkEditStrucExNoticeType3" })<label for="chkEditStrucExNoticeType3">@DisplayText.NotificationTypeGuanXin</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ExMobiles)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LinkMan1)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMan1)</td>
+                <td>@Html.LabelFor(m => m.LinkMan2)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMan2)</td>
+                <td>@Html.LabelFor(m => m.LinkMan3)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMan3)</td>
+            </tr>
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LinkMobile1)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMobile1)</td>
+                <td>@Html.LabelFor(m => m.LinkMobile2)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMobile2)</td>
+                <td>@Html.LabelFor(m => m.LinkMobile3)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMobile3)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LinkMobile1)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LinkMobile2)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LinkMobile3)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LicenseNo)：</td>
+                <td>@Html.TextBoxFor(m => m.LicenseNo)</td>
+                <td>@Html.LabelFor(m => m.LogoFile)：</td>
+                <td>
+                    <input type="file" name="LogoFile" value="" accept="image/jpeg,image/jpg,image/png" id="fileLogo" class="form-control" disabled="disabled" />
+                    <label>@UIText.Logo</label>
+                    @Html.LabelFor(m => m.ModifyLogo, new { @for = "chkModifyLogo" })
+                    @Html.CheckBoxFor(m => m.ModifyLogo, new { id = "chkModifyLogo" })
+                    @if (Model.HasLogo)
+                    {
+                        <img id="imgLogo" src="@Url.Action("GetStructureLogo", "Structure", new { area = "Admin", id = Model.ID, time = DateTime.Now })" width="150" height="50"/>
+                    }
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.LicenseNo)</td>
+                <td colspan="2">
+                    @Html.ValidationMessageFor(m => m.LogoFile)
+                </td>
+                <td colspan="2"></td>
+            </tr>
+
+
+            
+            <tr>
+                <td>@Html.LabelForRequired(UIText.MapType)：</td>
+                <td id="tdMapType">
+                    @Html.CheckBoxFor(m => m.MapType1, new { id = "chkEditStrucMapType1" })<label for="chkEditStrucMapType1">@DisplayText.MapTypeGoogle</label>
+                    @Html.CheckBoxFor(m => m.MapType2, new { id = "chkEditStrucMapType2" })<label for="chkEditStrucMapType2">@DisplayText.MapTypeOffline</label>
+                    @Html.CheckBoxFor(m => m.MapType3, new { id = "chkEditStrucMapType3" })<label for="chkEditStrucMapType3">@DisplayText.MapTypeBaiDu</label>
+                </td>
+                <td>@Html.LabelFor(m => m.CustomEncoding)：</td>
+                <td>@Html.TextBoxFor(m => m.CustomEncoding)</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @*暂时先用这个属性做为验证提示*@
+                    @Html.ValidationMessageFor(m => m.MapType1)
+                </td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.CustomEncoding)</td>
+                <td colspan="2"></td>
+            </tr>
+
+
+
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="5">
+                    @Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+<script>
+
+    var $frmEditStructure = $("#frmEditStructure");
+    var $ddlEditStrucParentStrucs = $("#ddlEditStrucParentStrucs");
+    var $hidEditStrucParentID = $("#hidEditStrucParentID");
+
+    $frmEditStructure.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+
+    $frmEditStructure.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+
+    //文本框的值发生改变就清空值 并显示错误提示
+    $("#ParentStructureName").bind("input propertychange", function () {
+        $("#ParentID").val('');
+        $("span[data-valmsg-for=ParentID]").show();
+    })
+
+    /*
+    appendTo:
+    必须指定该元素，否则对于jquery ui dialog中使用的该控件的弹出选择部分会因为层级原因会被dialog遮挡，
+    而且因为dialog的层级会动态调整即使设定了autocomplete的z-index也可能会失效，
+    所以必须设置ui-dialog的z-index，但是全局修改可能造成其他问题
+  */
+    $("#ParentStructureName").autocomplete({
+        delay: 500,
+        minLength: 1,
+        appendTo: $frmEditStructure,
+        select: function (event, ui) {
+            $("#ParentID").val(ui.item.ID);
+            $("span[data-valmsg-for=ParentID]").hide();
+        },
+        source: function (request, response) {
+
+            $.get('@Url.Content("~/Admin/Structure/GetStructuresByStructureName")', { structuresName: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+
+
+
+        $.get("@Url.Content("~/Admin/Structure/GetStructures")", {}, function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        var _html = "<option value='-1'> @UIText.Noting</option>";//默认是空白，表示无上级单位
+        for (var i = 0; i < result.length; i++) {
+            var obj = result[i];
+            if (obj.ID == '@Model.ParentID') {
+                _html += "<option selected='selected' value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+            } else {
+                _html += "<option value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+            }
+        }
+            $ddlEditStrucParentStrucs.html(_html);
+            $ddlEditStrucParentStrucs.editableSelect({ effects: 'fade' })
+            .on('select.editable-select', function (e, li) {
+                $hidEditStrucParentID.val(li.val());
+            });
+        });
+
+
+
+    var checkForm = function () {
+        //验证地图
+        if ($("#tdMapType>input:checkbox:checked").length === 0) {
+            var _message = '@DataAnnotations.StructureMustSelectMapType';
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        var _$fileLogo = $("#fileLogo");
+        //验证logo文件格式
+        var _logo = _$fileLogo.val().trim();
+        if (_logo != '') {
+            if (!/\.(png|PNG|jpg|JPG|jpeg|jpeg)$/.test(_logo)) {
+                var _message = '@DataAnnotations.LogoTypeError';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            //验证logo大小
+            var file_size = _$fileLogo.get(0).files[0].size;
+            var size = file_size / 1024;
+            if (size > 1024) {
+                $.showPromptDialog('@DataAnnotations.LogoSizeError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+        }
+
+        return true;
+    }
+    //默认把是否修改LOGO的复选框设为不选中，否者如果通过后台验证发现LOGO校验不通过，返回页面后勾是选中的，但是图片文件已经不存在。
+    //虽然在整个项目的写法中，是不可能跳过JS验证的，所以也不可能出现后台验证不正确再返回的情况。但还是先这样做
+    $("#chkModifyLogo").on("click", function () {
+        $("#fileLogo").prop("disabled", !$(this).prop("checked"));
+    });
+
+</script>

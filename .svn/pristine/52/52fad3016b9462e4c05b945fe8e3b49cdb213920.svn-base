@@ -1,0 +1,21 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model AsiatekPagedList<RoleListModel>
+
+@Styles.Render("~/Content/pagerCss")
+
+@using (Ajax.BeginForm("GetRoleInfoByRoleName", "Role", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Role_RoleSetting_divRolesGrid",
+    OnSuccess = "commonAjaxSuccess"
+}))
+{
+    @Html.AntiForgeryToken()
+    <input type="text" name="roleName" value="" placeholder="@UIText.RoleNamePlaceHolder" />
+    <input type="submit" value="@UIText.SearchButton" accesskey="S" />
+}
+<div id="Admin_Role_RoleSetting_divRolesGrid">
+    @Html.Partial("_RolePagedGrid", Model)
+</div>
+
+

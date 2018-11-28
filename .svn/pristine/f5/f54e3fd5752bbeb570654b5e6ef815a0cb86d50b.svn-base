@@ -1,0 +1,66 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  SearchDataWithPagedDatas<ControllerSearchModel, ControllerListModel>
+
+
+
+@using (Ajax.BeginForm("GetControllerInfo", "Ctr", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Ctr_ControllerInfo_divControllersGrid",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchController" }))
+{
+
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.AreaID)：</td>
+            <td>@Html.DropDownList("AreaID", Model.SearchModel.AreasSelectList)</td>
+            <td>
+                <input type="search" name="controllerName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.ControllerName)"/>
+            </td>
+            <td>
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddController">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelController">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+}
+
+<div id="Admin_Ctr_ControllerInfo_divControllersGrid">
+    @Html.Partial("_ControllerPagedGrid", Model)
+</div>
+
+<script>
+    $("#frmSearchController").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnAddController").on("click", function ()
+    {
+        var _url = "@Url.Content("~/Admin/Ctr/AddControllerInfo")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnDelController").on("click", function ()
+    {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='ctrid']:checked").length == 0)
+        {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function ()
+        {
+            $("#frmDelCtr").submit();
+        });
+    });
+</script>

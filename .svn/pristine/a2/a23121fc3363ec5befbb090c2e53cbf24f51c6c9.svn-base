@@ -1,0 +1,14 @@
+11:55:04：
+System.ArgumentOutOfRangeException: 索引超出范围。必须为非负值并小于集合大小。
+参数名: index
+   在 System.ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument argument, ExceptionResource resource)
+   在 System.Collections.Generic.List`1.get_Item(Int32 index)
+   在 Asiatek.BLL.MSSQL.HistoricalBLL.GetVehicleGPSTypeFilter(Int32 vid) 位置 e:\SVNCode\TMS2.0\Asiatek.BLL\MSSQL\HistoricalBLL.cs:行号 49
+----------------------------------------------------------------------------------------------------
+11:55:15：
+System.ArgumentOutOfRangeException: 索引超出范围。必须为非负值并小于集合大小。
+参数名: index
+   在 System.ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument argument, ExceptionResource resource)
+   在 System.Collections.Generic.List`1.get_Item(Int32 index)
+   在 Asiatek.BLL.MSSQL.HistoricalBLL.GetVehicleGPSTypeFilter(Int32 vid) 位置 e:\SVNCode\TMS2.0\Asiatek.BLL\MSSQL\HistoricalBLL.cs:行号 49
+----------------------------------------------------------------------------------------------------

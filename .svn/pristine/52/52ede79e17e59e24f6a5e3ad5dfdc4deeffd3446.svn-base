@@ -1,0 +1,80 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  List<TemperatureAlarmRulesModel>
+
+@{
+    var first = Model[0];
+}
+<input type="hidden" value="@ViewBag.VehicleIDs" id="hidVehicleIDs" />
+<div id="divTemperatureAlarmRules">
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <td></td>
+                <th>@Html.DisplayNameFor(m => first.RuleName)</th>
+                <th>@Html.DisplayNameFor(m => first.StrucName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="radio" name="rdoRuleID" value="@item.ID" id="rdoRuleID@(item.ID)"/>
+                    </td>
+                    <td>
+                        <label for="rdoRuleID@(item.ID)">@item.RuleName</label>
+                    </td>
+                    <td>
+                        <label>@item.StrucName</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<table>
+    <tr>
+        <td>
+            <button class="btn btn-primary" title="@UIText.AllotButton" id="btnAllotTemperatureAlarmRule"><span class="glyphicon glyphicon-ok"></span></button>
+        </td>
+    </tr>
+</table>
+
+
+
+<style>
+    #divTemperatureAlarmRules {
+        max-height: 800px;
+        min-height: 300px;
+        overflow-y: scroll;
+    }
+</style>
+
+<script>
+
+    $("#divTemperatureAlarmRules table input[name='rdoRuleID']").first().prop("checked", true);
+
+    $("#btnAllotTemperatureAlarmRule").click(function () {
+        var _ruleID = $("#divTemperatureAlarmRules table input[name='rdoRuleID']:checked").val();//目前只允许分配一个报警规则
+        $.showConfirmDialog("@UIText.ConfirmAllot", '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            //保存操作
+            var _token = $('@Html.AntiForgeryToken()').val();
+            var _vehicleIDs = $("#hidVehicleIDs").val();
+            
+            var data = { __RequestVerificationToken: _token, vehicleIDs: _vehicleIDs, ruleIDs: _ruleID };
+            $.post("@Url.Content("~/Admin/TemperatureAlarmRule/AllotTemperatureAlarmRules")", data, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                $.showPromptDialog(result.Message);
+                $("#divAsiatekEditWin").dialog("close");
+            });
+        });
+    });
+</script>
+
+
+

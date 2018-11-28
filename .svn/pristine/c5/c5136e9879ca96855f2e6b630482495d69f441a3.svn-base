@@ -1,0 +1,3182 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model HistorySignalAllInfoModels
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <style>
+        .ui-autocomplete {
+            height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .indexDefault {
+            background-color: #2a363f!important;
+            color: lightgray!important;
+        }
+
+        .test {
+            width: 260px;
+            height: 20px;
+            left: 50%;
+            top: 50%;
+        }
+
+        .hundredPercentWidth {
+            width: 100%;
+        }
+
+        .hundredPercentHeight {
+            height: 100%;
+        }
+
+        #tdLeftInfo {
+            width: 300px;
+        }
+
+        #tdToggleLeftInfo, #tdToggleBottomInfo {
+            cursor: pointer;
+        }
+        #btnGroup
+        {
+            z-index:4;
+            position:absolute;
+            top:20px;
+            right:10px;
+            background-color: #ffffff;
+            width:60px;
+            height:34px;
+            text-align:center;
+            vertical-align:middle;
+        }
+        .mapDialogImg {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 6px;
+            margin-top: 6px;
+        }
+        #btnGroupBottom
+        {
+            z-index:4;
+            position:absolute;
+            top:54px;
+            right:10px;
+            width:60px;
+            height:5px;
+            background-color: #0198fe;
+        }
+
+        /*修改main1119.css中#container position:absolute样式，该样式的地图覆盖了左边栏*/
+        #container {
+            position: relative !important;
+        }
+
+            /*温度表显示在地图上*/
+            /*#container{position:relative}*/
+            #container #topChart {
+                width: 600px;
+                height: 360px;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                z-index: 10001;
+                background-color: white;
+                /*padding-right: 10px;*/
+            }
+
+        /*div显示table样式*/
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .table {
+            border-collapse: collapse;
+            border: 0px solid #ccc;
+            height: 100px;
+            overflow-y: scroll;
+        }
+
+        .table-caption {
+            display: table-caption;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        .table-row-group {
+            display: table-row-group;
+        }
+
+        .table-row {
+            display: table-row;
+            height: 28px;
+        }
+
+        .table-row-group .table-row:hover, .table-footer-group .table-row:hover {
+            background: #C86F70;
+        }
+
+        .table-cell1 {
+            display: table-cell;
+            padding: 0 5px;
+            border-bottom: 1px solid #ccc;
+            width: 15%;
+        }
+
+        .table-cell2 {
+            display: table-cell;
+            padding: 0 5px;
+            border-bottom: 1px solid #ccc;
+            width: 20%;
+        }
+
+        .table-header-group {
+            display: table-header-group;
+            font-weight: bold;
+            color: lightgray!important;
+        }
+
+        .table-footer-group {
+            display: table-footer-group;
+        }
+
+        /**巡航器样式*/
+        #panel {
+            padding-left: 10px;
+            right: 0;
+            width: 250px;
+            z-index: 999;
+        }
+
+        #loadingTip {
+            z-index: 9999;
+            left: 0;
+            padding: 3px 10px;
+            background: red;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .route-item {
+            margin-bottom: 10px;
+        }
+
+            .route-item pre {
+                margin: 0;
+            }
+
+            .route-item h3 {
+                margin: 5px 0;
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+        .hide {
+            display: none;
+        }
+
+        .speedBox {
+            padding: 5px 0;
+        }
+
+        .speedRange {
+            vertical-align: middle;
+            margin: 0;
+            padding: 0;
+            width: 100px;
+        }
+
+        .markerInfo {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            white-space: nowrap;
+        }
+
+        /*右下方可拉动样式*/
+        #expander {
+            width: 100%;
+            height: 5px;
+            background-color: lightgray!important;
+        }
+
+            #expander:hover {
+                cursor: n-resize;
+            }
+        /*右下方可拉动样式*/
+        #signalsexpander {
+            width: 100%;
+            height: 5px;
+            background-color: lightgray!important;
+        }
+
+            #signalsexpander:hover {
+                cursor: n-resize;
+            }
+
+         /*重写simpleMarker iconLabel样式*/
+         .amap-simple-marker-label {
+            font-size: 1em !important;
+            vertical-align: middle !important;
+            top: 20px !important;
+        }
+    </style>
+}
+
+<div class="row">
+    <table class="hundredPercentWidth">
+        <tbody class="hundredPercentWidth">
+            <tr class="hundredPercentWidth">
+                <!--左侧边栏-->
+                <td class="indexDefault" id="tdLeftInfo">
+                    <div id="tdLeftDivInfo" style="overflow: auto;">
+                        <!--搜索行-->
+                        <table class="hundredPercentHeight" style="height: 200px;">
+                            <tbody>
+                                <tr style="height: 10px;"></tr>
+                                <tr style="height: 40px;">
+                                    <td colspan="2" style="width: 80px; text-align: center;">@Html.LabelForRequired(m => m.VehicleName) :</td>
+                                    <td colspan="3" style="width: 120px;">
+                                        @Html.TextBoxFor(m => m.VehicleName, new { id = "txtVehicleName", placeholder = (UIText.PleaseInput + DisplayText.VehicleName), @class = "form-control", @style = "width:179px;" })
+                                        <input type="hidden" name="hidVehicleName" id="hidVehicleName" value="" />
+                                        <input type="hidden" name="hidVehicleID" id="hidVehicleID" value="" />
+                                        <input type="hidden" name="hidStrucName" id="hidStrucName" value="" />
+                                        <input type="hidden" name="hidVIN" id="hidVIN" value="" />
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px;">
+                                    <td colspan="2" style="width: 80px; text-align: center;">@Html.LabelForRequired(m => m.StartTime) :</td>
+                                    <td colspan="3" style="width: 120px;">
+                                        @Html.TextBoxFor(m => m.StartTime, new { id = "StartTime", @class = "form-control", placeholder = (UIText.PleaseInput + DisplayText.StartDate), @style = "width:179px;" })
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px;">
+                                    <td colspan="2" style="width: 80px; text-align: center;">@Html.LabelForRequired(m => m.EndTime) :</td>
+                                    <td colspan="3" style="width: 120px;">
+                                        @Html.TextBoxFor(m => m.EndTime, new { id = "EndTime", @class = "form-control", placeholder = (UIText.PleaseInput + DisplayText.ExpirationDate), @style = "width:179px;" })
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px;">
+                                    <td colspan="2" style="width: 80px; text-align: center;">@DisplayText.IntervalTime :</td>
+                                    <td colspan="3" style="width: 120px;">
+                                        <div style="width: 170px;">
+                                            <div style="width: 90px; float: left;">
+                                                <select id="txtDate" class="form-control">
+                                                    <option value="15">15 @UIText.Second</option>
+                                                    <option value="60">1 @UIText.Minute</option>
+                                                    <option value="180" selected="selected">3 @UIText.Minute</option>
+                                                    <option value="600">10 @UIText.Minute</option>
+                                                    <option value="1800">30 @UIText.Minute</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>
+                                        <div style="float: left; margin-top: 5px;">
+                                            <div style="float: left;">
+                                                <input id="chkIsSpeeds" type="checkbox" />
+                                            </div>
+                                            <div style="float: left;">
+                                                <label for="chkIsSpeeds" style="width: 60px; float: left;">@DisplayText.FilterZeroSpeed</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2">
+                                        <div style="float: left; margin-top: 5px;">
+                                            <div style="float: left;">
+                                                <input id="chkShowStopPoint" type="checkbox" />
+                                            </div>
+                                            <div style="float: left;">
+                                                <label for="chkShowStopPoint" style="width: 60px; float: left;">@DisplayText.StopPoint</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--状态按钮行-->
+                        <table class="hundredPercentHeight" style="height: 120px; width: 300px;">
+                            <tbody>
+                                <tr style="height: 10px;"></tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnSearch" style="height: 30px; margin-left: 20px;">
+                                            @UIText.Search<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnSearchLoding" style="height: 30px; margin-left: 20px; display: none;">
+                                            @UIText.SearchLoding<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnOutExcel" style="height: 30px; margin-left: 20px;">
+                                            @UIText.Export<br />
+                                        </button>
+                                    </td>
+                                    @* <td colspan="2">
+                                        <button class="btn btn-primary" style="text-align: center; height: 30px;" id="btnUnusualTrack">
+                                            @UIText.AbnormalTrack<br />
+                                        </button>
+                                    </td>*@
+                                    <td>
+                                        <button class="btn btn-primary" id="btnSpeedTrack" style="height: 30px; margin-left: 10px;">
+                                            @UIText.OverSpeedTrack<br />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnShowAlarmInfo" style="height: 30px; margin-left: 20px; display: none;">
+                                            @UIText.ShowAlarmInfo<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnHideAlarmInfo" style="height: 30px; margin-left: 20px; display: none;">
+                                            @UIText.HideAlarmInfo<br />
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnShowTemper" style="height: 30px; margin-left: 10px; display: none;">
+                                            @UIText.ShowTemperTable<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnHideTemper" style="height: 30px; margin-left: 10px; display: none;">
+                                            @UIText.HideTemperTable<br />
+                                        </button>
+                                    </td>
+                                    
+                                </tr>
+                                     @if (AsiatekUIHelper.CheckPremission("ShowAllSignal","Temp"))
+                                    {   
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnShowSignalsList" style="height: 30px; margin-left: 20px; display: none;">
+                                            @UIText.ShowSignalsList<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnSearchLoding1" style="height: 30px; margin-left: 20px; display: none;">
+                                            @UIText.SearchLoding<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnHideSignalsList" style="height: 30px; margin-left: 20px; display: none;">
+                                            @UIText.HideSignalsList<br />
+                                        </button>
+                                    </td>
+                                </tr>
+                                    }
+                            </tbody>
+                        </table>
+                        <!--播放轨迹行、信息-->
+                        <table id="tbShowResult" class="hundredPercentHeight" style="margin-top: 5px; height: 330px; display: none;">
+                            <tbody>
+                                <tr style="height: 10px;"></tr>
+                                <tr style="display: none;">
+                                    <td colspan="6" style="vertical-align: top;">
+                                        <div>
+                                            <table>
+                                                <tr style="background-color: #333030;">
+                                                    <td colspan="6" style="text-align: center;">
+                                                        <h4>@DisplayText.TrackPlay</h4>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 25px;">
+                                                    <td colspan="2" style="padding-left: 8px;">@DisplayText.AverageSpeed:</td>
+                                                    <td colspan="4" style="font-style: normal;">
+                                                        <label id="AvgSpeed"></label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 25px;">
+                                                    <td colspan="2" style="padding-left: 8px;">@DisplayText.MaxSpeed:</td>
+                                                    <td colspan="4" style="font-style: normal">
+                                                        <label id="MaxSpeed"></label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 30px; vertical-align: middle;">
+                                                    <td colspan="6">
+                                                        <div style="width: 300px;">
+                                                            <div style="width: 300px;" class="test"></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 40px;">
+                                                    <td style="text-align: center;">
+                                                        <button id="btnPlay" class="btn btn-primary" style="margin-right: 10px;" title="@UIText.Play">
+                                                            <span class="glyphicon glyphicon-play"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button id="btnPause" class="btn btn-primary" style="margin-left: 10px;" title="@UIText.Pause">
+                                                            <span class="glyphicon glyphicon-pause"></span>
+                                                        </button>
+                                                    </td>
+                                                    <td colspan="4" style="padding-right: 10px; padding-left: 10px; padding-top: 10px;">
+                                                        <div style="vertical-align: middle;">
+                                                            <table>
+                                                                <tr>
+                                                                    <td id="t-one" style="text-align: center; visibility: hidden;">
+                                                                        <div style="width: 20px;">1000</div>
+                                                                    </td>
+                                                                    <td id="t-two" style="text-align: center; visibility: hidden;">
+                                                                        <div style="width: 20px;">600</div>
+                                                                    </td>
+                                                                    <td id="t-three" style="text-align: center; visibility: hidden;">
+                                                                        <div style="width: 20px;">300</div>
+                                                                    </td>
+                                                                    <td id="t-four" style="text-align: center; visibility: hidden;">
+                                                                        <div style="width: 20px;">150</div>
+                                                                    </td>
+                                                                    <td id="t-five" style="text-align: center; visibility: hidden;">
+                                                                        <div style="width: 20px;">100</div>
+                                                                    </td>
+                                                                    <td id="t-six" style="text-align: center; visibility: hidden;">
+                                                                        <div style="width: 20px;">50</div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style="background-color: white;">
+                                                                    <td id="one" style="height: 8px;">
+                                                                        <div class="selectSpeedDiv" style="width: 20px; height: 8px; cursor: pointer; border-right: 1px solid #807878;" onclick="selectSpeed(this)"></div>
+                                                                    </td>
+                                                                    <td id="two" style="height: 8px; background-color: #337ab7">
+                                                                        <div class="selectSpeedDiv" style="width: 20px; height: 8px; cursor: pointer; border-right: 1px solid #807878;" onclick="selectSpeed(this)"></div>
+                                                                    </td>
+                                                                    <td id="three" style="height: 8px;">
+                                                                        <div class="selectSpeedDiv" style="width: 20px; height: 8px; cursor: pointer; border-right: 1px solid #807878;" onclick="selectSpeed(this)"></div>
+                                                                    </td>
+                                                                    <td id="four" style="height: 8px;">
+                                                                        <div class="selectSpeedDiv" style="width: 20px; height: 8px; cursor: pointer; border-right: 1px solid #807878;" onclick="selectSpeed(this)"></div>
+                                                                    </td>
+                                                                    <td id="five" style="height: 8px;">
+                                                                        <div class="selectSpeedDiv" style="width: 20px; height: 8px; cursor: pointer; border-right: 1px solid #807878;" onclick="selectSpeed(this)"></div>
+                                                                    </td>
+                                                                    <td id="six" style="height: 8px;">
+                                                                        <div class="selectSpeedDiv" style="width: 20px; height: 8px; cursor: pointer;" onclick="selectSpeed(this)"></div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td id="d-one" style="text-align: center; color: #337ab7; visibility: hidden;">
+                                                                        <div style="width: 20px;">1</div>
+                                                                    </td>
+                                                                    <td id="d-two" style="text-align: center; color: #337ab7;">
+                                                                        <div style="width: 20px;">2</div>
+                                                                    </td>
+                                                                    <td id="d-three" style="text-align: center; color: #337ab7; visibility: hidden;">
+                                                                        <div style="width: 20px;">3</div>
+                                                                    </td>
+                                                                    <td id="d-four" style="text-align: center; color: #337ab7; visibility: hidden;">
+                                                                        <div style="width: 20px;">6</div>
+                                                                    </td>
+                                                                    <td id="d-five" style="text-align: center; color: #337ab7; visibility: hidden;">
+                                                                        <div style="width: 20px;">12</div>
+                                                                    </td>
+                                                                    <td id="d-six" style="text-align: center; color: #337ab7; visibility: hidden;">
+                                                                        <div style="width: 20px;">20</div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!--数据内容行-->
+                                <tr style="height: 160px; display: none;">
+                                    <td colspan="6" style="vertical-align: top;">
+                                        <div style="width: 100%">
+                                            <table style="width: 100%;">
+                                                <tr style="width: 100%; background-color: #333030;">
+                                                    <td colspan="6" style="text-align: center;">
+                                                        <h4>@DisplayText.InfoTrace</h4>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 25px;">
+                                                    <td style="padding-left: 8px;">@DisplayText.Mileage:</td>
+                                                    <td colspan="5" style="font-style: normal;">
+                                                        <label id="Mileage"></label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 25px;">
+                                                    <td style="padding-left: 8px;">@DisplayText.MapMileage :</td>
+                                                    <td colspan="5" style="font-style: normal">
+                                                        <label id="MapMileage"></label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 25px;">
+                                                    <td style="padding-left: 8px;">@DisplayText.OilMass :</td>
+                                                    <td colspan="5" style="font-style: normal">
+                                                        <label id="OilMass"></label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 25px;">
+                                                    <td style="padding-left: 8px;">@DisplayText.Temperature :</td>
+                                                    <td colspan="5" style="font-style: normal">
+                                                        <label id="Temperature"></label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 25px;">
+                                                    <td style="padding-left: 8px;">@DisplayText.Time :</td>
+                                                    <td colspan="5" style="font-style: normal">
+                                                        <label id="Time"></label>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 25px;">
+                                                    <td style="padding-left: 8px;">@DisplayText.Speed ( km/h ) :</td>
+                                                    <td colspan="5" style="font-style: normal">
+                                                        <label id="Speed"></label>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!--高德地图自带的轨迹播放功能-->
+                                <tr style="height: 100px;">
+                                    <td colspan="6" style="vertical-align: top;">
+                                        <div style="width: 300px;">
+                                            <table style="width: 100%;">
+                                                <tr style="width: 100%; background-color: #333030;">
+                                                    <td colspan="6" style="text-align: center;">
+                                                        <h4>@DisplayText.TrackPlay</h4>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 10px;"></tr>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <div id="panel">
+                                                            <div id="routes-container">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!--图例-->@*          "#3366cc", "#109618", "#000000", "#ff0000", "#cc00ff"*@
+                                <tr style="height: 100px;">
+                                    <td colspan="6" style="vertical-align: top;">
+                                        <div style="width: 300px;">
+                                            <table style="width: 100%;">
+                                                <tr style="width: 100%; background-color: #333030;">
+                                                    <td colspan="6" style="text-align: center;">
+                                                        <h4>@DisplayText.Legend</h4>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 10px;"></tr>
+                                                <tr>
+                                                    <td>
+                                                        @DisplayText.NormalSignal
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <div style="width: 150px; height: 5px; background-color: #109618; border: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @DisplayText.BlindArea@DisplayText.Signal
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <div style="width: 150px; height: 5px; background-color: #000000; border: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @DisplayText.Alarm@DisplayText.Signal
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <div style="width: 150px; height: 5px; background-color: #ff0000; border: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @DisplayText.Fixed (@DisplayText.BlindArea+@DisplayText.Alarm)  
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <div style="width: 150px; height: 5px; background-color: #cc00ff; border: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        @DisplayText.StartPosition
+                                                        <div style="display: inline-block; width: 13px; height: 13px; background-color: blue;"></div>
+                                                    </td>
+                                                    <td colspan="3">
+                                                        @DisplayText.EndPosition
+                                                        <div style="display: inline-block; width: 13px; height: 13px; background-color: red;"></div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <!--收缩栏-->
+                <td onmouseover="style.backgroundColor='#C86F70'" onmouseout="style.backgroundColor='#0198fe'" style="background-color: #0198fe;" id="tdToggleLeftInfo">
+                    <div style="width: 6px;"></div>
+                </td>
+                <!--右侧内容：包括地图-->
+                <td id="tdRightContent" class="hundredPercentWidth" style="vertical-align: top;">
+                    <table class="hundredPercentWidth hundredPercentHeight">
+                        <tbody>
+                            <!--地图-->
+                            <tr class="hundredPercentHeight">
+                                <td style="background-color: darkgray;">
+                                    <div id="btnGroup">
+                                        <img id="btnGroupMarkerImg" name="btnGroupImg" class="mapDialogImg" onclick="javascript: ShowEFMarker()" onmouseover="this.title='@UIText.ShowEFMarker'" src="~/Content/images/realtimeDialog/ShowMarker.png" />
+                                        <img id="btnGroupMarkerSelImg" name="btnGroupSelImg" class="mapDialogImg" onclick="javascript: ShowEFMarker()" onmouseover="this.title='@UIText.ShowEFMarker'" src="~/Content/images/realtimeDialog/ShowMarkerselected.png" style="display:none;" />
+                                    </div>
+                                    <div id="btnGroupBottom">
+                                    </div>  
+                                    <div id="container">
+                                        @*添加两个div是为了控制左侧边距*@
+                                        <div id="topChart" style="display: none;" title="@DisplayText.TemperTable">
+                                            <div id="dsMoveDiv" style="width:2px; height:25px; border:1px black solid;position:absolute;margin-top:4%;z-index:9999;display:none;"></div>
+                                            <div id="DoorSensorChart" style="height: 50px; width: 692px;margin-left:28px;">
+                                            </div>
+                                            @*<div id="DoorSensorChart" style="height: 340px; width: 720px;"></div>*@
+                                            <div id="TemperatureChart" style="height: 340px; width: 720px;"></div>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <!--地图-->
+                            <!--下方收缩栏-->
+                            <tr onmouseover="style.backgroundColor='#C86F70'" onmouseout="style.backgroundColor='#0198fe'" style="height: 6px; font-size: xx-small; background-color: #0198fe; text-align: center;">
+                                <td id="tdToggleBottomInfo"></td>
+                                @* <td id="tdToggleBottomSignalsInfo"></td>*@
+                            </tr>
+                            <!--下方收缩栏-->
+                            <!--下方内容显示-->
+                            <tr class="indexDefault">
+                                <td id="tdBottomInfo">
+                                    <div id="expander"></div>
+                                    <div id="divBottomInfo" class="table">
+                                        <div id="tbCheckedSignals" class="table-header-group">
+                                            <ul class="table-row">
+                                                <li class="table-cell2">@DisplayText.Time</li>
+                                                <li class="table-cell1">@DisplayText.Speed ( km/h )</li>
+                                                <li class="table-cell1">@DisplayText.Mileage</li>
+                                                <li class="table-cell1">@DisplayText.ACCState</li>
+                                                <li class="table-cell1">@DisplayText.Temperature ( ℃ )</li>
+                                                <li class="table-cell2">@DisplayText.ExceptionInfo</li>
+                                                @* 标题多设置一个li，divData添加的内容会填满整行 *@
+                                                <li class="table-cell1"></li>
+                                            </ul>
+                                        </div>
+                                        <div id="divData" class="table-row-group">
+                                        </div>
+                                    </div>
+                                    @*<div id="divBottomInfo" style="height: 100px; overflow: auto;">
+                                        <!--下方显示信息-->
+                                        <table class="table table-condensed" id="tbCheckedSignals" >
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th>@DisplayText.Time</th>
+                                                    <th>@DisplayText.Speed（km/h）</th>
+                                                    <th>@DisplayText.Mileage</th>
+                                                    <th>@DisplayText.ACCState</th>
+                                                    <th>@DisplayText.Temperature（℃）</th>
+                                                    <th>@DisplayText.ExceptionInfo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方显示信息-->
+                                        <div id="divShowResult"></div>
+                                    </div>*@
+                                </td>
+                                <td id="tdBottomSignalsInfo">
+                                    <div id="signalsexpander"></div>
+                                    <div id="divBottomSignalsInfo" class="table">
+                                        <div id="tbCheckedSignalsList" class="table-header-group">
+                                            <ul class="table-row">
+                                                <li class="table-cell2">@DisplayText.Time</li>
+                                                <li class="table-cell1">@DisplayText.Speed ( km/h )</li>
+                                                <li class="table-cell1">@DisplayText.Mileage</li>
+                                                <li class="table-cell1">@DisplayText.ACCState</li>
+                                                <li class="table-cell1">@DisplayText.Temperature ( ℃ )</li>
+                                                <li class="table-cell2">@DisplayText.Address</li>
+                                                @* 标题多设置一个li，divData添加的内容会填满整行 *@
+                                                <li class="table-cell1"></li>
+                                            </ul>
+                                        </div>
+                                        <div id="divData1" class="table-row-group">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--下方内容显示-->
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=865e5946e363e3889a01b89f8ba5d069"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <!-- UI组件库 1.0 -->
+    <script type="text/javascript"  src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <link href="~/Content/jqueryPlay/barstyle.css" rel="stylesheet" />
+    @*<script src="~/Scripts/jqueryPlay/jquery-PlayBar.min.js"></script>*@
+    <script src="~/Scripts/jqueryPlay/jquery-PlayBar2.min.js"></script>
+    <script src="~/Scripts/gaodeMap/map.js?v=1.0"></script>
+    @*jqPlot插件引用文件*@
+    <script src="~/Scripts/jqPlot/jquery.jqplot.min.js"></script>
+    <script src="~/Scripts/jqPlot/jqplot.canvasAxisLabelRenderer.min.js"></script>
+    <script src="~/Scripts/jqPlot/jqplot.cursor.min.js"></script>
+    <script src="~/Scripts/jqPlot/jqplot.canvasOverlay.min.js"></script>
+    <script src="~/Scripts/jqPlot/jqplot.dateAxisRenderer.min.js"></script>
+    <script src="~/Scripts/jqPlot/jqplot.highlighter.min.js"></script>
+    <script src="~/Scripts/jqPlot/jqplot.pointLabels.min.js"></script>
+    <script src="~/Scripts/jqPlot/jqplot.canvasAxisTickRenderer.min.js"></script>
+    <script src="~/Scripts/jqPlot/jqplot.canvasTextRenderer.min.js"></script>
+    <link href="~/Content/jqPlot/jquery.jqplot.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jqPlot/jqPlotUsage.js"></script>
+
+    <script>
+        var map;
+        var jj = 0; //播放记点
+        var jjCurrent = 0;//暂停点
+        var content;//marker的content标记
+        var signalList; //轨迹列表
+        var marker; //点的marker
+        var subPoints;   //线路轨迹点
+        var points;   //行驶轨迹点
+        var BSpeed = 600;   //播放速度
+        var MapMileage = 0;   //地图里程
+        var action = false;   //开始、暂停
+        var TimeID;   //记录循环
+        var searchResult;   //记录查询出来的所有结果
+        var exportType = 0;   //导出类型 1-导出查询结果；2-导出异常结果；3-导出超速轨迹。
+        var showTopChart = false; //温度曲线对话框是否打开
+        var stopPoints; //停车点
+        var stopContent;//停车信息
+        var markerList;//停车点地图应用
+        //标识查询电子围栏按钮
+        var showEFMarkerBtnFlag = 0;
+        var simpleMarkers; //存储电子围栏名称
+        var markerNum;
+        //var totalValue; //查询结果集
+        //var ln = 5; //右下方一次加载数据条数
+        var IsAddExpand=false;
+        var $hidVehicleName = $("#hidVehicleName");
+        var $hidVehicleID = $("#hidVehicleID");
+        var $hidVIN = $("#hidVIN");
+        var $hidStrucName = $("#hidStrucName");
+        var $txtVehicleName = $("#txtVehicleName");
+
+        var $tbShowResult = $("#tbShowResult");
+        var $btnPlay = $("#btnPlay");//播放
+        var $btnPause = $("#btnPause");//暂停
+        var $btnShowTemper = $("#btnShowTemper");//显示温度表按钮
+        var $btnHideTemper = $("#btnHideTemper");//隐藏温度表按钮
+
+        var $topChart = $("#topChart");        //温度曲线表div
+        var $btnShowAlarmInfo = $("#btnShowAlarmInfo");//显示警报信息按钮
+        var $btnHideAlarmInfo = $("#btnHideAlarmInfo");//隐藏警报信息表按钮
+        var $btnShowSignalsList = $("#btnShowSignalsList");//显示信号列表按钮
+        var $btnHideSignalsList = $("#btnHideSignalsList");//隐藏信号列表按钮
+        var $btnSearchLoding1 = $("#btnSearchLoding1");
+        var $tdLeftInfo = $("#tdLeftInfo");//左侧信息单元格
+        var $tdToggleLeftInfo = $("#tdToggleLeftInfo");//左侧收缩栏单元格
+        var $tdToggleBottomInfo = $("#tdToggleBottomInfo");//下方收缩栏
+        var $tdBottomInfo = $("#tdBottomInfo");//下方信息
+        var $tbCheckedSignals = $("#tbCheckedSignals");//下方显示信息
+        var $tdBottomSignalsInfo = $("#tdBottomSignalsInfo");//下方信号列表信息
+        var $tbCheckedSignalsList = $("#tbCheckedSignalsList");//下方信号列表显示信息
+        var currentActiveRow; //当前活动行 右下方显示信息
+
+        //定义map对象
+        var map = initMap('container', true, 12, null);
+        //添加标尺、鹰眼、比例尺
+        addControl(true, true, false, true, false, map);
+        AMapUI.loadUI(['control/BasicControl'], function (BasicControl) {
+            //图层切换控件
+            map.addControl(new BasicControl.LayerSwitcher({
+                position: 'rb'
+            }));
+        });
+
+        var ln = 10;
+        var IsAlarmShowOrSignalsList = false;
+        var listhight = 100;
+        $(function () {
+            initVehicleNameAutoComplete();   //左侧车辆树
+            $tdBottomInfo.hide();
+            $tdBottomSignalsInfo.hide();//右下侧信息隐藏
+            setContentSize();
+
+            //设置电子围栏中文字显示
+            map.on("zoomchange", function () {
+                if (map.getZoom() < 11) {
+                    for (var i = 0; i < markerNum; i++) {
+                        map.remove(simpleMarkers[i]);
+                    }
+                } else {
+                    for (var i = 0; i < markerNum; i++) {
+                        map.add(simpleMarkers[i]);
+                    }
+                }
+            });
+
+
+
+            //右下方divBottomInfo拖动功能
+            var src_posi_Y = 0, dest_posi_Y = 0, move_Y = 0, is_mouse_down = false, destHeight = 100;
+            $("#expander")
+            .mousedown(function (e) {
+                src_posi_Y = e.pageY;
+                is_mouse_down = true;
+            });
+            var listhight = 100;
+            $("#signalsexpander")
+            .mousedown(function (e) {
+                src_posi_Y = e.pageY;
+                is_mouse_down = true;
+                listhight = 0;
+                listhight = src_posi_Y;
+            });
+            $(document).bind("click mouseup", function (e) {
+                if (is_mouse_down) {
+                    is_mouse_down = false;
+                }
+            })
+            .mousemove(function (e) {
+                dest_posi_Y = e.pageY;
+                move_Y = src_posi_Y - dest_posi_Y;
+                src_posi_Y = dest_posi_Y;
+                //if (searchResult == null) {
+                //    setthings();
+                //}
+                if (IsAlarmShowOrSignalsList == true) {
+                    destHeight = $("#divBottomSignalsInfo").height() + move_Y;
+                } else {
+                    destHeight = $("#divBottomInfo").height() + move_Y;
+                }
+                if (is_mouse_down) {
+                    if (IsAlarmShowOrSignalsList == true) {
+                        $("#divBottomSignalsInfo").css("height", destHeight > 100 ? destHeight : 100);       //高度等于100时，不可以再向下拖动（右下方最小高度为100px）
+                        $("#divBottomSignalsInfo").css("height", destHeight > 650 ? 650 : destHeight);
+                        listhight = $("#divBottomSignalsInfo").height();
+                        if (listhight > 470 && listhight < 650 && IsAddExpand==true) { setthings(); }
+                    } else {
+                        $("#divBottomInfo").css("height", destHeight > 100 ? destHeight : 100);       //高度等于100时，不可以再向下拖动（右下方最小高度为100px）
+                        $("#divBottomInfo").css("height", destHeight > 650 ? 650 : destHeight);
+                    }
+                    
+                    setContentSize();                  //调整页面布局
+                }
+            });
+          var setthings=  function a() {
+              var count = $("#divData1 ul").length;
+              //console.log("数量_"+count);
+                if (count - 1 <= searchResult.length && ln + count - 1 >= searchResult.length) {
+                    buildSearchResultSignalsContentWithDiv(count, searchResult.length);
+                }
+                else {
+                    buildSearchResultSignalsContentWithDiv(count, ln + count);
+                }
+            }
+            var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+            var nScrollTop = 0;  //滚动到的当前位置
+            var nDivHight = $("#divBottomSignalsInfo").height();
+
+            //下方的信号列表滑动加载
+            $("#divBottomSignalsInfo").scroll(function () {
+                nScrollHight = $(this)[0].scrollHeight;
+                nScrollTop = $(this)[0].scrollTop;
+                //已经加载的信号信息数量
+                var count = $("#divData1 ul").length;
+                if (nScrollTop + listhight >= nScrollHight)
+                {
+                    //判断最后加载的数据条数
+                    if (count - 1 <= searchResult.length && ln + count - 1 >= searchResult.length) {
+                            buildSearchResultSignalsContentWithDiv(count, searchResult.length);
+                    }
+                    else {
+                            buildSearchResultSignalsContentWithDiv(count, ln + count);
+                    }
+                }
+            });
+        });
+
+        var initVehicleNameAutoComplete = function () {
+            $txtVehicleName.autocomplete({
+                delay: 500,
+                minLength: 1,
+                select: function (event, ui) {
+                    $hidVehicleName.val(ui.item.value);
+                    $hidVehicleID.val(ui.item.VID);
+                    $hidStrucName.val(ui.item.strucName);
+                    $hidVIN.val(ui.item.VIN);
+                },
+                source: function (request, response) {
+                    @*  $.get('@Url.Content("~/HistoricalRoute/Home/GetUserVehiclesByVehicleName")', { vehicleName: request.term }, function (data, status, xhr) {
+                        if ($.handleAjaxError(data)) {
+                            return;
+                        }
+                        response(data);
+                    });*@
+                    // 提取到公共控制器
+                    $.get('@Url.Content("~/Common/GetUserVehiclesByVehicleName")', { vehicleName: request.term }, function (data, status, xhr) {
+                        if ($.handleAjaxError(data)) {
+                            return;
+                        }
+                        response(data);
+                    });
+                }
+            });
+        }
+
+        //点击收缩栏事件
+        $tdToggleLeftInfo.on("click", function () {
+            $tdLeftInfo.toggle();
+            setContentSize();
+        });
+        $tdToggleBottomInfo.on("click", function () {
+            if (IsAlarmShowOrSignalsList == true) {
+                $tdBottomSignalsInfo.toggle();
+            } else {
+                $tdBottomInfo.toggle();
+            }
+
+            setContentSize();
+        });
+
+        //选中过滤零速度，则不可以使用显示停车点功能
+        $("#chkIsSpeeds").change(function () {
+            if ($('#chkIsSpeeds').is(':checked')) {
+                chkShowStopPoint.disabled = true;
+            }
+            else {
+                chkShowStopPoint.disabled = false;
+            }
+        });
+
+
+        //时间控件
+        $("#StartTime,#EndTime").datetimepicker({
+            changeMonth: true,
+            changeYear: true,
+            timeText: '@UIText.Time',
+            hourText: '@UIText.Hour',
+            minuteText: '@UIText.Minute',
+            currentText: '@UIText.Now',
+            closeText: '@UIText.Complete',
+            showSecond: true, //显示秒  
+            timeFormat: 'HH:mm:ss' //格式化时间  
+        });
+        var d = new Date();
+        $("#StartTime").datetimepicker('setDate', new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7));
+        $("#EndTime").datetimepicker('setDate', new Date());
+
+        //日期格式转化
+        function compareNine(value) {
+            return value > 9 ? value : '0' + value;
+        }
+        function formatNumToDate(value) {
+            var now = eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"));///.../gi是用来标记正则开始和结束；\是转义符；()标注了正则匹配分组1，$1 
+            var year = now.getYear() + 1900;//或者 now.getFullYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            return year + "-" + compareNine(month) + "-" + compareNine(date) + " " + compareNine(hour) + ":" + compareNine(minute) + ":" + compareNine(second);
+        }
+
+        //左侧车辆信息  轨迹播放
+        function MapCarInfo(value) {
+            $("#AvgSpeed").html(value[value.length - 1].AvgSpeed);
+            $("#MaxSpeed").html(value[value.length - 1].MaxSpeed);
+        }
+
+        //左侧车辆信息  信息跟踪
+        function traceCarInfo(value) {
+            $("#Mileage").html(value.Mileage);
+            $("#MapMileage").html(value.MapMileage);
+            $("#OilMass").html(value.OilMass);
+            $("#Temperature").html(value.Temperature);
+            $("#Time").html(formatNumToDate(value.Time));
+            $("#Speed").html(value.Speed);
+        }
+
+        //进度条changeBar
+        function ProgressBar(action) {
+            if (action) {
+                if (jjCurrent == 0 || (signalList != null && jjCurrent == signalList.length)) {
+                    $.playBar.addBar($('.test'), BSpeed * (signalList.length - 1).toFixed(0));//第一个参数是需要显示播放器的容器，第二个参数为时间，单位毫秒
+                    $.playBar.changeBarColor("#72dfff");//设置进度条颜色
+                } else {
+                    var width = $('.TheBar').width();
+                    $.playBar.changeThWidth((jj / (signalList.length - 1) * width).toFixed(0));
+                    $.playBar.Begin();
+                }
+                $btnPlay.show();
+            }
+            else {
+                $.playBar.Stop();
+            }
+        }
+
+        //播放进度条
+        AMap.event.addDomListener(document.getElementById('btnPlay'), 'click', function () {
+            btnSearch.disabled = true;
+            btnSpeedTrack.disabled = true;
+            btnPlay.disabled = true;
+            ProgressBar(true);
+            funStart();
+        }, false);
+
+
+        //暂停进度条
+        AMap.event.addDomListener(document.getElementById('btnPause'), 'click', function () {
+            btnSearch.disabled = false;
+            btnSpeedTrack.disabled = false;
+            btnPlay.disabled = false;
+            ProgressBar(false);
+            funStop();
+        }, false);
+
+
+        window.onload = function () { setContentSize(); };
+        window.onresize = function () { setContentSize(); };
+
+        var setContentSize = function () {
+            var tdBottom;
+            var height = document.documentElement.scrollHeight;
+            var container = document.getElementById("container");//地图
+            var tdRightContent = document.getElementById("tdRightContent");
+            var tdLeftDivInfo = document.getElementById("tdLeftDivInfo");//左侧边栏div
+            //var tdBottom = document.getElementById("tdBottomInfo").clientHeight;//右侧底部高度 
+            if (IsAlarmShowOrSignalsList == true) {
+                tdBottom = document.getElementById("tdBottomSignalsInfo").clientHeight;//右侧底部高度 
+            } else {
+                tdBottom = document.getElementById("tdBottomInfo").clientHeight;
+            }
+            //布局页面div
+            var mainDiv = document.getElementById("mainDiv");
+            var headDivHt = document.getElementById("headDiv").clientHeight;
+            var menusDiv = document.getElementById("menusDiv");
+            var menusDivHt = document.getElementById("menusDiv").clientHeight;
+            var bottomDivHt = document.getElementById("bottomDiv").clientHeight;
+
+            tdRightContent.style.height = window.innerHeight - headDivHt - menusDivHt - bottomDivHt + "px";
+            if (window.innerHeight < 550) {
+                container.style.height = height - headDivHt - menusDivHt - bottomDivHt - 6 - tdBottom + "px";
+            } else {
+                container.style.height = window.innerHeight - headDivHt - menusDivHt - bottomDivHt - 6 - tdBottom + "px";
+            }
+            tdLeftDivInfo.style.height = tdRightContent.style.height;
+
+            mainDiv.style.width = window.innerWidth + "px";
+            menusDiv.style.width = window.innerWidth + "px";
+        }
+
+        //所有数据
+        function MapInfo(value) {
+            $("#panel").css("display", "block");
+            $("#outer-box").css("padding-right", "300px");
+            totalValue = value;
+            MapCarInfo(value);
+            //showSignals(value);  //划线
+            showSignalsByPathSimplifier(value);
+            showStopPoints(value);    //显示停车点
+            //var tvalue;
+            //var snum = parseInt(value.length / 2000);
+            //for (var i = 0; i < snum * 2000; i = i + 2000) {
+            //    tvalue = new Array();
+            //    tvalue.push(value.slice(i, i + 2000));
+            //    showSignals(tvalue[0]);  //划线
+            //}
+            //tvalue = new Array();
+            //tvalue.push(value.slice(snum * 2000, value.length));
+            //showSignals(tvalue[0]);  //划线
+
+            ////右下方加载数据
+            //for (var i = 0; i < value.length; i++) {
+            //    //buildSearchResultContent(value[i], i);
+            //    if (value[i].ExName != "") {
+            //        buildSearchResultContentWithDiv(value[i], i);
+            //    }
+            //}
+            //$tdBottomInfo.show();
+            //setContentSize();
+        }
+
+        var colors = [
+                   "#3366cc", "#00ff33", "#000000", "#ff0000", "#cc00ff"
+        ];
+        var navigBtnsConf = [{
+            name: '开始巡航',
+            action: 'start',
+            enableExp: 'navgStatus === "stop" || navgStatus === "pause"'
+        }, {
+            name: '暂停',
+            action: 'pause',
+            enableExp: 'navgStatus === "moving"'
+        }, {
+            name: '恢复',
+            action: 'resume',
+            enableExp: 'navgStatus === "pause"'
+        }];
+        var pathSimplifierIns;
+        var points;
+        //画历史轨迹  地图自带划线PathSimplifier
+        function showSignalsByPathSimplifier(value) {
+            signalList = value;
+
+            var allPoints = [];
+            var blindPoints = [];
+            var blindLabel = [];
+            var alarmPoints = [];
+            var alarmLabel = [];
+            var fixedPoints = [];
+            var fixedLabel = [];
+            var normalPoints = [];
+            var normalLabel = [];
+            var acc;
+            var temper;
+            var label;
+            var lastPointType;//1:正常；2：盲区；3：报警；4：盲区+报警
+            var currentPointType = 1;
+            var tempPoints = new Array();
+            var tempLabels = new Array();
+            for (var i = 0; i < value.length; i++) {
+                if (value[i].ACCState == false) {
+                    acc = "<br/> @DisplayText.ACCState:@DisplayText.TurnOff ";
+                }
+                else {
+                    acc = "<br/> @DisplayText.ACCState:@DisplayText.TurnOn ";
+                }
+                if (value[i].Temperature != null) {
+                    temper = "<br/> @DisplayText.Temperature ( ℃ ):" + value[i].Temperature + "";
+                }
+                else {
+                    temper = "";
+                }
+                label = "@DisplayText.Speed:" + value[i].Speed + "<br/>@DisplayText.Time:" + formatNumToDate(value[i].Time) + "<br/>@DisplayText.Mileage:" + value[i].Mileage + acc + temper + "<br/>@DisplayText.ExceptionInfo:" + value[i].ExName;
+                if (value[i].IsBlind == "1" && value[i].ExName != "") {//盲区+报警
+                    currentPointType = 4;
+                }
+                else if (value[i].ExName != "") {//报警
+                    currentPointType = 3;
+                }
+                else if (value[i].IsBlind == "1") {//盲区
+                    currentPointType = 2;
+                }
+                else {//正常
+                    currentPointType = 1;
+                }
+
+                //第一个点不用比较是否与之前的类型是否相同
+                //从第二个点开始，与之前一个点类型不同，就截断一条轨迹出来，并且前一段轨迹的结束点是后一段的开始点，这样才能看上去是连续的
+                if ((i != 0 && lastPointType != currentPointType) || i == value.length - 1) {
+                    if (i == value.length - 1) {
+                        //console.log("最后一个");
+                    } else {
+                        //console.log("不同");
+                    }
+
+                    //加入当前的点，当作轨迹的结尾
+                    tempPoints.push([value[i].Longitude, value[i].Latitude]);
+                    tempLabels.push(label);
+                    //添加一条带显示的轨迹
+                    //var lastPointType = 1;//1:正常；2：盲区；3：报警；4：盲区+报警
+                    var pathName;
+                    var pointTypeFlag = lastPointType;
+                    if (pointTypeFlag == undefined) {//如果只查询出一个点，那么轨迹的名称就是这个点的类型名称
+                        pointTypeFlag = currentPointType;
+                    }
+                    if (pointTypeFlag == 1) {
+                        pathName = "@DisplayText.NormalSignal";
+                    } else if (pointTypeFlag == 2) {
+                        pathName = "@DisplayText.BlindArea";
+                    } else if (pointTypeFlag == 3) {
+                        pathName = "@DisplayText.Alarm";
+                    } else {
+                        pathName = "@DisplayText.FixedArea";
+                    }
+            allPoints.push({ name: pathName, path: tempPoints, label: tempLabels });
+                    //console.log("添加一条" + pathName + "共" + tempPoints.length + "个点");
+                    //因为一条轨迹结束了，那么需要清空之前的点，后面新加进去的就是下一段的开始点，正好就是上一段的结尾
+            tempPoints = new Array();
+            tempLabels = new Array();
+        }
+
+        tempPoints.push([value[i].Longitude, value[i].Latitude]);
+        tempLabels.push(label);
+        lastPointType = currentPointType;
+    }
+    AMapUI.load(['ui/misc/PathSimplifier', 'lib/$'], function (PathSimplifier, $) {
+        if (!PathSimplifier.supportCanvas) {
+            $.showPromptDialog('@DataAnnotations.DoNotSupportCanvas', null, null, null, true);
+            return;
+        }
+        var colors = [
+            "#3366cc", "#109618", "#000000", "#ff0000", "#cc00ff"
+        ];
+        pathSimplifierIns = new PathSimplifier({
+            zIndex: 100,
+            map: map, //所属的地图实例
+            getPath: function (pathData, pathIndex) {
+                return pathData.path;
+            },
+            getHoverTitle: function (pathData, pathIndex, pointIndex) {
+                //console.log(pointIndex);
+                if (pointIndex >= 0) {
+                    return pathData.name + '<br/>@DisplayText.Point:' + (pointIndex + 1) + '/' + pathData.path.length + '<br/>' + pathData.label[pointIndex];
+                }
+                return pathData.name + '，@DisplayText.Point@DisplayText.Number' + pathData.path.length;
+            },
+            renderOptions: {
+                keyPointTolerance: 1,
+                renderAllPointsIfNumberBelow: 1000,
+                //pathLineHoverStyle: {
+                //    strokeStyle: "#3366cc"
+                //},
+                getPathStyle: function (pathItem, zoom) {
+                    var pathName = pathItem.pathData.name;
+                    var pathIndex = pathItem.pathIndex;
+                    if (!pathName) {
+                        return null;
+                    }
+                    var i = 0;
+                    if (pathName == "@DisplayText.NormalSignal") {
+                        i = 1;
+                    } else if (pathName == "@DisplayText.BlindArea") {
+                        i = 2;
+                    } else if (pathName == "@DisplayText.Alarm") {
+                        i = 3;
+                    } else if (pathName == "@DisplayText.FixedArea") {
+                        i = 4;
+                    }
+                    //只有第一个轨迹能看到开始点和最后一条轨迹能看到结束点
+                    var color = colors[i];
+                    var returnObj = {
+                        pathLineStyle: {
+                            strokeStyle: color,
+                            lineWidth: 2.8
+                        },
+                        endPointStyle: {//默认没结束点
+                            radius: 0,
+                            lineWidth: 0,
+                        },
+                        startPointStyle: {//默认没开始点
+                            radius: 0,
+                            lineWidth: 0,
+                        },
+                    };
+                    if (pathIndex == 0) {//第一个轨迹有开始点
+                        returnObj.startPointStyle = {
+                            radius: 10,
+                            fillStyle: "blue",
+                            lineWidth: 1,
+                            strokeStyle: "#eeeeee"
+                        };
+                    }
+                    if (pathIndex == allPoints.length - 1) {//最后一个轨迹有结束点
+                        returnObj.endPointStyle = {
+                            radius: 10,
+                            fillStyle: "red",
+                            lineWidth: 1,
+                            strokeStyle: "#eeeeee"
+                        };
+                    }
+                    return returnObj;
+                }
+            }
+        });
+        //#endregion 
+
+        pathSimplifierIns.setData(allPoints);
+        ////设置最后一个点zindex大于100，就显示在最上层
+        pathSimplifierIns.setZIndexOfPath(0, 101);
+        initRoutesContainer(allPoints, 0);
+        points = allPoints;
+        //#region 动态加载
+        // i=0;
+        // data = [{
+        //     name: '动态路线',
+        //     path: points[0].path.slice(0, 1),
+        //     label: points[0].label.slice(0, 1),
+        // }];
+        // pathSimplifierIns.setData(data);
+        // //对第一条线路（即索引 0）创建一个巡航器
+        //var navg1 = pathSimplifierIns.createPathNavigator(0, {
+        //     //loop: true, //循环播放
+        //     speed: 6000 //巡航速度，单位千米/小时
+        // });
+
+
+        // endIdx = 0;
+        // function expandPath() {
+        //     //console.log(points[i].path);
+        //     function doExpand() {
+        //         endIdx++;
+        //         if (endIdx >= points[i].path.length) {
+        //             i++
+        //             if (i > points.length)
+        //             {
+        //                 return false;
+        //             } else
+        //             {
+        //                 console.log(data[0]);
+        //                 data = [{
+        //                     name: '动态路线',
+        //                     path: points[i].path.slice(0, 1),
+        //                     label: points[i].label.slice(0, 1),
+        //                 }];
+        //                 endIdx = 0;
+        //                 pathSimplifierIns.setData(data);
+        //                 //navg1 = pathSimplifierIns.createPathNavigator(0, {
+        //                 //    //loop: true, //循环播放
+        //                 //    speed: 6000 //巡航速度，单位千米/小时
+        //                 //});
+        //                 navg1.start();
+        //                 return true;
+        //             }
+
+        //         }
+        //         var cursor = navg1.getCursor().clone(), //保存巡航器的位置
+        //             status = navg1.getNaviStatus();
+        //         data[0].name = points[i].name;
+        //         data[0].path = points[i].path.slice(0, endIdx + 1);
+        //         data[0].label = points[i].label.slice(0, endIdx + 1);
+        //         pathSimplifierIns.setData(data); //延展路径
+        //         //重新建立一个巡航器
+        //         navg1 = pathSimplifierIns.createPathNavigator(0, {
+        //             //loop: true, //循环播放
+        //             speed: 10000 //巡航速度，单位千米/小时
+        //         });
+        //         if (status !== 'stop') {
+        //             //console.log(cursor.idx + "||" + cursor.tail + "||" + status+"||"+);
+        //             navg1.start();
+        //         }
+        //         //console.log(cursor.idx + "||" + cursor.tail+"||"+status);
+        //         //恢复巡航器的位置
+        //         if (cursor.idx >= 0) {
+        //             navg1.moveToPoint(cursor.idx, cursor.tail);
+        //         }
+        //         return true;
+        //     }
+        //     if (doExpand()) {
+        //         setTimeout(expandPath, 1000);
+        //     }
+        // }
+        // navg1.start();
+        // expandPath();
+        //#endregion
+    });
+}
+
+var pathNavigs = [];
+var flag;
+function getNavg(pathIndex) {
+    if (!pathNavigs[pathIndex]) {
+        //创建一个轨迹巡航器
+        var navgtr = pathSimplifierIns.createPathNavigator(pathIndex, {
+            loop: true,
+            speed: parseInt($('#speedInp_' + pathIndex).val()),
+            pathNavigatorStyle: {
+                width: 24,
+                height: 24,
+                //经过路径的样式
+                pathLinePassedStyle: {
+                    lineWidth: 6,
+                    strokeStyle: 'black',
+                    dirArrowStyle: {
+                        stepSpace: 15,
+                        strokeStyle: 'red'
+                    }
+                }
+            }
+        });
+        var $markerContent = $('<div class="markerInfo"></div>');
+        $markerContent.html(pathSimplifierIns.getPathData(pathIndex).name);
+        navgtr.marker = new AMap.Marker({
+            offset: new AMap.Pixel(12, -10),
+            content: $markerContent.get(0),
+            map: map
+        });
+        var $msg = $('#routes-container').find('div.route-item[data-idx="' +
+            pathIndex + '"]').find('.msg');
+        navgtr.on('move', function () {
+            navgtr.marker.setPosition(navgtr.getPosition());
+        });
+        navgtr.onDestroy(function () {
+            pathNavigs[pathIndex] = null;
+            navgtr.marker.setMap(null);
+            $msg.html('');
+        });
+        navgtr.on('start', function () {
+            navgtr._startTime = Date.now();
+            navgtr._startDist = this.getMovedDistance();
+            if (flag == 1) {
+                flag = 0;
+                navgtr["destroy"]();
+                initRoutesContainer(points, 0);
+                $("#routes-container button:first").click();
+            }
+        });
+        navgtr.on('resume', function () {
+            navgtr._startTime = Date.now();
+            navgtr._startDist = this.getMovedDistance();
+            flag = 0;
+        });
+        navgtr.on('stop', function () {
+        });
+        navgtr.on('pause', function () {
+            navgtr._movedTime = Date.now() - navgtr._startTime;
+            navgtr._movedDist = this.getMovedDistance() - navgtr._startDist;
+            navgtr._realSpeed = (navgtr._movedDist / navgtr._movedTime * 3600);
+            flag = 1;
+            //var msgInfo = {
+            //    '状态': "暂停",
+            //    '设定速度': this.getSpeed() + ' km/h',
+            //    '总行进距离': Math.round(this.getMovedDistance() / 1000) + ' km',
+            //    '本段行进距离': Math.round(navgtr._movedDist / 1000) + ' km',
+            //    '本段耗时': (navgtr._movedTime / 1000) + ' s',
+            //    '本段实际速度': Math.round(navgtr._realSpeed) + ' km/h'
+            //};
+            //$('#routes-container').find('div.route-item[data-idx="' +
+            //pathIndex + '"]').find('.msg').html('<pre>' + JSON.stringify(msgInfo, null, 2) + '</pre>');
+            refreshNavgButtons();
+        });
+        navgtr.on('move', function () {
+            //var msgInfo = {
+            //    '状态': "行驶中",
+            //    '设定速度': this.getSpeed() + ' km/h',
+            //    '总行进距离': Math.round(this.getMovedDistance() / 1000) + ' km'
+            //};
+            //$('#routes-container').find('div.route-item[data-idx="' +
+            //pathIndex + '"]').find('.msg').html('<pre>' + JSON.stringify(msgInfo, null, 2) + '</pre>');
+            if (navgtr.isCursorAtPathEnd()) {
+                var index = navgtr.getPathIndex() + 1;
+                if (index < points.length) {
+                    var navg = getNavg(index);
+                    initRoutesContainer(points, index);
+                    $("#routes-container button:first").click();
+                    navgtr["destroy"]();
+                }
+                else {
+                    initRoutesContainer(points, 0);
+                    navgtr["destroy"]();
+                    $('#routes-container').find('button').eq(1).click();
+                    $('#routes-container').find('button').eq(2).attr("disabled", true);;
+                }
+            }
+        });
+
+        pathNavigs[pathIndex] = navgtr;
+    }
+    return pathNavigs[pathIndex];
+}
+function refreshNavgButtons() {
+    $('#routes-container').find('div.route-item').each(function () {
+        var pathIndex = parseInt($(this).attr('data-idx'), 0);
+        if (pathIndex < 0) {
+            return;
+        }
+        var navgStatus = 'stop',
+            navgExists = !!pathNavigs[pathIndex];
+        if (navgExists) {
+            navgStatus = pathNavigs[pathIndex].getNaviStatus();
+        }
+        $(this).find('.navigBtn').each(function () {
+            var btnIdx = parseInt($(this).attr('data-btnIdx'));
+            $(this).prop('disabled', !eval(navigBtnsConf[btnIdx].enableExp));
+        });
+    });
+}
+function initRoutesContainer(data, index) {
+    initRouteItem(data[index], index);
+    refreshNavgButtons();
+    $('#routes-container .navigBtn').click(function () {
+        var pathIndex = parseInt($(this).closest('.route-item').attr('data-idx'), 0);
+        var navg = getNavg(pathIndex);
+        navg[$(this).attr('data-act')]();
+        refreshNavgButtons();
+    });
+}
+var currencyspeed;
+function initRouteItem(pathData, idx) {
+    var pathName = pathData.name;
+    var i = 0;
+    if (pathName == "@DisplayText.NormalSignal") {
+        i = 1;
+    } else if (pathName == "@DisplayText.BlindArea") {
+        i = 2;
+    } else if (pathName == "@DisplayText.Alarm") {
+            i = 3;
+        } else if (pathName == "@DisplayText.FixedArea") {
+            i = 4;
+        }
+
+    var $routeItem = $('<div class="route-item"></div>');
+    $routeItem.attr('data-idx', idx);
+    var pointnumber = "@DisplayText.Point@DisplayText.Number"
+    $('<h3/>').css({
+        color: colors[i]
+    }).html(pathData.name + '(' + pointnumber + '： ' + pathData.path.length + ')').appendTo($routeItem).on('click', function () {
+        pathSimplifierIns.setSelectedPathIndex(idx);
+    });
+    for (var i = 0, len = navigBtnsConf.length; i < len; i++) {
+        $('<button class="navigBtn btn btn-large btn-primary" data-btnIdx="' + i + '" data-act="' + navigBtnsConf[i].action + '"></button>').html(navigBtnsConf[i].name).appendTo($routeItem);
+    }
+    $speedBox = $('<div class="speedBox"></div>').appendTo($routeItem);
+    var speedTxt = $('<span><span>').appendTo($speedBox);
+    var speedRangeInput;
+    if (currencyspeed == null) {
+        speedRangeInput = $('<input id="speedInp_' + idx +
+            '" class="speedRange" type="range" min="1000" max="10000" step="1000" value="1000" />').appendTo($speedBox);
+    } else {
+        speedRangeInput = $('<input id="speedInp_' + idx +
+           '" class="speedRange" type="range" min="1000" max="10000" step="1000" value="' + currencyspeed + '" />').appendTo($speedBox);
+    }
+    var v_speed = "@DisplayText.Speed"
+    function updateSpeedTxt() {
+        var speed = parseInt(speedRangeInput.val(), 10);
+        speedTxt.html(v_speed + '：' + speed + ' km/h');
+        currencyspeed = speed;
+        if (pathNavigs[idx]) {
+            pathNavigs[idx].setSpeed(speed);
+        }
+    }
+    speedRangeInput.on('change', updateSpeedTxt);
+    updateSpeedTxt();
+    $speedBox.appendTo($routeItem);
+    //$('<div class="msg"></div>').appendTo($routeItem);
+    $('#routes-container').html($routeItem);
+}
+
+//加载停车点图标，显示停车点信息
+function showStopPoints(value) {   //装载停车点坐标信息和停车信息
+    stopPoints = new Array();
+    stopContent = new Array();
+    for (var i = 0; i < value.length; i++) {
+        if (value[i].IsStopPoint == true) {
+            //stopPoints.push(new AMap.LngLat(value[i].Longitude, value[i].Latitude));
+            stopPoints.push([value[i].Longitude, value[i].Latitude]);
+            stopContent.push(value[i].StopContent);
+        }
+    }
+    //在地图上显示
+    AMapUI.loadUI(['misc/MarkerList', 'overlay/SimpleMarker', 'overlay/SimpleInfoWindow'], function (MarkerList, SimpleMarker, SimpleInfoWindow) {
+        var defaultIconStyle = 'red', //默认的图标样式
+        hoverIconStyle = 'blue', //鼠标hover时的样式
+        selectedIconStyle = 'blue'; //选中时的图标样式
+
+        markerList = new MarkerList({
+            //关联的map对象
+            map: map,
+            //返回数据项的Id
+            getDataId: function (dataItem, index) {
+                //index表示该数据项在数组中的索引位置，从0开始，如果确实没有id，可以返回index代替
+                return dataItem.id;
+            },
+            //返回数据项的位置信息，需要是AMap.LngLat实例，或者是经纬度数组，比如[116.79, 39.90]
+            getPosition: function (dataItem) {
+                return dataItem.position;
+            },
+            //返回数据项对应的Marker
+            getMarker: function (dataItem, context, recycledMarker) {
+                //存在可回收利用的marker
+                if (recycledMarker) {
+                    //直接更新内容返回
+                    recycledMarker.setIconLabel('P');
+                    recycledMarker.setIconStyle(dataItem.iconStyle);
+                    return recycledMarker;
+                }
+                //返回一个新的Marker
+                return new SimpleMarker({
+                    iconTheme: 'numv1',
+                    iconStyle: 'red',
+                    //图标文字
+                    iconLabel: {
+                        //P
+                        innerHTML: 'P',
+                        style: {
+                            //颜色, #333, red等等，这里仅作示例，取iconStyle中首尾相对的颜色
+                            color: 'white'
+                        }
+                    },
+                    //显示定位点
+                    showPositionPoint: true
+                });
+            },
+            //返回数据项对应的infoWindow，其中content内部要换行显示，在获取到content后，将其中的'-'全部替换为换行符可实现换行
+            //为了实现换行功能，后台获取的dataItem.infoWinContent数据格式在需要换行的地方添加了'-'
+            getInfoWindow: function (dataItem, context, recycledInfoWindow) {
+                var tpl = '<p style="width:170px;"><%- dataItem.infoWinContent %></p>';
+                //MarkerList.utils.template支持underscore语法的模板
+                var content = MarkerList.utils.template(tpl, {
+                    dataItem: dataItem,
+                    dataIndex: context.index
+                });
+                //第二个参数中的 g 表示全部匹配
+                //换行符在生成content后添加才有换行效果
+                var _regS = new RegExp('-', "g");
+                content = content.replace(_regS, "</br>");
+                if (recycledInfoWindow) {
+                    //存在可回收利用的infoWindow, 直接更新内容返回
+                    recycledInfoWindow.setContent(content);
+                    return recycledInfoWindow;
+                }
+
+                //返回一个新的InfoWindow
+                return new AMap.InfoWindow({
+                    offset: new AMap.Pixel(0, -23),
+                    content: content
+                });
+            },
+            //marker上监听的事件
+            markerEvents: ['click', 'mouseover', 'mouseout'],
+            //makeSelectedEvents:false,
+            selectedClassNames: 'selected',
+            autoSetFitView: true
+        });
+
+        markerList.on('selectedChanged', function (event, info) {
+            if (info.selected) {
+                if (info.selected.marker) {
+                    //更新为选中样式
+                    info.selected.marker.setIconStyle(selectedIconStyle);
+                }
+            }
+            if (info.unSelected && info.unSelected.marker) {
+                //更新为默认样式
+                info.unSelected.marker.setIconStyle(defaultIconStyle);
+            }
+        });
+
+        markerList.on('markerMouseover', function (event, record) {
+            if (record && record.marker) {
+                //非选中的id
+                if (!this.isSelectedDataId(record.id)) {
+                    //设置为hover样式
+                    record.marker.setIconStyle(hoverIconStyle);
+                }
+            }
+        });
+
+        markerList.on('markerMouseout', function (event, record) {
+            if (record && record.marker) {
+                if (!this.isSelectedDataId(record.id)) {
+                    //恢复默认样式
+                    record.marker.setIconStyle(defaultIconStyle);
+                }
+            }
+        });
+
+        //构建一个数据项数组，数据项本身没有格式要求，但需要支持下述的getDataId和getPosition
+        var data = new Array();
+        for (var i = 0; i < stopPoints.length; i++) {
+            data.push({ position: stopPoints[i], iconStyle: 'red', infoWinContent: stopContent[i] });
+        }
+        //展示该数据
+        markerList.render(data);
+    });
+
+}
+
+//画历史轨迹  加载自带图标
+function showSignals(value) {
+    map.clearMap();   //清空地图图层
+    subPoints = new Array();
+    points = new Array();
+
+    signalList = new Array();
+    signalList = value;
+    var ListLen = signalList.length;
+
+    for (var i = 0; i < ListLen; i++) {
+        var Longitude = signalList[i].Longitude;
+        var Latitude = signalList[i].Latitude;
+        //装载所有得点
+        points[i] = new AMap.LngLat(Longitude, Latitude);
+        //第一个点直接添加到subPoints中，如果后一个点与当前点盲区补点字段值相同，就都放进subPoints中，直到有不一样的盲区补点值或者结束时设置subPoints的样式
+        if (i == 0 || ((i < ListLen - 1) && signalList[i].IsBlind == signalList[i + 1].IsBlind)) {
+            subPoints.push(new AMap.LngLat(Longitude, Latitude));
+        }
+        else {
+            subPoints.push(new AMap.LngLat(Longitude, Latitude));
+            if (signalList[i].IsBlind == "0") {
+                var polylineOptions = {
+                    path: subPoints,
+                    geodesic: false, // 可测量的
+                    strokeColor: "#0000FF",  // 线条颜色 蓝色
+                    strokeOpacity: 0.8,   // 透明度 50%
+                    strokeWeight: 1       // 宽度 5像素
+                };
+                var polyline1 = new AMap.Polyline(polylineOptions);
+                polyline1.setMap(map);  // 设置显示到map上  
+            }
+            else { //盲区补点
+                var polylineOptions = {
+                    path: subPoints,
+                    geodesic: false, // 可测量的
+                    strokeColor: "#FF0000",  // 线条颜色 红色
+                    strokeOpacity: 0.8,   // 透明度 50%
+                    strokeWeight: 1       // 宽度 5像素
+                };
+                var polyline1 = new AMap.Polyline(polylineOptions);
+                polyline1.setMap(map);  // 设置显示到map上
+            }
+            //如果不是最后一个点，则将subPoints置为空，后面继续设置线段样式
+            if (i < ListLen - 1) {
+                subPoints = new Array();
+                subPoints.push(new AMap.LngLat(Longitude, Latitude));
+            }
+        }
+        AddHisMarker(signalList[i]);
+    }
+
+    //增加起始点
+    var icon = "../../Content/images/pic/Start1.png";
+    var startMark = new AMap.Marker({
+        position: points[0],
+        map: map,
+        icon: icon,
+        title: ""
+    });
+
+    //增加结束点
+    var icons = "../../Content/images/pic/End1.png";
+    var endMark = new AMap.Marker({
+        position: points[ListLen - 1],
+        map: map,
+        icon: icons,
+        title: ""
+    });
+
+    map.setFitView();
+    //GetBestMap(points); //显示最佳比例尺和位置
+}
+
+
+//添加方向点
+function AddHisMarker(rs) {
+    //画点
+    var icon = getMarkIconArrow("Arrow", rs.Angle, rs.Speed);
+    var latLng = new AMap.LngLat(rs.Longitude, rs.Latitude);
+    var marker1 = new AMap.Marker({
+        position: latLng,
+        map: map,
+        icon: icon,
+        offset: new AMap.Pixel(-10, -10),
+        title: ""
+    });
+
+    //构建信息窗体中显示的内容
+    var info = [];
+    info.push("<div>");
+    info.push("@DisplayText.Speed:" + rs.Speed + "");
+     info.push("@DisplayText.Time:" + formatNumToDate(rs.Time) + "");
+     info.push("@DisplayText.Mileage:" + rs.Mileage + "");
+     if (rs.ACCState == false) {
+         info.push("@DisplayText.ACCState:@DisplayText.TurnOff ");
+            }
+            else {
+                info.push("@DisplayText.ACCState:@DisplayText.TurnOn ");
+            }
+            if (rs.Temperature != null) {
+                info.push("@DisplayText.Temperature ( ℃ ):" + rs.Temperature + "");
+            }
+                @*else {
+                    info.push("@DisplayText.Temperature ( ℃ ):" );
+                }*@
+     info.push("@DisplayText.ExceptionInfo:" + rs.ExName + "</div>");
+     //自定义信息窗体
+     var infoWindow = new AMap.InfoWindow({
+         content: info.join("<br/>"),  //使用默认信息窗体框样式，显示信息内容
+         offset: new AMap.Pixel(1, -10)
+     });
+
+     //鼠标点击marker弹出自定义的信息窗体
+     AMap.event.addListener(marker1, 'click', function () {
+         infoWindow.open(map, marker1.getPosition());
+     });
+
+ }
+
+
+ ////根据点显示最佳位置
+ //function GetBestMap(points) {
+ //    //1 创建对象
+ //    //2 在标记点添加的时候，把经纬度信息extend进去。
+ //    for (var i = 0; i < points.length; i++) {
+ //        AMap.Bounds.extend(points[i]);
+ //    }
+ //    //3 在设置完所有的标记点之后，调用下面的方法，就成功了。
+ //    map.setFitView();
+ //}
+
+ //创建右下方显示信息 div
+ var buildSearchResultContentWithDiv = function (result, i) {
+     //添加ul,li,存放生成数据  
+     $("#divData").append(" <ul id='ul" + i + "' class='table-row' style='cursor:pointer;' onclick='changeActiveRow(this)'> </ul>");
+     $("#ul" + i + "").append(" <li class='table-cell2'>" + formatNumToDate(result.Time) + " </li>");
+     $("#ul" + i + "").append(" <li class='table-cell1'>" + result.Speed + " </li>");
+     $("#ul" + i + "").append(" <li class='table-cell1'>" + result.Mileage + " </li>");
+     if (result.ACCState == false) {
+         $("#ul" + i + "").append(" <li class='table-cell1'>@DisplayText.TurnOff </li>");
+            }
+            else {
+                $("#ul" + i + "").append(" <li class='table-cell1'> @DisplayText.TurnOn </li>");
+            }
+            if (result.Temperature != null) {
+                $("#ul" + i + "").append(" <li class='table-cell1'>" + result.Temperature + " </li>");
+            }
+            else {
+                $("#ul" + i + "").append(" <li class='table-cell1'> </li>");
+            }
+            $("#ul" + i + "").append(" <li class='table-cell2'>" + result.ExName + " </li>");
+            //行点钟显示在地图上
+            $("#ul" + i + "").click(function () {
+                if (marker != null) {
+                    marker.setMap(null);
+                }
+                var lng = result.Longitude;
+                var lat = result.Latitude;
+                var angle = result.Angle;
+                MapMarkerMove(lng, lat, angle, result.Speed, result.Time, result.Mileage, result);
+            });
+ }
+
+        //var buildSearchResultSignalsContentWithDiv = function (result1, i) {
+        //    console.log(result1.Longitude + "||" + result1.Latitude);
+        //    console.log(m);
+        //    if (m.get(result1.Longitude + "||" + result1.Latitude)) {
+        //        buildSignalsContentWithDiv(result1, i);
+        //        searchResult[i].Address = m.get(searchResult[i].Longitude + "||" + searchResult[i].Latitude);
+        //        $("#ul" + i + "").append(" <li class='table-cell2'>" + searchResult[i].Address + " </li>");
+        //    } else if (result1.Address != null) {
+        //        buildSignalsContentWithDiv(result1, i);
+        //        $("#ul" + i + "").append(" <li class='table-cell2'>" + result1.Address + " </li>")
+        //    } else {
+        //        console.log("1||" + i);
+        //        buildSignalsContentWithDiv(result1, i);
+        //        AMap.service('AMap.Geocoder', function () {//回调函数
+        //            //实例化Geocoder
+        //            var geocoder = new AMap.Geocoder({
+        //                city: "010"//城市，默认：“全国”
+        //            });
+        //            var lnglatXY = [result1.Longitude, result1.Latitude];
+        //            geocoder.getAddress(lnglatXY, function (status, result) {
+        //                if (status === 'complete' && result.info === 'OK') {
+        //                    searchResult[i].Address = result.regeocode.formattedAddress;
+        //                    if (!m.get(result1.Longitude + "||" + result1.Latitude)) {
+        //                        m.set(result1.Longitude + "||" + result1.Latitude, result.regeocode.formattedAddress);
+        //                    }
+        //                    $("#ul" + i + "").append(" <li class='table-cell2'>" + result1.Address + " </li>")
+        //                    //buildSignalsContentWithDiv(result1, i);
+        //                } else {
+        //                    address = "";
+        //                    //获取地址失败
+        //                }
+        //                //TODO: 使用geocoder 对象完成相关功能
+        //            });
+        //        })
+        //    }
+        //};
+        //var kjasdf=0;
+        //var buildSearchResultSignalsContentWithDiv = function (begin, end) {
+        //    console.log(searchResult.length);
+        //    AMap.service('AMap.Geocoder', function () {//回调函数
+        //        //实例化Geocoder
+        //        var geocoder = new AMap.Geocoder({
+        //            city: "010"//城市，默认：“全国”
+        //        });
+        //        for (var i = begin; i < end; i++) {
+        //            //if (i > 0) {
+        //            //    var date3 = new Date(searchResult[i].SignalDateTime).getTime() - new Date(searchResult[i - 1].SignalDateTime).getTime();   //时间差的毫秒数 
+        //            //    console.log(date3);
+        //            //}
+                    
+        //            buildSignalsContentWithDiv(searchResult[i], i);
+        //            var lnglatXY = [searchResult[i].Longitude, searchResult[i].Latitude];
+        //            //闭包处理
+        //            var a = function (num) {
+        //                if (m.get(searchResult[num].Longitude + "||" + searchResult[num].Latitude)) {
+        //                    searchResult[num].Address = m.get(searchResult[num].Longitude + "||" + searchResult[num].Latitude);
+        //                    $("#ul" + num + "").append(" <li class='table-cell2'>" + searchResult[num].Address + " </li>");
+        //                } else if (num > 0 && searchResult[num].Speed == 0 && searchResult[num - 1].Speed == 0) {
+        //                   for(int i=)
+        //                }
+        //        else {
+        //                    geocoder.getAddress(lnglatXY, function (status, result) {
+        //                        if (status === 'complete' && result.info === 'OK') {
+        //                            searchResult[num].Address = result.regeocode.formattedAddress;
+        //                            if (!m.get(searchResult[num].Longitude + "||" + searchResult[num].Latitude))
+        //                            {
+        //                                m.set(searchResult[num].Longitude + "||" + searchResult[num].Latitude, result.regeocode.formattedAddress);
+        //                            }
+        //                            m1.set(num,result.regeocode.formattedAddress);
+        //                            $("#ul" + num + "").append(" <li class='table-cell2'>" + searchResult[num].Address + " </li>");
+        //                        } else {
+        //                            address = "";
+        //                            $("#ul" + num + "").append("<li class='table-cell2' id='li" + num + "' ><button class='btn btn-primary' onclick='addressresolution(" + num + ")'>地址解析</button></li>");
+        //                            //获取地址失败
+        //                        }
+        //                    });
+        //                } 
+        //            }(i);
+        //        }
+        //    })
+        //};
+
+        //存储经纬度对应的地址
+        var  lngandlataddress = new Map();
+        //存储在定位信号List中的位置对应的解析地址
+        var lastAddress;
+        var tempMap = new Map();
+        var m1 = new Map();
+        var a="0||0";
+        var b;
+        var buildSearchResultSignalsContentWithDiv = function (begin, end) {
+            
+            AMap.service('AMap.Geocoder', function () {//回调函数
+                //实例化Geocoder
+                var geocoder = new AMap.Geocoder({
+                    city: "010"//城市，默认：“全国”
+                });
+                if (end > searchResult.length) {
+                    end = searchResult.length;
+                }
+                for (var i = begin; i < end; i++) {
+                    var currentItem = searchResult[i];
+                    //先加载除了地址以外的模块
+                    buildSignalsContentWithDiv(currentItem, i);
+                    //最后一笔信号速度为0的时候要去检查
+                    if (i == searchResult.length - 1 && searchResult[i - 1].Speed == 0) {
+                        m1.forEach(function (value, Index) {
+                            if (Index > a.split("||")[0]) {
+                                a = Index + "||" + value;
+                            }
+                        });
+                        //只有2个信号并且都是速度为0 第二个信号直接给高德解析
+                        if (i == 1) {
+                            var lng = [currentItem.Longitude, currentItem.Latitude];
+                            getAddress(i, currentItem, lng, geocoder, null);
+                        } else {
+                            tempMap.set(i, currentItem);
+                            tempMap.forEach(function (prevItem, prevPointIndex) {
+                                prevItem.Address = a.split(a.split("||")[1]);
+                                $("#ul" + prevPointIndex + "").append(" <li class='table-cell2'>" + prevItem.Address + " </li>");
+                            });
+                        }
+                        continue;
+                    }
+                    //过滤掉连续2个速度都是0的点
+                    if (i > 0 && currentItem.Speed == 0 && searchResult[i - 1].Speed == 0) {
+                        tempMap.set(i, currentItem);
+                        continue;
+                    }
+                    var lnglatXY = [currentItem.Longitude, currentItem.Latitude];
+                    var currentTempMap = new Map(tempMap);
+                    tempMap.clear();
+                    if (currentTempMap.size > 0) {
+                        if (lngandlataddress.get(currentItem.Longitude + "||" + currentItem.Latitude)) {
+                            currentItem.Address = lngandlataddress.get(currentItem.Longitude + "||" + currentItem.Latitude);
+                            $("#ul" + i + "").append(" <li class='table-cell2'>" + currentItem.Address + " </li>");
+                            currentTempMap.forEach(function (prevItem, prevPointIndex) {
+                                prevItem.Address = currentItem.Address;
+                                $("#ul" + prevPointIndex + "").append(" <li class='table-cell2'>" + prevItem.Address + " </li>");
+                            });
+                            //console.log("经纬度解析的直接获取到了的索引_" + i);
+                            continue;
+                        } else {
+                            //console.log("当前索引："+i+"_需要补的索引数量："+currentTempMap.size);
+                            getAddress(i, currentItem, lnglatXY, geocoder, currentTempMap);
+                        }
+                    }
+                    else {
+                        if (lngandlataddress.get(currentItem.Longitude + "||" + currentItem.Latitude)) {
+                            currentItem.Address = lngandlataddress.get(currentItem.Longitude + "||" + currentItem.Latitude);
+                            $("#ul" + i + "").append(" <li class='table-cell2'>" + currentItem.Address + " </li>");
+                        } else {
+                            getAddress(i, currentItem, lnglatXY, geocoder, null);
+                        }
+                    }
+                }
+            });
+        };
+
+        var getAddress = function (index, currentItem, lnglatXY, geocoder, prevPoints) {
+            geocoder.getAddress(lnglatXY, function (status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    currentItem.Address = result.regeocode.formattedAddress;
+                    a = result.regeocode.formattedAddress;
+                    $("#ul" + index + "").append(" <li class='table-cell2'>" + currentItem.Address + " </li>");
+                    if (!lngandlataddress.get(currentItem.Longitude + "||" + currentItem.Latitude)) {
+                        lngandlataddress.set(currentItem.Longitude + "||" + currentItem.Latitude, result.regeocode.formattedAddress);
+                    }
+                    m1.set(index, result.regeocode.formattedAddress);
+                    if (prevPoints==null) {
+                        return;
+                    }
+                    prevPoints.forEach(function (prevItem,prevPointIndex) {
+                        //console.log("对索引：" + prevPointIndex + "_补充地址，地址来源索引：" + index);
+                        prevItem.Address = currentItem.Address;
+                        $("#ul" + prevPointIndex + "").append(" <li class='table-cell2'>" + prevItem.Address + " </li>");
+                    });
+                } else {
+                    $("#ul" + index + "").append("<li class='table-cell2' id='li" + index + "' ><button class='btn btn-primary' onclick='addressresolution(" + index + ")'>地址解析</button></li>");
+                    //获取地址失败
+                }
+            });
+        }
+
+
+        //var getAddress = function (num, lnglatXY, geocoder, prevPoints) {
+        //    //console.log(1);
+        //    //console.log("索引："+num+"\t经纬度:"+lnglatXY);
+        //    geocoder.getAddress(lnglatXY, function (status, result) {
+        //        //console.log("索引：" + num + "\t经纬度:" + lnglatXY+"_进行解析");
+        //        if (status === 'complete' && result.info === 'OK') {
+        //            searchResult[num].Address = result.regeocode.formattedAddress;
+        //            if (!m.get(searchResult[num].Longitude + "||" + searchResult[num].Latitude)) {
+        //                m.set(searchResult[num].Longitude + "||" + searchResult[num].Latitude, result.regeocode.formattedAddress);
+        //            }
+        //            m1.set(num, result.regeocode.formattedAddress);
+        //            $("#ul" + num + "").append(" <li class='table-cell2'>" + searchResult[num].Address + " </li>");
+        //        } else {
+        //            address = "";
+        //            $("#ul" + num + "").append("<li class='table-cell2' id='li" + num + "' ><button class='btn btn-primary' onclick='addressresolution(" + num + ")'>地址解析</button></li>");
+        //            //获取地址失败
+        //        }
+        //    });
+        //}
+
+
+
+
+        //解析失败后增加的按钮解析，传递进来的是信号的排名
+        function addressresolution(num) {
+            AMap.service('AMap.Geocoder', function () {//回调函数
+                //实例化Geocoder
+                var geocoder = new AMap.Geocoder({
+                    city: "010"//城市，默认：“全国”
+                });
+                var lnglatXY = [searchResult[num].Longitude, searchResult[num].Latitude];
+                geocoder.getAddress(lnglatXY, function (status, result) {
+                    if (status === 'complete' && result.info === 'OK') {
+                        $("#li" + num + "")[0].innerHTML = result.regeocode.formattedAddress;
+                    } else {
+                    }
+                })
+            })
+        };
+        function buildSignalsContentWithDiv(result, i) {
+            $("#divData1").append(" <ul id='ul" + i + "' class='table-row' style='cursor:pointer;' onclick='changeActiveRow(this)'> </ul>");
+            $("#ul" + i + "").append(" <li class='table-cell2'>" + formatNumToDate(result.Time) + " </li>");
+            $("#ul" + i + "").append(" <li class='table-cell1'>" + result.Speed + " </li>");
+            $("#ul" + i + "").append(" <li class='table-cell1'>" + result.Mileage + " </li>");
+            if (result.ACCState == false) {
+                $("#ul" + i + "").append(" <li class='table-cell1'>@DisplayText.TurnOff </li>");
+            }
+            else {
+                $("#ul" + i + "").append(" <li class='table-cell1'> @DisplayText.TurnOn </li>");
+            }
+            if (result.Temperature != null) {
+                $("#ul" + i + "").append(" <li class='table-cell1'>" + result.Temperature + " </li>");
+            }
+            else {
+                $("#ul" + i + "").append(" <li class='table-cell1'> </li>");
+            }
+            //if (result.Address != null) { $("#ul" + i + "").append(" <li class='table-cell2'>" + result.Address + " </li>"); } else {
+            //    $("#ul" + i + "").append(" <li class='table-cell1'> </li>");
+            //}
+
+            //$("#ul" + i + "").append(" <li class='table-cell2'>" + address + " </li>");
+            //创建右下方显示信息 div
+
+            $("#ul" + i + "").click(function () {
+                if (marker != null) {
+                    marker.setMap(null);
+                }
+                var lng = result.Longitude;
+                var lat = result.Latitude;
+                var angle = result.Angle;
+                MapMarkerMove(lng, lat, angle, result.Speed, result.Time, result.Mileage, result);
+            });
+        }
+
+        //创建右下方显示信息   table
+        var buildSearchResultContent = function (result, i) {
+            var _$tbody = $tbCheckedSignals.find("tbody");
+            var _$tr = $("<tr id='tr" + i + "' style='cursor:pointer;' onclick='changeActiveRow(this)'></tr>");
+            _$tr.append($("<td></td>").text(formatNumToDate(result.Time)));
+            _$tr.append($("<td></td>").text(result.Speed));
+            _$tr.append($("<td></td>").text(result.Mileage));
+            if (result.ACCState == false) {
+                _$tr.append($("<td></td>").text("@DisplayText.TurnOff"));
+            }
+            if (result.ACCState == true) {
+                _$tr.append($("<td></td>").text("@DisplayText.TurnOn"));
+                    }
+            _$tr.append($("<td></td>").text(result.Temperature));
+            _$tr.append($("<td></td>").text(result.ExName));
+            _$tbody.append(_$tr);
+            $tbCheckedSignals.find("span").text("(" + $tbCheckedSignals.find("tbody>tr").length + ")");
+
+            $("#tr" + i + "").click(function () {
+                if (marker != null) {
+                    marker.setMap(null);
+                }
+                var lng = result.Longitude;
+                var lat = result.Latitude;
+                var angle = result.Angle;
+                MapMarkerMove(lng, lat, angle, result.Speed, result.Time, result.Mileage, result);
+            });
+        }
+
+
+                //改变选中行的颜色
+                function changeActiveRow(obj) {
+                    if (currentActiveRow) {
+                        currentActiveRow.style.backgroundColor = "";
+                    }
+                    currentActiveRow = obj;
+                    currentActiveRow.style.backgroundColor = "#479AC7";
+                }
+
+
+                //播放历史轨迹
+                function MarkerMove() {
+                    //无信号直接回传
+                    if (signalList == null) {
+                        return;
+                    }
+                    if (signalList.length < 1) {
+                        return;
+                    }
+                    //如果有汽车轨迹，那么把移除（上一个点）
+                    if (marker != null) {
+                        marker.setMap(null);
+                    }
+
+                    var lng = signalList[jj].Longitude;
+                    var lat = signalList[jj].Latitude;
+                    var angle = signalList[jj].Angle;
+
+                    //轨迹播放时  实施显示的信息
+                    var realTimeSignalList = new Array();
+                    realTimeSignalList = signalList[jj];
+                    //加点 移动取得此点的marker
+                    marker = MapMarkerMove(lng, lat, angle, signalList[jj].Speed, signalList[jj].Time, signalList[jj].Mileage, signalList[jj]);
+                    traceCarInfo(signalList[jj]);
+                    jj = eval(jj) + 1;
+
+                    if (jj == signalList.length) {
+                        funStop();
+                    }
+                }
+
+                function funStart() //开始
+                {
+                    btnSearch.disabled = true;
+                    btnSpeedTrack.disabled = true;
+                    btnPlay.disabled = true;
+                    btnPause.disabled = false;
+                    $(".selectSpeedDiv").attr("onclick", "");
+                    if (signalList != null && jjCurrent < signalList.length) {
+                        jj = jjCurrent;
+                    }
+                    else {
+                        jj = 0;
+                    }
+                    TimeID = setInterval(MarkerMove, BSpeed);
+                }
+
+                function funStop() //暂停
+                {
+                    btnSearch.disabled = false;
+                    btnSpeedTrack.disabled = false;
+                    btnPlay.disabled = false;
+                    jjCurrent = jj;
+                    if (signalList != undefined && jj == signalList.length) {
+                        $(".selectSpeedDiv").attr("onclick", "selectSpeed(this)");
+                    }
+                    clearInterval(TimeID);
+                    ProgressBar(false);
+                }
+
+                //播放历史轨迹时 添加图标
+                function MapMarkerMove(lng, lat, angle, speed, time, mileage, value) {
+                    //汽车行驶图标
+                    var icons = funGetVehicleImage(angle);
+                    var latLng = new AMap.LngLat(lng, lat);
+                    marker = new AMap.Marker({
+                        position: latLng,
+                        map: map,
+                        icon: icons,
+                        offset: new AMap.Pixel(-10, -10),
+                        autoRotation: true,
+                        title: ""
+                    });
+
+                    //构建信息窗体中显示的内容
+                    var info = [];
+                    info.push("<div>");
+                    info.push("@DisplayText.Speed:" + speed + "");
+                info.push("@DisplayText.Time:" + formatNumToDate(time) + "");
+                info.push("@DisplayText.Mileage:" + mileage + "");
+                if (value.ACCState == false) {
+                    info.push("@DisplayText.ACCState:@DisplayText.TurnOff ");
+                }
+                else {
+                    info.push("@DisplayText.ACCState:@DisplayText.TurnOn ");
+                }
+                if (value.Temperature != null) {
+                    info.push("@DisplayText.Temperature ( ℃ ):" + value.Temperature + "");
+                }
+                @*else {
+                    info.push("@DisplayText.Temperature ( ℃ ):");
+                }*@
+                info.push("@DisplayText.ExceptionInfo:" + value.ExName + "</div>");
+
+                //自定义信息窗体
+                var infoWindow = new AMap.InfoWindow({
+                    content: info.join("<br/>"),  //使用默认信息窗体框样式，显示信息内容
+                    offset: new AMap.Pixel(1, -10)
+                });
+
+                //鼠标点击marker弹出自定义的信息窗体
+                AMap.event.addListener(marker, 'click', function () {
+                    infoWindow.open(map, marker.getPosition());
+                });
+
+                var nowBounds = map.getBounds();
+                var lat_m = nowBounds.getNorthEast().Latitude;
+                var lng_m = nowBounds.getNorthEast().Longitude;
+
+                var lat_s = nowBounds.getSouthWest().Latitude;
+                var lng_s = nowBounds.getSouthWest().Longitude;
+
+                //车辆超出地图屏幕，自动移动车辆到中心点
+                if (parseFloat(lng_m) < parseFloat(lng) || parseFloat(lng) < parseFloat(lng_s)
+                            || parseFloat(lat_m) < parseFloat(lat) || parseFloat(lat) < parseFloat(lat_s)) {
+                    //map.setCenter(latLng, map.getZoom()); //按照所选层级播放
+                    map.setFitView();
+                }
+                return marker;
+            }
+
+            //回传图片和长宽
+            function funGetVehicleImage(ang) {
+                var strFile;
+                strFile = "../../Content/images/pic/N.PNG";
+                if (ang > 22 && ang <= 68) {
+                    strFile = "../../Content/images/pic/NE.PNG";
+                }
+                else if (ang > 68 && ang <= 112) {
+                    strFile = "../../Content/images/pic/E.PNG";
+                }
+                else if (ang > 112 && ang <= 158) {
+                    strFile = "../../Content/images/pic/SE.PNG";
+                }
+                else if (ang > 158 && ang <= 202) {
+                    strFile = "../../Content/images/pic/S.PNG";
+                }
+                else if (ang > 202 && ang <= 248) {
+                    strFile = "../../Content/images/pic/SW.PNG";
+                }
+                else if (ang > 248 && ang <= 292) {
+                    strFile = "../../Content/images/pic/W.PNG";
+                }
+                else if (ang > 292 && ang <= 338) {
+                    strFile = "../../Content/images/pic/NW.PNG";
+                }
+                return strFile;
+            }
+
+            //根据角度获取方向图标  箭头
+            function getMarkIconArrow(icon, angle, speed) {
+                var image = "@Url.Content("~/Content/vehicleIcons/")" + icon;
+                if (speed > 0) {
+                    if (angle > 22 && angle <= 67) {
+                        image += "/Running45.png";
+                    }
+                    else if (angle > 67 && angle <= 112) {
+                        image += "/Running90.png";
+                    }
+                    else if (angle > 112 && angle <= 157) {
+                        image += "/Running135.png";
+                    }
+                    else if (angle > 157 && angle <= 202) {
+                        image += "/Running180.png";
+                    }
+                    else if (angle > 202 && angle <= 247) {
+                        image += "/Running225.png";
+                    }
+                    else if (angle > 247 && angle <= 292) {
+                        image += "/Running270.png";
+                    }
+                    else if (angle > 292 && angle <= 337) {
+                        image += "/Running315.png";
+                    }
+                    else {
+                        image += "/Running0.png";
+                    }
+                }
+                else {
+                    if (angle > 22 && angle <= 67) {
+                        image += "/Stop45.png";
+                    }
+                    else if (angle > 67 && angle <= 112) {
+                        image += "/Stop90.png";
+                    }
+                    else if (angle > 112 && angle <= 157) {
+                        image += "/Stop135.png";
+                    }
+                    else if (angle > 157 && angle <= 202) {
+                        image += "/Stop180.png";
+                    }
+                    else if (angle > 202 && angle <= 247) {
+                        image += "/Stop225.png";
+                    }
+                    else if (angle > 247 && angle <= 292) {
+                        image += "/Stop270.png";
+                    }
+                    else if (angle > 292 && angle <= 337) {
+                        image += "/Stop315.png";
+                    }
+                    else {
+                        image += "/Stop0.png";
+                    }
+                }
+                return image;
+            }
+
+
+
+            //速度单击事件
+            function selectSpeed(eve) {
+                if (eve.offsetParent.id == "one") {
+                    var one = document.getElementById('one');
+                    var done = document.getElementById('d-one');
+                    done.style.visibility = "visible";
+                    document.getElementById('d-two').style.visibility = "hidden";
+                    document.getElementById('d-three').style.visibility = "hidden";
+                    document.getElementById('d-four').style.visibility = "hidden";
+                    document.getElementById('d-five').style.visibility = "hidden";
+                    document.getElementById('d-six').style.visibility = "hidden";
+                    one.style.backgroundColor = "#337ab7";
+                    document.getElementById('two').style.backgroundColor = "white";
+                    document.getElementById('three').style.backgroundColor = "white";
+                    document.getElementById('four').style.backgroundColor = "white";
+                    document.getElementById('five').style.backgroundColor = "white";
+                    document.getElementById('six').style.backgroundColor = "white";
+                    //BSpeed = document.getElementById('t-one').innerText;      获取不到页面值  采用BSpeed直接给值  若要修改值  这边要同步修改BSpeed对应的值
+                    BSpeed = 1000;
+                }
+                if (eve.offsetParent.id == "two") {
+                    var two = document.getElementById('two');
+                    var done = document.getElementById('d-two');
+                    done.style.visibility = "visible";
+                    document.getElementById('d-one').style.visibility = "hidden";
+                    document.getElementById('d-three').style.visibility = "hidden";
+                    document.getElementById('d-four').style.visibility = "hidden";
+                    document.getElementById('d-five').style.visibility = "hidden";
+                    document.getElementById('d-six').style.visibility = "hidden";
+                    two.style.backgroundColor = "#337ab7";
+                    document.getElementById('one').style.backgroundColor = "white";
+                    document.getElementById('three').style.backgroundColor = "white";
+                    document.getElementById('four').style.backgroundColor = "white";
+                    document.getElementById('five').style.backgroundColor = "white";
+                    document.getElementById('six').style.backgroundColor = "white";
+                    //BSpeed = document.getElementById('t-two').innerText;
+                    BSpeed = 600;
+                }
+                if (eve.offsetParent.id == "three") {
+                    var three = document.getElementById('three');
+                    var done = document.getElementById('d-three');
+                    done.style.visibility = "visible";
+                    document.getElementById('d-one').style.visibility = "hidden";
+                    document.getElementById('d-two').style.visibility = "hidden";
+                    document.getElementById('d-four').style.visibility = "hidden";
+                    document.getElementById('d-five').style.visibility = "hidden";
+                    document.getElementById('d-six').style.visibility = "hidden";
+                    three.style.backgroundColor = "#337ab7";
+                    document.getElementById('one').style.backgroundColor = "white";
+                    document.getElementById('two').style.backgroundColor = "white";
+                    document.getElementById('four').style.backgroundColor = "white";
+                    document.getElementById('five').style.backgroundColor = "white";
+                    document.getElementById('six').style.backgroundColor = "white";
+                    //BSpeed = document.getElementById('t-three').innerText;
+                    BSpeed = 300;
+                }
+                if (eve.offsetParent.id == "four") {
+                    var four = document.getElementById('four');
+                    var done = document.getElementById('d-four');
+                    done.style.visibility = "visible";
+                    document.getElementById('d-one').style.visibility = "hidden";
+                    document.getElementById('d-three').style.visibility = "hidden";
+                    document.getElementById('d-two').style.visibility = "hidden";
+                    document.getElementById('d-five').style.visibility = "hidden";
+                    document.getElementById('d-six').style.visibility = "hidden";
+                    four.style.backgroundColor = "#337ab7";
+                    document.getElementById('one').style.backgroundColor = "white";
+                    document.getElementById('two').style.backgroundColor = "white";
+                    document.getElementById('three').style.backgroundColor = "white";
+                    document.getElementById('five').style.backgroundColor = "white";
+                    document.getElementById('six').style.backgroundColor = "white";
+                    //BSpeed = document.getElementById('t-four').innerText;
+                    BSpeed = 150;
+                }
+                if (eve.offsetParent.id == "five") {
+                    var five = document.getElementById('five');
+                    var done = document.getElementById('d-five');
+                    done.style.visibility = "visible";
+                    document.getElementById('d-one').style.visibility = "hidden";
+                    document.getElementById('d-three').style.visibility = "hidden";
+                    document.getElementById('d-four').style.visibility = "hidden";
+                    document.getElementById('d-two').style.visibility = "hidden";
+                    document.getElementById('d-six').style.visibility = "hidden";
+                    five.style.backgroundColor = "#337ab7";
+                    document.getElementById('one').style.backgroundColor = "white";
+                    document.getElementById('two').style.backgroundColor = "white";
+                    document.getElementById('three').style.backgroundColor = "white";
+                    document.getElementById('four').style.backgroundColor = "white";
+                    document.getElementById('six').style.backgroundColor = "white";
+                    //BSpeed = document.getElementById('t-five').innerText;
+                    BSpeed = 100;
+                }
+                if (eve.offsetParent.id == "six") {
+                    var six = document.getElementById('six');
+                    var done = document.getElementById('d-six');
+                    done.style.visibility = "visible";
+                    document.getElementById('d-one').style.visibility = "hidden";
+                    document.getElementById('d-three').style.visibility = "hidden";
+                    document.getElementById('d-four').style.visibility = "hidden";
+                    document.getElementById('d-two').style.visibility = "hidden";
+                    document.getElementById('d-five').style.visibility = "hidden";
+                    six.style.backgroundColor = "#337ab7";
+                    document.getElementById('one').style.backgroundColor = "white";
+                    document.getElementById('two').style.backgroundColor = "white";
+                    document.getElementById('three').style.backgroundColor = "white";
+                    document.getElementById('four').style.backgroundColor = "white";
+                    document.getElementById('five').style.backgroundColor = "white";
+                    //BSpeed = document.getElementById('t-six').innerText;
+                    BSpeed = 50;
+                }
+            }
+
+
+            //地图工具框 去掉选中
+            function removeBtnGroupImgsClass() {
+                var btnGroupImgs = document.getElementsByName("btnGroupImg");
+                for (var i = 0; i < btnGroupImgs.length; i++) {
+                    btnGroupImgs[i].style.display = "";
+                }
+                var btnGroupSelImgs = document.getElementsByName("btnGroupSelImg");
+                for (var i = 0; i < btnGroupSelImgs.length; i++) {
+                    btnGroupSelImgs[i].style.display = "none";
+                }
+            }
+
+            //加载权限范围内的电子围栏
+            function ShowEFMarker() {
+                //清理
+                map.clearMap();
+                simpleMarkers = new Array();//显示电子围栏文字
+                markerNum = 0;
+                removeBtnGroupImgsClass();
+
+                if (showEFMarkerBtnFlag == 0) {
+                    document.getElementById("btnGroupMarkerSelImg").style.display = "";
+                    document.getElementById("btnGroupMarkerImg").style.display = "none";
+                    showEFMarkerBtnFlag = 1;
+                }
+                else {
+                    document.getElementById("btnGroupMarkerSelImg").style.display = "none";
+                    document.getElementById("btnGroupMarkerImg").style.display = "";
+                    showEFMarkerBtnFlag = 0;
+                }
+
+                if (showEFMarkerBtnFlag == 1) {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Content("~/Home/GetEFMarkersInfo")",
+                    success: function (result) {
+                        if ($.handleAjaxError(result)) { return; }
+                        if (result.length > 0) {
+                            simpleMarkers = new Array();
+                            markerNum = 0;
+                            for (var i = 0; i < result.length; i++) {
+                                createElectricFence(result[i]);
+                            }
+                        }
+                        else {
+                            var _message = '@DataAnnotations.UserReturnNoData';
+                            $.showPromptDialog(_message, null, null, null, false);
+                        }
+                    }
+                });
+            }
+        }
+
+
+        //电子围栏显示在地图上
+        function createElectricFence(result) {
+            //存放图形中间点坐标，显示电子围栏名称
+            var lngLat;
+            //填充色、边框默认蓝色
+            var fillColor = "#0D9BF2";
+            var strokeColor = "#0D9BF2";
+            var fontColor = "#000";     //字体颜色默认黑色
+            if (result.CustomerStatus == 1)        //在用客户  绿色显示
+            {
+                fillColor = "#00ff00";
+                strokeColor = "#0bc30b";
+                fontColor = "#0bc30b";
+            }
+            if (result.CustomerStatus == 2)        //潜在客户  红色显示
+            {
+                fillColor = "#F33";
+                strokeColor = "#ee2200";
+                fontColor = "#ee2200";
+            }
+            if (result.CustomerStatus == 3)        //不在用客户  灰色显示
+            {
+                fillColor = "#666666";
+                strokeColor = "#434343";
+                fontColor = "#434343";
+            }
+            //圆形
+            if (result.FenceType == 1) {
+                var circleInfo = result.FenceTypeInfo.split(';');
+                var center = circleInfo[0].split(',');
+                var centerlng = center[0];
+                var centerlat = center[1];
+                var circle = new AMap.Circle({
+                    map: map,
+                    center: [centerlng, centerlat],
+                    radius: circleInfo[1],
+                    fillOpacity: 0.3,
+                    fillColor: fillColor,
+                    strokeWeight: 2,
+                    strokeColor: strokeColor
+                });
+                lngLat = [centerlng, centerlat];       //显示在圆心
+            }
+            //矩形
+            if (result.FenceType == 2) {
+                var rectInfo = result.FenceTypeInfo.split(';');
+                var rectArr = new Array();//多边形覆盖物节点坐标数组
+                for (var i = 0; i < rectInfo.length; i++) {
+                    var point = rectInfo[i].split(',');
+                    var lng = point[0];
+                    var lat = point[1];
+                    rectArr.push([lng, lat]);
+                }
+                var rect = new AMap.Polygon({
+                    map: map,
+                    path: rectArr,
+                    fillOpacity: 0.3,
+                    fillColor: fillColor,
+                    strokeWeight: 2,
+                    strokeColor: strokeColor
+                });
+                lngLat = rect.getBounds().getCenter();       //显示在矩形中间
+            }
+            //多边形
+            if (result.FenceType == 3) {
+                var polygonInfo = result.FenceTypeInfo.split(';');
+                var polygonArr = new Array();//多边形覆盖物节点坐标数组
+                for (var i = 0; i < polygonInfo.length; i++) {
+                    var point = polygonInfo[i].split(',');
+                    var lng = point[0];
+                    var lat = point[1];
+                    polygonArr.push([lng, lat]);
+                }
+                var polygon = new AMap.Polygon({
+                    map: map,
+                    path: polygonArr,
+                    fillOpacity: 0.3,
+                    fillColor: fillColor,
+                    strokeWeight: 2,
+                    strokeColor: strokeColor
+                });
+                lngLat = polygon.getBounds().getCenter();       //显示在多边形外切矩形中间
+            }
+            map.setFitView();
+
+            //加载SvgMarker  显示电子围栏图标和名称
+            AMapUI.loadUI(['overlay/SvgMarker'], function (SvgMarker) {
+                if (!SvgMarker.supportSvg) {
+                    //当前环境并不支持SVG，此时SvgMarker会回退到父类，即SimpleMarker
+                    alert('当前环境不支持SVG');
+                }
+                //SvgMarker.Shape下的Shape 
+                var shapeKeys = ['TriangleFlagPin'];
+                var markers = [];
+
+                //创建shape
+                var shape = new SvgMarker.Shape[shapeKeys[0]]({
+                    height: 24 * (1 + 0.3),
+                    strokeWidth: 1,
+                    strokeColor: '#d62728',
+                    fillColor: '#d62728'
+                });
+                var labelCenter = shape.getCenter();
+                markers.push(new SvgMarker(
+                    shape, {
+                        map: map,
+                        position: lngLat,
+                        containerClassNames: 'shape-' + shapeKeys[0],
+                        iconLabel: {
+                            innerHTML: '<div style="white-space:nowrap; border:1px solid black; display:inline-block; background:#FFF;">' + result.FenceName + '</div>',           //用style="white-space:nowrap;"样式设置中文文字不换行
+                            style: {
+                                top: labelCenter[0] - 9 + 'px',
+                                left: labelCenter[0] + 2 + 'px',
+                                color: fontColor, //设置字体颜色
+                                fontSize: '14px', //设置字号
+                                fontWeight: '500'
+                            }
+                        },
+                        showPositionPoint: false
+                    }));
+
+            });
+            ////加载SimpleMarker  显示电子围栏名称
+            //AMapUI.loadUI(['overlay/SimpleMarker'], function (SimpleMarker) {
+            //    var iconTheme = '';      //不显示图标
+            //    //内置的样式
+            //    var iconStyles = SimpleMarker.getBuiltInIconStyles(iconTheme);
+            //    simpleMarkers[markerNum] = new SimpleMarker({
+            //        iconTheme: iconTheme,
+            //        //使用内置的iconStyle
+            //        iconStyle: iconStyles,
+            //        //图标文字
+            //        iconLabel: {
+            //            innerHTML: result.FenceName,
+            //            style: {
+            //                //颜色, #333, red等等
+            //                color: '#0000ff'
+            //            }
+            //        },
+            //        map: map,
+            //        position: lngLat
+            //    });
+            //    markerNum++;
+            //    showSimpleMarkers();
+            //});
+        }
+
+
+        function showSimpleMarkers() {
+            //初次加载时  地图缩放比例太小就不显示
+            if (map.getZoom() < 11) {
+                for (var i = 0; i < markerNum; i++) {
+                    map.remove(simpleMarkers[i]);
+                }
+            }
+        }
+      
+
+        function showTempDatas(datas) {
+            console.log(datas);
+            //求出有几条温度曲线
+            var tnum;
+            for (var i = 0; i < datas.length; i++) {
+                if (i == 0) {
+                    if (datas[i].Temperature != null) {
+                        tnum = datas[i].Temperature.split('|').length;
+                    } else {
+                        tnum = 0;
+                    }
+                }
+                else {
+                    if (datas[i].Temperature != null) {
+                        var num = datas[i].Temperature.split('|').length;
+                        if (tnum < num) { tnum = num; }
+                    }
+                }
+            }
+            ////温度数据
+            var tempDatas = new Array(tnum);
+            //console.log(tempDatas);
+            for (var i = 0; i < tnum; i++) {
+                tempDatas[i] = [];
+                for (var j = 0; j < datas.length; j++) {
+                    if (datas[j].Temperature != null) {
+                        //console.log(datas[j].Latitude);
+                        var td = datas[j].Temperature.split('|');
+                        var time = formatNumToDate(datas[j].Time);
+                        //参数依次是时间、温度、经度、纬度、方向、门磁、速度
+                        tempDatas[i].push([time, parseFloat(td[i]), datas[j].Longitude, datas[j].Latitude, datas[j].Angle, datas[j].DoorSensor, parseFloat(datas[j].Speed)]);
+                    }
+                }
+            }
+            ////门磁数据
+            var dsDatas = [];
+            dsDatas[0] = [];
+            for (var j = 0; j < datas.length; j++) {
+                if (datas[j].Temperature != null) {
+                    var td = datas[j].Temperature.split('|');
+                    var time = formatNumToDate(datas[j].Time);
+                    //参数依次是时间、门磁
+                    var doorsensor;
+                    if (datas[j].DoorSensorFlag == true) {
+                        //原本门开时值设为1，但是由于门磁图表中设置了y轴范围min:0,max:1,会出现竖线的y轴值为0.5,0.75,0.2等等值，竖线只绘制一部分的情况；
+                        //测试发现，当门开值为1，设置max值为0.1时，竖线会向上填满；
+                        //最后保留max：1的设置，将门开值设置很大（目前是1000），保证竖线向上填满，到达y:1的位置，同时不会出现绘制一部分的竖线。
+                        doorsensor = 1000;      
+                    }   else{
+                        doorsensor = 0;
+                    }
+                    dsDatas[0].push([time, doorsensor]);
+                }
+            }
+
+            // tempDatas格式为[data1,data2,...]
+            //data1,data2,...格式为[['date', number], ['date', number],...]
+            if (tempDatas.length > 0) {
+                //加载温度图表
+                $.ajaxDataRenderer("TemperatureChart", tempDatas, "@DisplayText.TemperTable", "@DisplayText.Date", "@DisplayText.Temperature", tnum);
+                //加载门磁图表  设置宽度
+                var width = $("#TemperatureChart").find(".jqplot-event-canvas").width();
+                $("#DoorSensorChart").find(".jqplot-event-canvas").width(width);
+                $.showDoorsensorTB("DoorSensorChart", dsDatas, "@DisplayText.Date", "@DisplayText.DoorSensor");
+
+                //由于样式问题，暂时注释以下部分 操作人：戴天辰  
+                //$("#TemperatureChart").bind('jqplotMouseMove', function (ev, gridpos, datapos, neighbor, plot) {   //鼠标在温度表移动触发的事件
+                //    if ($("#TemperatureChart").find(".jqplot-highlighter-tooltip").css('display') == "block") {      //如果下方表格竖线显示 则上方表格竖线显示
+                //        var left = $("#TemperatureChart").find(".jqplot-highlighter-tooltip").position().left;
+                //        $("#dsMoveDiv").css({ "top": 5, "left":left+124, display: "block" });
+                //    }
+                //    //$("#dsMoveDiv").css({ "margin-left": gridpos.x + 50 + "px", display: "block" });
+                //});
+
+
+            } else {
+                $btnHideTemper.hide();
+                $btnShowTemper.show();
+                //$topChart.hide();
+                if (showTopChart == true) {
+                    $("#topChart").dialog("close");
+                    showTopChart = false;
+                    //由于样式问题，暂时注释以下部分 操作人：戴天辰  
+                    //$("#dsMoveDiv").css({ display: "none" });
+                }
+                $.showPromptDialog("@DataAnnotations.SearchResultWithNoTemperData", null, null, null, true);
+            }
+        }
+
+
+
+        //时间间隔计算（间隔月份）
+        function GetDateDiff(startDate, endDate) {
+            var startTime = new Date(Date.parse(startDate.replace(/-/g, "/")));
+            var startY = startTime.getYear();
+            var startM = startTime.getMonth();
+            var endTime = new Date(Date.parse(endDate.replace(/-/g, "/")));
+            var endY = endTime.getYear();
+            var endM = endTime.getMonth();
+            var dates;
+            if (startY == endY) {
+                dates = Math.abs((endM - startM));
+            }
+            else if (endY - startY == 1) {        //时间跨度一年时，计算前一年的月份+后一年的月份
+                dates = 12 - startM + endM;
+            }
+            else {             //时间跨度超过一年时，提示时间跨越不能超过两个月
+                dates = 2;
+            }
+            return dates;
+        }
+
+        //查询数据
+        $("#btnSearch").on("click", function () {
+            var _vehicleName = $hidVehicleName.val();
+            var StartTime = $("#StartTime").val();
+            var EndTime = $("#EndTime").val();
+            //搜索条件不能为空
+            if (_vehicleName == undefined || _vehicleName == "" || _vehicleName.trim() == "") {
+                var _message = '@DataAnnotations.PleaseInputVehicleNameFirst';
+                    $.showPromptDialog(_message, null, null, null, true);
+                    return;
+                }
+                //开始时间、结束时间不能为空
+                if (StartTime == "" || EndTime == "") {
+                    $.showPromptDialog('@DataAnnotations.PleaseSelectSearchTime', null, null, null, true);
+                return;
+            }
+                var _startTime = new Date(StartTime);
+                var _endTime = new Date(EndTime);
+                //开始时间不得大于结束时间
+                if (_startTime > _endTime) {
+                    var _message = '@DataAnnotations.StartTimeMoreThanEndTimeError';
+                $.showPromptDialog(_message, null, null, null, true);
+                return;
+            }
+                //开始时间和结束时间间隔不超过两个月
+                var dataDiff = GetDateDiff(StartTime, EndTime);
+                if (dataDiff >= 2) {
+                    var _message = '@DataAnnotations.TimeRangeOver2Months';
+                $.showPromptDialog(_message, null, null, null, true);
+                return;
+            }
+            //按钮置换为查询中状态
+            $("#btnSearchLoding").show();
+            $("#btnSearch").hide();
+            btnSpeedTrack.disabled = true;
+            btnOutExcel.disabled = true;
+            btnSearchLoding.disabled = true;
+            $btnShowAlarmInfo.hide();
+            $btnHideAlarmInfo.hide();
+            $btnHideSignalsList.hide();
+            $btnShowSignalsList.hide();
+            $btnSearchLoding1.hide();
+            //隐藏温度表
+            $btnShowTemper.hide();
+            $btnHideTemper.hide();
+            //$topChart.hide();
+            if (showTopChart == true) {
+                $("#topChart").dialog("close");
+                showTopChart = false;
+                $("#dsMoveDiv").css({ display: "none" });
+            }
+            $tbShowResult.hide();
+            //清除右下方数据
+            $("#divData").empty();
+            $("#divData1").empty();
+            //清除地图历史轨迹线路
+            if (pathSimplifierIns != null) {
+                pathSimplifierIns.setData(null);
+            }
+            //清除停车点数据
+            if (markerList != null) {
+                markerList.render([]);
+            }
+            //map.clearMap();
+                searchResult = "";
+                var Vid = $hidVehicleID.val();
+                var VIN = $hidVIN.val();
+                var StrucName = $hidStrucName.val();
+                var txtDate = $("#txtDate").val();
+                var IsSpeed = false;
+                if ($('#chkIsSpeeds').is(':checked')) {
+                    IsSpeed = true;
+                }
+                var showStopPoint = false;
+                if (chkShowStopPoint.disabled == false && $('#chkShowStopPoint').is(':checked')) {
+                    showStopPoint = true;
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Content("~/HistoricalRoute/Home/Search")",
+                data: {
+                    vid: Vid,
+                    vName: _vehicleName,
+                    VIN: VIN,
+                    startTime: StartTime,
+                    endTime: EndTime,
+                    invTime: txtDate,
+                    isSpeed: IsSpeed,
+                    showStopPoint: showStopPoint
+                },
+                success: function (responseTest) {
+                    if ($.handleAjaxError(responseTest)) { return; }
+                    //清理
+                    $tdBottomInfo.hide();
+                    setContentSize();
+                    jjCurrent = 0;
+
+                    if (responseTest.length > 0) {
+                        $btnShowAlarmInfo.show();
+                        $btnShowSignalsList.show();
+                        searchResult = responseTest;
+                        exportType = 1;
+                        $tbShowResult.show();
+                        MapInfo(responseTest);
+                        //显示温度按钮
+                        $btnShowTemper.show();
+                        $btnHideTemper.hide();
+
+                    } else {
+                        var _message = '@DataAnnotations.SearchReturnNoData';
+                            $.showPromptDialog(_message, null, null, null, true);
+                        }
+
+                        //按钮置换为查询状态
+                        $("#btnSearchLoding").hide();
+                        $("#btnSearch").show();
+                        btnSpeedTrack.disabled = false;
+                        btnOutExcel.disabled = false;
+                        btnSearchLoding.disabled = false;
+                    }
+            });
+            });
+
+            //导出
+            $("#btnOutExcel").on("click", function () {
+                if (searchResult == undefined || searchResult == "" || exportType == 0) {
+                    var _message = '@DataAnnotations.PleaseSearchFirst';
+                $.showPromptDialog(_message, null, null, null, true);
+                return;
+            }
+            var vid = $hidVehicleID.val();
+            var vName = $hidVehicleName.val();
+            var VIN = $hidVIN.val();
+            var strucName = $hidStrucName.val();
+            var StartTime = $("#StartTime").val();
+            var EndTime = $("#EndTime").val();
+            var txtDate = $("#txtDate").val();
+            var IsSpeed = false;
+            if ($('#chkIsSpeeds').is(':checked')) {
+                IsSpeed = true;
+            }
+            var _url;
+            var _params = "vid=" + vid + "&" + "vName=" + vName + "&" + "VIN=" + VIN + "&" + "strucName=" + strucName + "&" + "startTime=" + StartTime + "&" + "endTime=" + EndTime + "&" + "invTime=" + txtDate + "&" + "isSpeed=" + IsSpeed + "&" + "exportType=" + exportType;
+            if (exportType == 1) {
+                _url = "@Url.Content("~/HistoricalRoute/Home/ExportAllToExcel")" + "?" + _params;
+            }
+            if (exportType == 2 || exportType == 3) {
+                _url = "@Url.Content("~/HistoricalRoute/Home/ExportExceptionToExcel")" + "?" + _params;
+            }
+
+            $('<form method="POST" action="' + _url + '"></form>').appendTo('body').submit().remove();
+        });
+
+
+       @*     //异常轨迹
+        $("#btnUnusualTrack").click(function () {
+                var vin = $("#hidVIN").val();
+                var StartTime = $("#StartTime").val();
+                var EndTime = $("#EndTime").val();
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Content("~/HistoricalRoute/Home/SearchException")",
+                    data: {
+                        vin: vin,
+                        startTime: StartTime,
+                        endTime: EndTime,
+                    },
+                    success: function (responseTest) {
+                        if ($.handleAjaxError(responseTest)) { return; }
+                        if (responseTest.length > 0) {
+                            searchResult = responseTest;
+                            exportType = 2;
+                            MapInfo(responseTest);
+                        }
+                        else {
+                            var _message = '@DataAnnotations.SearchReturnNoData';
+                            $.showPromptDialog(_message, null, null, null, true);
+                        }
+                    }
+                });
+                btnPlay.disabled = false;
+            });*@
+
+        //超速轨迹
+        $("#btnSpeedTrack").click(function () {
+            var _vehicleName = $hidVehicleName.val();
+            var StartTime = $("#StartTime").val();
+            var EndTime = $("#EndTime").val();
+            //搜索条件不能为空
+            if (_vehicleName == undefined || _vehicleName == "" || _vehicleName.trim() == "") {
+                var _message = '@DataAnnotations.PleaseInputVehicleNameFirst';
+                $.showPromptDialog(_message, null, null, null, true);
+                return;
+            }
+            //开始时间、结束时间不能为空
+            if (StartTime == "" || EndTime == "") {
+                $.showPromptDialog('@DataAnnotations.PleaseSelectSearchTime', null, null, null, true);
+                return;
+            }
+            var _startTime = new Date(StartTime);
+            var _endTime = new Date(EndTime);
+            //开始时间不得大于结束时间
+            if (_startTime > _endTime) {
+                var _message = '@DataAnnotations.StartTimeMoreThanEndTimeError';
+                $.showPromptDialog(_message, null, null, null, true);
+                return;
+            }
+            //开始时间和结束时间间隔不超过两个月
+            var dataDiff = GetDateDiff(StartTime, EndTime);
+            if (dataDiff >= 2) {
+                var _message = '@DataAnnotations.TimeRangeOver2Months';
+                $.showPromptDialog(_message, null, null, null, true);
+                return;
+            }
+
+            //隐藏温度表
+            $btnShowTemper.hide();
+            $btnHideTemper.hide();
+            //$topChart.hide();
+            if (showTopChart == true) {
+                $("#topChart").dialog("close");
+                showTopChart = false;
+                $("#dsMoveDiv").css({ display: "none" });
+            }
+            //隐藏报警按钮
+            $btnShowAlarmInfo.hide();
+            $btnHideAlarmInfo.hide();
+            //隐藏信号列表按钮
+            $btnShowSignalsList.hide();
+            $btnHideSignalsList.hide();
+            $btnSearchLoding1.hide();
+            //清除右下方数据
+            $("#divData").empty();
+            $("#divData1").empty();
+            //清除地图历史轨迹线路
+            if (pathSimplifierIns != null) {
+                pathSimplifierIns.setData(null);
+            }
+            map.clearMap();
+
+            searchResult = "";
+            var Vid = $hidVehicleID.val();
+            var VIN = $hidVIN.val();
+            var StrucName = $hidStrucName.val();
+            var txtDate = $("#txtDate").val();
+            var IsSpeed = false;
+            if ($('#chkIsSpeeds').is(':checked')) {
+                IsSpeed = true;
+            }
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/HistoricalRoute/Home/SearchOverSpeedException")",
+                data: {
+                    vid: Vid,
+                    vName: _vehicleName,
+                    VIN: VIN,
+                    startTime: StartTime,
+                    endTime: EndTime,
+                    invTime: txtDate,
+                    isSpeed: IsSpeed
+                },
+                success: function (responseTest) {
+                    if ($.handleAjaxError(responseTest)) { return; }
+                    $tdBottomInfo.hide();
+                    $tbShowResult.hide();
+                    setContentSize();
+                    jjCurrent = 0;
+
+                    if (responseTest.length > 0) {
+                        $btnShowAlarmInfo.show();
+                        //$btnShowSignalsList.show();
+                        searchResult = responseTest;
+                        exportType = 3;
+                        $tbShowResult.show();
+                        MapInfo(responseTest);
+                    }
+                    else {
+                        var _message = '@DataAnnotations.SearchReturnNoData';
+                            $.showPromptDialog(_message, null, null, null, true);
+                        }
+                    }
+            });
+            btnPlay.disabled = false;
+        });
+
+            //显示温度曲线表
+            $btnShowTemper.click(function () {
+                //$btnShowTemper.hide();
+                //$btnHideTemper.show();
+                //$topChart.show();
+                $("#dsMoveDiv").css({ display: "none" });
+                $("#topChart").dialog({    //加载对话框
+                    height: 480,
+                    width: 800,
+                    modal: false,
+                    position: { my: "left bottom", at: "left bottom", of: "#container" }       //加载的位置
+                });
+                showTopChart = true;
+                showTempDatas(signalList);    //加载温度曲线
+            });
+
+            //隐藏温度曲线表
+            $btnHideTemper.click(function () {
+                $btnShowTemper.show();
+                $btnHideTemper.hide();
+                $topChart.hide();
+            });
+
+            //显示报警信息
+            $btnShowAlarmInfo.click(function () {
+                $btnShowAlarmInfo.hide();
+                $btnHideAlarmInfo.show();
+                $btnHideSignalsList.hide();
+                $btnShowSignalsList.show();
+                $("#divData1").empty();
+                IsAlarmShowOrSignalsList = false;
+                //右下方加载数据
+                for (var i = 0; i < searchResult.length; i++) {
+                    if (searchResult[i].ExName != "") {
+                        buildSearchResultContentWithDiv(searchResult[i], i);
+                    }
+                }
+                $tdBottomInfo.show();
+                $tdBottomSignalsInfo.hide();
+                setContentSize();
+                if (showTopChart == true) {       //在温度曲线图关闭的状态下调用下面的语句会报错
+                    $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+                }
+            });
+            //显示定位列表信息
+            $btnShowSignalsList.click(function () {
+                $("#divData").empty();
+                $btnShowSignalsList.hide();
+                $btnSearchLoding1.show();
+                $btnSearchLoding1.disabled = true;
+                $btnShowAlarmInfo.show();
+                $btnHideAlarmInfo.hide();
+                IsAddExpand = true;
+                IsAlarmShowOrSignalsList = true;
+                //右下方加载数据(第一次加载显示前ln行暂定50)
+                buildSearchResultSignalsContentWithDiv(0,30);
+                $("#btnSearchLoding1").hide();
+                $btnHideSignalsList.show();
+                $tdBottomSignalsInfo.show();
+                btnSearchLoding1.disabled = false;
+                $tdBottomInfo.hide();
+                setContentSize();
+                if (showTopChart == true) {       //在温度曲线图关闭的状态下调用下面的语句会报错
+                    $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+                }
+            })
+            //隐藏定位列表信息
+            $btnHideSignalsList.click(function () {
+                $btnHideSignalsList.hide();
+                $btnShowSignalsList.show();
+                $("#divData1").empty();
+                $tdBottomSignalsInfo.hide();
+                IsAddExpand = false;
+                setContentSize();
+                if (showTopChart == true) {          //在温度曲线图关闭的状态下调用下面的语句会报错
+                    $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+                }
+            });
+            //隐藏报警信息
+            $btnHideAlarmInfo.click(function () {
+                $btnShowAlarmInfo.show();
+                $btnHideAlarmInfo.hide();
+                $("#divData").empty();
+                $tdBottomInfo.hide();
+                setContentSize();
+                if (showTopChart == true) {          //在温度曲线图关闭的状态下调用下面的语句会报错
+                    $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+                }
+            });
+    </script>
+}

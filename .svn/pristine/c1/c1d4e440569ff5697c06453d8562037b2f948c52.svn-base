@@ -1,0 +1,62 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.TMS.Helpers
+@model RoleEditModel
+
+
+@using (Ajax.BeginForm("EditRole", "Role", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+    OnBegin = "checkFunctionIds"
+}, new { id = "frmEditRole" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.ID)
+    <table class="table table-condensed table-bordered">
+        <tr>
+            <td style="min-width: 300px;">
+                @AsiatekUIHelper.ShowFunctionTree(Model.FunctionTreeNodes, 0)
+                @Html.ValidationMessageFor(model => model.FunctionIDs)
+            </td>
+            <td>
+                <table class="table table-striped table-condensed table-hover">
+                    <tr>
+                        <td>@Html.LabelForRequired(model => model.RoleName)：</td>
+                        <td>@Html.TextBoxFor(model => model.RoleName, new { @class = "form-control" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">@Html.ValidationMessageFor(model => model.RoleName)</td>
+                    </tr>
+                    <tr>
+                        <td>@Html.LabelFor(model => model.Description)：</td>
+                        <td>@Html.TextAreaFor(model => model.Description, new { @class = "form-control fixTextArea" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">@Html.ValidationMessageFor(model => model.Description)</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+            </td>
+        </tr>
+    </table>
+}
+
+
+<script>
+    $("#frmEditRole").fixUnobtrusiveValidation();
+    var checkFunctionIds = function ()
+    {
+        if ($("input[name='functionids']:checked").length === 0)
+        {
+            var _message = '@DataAnnotations.RoleMustHaveOneFunction';
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        return true;
+    }
+</script>

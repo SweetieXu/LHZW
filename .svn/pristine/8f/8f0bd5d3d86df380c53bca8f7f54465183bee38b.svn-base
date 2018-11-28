@@ -1,0 +1,311 @@
+﻿using Asiatek.AjaxPager;
+using Asiatek.DBUtility;
+using Asiatek.Model;
+using Asiatek.Resource;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+
+namespace Asiatek.BLL.MSSQL
+{
+    public class TerminalManufacturerBLL
+    {
+
+        #region 查询
+        public static AsiatekPagedList<TerminalManufacturerListModel> GetPagedTerminalManufacturers(TerminalManufacturerSearchModel model, int searchPage, int pageSize)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@tableName","TerminalManufacturer"),
+                new SqlParameter("@pageSize",pageSize),
+                new SqlParameter("@currentPage",searchPage),
+                new SqlParameter("@orderBy","ID"),
+                new SqlParameter("@showColumns","ID,ManufacturerName,ManufacturerCode,Nationality"),
+            };
+
+            if (!string.IsNullOrWhiteSpace(model.ManufacturerName))
+            {
+                paras.Add(new SqlParameter("@conditionStr", "ManufacturerName LIKE '%" + model.ManufacturerName + "%'"));
+            }
+
+            paras.Add(new SqlParameter()
+            {
+                ParameterName = "@totalItemCount",
+                Direction = ParameterDirection.Output,
+                SqlDbType = SqlDbType.Int
+            });
+            paras.Add(new SqlParameter()
+            {
+                ParameterName = "@newCurrentPage",
+                Direction = ParameterDirection.Output,
+                SqlDbType = SqlDbType.Int
+            });
+            List<TerminalManufacturerListModel> list = ConvertToList<TerminalManufacturerListModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.StoredProcedure, "Proc_GetPagedDatas", paras.ToArray()));
+            int totalItemCount = Convert.ToInt32(paras[paras.Count - 2].Value);
+            int newCurrentPage = Convert.ToInt32(paras[paras.Count - 1].Value);
+            return list.ToPagedList(newCurrentPage, pageSize, totalItemCount);
+        }
+
+
+        /// <summary>
+        /// 获取终端生产厂商下拉列表信息
+        /// 包含ID、名称
+        /// </summary>
+        public static List<TerminalManufacturerDDLModel> GetTerminalManufacturers()
+        {
+            string sql = "SELECT ID,ManufacturerName FROM dbo.TerminalManufacturer";
+            return ConvertToList<TerminalManufacturerDDLModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql));
+        }
+
+        #endregion
+
+        #region 删除
+        /// <summary>
+        /// 根据终端厂商ID批量删除（物理删除）
+        /// </summary>
+        public static OperationResult DeleteTerminalManufacturer(string[] ids)
+        {
+            string[] sqls = new string[ids.Length];
+            SqlParameter[][] paras = new SqlParameter[ids.Length][];
+            for (int i = 0; i < ids.Length; i++)
+            {
+                sqls[i] = @"DELETE FROM dbo.TerminalManufacturer WHERE ID=@ID";
+                paras[i] = new SqlParameter[1];
+                SqlParameter temp = new SqlParameter("@ID", SqlDbType.Int);
+                temp.Value = ids[i];
+                paras[i][0] = temp;
+            }
+            bool result = MSSQLHelper.ExecuteTransaction(CommandType.Text, sqls, paras);
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.DeleteSuccess : PromptInformation.DeleteFailure
+            };
+        }
+        #endregion
+
+
+        #region 新增
+        /// <summary>
+        /// 检查终端厂商名是否已存在
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool CheckTerminalManufacturerNameExists(string name)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@name",SqlDbType.NVarChar,200),
+            };
+            paras[0].Value = name.Trim();
+
+
+            string sql = "SELECT COUNT(0) FROM dbo.TerminalManufacturer WHERE ManufacturerName=@name";
+            var result = MSSQLHelper.ExecuteScalar(CommandType.Text, sql, paras.ToArray());
+            if (result == null)//如果发生错误，防止添加进非法数据，所以发生错误当作存在
+            {
+                return true;
+            }
+            return Convert.ToInt32(result) > 0;
+        }
+        /// <summary>
+        /// 检查终端厂商编号是否已存在
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool CheckTerminalManufacturerCodeExists(string code)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@code",SqlDbType.Char,5),
+            };
+            paras[0].Value = code.Trim();
+
+
+            string sql = "SELECT COUNT(0) FROM dbo.TerminalManufacturer WHERE ManufacturerCode=@code";
+            var result = MSSQLHelper.ExecuteScalar(CommandType.Text, sql, paras.ToArray());
+            if (result == null)//如果发生错误，防止添加进非法数据，所以发生错误当作存在
+            {
+                return true;
+            }
+            return Convert.ToInt32(result) > 0;
+        }
+
+        public static OperationResult AddTerminalManufacturer(TerminalManufacturerAddModel model,int CreateUserID)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ManufacturerName",SqlDbType.NVarChar,200),
+                new SqlParameter("@ManufacturerCode",SqlDbType.Char,5),
+                new SqlParameter("@Nationality",SqlDbType.Char,6),
+                new SqlParameter("@CreateUserID",SqlDbType.Int)
+            };
+
+            paras[0].Value = model.ManufacturerName.Trim();
+            paras[1].Value = model.ManufacturerCode.Trim();
+            paras[2].Value = model.Nationality.Trim();
+            paras[3].Value = CreateUserID;
+            #region  SQL
+            string sql = @"INSERT  INTO dbo.TerminalManufacturer
+        ( ManufacturerName ,
+          ManufacturerCode ,
+          Nationality,
+          CreateUserID
+        )
+VALUES  ( @ManufacturerName , -- ManufacturerName - nvarchar(20)
+          @ManufacturerCode, -- ManufacturerCode - char(5)
+          @Nationality, -- Nationality - char(6)
+          @CreateUserID
+        )";
+            #endregion
+
+
+            bool result = MSSQLHelper.ExecuteNonQuery(CommandType.Text, sql, paras.ToArray()) > 0;
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.OperationSuccess : PromptInformation.DBError
+            };
+        }
+        #endregion
+
+
+        #region 编辑
+        /// <summary>
+        /// 检查终端厂商名是否已存在
+        /// </summary>
+        public static bool CheckTerminalManufacturerNameExists(string name, int id)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@name",SqlDbType.NVarChar,200),
+                new SqlParameter("@ID",SqlDbType.Int),
+            };
+            paras[0].Value = name.Trim();
+            paras[1].Value = id;
+
+
+            string sql = "SELECT COUNT(0) FROM dbo.TerminalManufacturer WHERE ManufacturerName=@name AND ID<>@ID";
+            var result = MSSQLHelper.ExecuteScalar(CommandType.Text, sql, paras.ToArray());
+            if (result == null)//如果发生错误，防止添加进非法数据，所以发生错误当作存在
+            {
+                return true;
+            }
+            return Convert.ToInt32(result) > 0;
+        }
+        /// <summary>
+        /// 检查终端厂商编号是否已存在
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool CheckTerminalManufacturerCodeExists(string code, int id)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@code",SqlDbType.Char,5),
+                new SqlParameter("@ID",SqlDbType.Int),
+            };
+            paras[0].Value = code.Trim();
+            paras[1].Value = id;
+
+            string sql = "SELECT COUNT(0) FROM dbo.TerminalManufacturer WHERE ManufacturerCode=@code AND ID<>@ID";
+            var result = MSSQLHelper.ExecuteScalar(CommandType.Text, sql, paras.ToArray());
+            if (result == null)//如果发生错误，防止添加进非法数据，所以发生错误当作存在
+            {
+                return true;
+            }
+            return Convert.ToInt32(result) > 0;
+        }
+
+        public static SelectResult<TerminalManufacturerEditModel> GetTerminalManufacturerByID(int id)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ID",SqlDbType.Int),
+            };
+            paras[0].Value = id;
+            string sql = @"SELECT   ID ,
+                ManufacturerName ,
+                ManufacturerCode ,
+                Nationality
+       FROM     dbo.TerminalManufacturer
+       WHERE    ID = @ID";
+            List<TerminalManufacturerEditModel> list = ConvertToList<TerminalManufacturerEditModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql, paras.ToArray()));
+
+            TerminalManufacturerEditModel data = null;
+            string msg = string.Empty;
+
+            if (list == null)
+            {
+                msg = PromptInformation.DBError;
+            }
+            else if (list.Count == 0)
+            {
+                msg = PromptInformation.NotExists;
+            }
+            else
+            {
+                data = list[0];
+            }
+            return new SelectResult<TerminalManufacturerEditModel>()
+            {
+                DataResult = data,
+                Message = msg
+            };
+        }
+
+        public static OperationResult EditTerminalManufacturer(TerminalManufacturerEditModel model,int EditUserID)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ManufacturerName",SqlDbType.NVarChar,200),
+                new SqlParameter("@ManufacturerCode",SqlDbType.Char,5),
+                new SqlParameter("@Nationality",SqlDbType.Char,6),
+                new SqlParameter("@ID",SqlDbType.Int),
+                new SqlParameter("@EditUserID",SqlDbType.Int),
+                new SqlParameter("@EditTime",SqlDbType.DateTime)
+            };
+
+            paras[0].Value = model.ManufacturerName.Trim();
+            paras[1].Value = model.ManufacturerCode.Trim();
+            paras[2].Value = model.Nationality.Trim();
+            paras[3].Value = model.ID;
+            paras[4].Value = EditUserID;
+            paras[5].Value = DateTime.Now;
+            #region  SQL
+            string sql = @"UPDATE   dbo.TerminalManufacturer
+       SET      ManufacturerName = @ManufacturerName ,
+                ManufacturerCode = @ManufacturerCode ,
+                Nationality = @Nationality,
+                EditUserID=@EditUserID,
+                EditTime=@EditTime
+       WHERE    ID = @ID";
+            #endregion
+
+
+            int result = MSSQLHelper.ExecuteNonQuery(CommandType.Text, sql, paras.ToArray());
+            string msg = string.Empty;
+            switch (result)
+            {
+                case 1:
+                    msg = PromptInformation.OperationSuccess;
+                    break;
+                case 0:
+                    msg = PromptInformation.NotExists;
+                    break;
+                case -1:
+                    msg = PromptInformation.DBError;
+                    break;
+            }
+            return new OperationResult()
+            {
+                Success = result > 0,
+                Message = msg
+            };
+        }
+        #endregion
+    }
+}

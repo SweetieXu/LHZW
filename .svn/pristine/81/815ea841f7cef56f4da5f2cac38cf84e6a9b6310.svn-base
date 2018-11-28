@@ -1,0 +1,111 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<MaintenanceRecordSearchModel, MaintenanceRecordListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+
+    string updateTargetId = "Admin_MaintenanceRecord_MaintenanceRecordSetting_divMaintenanceRecord";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    <form id="frmDelMaintenanceRecord">
+    @Html.AntiForgeryToken()
+    <!--保养方案记录显示-->
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                        <input type="checkbox" id="chkAll" />
+                </th>
+                <th>
+                    <label>@UIText.Operation</label>
+                </th>
+                <th>@Html.DisplayNameFor(m => m.VehicleName)</th>
+                <th>@Html.DisplayNameFor(m => m.VIN)</th>
+                <th>@Html.DisplayNameFor(m => m.StrucName)</th>
+                <th>@Html.DisplayNameFor(m => m.CreateTime)</th>
+                <th>@Html.DisplayNameFor(m => m.RecordDetails)</th>
+                <th>@Html.DisplayNameFor(m => m.CreateUser)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    <td><input type="checkbox" name="pid" value="@item.ID" id="chkpid@(item.ID)" /></td>
+                    <td>
+                        <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>
+                    </td>
+                    <td>
+                            <label for="chkpid@(item.ID)">@item.VehicleName</label>
+                    </td>
+                    <td>
+                            <label>@item.VIN</label>
+                    </td>
+                    <td>
+                        <label>@item.StrucName</label>
+                    </td>
+                    <td>
+                        <label>@item.CreateTime</label>
+                    </td>
+                    <td>
+                        <label>@item.RecordDetails</label>
+                    </td>
+                    <td>
+                        <label>@item.CreateUser</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </form>
+    
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "MaintenanceRecord",
+    ActionName = "GetMaintenanceRecord",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+<script>
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchMaintenanceRecord #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchMaintenanceRecord").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='pid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+    //保养记录编辑
+    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/MaintenanceRecord/EditMaintenanceRecord")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+</script>

@@ -1,0 +1,142 @@
+﻿@using Asiatek.Resource
+
+<table class="table table-striped table-condensed table-hover table-bordered">
+    <tbody>
+        <tr>
+            <td>
+                <label>@DisplayText.PlateNum：</label></td>
+            <td>
+                <input type="text" id="txtAllotVehiclePlateNum" maxlength="7" value="" class="form-control" placeholder="@(UIText.PleaseInput + DisplayText.PlateNum)"/>
+            </td>
+            <td>
+                <label>@DisplayText.SubordinateStrucName：</label></td>
+            <td>
+                <input type="text" id="txtAllotVehicleStrucName" maxlength="30" value="" class="form-control" placeholder="@(UIText.PleaseInput + DisplayText.StrucName)"/>
+            </td>
+            <td>
+                <button id="btnSearchVehicle" class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <table class="table table-striped table-condensed table-hover" id="tbVehiclesResult">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>
+                                <button id="btnSelectVehicle" class="btn btn-primary" title="@UIText.SelectButton">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+
+<script>
+    $("#btnSearchVehicle").on("click", function ()
+    {
+        var _plateNum = $("#txtAllotVehiclePlateNum").val();
+        var _strucName = $("#txtAllotVehicleStrucName").val();
+        $.get("@Url.Content("~/Admin/Vehicle/GetTOP5VehiclesByStrucNameAndPlateNum")", { plateNum: _plateNum, strucName: _strucName }, function (result)
+        {
+            if ($.handleAjaxError(result))
+            {
+                return;
+            }
+            $("#tbVehiclesResult>thead").html("");
+            $("#tbVehiclesResult>tbody").html("");
+            $btnSelectVehicle.hide();
+            if (result.length == 0)
+            {
+                return;
+            }
+            //设置表格内容
+            var _th = "<tr>" +
+                                            "<th><input type='checkbox' id='chkAll' /></th>" +
+                                            "<th>@DisplayText.PlateNum</th>" +
+                                            "<th>@DisplayText.SubordinateStrucName</th>" +
+                                       "</tr>";
+            $("#tbVehiclesResult>thead").html(_th);
+            var _html = "";
+            for (var i = 0; i < result.length; i++)
+            {
+                var obj = result[i];
+                _html += "<tr>" +
+                                    "<td><input type='checkbox' name='vid' value='" + obj.ID + "|" + obj.PlateNum + "|" + obj.StrucName + "' /></td>" +
+                                    "<td>" + obj.PlateNum + "</td>" +
+                                    "<td>" + obj.StrucName + "</td>" +
+                                "</tr>";
+            }
+            $("#tbVehiclesResult>tbody").html(_html);
+
+            //设置复选框
+            var _$chkAllObj = $("#chkAll");
+            var _$chkObjs = $("input[name='vid']");
+            $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+            $btnSelectVehicle.show();
+        });
+    });
+
+    var $btnSelectVehicle = $("#btnSelectVehicle");
+    $btnSelectVehicle.hide();
+    $btnSelectVehicle.on("click", function ()
+    {
+        var _existsPlateNum = "";
+        $("#tbVehiclesResult>tbody input:checkbox[name=vid]:checked").each(function ()
+        {
+            var _vehicle = $(this).val();
+            var _temp = _vehicle.split('|');
+            var _id = _temp[0];
+            var _plateNum = _temp[1];
+            var _strucName = _temp[2];
+            var _html = "";
+
+            _html += "<tr>" +
+                                    "<td>" + _plateNum + "</td>" +
+                                    "<td>" + _strucName + "</td>" +
+                                    "<td>" +
+                                        "<input type='checkbox' checked='checked' style='display:none;' value='" + _id + "'/>" +
+                                        "<span class='btn btn-danger' title='@UIText.DeleteButton'  onclick='delTr(this)' >" +
+                                                "<span class='glyphicon glyphicon-remove-sign'></span>" +
+                                          "</span>" +
+                                    "</td>" +
+                                "</tr>";
+            if ($("#tbVehicles tbody tr").length == 0)//车辆分配列表无内容的情况
+            {
+                $("#tbVehicles>tbody").html(_html);
+                $(this).closest("tr").remove();
+            } else
+            {
+                if ($("#tbVehicles tbody :checkbox[value=" + _id + "]").length == 0)//车辆分配列表中不包含当前选择的车辆
+                {
+                    $("#tbVehicles>tbody tr:last").after(_html);
+                    $(this).closest("tr").remove();
+                } else
+                {
+                    _existsPlateNum += "[" + _plateNum + "] ";
+                }
+            }
+            if ($("#tbVehiclesResult tbody tr").length == 0)//如果所有车子都被选择了，那么移除表头和选择按钮
+            {
+                $("#tbVehiclesResult thead tr").remove();
+                $btnSelectVehicle.hide();
+            }
+        });
+        if (_existsPlateNum.length != 0)
+        {
+            $.showPromptDialog("@UIText.VehiclesDistributionListError" + _existsPlateNum + "", "@UIText.InformationTitle", "@UIText.Close", true);
+        }
+    });
+
+
+</script>

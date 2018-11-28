@@ -1,0 +1,277 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model AddPickUpTransportPointModel
+
+<style>
+    .button-group {
+        position: absolute;
+        bottom: 30px;
+        right: 65px;
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    #drawBtn {
+        z-index: 3;
+        position: absolute;
+        height: 28px;
+        width: 60px;
+        background-color: #0D9BF2;
+        color: #FFF;
+        border: 0;
+        outline: none;
+        border-radius: 3px;
+        margin-bottom: 4px;
+        cursor: pointer;
+    }
+    
+    /*重新设定地图切换图标位置*/
+    .amap-ui-control-position-rt {
+            top: 80px;
+    right: 8px;
+    }
+
+    /*地图搜索栏地址搜索样式*/
+        #myPageTop {
+            position: absolute;
+            top: 120px;
+            right: 20px;
+            background: #fff none repeat scroll 0 0;
+            border: 1px solid #ccc;
+            margin: 10px auto;
+            padding: 6px;
+            font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
+            font-size: 14px;
+        }
+
+            #myPageTop label {
+                margin: 0 20px 0 0;
+                color: #666666;
+                font-weight: normal;
+            }
+
+            #myPageTop input {
+                width: 226px;
+            }
+
+            #myPageTop .column2 {
+                padding-left: 25px;
+            }
+</style>
+
+
+@using (Ajax.BeginForm("AddPickUpTransportPoint", "MGJH_PickUpTransportPoint", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddPickUpTransportPoint" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.EFInfo)
+
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.AddressName)：</td>
+                <td>@Html.TextBoxFor(m => m.AddressName)</td>
+                <td>@Html.LabelForRequired(m => m.AddressCode)：</td>
+                <td>@Html.TextBoxFor(m => m.AddressCode)</td>
+                <td>@Html.LabelForRequired(m => m.EFType)：</td>
+                <td>
+                    @Html.RadioButtonFor(m => m.EFType, 1, new { id = "FenceType1", @checked = true })
+                    <label for="FenceType1">@UIText.Circle</label>
+                    @Html.RadioButtonFor(m => m.EFType, 2, new { id = "FenceType2" })
+                    <label for="FenceType2">@UIText.Rectangle</label>
+                    @Html.RadioButtonFor(m => m.EFType, 3, new { id = "FenceType3" })
+                    <label for="FenceType3">@UIText.Polygon</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.AddressName)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.AddressCode)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.EFType)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="1">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+                <td colspan="5">@Html.ValidationMessageFor(m => m.EFInfo)</td>
+            </tr>
+        </tfoot>
+    </table>
+}
+<div id="container" style="width: 1000px; height: 550px;">
+    <div class="button-group">
+        <input id="drawBtn" onclick="mapDraw()" class="button" value="@UIText.Draw" type="button"/>
+    </div>
+</div>
+
+<div id="myPageTop">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label>@UIText.Please_Enter_The_Address_Information：</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input id="txtAddress" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+<script>
+    var $frmAddPickUpTransportPoint = $("#frmAddPickUpTransportPoint");
+    $frmAddPickUpTransportPoint.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    $frmAddPickUpTransportPoint.fixUnobtrusiveValidation();
+
+    //定义map对象
+    var mapObjAdd = initMap('container', true, 12, null);
+    //添加标尺、比例尺
+    addControl(true, true, false, false, false, mapObjAdd);
+    AMapUI.loadUI(['control/BasicControl'], function (BasicControl) {
+        //图层切换控件
+        mapObjAdd.addControl(new BasicControl.LayerSwitcher({
+            position: 'rt'
+        }));
+    });
+
+    //解决多次点击绘制按钮，绘制颜色加重的问题
+    var mousetoolCircle;
+    var mousetoolRect;
+    var mousetoolPolygon;
+
+    //防止关闭新增窗口后再次打开无法绘制的问题
+    $(function () {
+        mousetoolCircle = null;
+        mousetoolRect = null;
+        mousetoolPolygon = null;
+    });
+
+    //区域绘制  //数据库存储的是地图坐标，后台分析时转换成为车机坐标来判断信号坐标是否在区域内的
+    function mapDraw() {
+        var fenceType = $("input[name='EFType']:checked").val();
+        //圆形
+        if (fenceType == 1) {
+            mapObjAdd.clearMap();
+            $("#EFInfo").val("");
+            mapObjAdd.plugin(["AMap.MouseTool"], function () {
+                if (mousetoolCircle == null) {
+                    mousetoolCircle = new AMap.MouseTool(mapObjAdd);
+                }
+                mousetoolCircle.circle();
+                AMap.event.addListener(mousetoolCircle, "draw", function (e) {
+                    var radius = e.obj.getRadius();
+                    var center = e.obj.getCenter();
+                    mousetoolCircle.close(false);
+                    //圆形中心点加半径
+                    $("#EFInfo").val(center + ";" + radius);
+                });
+            });
+        }
+        //矩形
+        if (fenceType == 2) {
+            mapObjAdd.clearMap();
+            $("#EFInfo").val("");
+            mapObjAdd.plugin(["AMap.MouseTool"], function () {
+                if (mousetoolRect == null) {
+                    mousetoolRect = new AMap.MouseTool(mapObjAdd);
+                }
+                mousetoolRect.rectangle();
+                AMap.event.addListener(mousetoolRect, "draw", function (e) {
+                    var point = e.obj.getPath();//array                   
+                    mousetoolRect.close(false);
+
+                    var rs = "";
+                    for (var i = 0; i < point.length; i++) {
+                        if (i == 0)
+                        { rs = rs + point[i]; }
+                        else
+                        { rs = rs + ";" + point[i]; }
+                    }
+                    $("#EFInfo").val(rs);
+                });
+            });
+        }
+        if (fenceType == 3) {//多边形
+            mapObjAdd.clearMap();
+            $("#EFInfo").val("");
+            mapObjAdd.plugin(["AMap.MouseTool"], function () {
+                if (mousetoolPolygon == null) {
+                    mousetoolPolygon = new AMap.MouseTool(mapObjAdd);
+                }
+                mousetoolPolygon.polygon();
+                AMap.event.addListener(mousetoolPolygon, "draw", function (e) {
+                    var pointPolygon = e.obj.getPath();//array
+                    mousetoolPolygon.close(false);
+
+                    var rs = "";
+                    for (var i = 0; i < pointPolygon.length; i++) {
+                        if (i == 0)
+                        { rs = rs + pointPolygon[i]; }
+                        else
+                        { rs = rs + ";" + pointPolygon[i]; }
+                    }
+                    $("#EFInfo").val(rs);
+                });
+            });
+        }
+    }
+
+    //区域类型重新选择后，需要重新绘制；同时关闭未选中的鼠标工具，使其无法绘制图形
+    //防止在选中某一围栏类型时候，点击绘制，没有画图，然后更换围栏类型，不点击绘制直接绘图
+    //不关闭则会出现选中的类型为切换后的，而地图上绘制的类型为切换前的围栏类型，两者不符的情况
+    $("#FenceType1").click(function () {
+        mapObjAdd.clearMap();
+        $("#EFInfo").val("");
+        if (mousetoolRect != null) {
+            mousetoolRect.close(false);
+        }
+        if (mousetoolPolygon != null) {
+            mousetoolPolygon.close(false);
+        }
+    });
+    $("#FenceType2").click(function () {
+        mapObjAdd.clearMap();
+        $("#EFInfo").val("");
+        if (mousetoolCircle != null) {
+            mousetoolCircle.close(false);
+        }
+        if (mousetoolPolygon != null) {
+            mousetoolPolygon.close(false);
+        }
+    });
+    $("#FenceType3").click(function () {
+        mapObjAdd.clearMap();
+        $("#EFInfo").val("");
+        if (mousetoolCircle != null) {
+            mousetoolCircle.close(false);
+        }
+        if (mousetoolRect != null) {
+            mousetoolRect.close(false);
+        }
+    });
+
+    //******地址搜索【start】******
+    //输入提示
+    var autoOptions = {
+        input: "txtAddress"
+    };
+    var auto = new AMap.Autocomplete(autoOptions);
+    var placeSearch = new AMap.PlaceSearch({
+        map: mapObjAdd
+    });  //构造地点查询类
+    AMap.event.addListener(auto, "select", select);//注册监听，当选中某条记录时会触发
+    function select(e) {
+        placeSearch.setCity(e.poi.adcode);
+        placeSearch.search(e.poi.name);  //关键字查询查询
+    }
+    //******地址搜索【end】******
+
+</script>

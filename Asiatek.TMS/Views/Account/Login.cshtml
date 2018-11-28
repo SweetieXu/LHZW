@@ -1,0 +1,472 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model UserLoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@UIText.LoginButton-@UIText.DefaultTitle</title>
+    <!--###############################样式###############################-->
+    <!--网站全局样式-->
+    @Styles.Render("~/Content/css")
+    <!--jquery ui样式-->
+    @Styles.Render("~/Content/jqueryui/css")
+    <!-- 新 Bootstrap 核心 CSS -->
+    @Styles.Render("~/Content/bootstrap")
+
+    @Styles.Render("~/Content/jqEditableSelect/css")
+
+    @Styles.Render("~/Content/ladda/css")
+    <!--###############################脚本###############################-->
+    <!--jQuery-->
+    @Scripts.Render("~/asiatek/jquery")
+    <!--jQuery.Form-->
+    @Scripts.Render("~/asiatek/jqueryform")
+    <!--jQuery验证、非介入式验证-->
+    @Scripts.Render("~/asiatek/jqueryval")
+    <!--jQuery非介入式Ajax脚本-->
+    @Scripts.Render("~/asiatek/jqueryub")
+    <!--jQuery-UI-->
+    @Scripts.Render("~/asiatek/jqueryui")
+    <!--亚士德jQuery、js扩展-->
+    @Scripts.Render("~/asiatek/asiatekExtend")
+    <!--亚士德ajax分页-->
+    @Scripts.Render("~/asiatek/asiatekAjaxPager")
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    @Scripts.Render("~/asiatek/bootstrap")
+    <!--Bootstrap-TreeView-->
+    @Scripts.Render("~/asiatek/bootstraptreeview")
+
+
+    @Scripts.Render("~/asiatek/jqueryEditableSelect")
+
+    @Scripts.Render("~/asiatek/bootstraptreeview")
+    @Scripts.Render("~/asiatek/fixbootstrap")
+
+    @Scripts.Render("~/asiatek/ladda")
+    @Scripts.Render("~/asiatek/jqueryuitimepicker")
+    @Scripts.Render("~/asiatek/initplugin")
+
+    <style type="text/css">
+        .logoImg {
+            position: absolute;
+            margin-left: 40px;
+            margin-top: 30px;
+            width: 200px;
+            height: 54px;
+        }
+
+        .nameImg {
+            margin-top: 100px;
+            /*margin-left:430px;*/
+            width: 502px;
+            height: 106px;
+        }
+
+        .loginImg {
+            /*margin-left:610px;*/
+            width: 147px;
+            height: 83px;
+        }
+
+        .bottomText {
+            text-align: center;
+            margin: 0 auto;
+            margin-top: 45px;
+            font-family: 微软雅黑;
+            color: #dfe5f4;
+            width: 240px;
+        }
+
+        .inputText {
+            text-align: center;
+            vertical-align: middle;
+            font-family: 微软雅黑;
+            /*font-size:4pt;*/
+            color: #b2e2f5;
+            width: 48px;
+        }
+
+        .savePwdText {
+            text-align: left;
+            vertical-align: middle;
+            font-family: 微软雅黑;
+            font-size: 0.8em;
+            color: #b2e2f5;
+            width: 100px;
+        }
+
+        tr {
+            height: 42px;
+        }
+
+        .input1 {
+            border: 0;
+            vertical-align: middle;
+            width: 180px;
+            height: 26px;
+        }
+
+        .input2 {
+            border: 0;
+            vertical-align: middle;
+            width: 80px;
+            height: 26px;
+            text-align: left;
+        }
+
+        #SavePassword {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .backImgClass {
+            background-image: url(../Content/images/login/long.png);
+            background-size: 251px 42px;
+            height: 42px;
+            width: 251px;
+            margin-left: 175px;
+            float: left;
+        }
+
+        .divClass {
+            height: 42px;
+            width: 600px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .spaceDiv {
+            height: 4px;
+        }
+
+        .validateDiv {
+            float: left;
+            line-height: 42px;
+        }
+
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            color: #999;
+        }
+
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color: #999;
+        }
+
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color: #999;
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+            color: #999;
+        }
+
+        .divWebTitle {
+            color: whitesmoke;
+            font-size: 60px;
+            padding-top: 100px;
+        }
+
+        .divSubWebTitle {
+            color: whitesmoke;
+            font-size: 23px;
+        }
+
+        /*start   ------ 二维码样式*/
+
+        .qr {
+            width: 300px;
+            height: 270px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .qr-tip {
+            display: none;
+            text-align: center;
+        }
+
+            .qr-tip img {
+                height: 200px;
+                width: 200px;
+            }
+
+        /*end   ------ 二维码样式*/
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "loginForm" }))
+    {
+        <div id="backImg" style="position: absolute; z-index: -1;">
+            <img src="~/Content/images/login/Homepage.jpg" style="height: 100%; width: 100%;" />
+        </div>
+        <div id="logoImgDiv">
+            <img id="logoImg" class="logoImg" src="~/Content/images/login/AsiatekLOGO.png" />
+        </div>
+        
+        <div id="nameImgDiv" style="text-align: center;">
+            @*            <img id="nameImg" class="nameImg" src="~/Content/images/login/name.png" />*@
+            <div class="divWebTitle">@Asiatek.Resource.UIText.DefaultTitle</div>
+            <div class="divSubWebTitle">TMS2.0</div>
+        </div>
+        <div id="loginDiv" style="position: relative;">
+
+            <br />
+            <div class="qr">
+                <div class="qr-tip">
+                    <p style="font-size: 16px; color: white;">请扫码下载App</p>
+                    <img src="~/Content/images/login/TMS2.0_Android_Ios_DownLoadApp.png" />
+                </div>
+            </div>
+            <div class="divClass">
+                <div class="backImgClass">
+                    <table>
+                        <tr>
+                            <td style="padding: 10px; width: 43px; text-align: left;">
+                                <img src="~/Content/images/login/FirmID.png" />
+                            </td>
+                            <td colspan="3" style="padding: 5px; width: 175px; text-align: left;">
+                                @Html.TextBoxFor(m => m.StrucAccount, new { @class = "input1", Placeholder = @DisplayText.StrucAccount })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="validateDiv">
+                    @Html.ValidationMessageFor(m => m.StrucAccount)
+                </div>
+            </div>
+
+            <div class="spaceDiv"></div>
+            <div class="divClass">
+                <div class="backImgClass">
+                    <table>
+                        <tr>
+                            <td style="padding: 10px; width: 43px; text-align: left;">
+                                <img src="~/Content/images/login/UserName.png" />
+                            </td>
+                            @*<td>
+                                <label class="inputText">@DisplayText.UserName</label>
+                            </td>*@
+                            <td colspan="3" style="padding: 5px; width: 175px; text-align: left;">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "input1", Placeholder = @DisplayText.UserName })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="validateDiv">
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </div>
+            </div>
+
+            <div class="spaceDiv"></div>
+            <div class="divClass">
+                <div class="backImgClass">
+                    <table>
+                        <tr>
+                            <td style="padding: 10px; width: 43px; text-align: left;">
+                                <img src="~/Content/images/login/pwd.png" />
+                            </td>
+                            @*<td>
+                                <label class="inputText">密&nbsp;&nbsp;&nbsp;码</label>
+                            </td>*@
+                            <td colspan="3" style="padding: 5px; width: 175px; text-align: left;">
+                                @*Html.PasswordFor(m => m.Password, new { @class = "input1", Placeholder = @DisplayText.UserPwd })*@
+                                @Html.PasswordFor(m => m.Password, new { @class = "input1", Placeholder = @DisplayText.UserPwd })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="validateDiv">
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+
+
+
+            <div class="spaceDiv"></div>
+            <div class="divClass">
+                <div style="background-image: url(../Content/images/login/short.png); background-size: 146px 42px; height: 42px; width: 146px; text-align: left; float: left; margin-left: 175px;">
+                    <table>
+                        <tr>
+                            <td style="padding: 10px; width: 43px; text-align: left;">
+                                <img src="~/Content/images/login/VerifyCode.png" />
+                            </td>
+                            @*<td>
+                                <label class="inputText">@DisplayText.ValidateCode</label>
+                            </td>*@
+                            <td style="padding: 5px;">
+                                @Html.TextBoxFor(m => m.ValidateCode, new { @class = "input2", Placeholder = @DisplayText.ValidateCode })
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+                <div style="float: left;">
+                    <table>
+                        <tr>
+                            <td style="width: 5px;"></td>
+                            <td style="width: 100px; background-image: url(../Content/images/login/Verify.png); background-size: cover;">
+                                <img id="codeImg" src="@Url.Action("GetValidateCode", "Account", new { time = DateTime.Now })" title="@UIText.ChangeValidateCode" onclick="changeVC()" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="validateDiv">
+                    @Html.ValidationMessageFor(m => m.ValidateCode)
+                </div>
+            </div>
+
+            <div class="spaceDiv"></div>
+            <div class="divClass">
+                <div class="backImgClass">
+                    <table>
+                        <tr>
+                            <td colspan="4" style="padding: 5px; width: 250px; text-align: left;">
+                                @Html.DropDownListFor(m => m.CultureName, Model.LanguagesSelectList, new { @class = "form-control", id = "ddlLang" })
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="spaceDiv"></div>
+            <div style="height: 42px; width: 251px; text-align: center; margin: 0 auto;">
+                <table>
+                    <tr>
+                        <td colspan="5">
+                            @Html.CheckBoxFor(m => m.SavePassword)
+                            <label class="savePwdText" for="SavePassword">@DisplayText.SavePwd</label>
+                            @*<input type="checkbox" id="savepwd" style="margin-left:20px;margin-bottom:10px;" />*@
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div id="loginImgDiv" style="z-index: 2; text-align: center; display: block;">
+            @* <input type="submit" class="loginImg" value="" style="border: none; background: url(../Content/images/login/login.png) left top no-repeat;" />
+            <button class="loginImg">登录</button>*@
+            @*           <button class="btn btn-primary"  type="submit" style="background-color:rgb(125,188,48);width: 147px;height: 38px;font-size:120%;border-radius:15px;" >
+               @DisplayText.Login</button>*@
+            <button class="btn btn-success" title="@UIText.LoginButton" onmouseover="$('.qr-tip').show()" onmouseout="$('.qr-tip').hide()" style="width:150px;height:40px;font-size:19px;">@UIText.LoginButton</button>
+        </div>
+        <div id="bottomTextDiv" class="bottomText">
+            @DisplayText.Copyright&nbsp;&nbsp;&nbsp;@DisplayText.Asiatek
+        </div>
+    }
+
+    @* <div style="width: 400px;">
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "loginForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                @Html.LabelFor(m => m.StrucAccount)
+                @Html.TextBoxFor(m => m.StrucAccount, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.StrucAccount)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password)
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ValidateCode)
+                @Html.TextBoxFor(m => m.ValidateCode, new { @class = "form-control" })
+                <img  id="imgVC" src="@Url.Action("GetValidateCode", "Account", new { time = DateTime.Now })" title="@UIText.ChangeValidateCode"  onclick="changeVC()"/>
+                @Html.ValidationMessageFor(m => m.ValidateCode)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SavePassword)
+                @Html.CheckBoxFor(m => m.SavePassword)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CultureName)
+                @Html.DropDownListFor(m => m.CultureName, Model.LanguagesSelectList, new { @class = "form-control", id = "ddlLang" })
+            </div>
+            <button type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-user"></span>
+                <span>@UIText.LoginButton</span>
+            </button>
+
+        }
+    </div>*@
+
+
+    <script>
+        window.onload = function () { getViewportSize(); };
+        window.onresize = function () { getViewportSize(); };
+
+        function getViewportSize(w) {
+            var imgDiv = document.getElementById("backImg");
+            var logoImgHt = document.getElementById("logoImgDiv").clientHeight;
+            var nameImgHt = document.getElementById("nameImgDiv").clientHeight;
+            var loginDiv = document.getElementById("loginDiv");
+            var loginImgHt = document.getElementById("loginImgDiv").clientHeight;
+            var bottomTextHt = document.getElementById("bottomTextDiv");
+            var totalHt = logoImgHt + nameImgHt + loginDiv.clientHeight + loginImgHt + bottomTextHt.clientHeight;
+            w = w || window;
+            //除了IE8以及更早版本外，其它浏览器都能用  
+            if (w.innerWidth != null) {
+                if (totalHt < w.innerHeight) {
+                    imgDiv.style.height = w.innerHeight + 'px';
+                    loginDiv.style.marginTop = w.innerHeight - logoImgHt - nameImgHt - loginDiv.clientHeight - loginImgHt - bottomTextHt.clientHeight - 55 + 'px';
+                    bottomTextHt.style.marginTop = 45 + 'px';
+                }
+                else {
+                    imgDiv.style.height = totalHt + 'px';
+                    loginDiv.style.marginTop = 0 + 'px';
+                    bottomTextHt.style.marginTop = 0 + 'px';
+                }
+
+                if (w.innerWidth > 600) {
+                    imgDiv.style.width = w.innerWidth + 'px';
+                }
+                else {
+                    imgDiv.style.width = 600 + 'px';
+                }
+                //alert(w.innerWidth);
+                //alert(w.innerHeight);
+            };
+
+        }
+
+        //检查ViewBagMessage，如果存在则输出
+        var checkMessage = function () {
+            var _message = '@ViewBag.Message';
+            var _title = '@UIText.InformationTitle';
+            var _btnText = '@UIText.Close';
+            $.showPromptDialog(_message, _title, _btnText);
+        }
+        //更换验证码
+        var changeVC = function () {
+            var _time = new Date().getTime();
+            $("#codeImg").attr("src", "@Url.Action("GetValidateCode", "Account")" + "?" + _time);
+        }
+
+        checkMessage();
+
+        $("#ddlLang").change(function (e) {
+            var _lang = $(this).val();
+            var _token = $('@Html.AntiForgeryToken()').val();
+            var data = { __RequestVerificationToken: _token, lang: _lang };
+            $.post("@Url.Content("~/Account/ChangeLang")", data, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                location.reload();
+            });
+        });
+    </script>
+</body>
+</html>

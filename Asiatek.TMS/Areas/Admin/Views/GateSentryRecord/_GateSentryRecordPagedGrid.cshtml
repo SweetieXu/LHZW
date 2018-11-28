@@ -1,0 +1,76 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<GateSentryRecordSearchModel, GateSentryRecordListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+
+    string updateTargetId = "Admin_GateSentryRecord_GateSentryRecordSetting_divGateSentryRecord";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    <form>
+    @Html.AntiForgeryToken()
+    <!--保养方案记录显示-->
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                        <input type="checkbox" id="chkAll" />
+                </th>
+                <th>@Html.DisplayNameFor(m => m.PlateNum)</th>
+                <th>@Html.DisplayNameFor(m => m.PassGate)</th>
+                <th>@Html.DisplayNameFor(m => m.InOrOut)</th>
+                <th>@Html.DisplayNameFor(m => m.InOrOutTime)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    <td><input type="checkbox" name="pid" value="@item.ID" id="chkpid@(item.ID)" /></td>
+                    <td>
+                            <label for="chkpid@(item.ID)">@item.PlateNum</label>
+                    </td>
+                    <td>
+                            <label>@item.PassGate</label>
+                    </td>
+                    <td>
+                        <label>@item.InOrOut</label>
+                    </td>
+                    <td>
+                        <label>@item.InOrOutTime</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </form>
+    
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "GateSentryRecord",
+    ActionName = "GetGateSentryRecord",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+<script>
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='pid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+</script>

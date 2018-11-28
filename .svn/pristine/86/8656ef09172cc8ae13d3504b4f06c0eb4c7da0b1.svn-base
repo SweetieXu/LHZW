@@ -1,0 +1,270 @@
+﻿@using Asiatek.Resource
+@using Asiatek.Model
+@model VehicleSensorInfoParaModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    @*@Scripts.Render("~/asiatek/jquery")*@
+    <!-- The jQuery library is a prerequisite for all jqSuite products -->
+    @*<script type="text/javascript" src="~/Scripts/jqueryui/jquery-ui-1.12.0.min.js"></script>*@
+    <!-- We support more than 40 localizations -->
+    <script type="text/javascript" src="~/Scripts/jqueryGrid/grid.locale-cn.js"></script>
+    <!-- This is the Javascript file of jqGrid -->
+    <script type="text/javascript" src="~/Scripts/jqueryGrid/jquery.jqGrid.min.js"></script>
+    <!-- A link to a Boostrap  and jqGrid Bootstrap CSS siles-->
+    @*<script type="text/ecmascript" src="~/Scripts/bootstrap/bootstrap.min.js"></script>*@
+    <link href="~/Content/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/jqueryGrid/ui.jqgrid-bootstrap.css" rel="stylesheet" />
+    @Scripts.Render("~/asiatek/jqueryuitimepicker")
+    <script>
+        $.jgrid.defaults.responsive = true;
+        $.jgrid.defaults.styleUI = 'Bootstrap';
+    </script>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <fieldset>
+        <legend>@DisplayText.PlateNum：@Model.PlateNum</legend>
+    </fieldset>
+    <div>
+        <table id="jqGrid" style="height: 400px; width: 100%;">
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        var postData = { vehicleID: "@Model.ID" };
+        var lastSelection;
+        $(document).ready(function () {
+            $("#jqGrid").jqGrid({
+                url: '@Url.Action("GetVehicleSensorInfo", "VehicleSensor")',
+                datatype: "json",
+                postData: postData,
+                colModel: [
+                    {
+                        label: "@DisplayText.VehicleID",
+                            name: "VehicleID",
+                            height: 30,
+                            hidden: true
+                        },
+                        {
+                            label: "@DisplayText.VehicleName",
+                            name: "VehicleName",
+                            height: 30,
+                            hidden: true
+                        },
+                        {
+                            label: "@DisplayText.TypeID",
+                            name: "TypeID",
+                            width: 100,
+                            height: 30,
+                            sortable: false,
+                            hidden: true
+                        },
+                        {
+                            label: "@DisplayText.SensorName",
+                            name: "SensorName",
+                            width: 120,
+                            height: 30,
+                            sortable: false
+                        },
+                        {
+                            name: "IsHave",
+                            width: 120,
+                            height: 30,
+                            hidden: true
+                        },
+                    {
+                        label: "@DisplayText.Value1",
+                        name: "Value1",
+                        width: 100,
+                        height: 30,
+                        sortable: false,
+                        editable: true
+                        //editrules:{number:true}
+                    },
+                    {
+                        label: "@DisplayText.Value2",
+                        name: "Value2",
+                        width: 100,
+                        height: 30,
+                        sortable: false,
+                        editable: true
+                        //editrules:{number:true}
+                    },
+                    {
+                        label: "@DisplayText.Value1",
+                        name: "IsUsed1",
+                        width: 100,
+                        height: 30,
+                        hidden: true
+                    },
+                    {
+                        label: "@DisplayText.Value2",
+                        name: "IsUsed2",
+                        width: 100,
+                        height: 30,
+                        hidden: true
+                    },
+                    {
+                        label: "@DisplayText.WarrantyDate",
+                        name: "WarrantyDate",
+                        width: 160,
+                        height: 30,
+                        formatter: "date",
+                        sortable: false,
+                        editable: true,
+                        editoptions: {
+                            dataInit: function (e) {
+                                var currentTxtID = "#" + e.id;
+                                $(currentTxtID).datepicker({
+                                    changeMonth: true,
+                                    changeYear: true,
+                                    dateFormat: "yy-mm-dd",
+                                    minDate: new Date('@DateTime.Now.ToString("yyyy-MM-dd")')
+                                });
+                            }
+                        }
+                    },
+                    {
+                        name: "@UIText.Operation",
+                        index: "edit",
+                        width: 150,
+                        height: 30
+                    }
+                    ],
+                loadonce: true,
+                viewrecords: true,
+                onSelectRow: function (id) {
+                    if (id && id !== lastSelection) {
+                        var grid = $("#jqGrid");
+                        grid.jqGrid('saveRow', lastSelection);
+                        grid.jqGrid('editRow', id, { keys: true });
+                        lastSelection = id;
+                    }
+
+                }, // the javascript function to call on row click. will ues to to put the row in edit mode
+                onCellSelect: function (rowid, iCol, cellcontent, e) {
+                    $("#jqGrid").jqGrid('setGridParam', {}).trigger('reloadGrid');
+                    var rec = $("#jqGrid").jqGrid('getRowData', rowid);
+                    if (rec['IsUsed1'] == 'false') {//过滤条件  
+                        $("#jqGrid").setColProp("Value1", { editable: false });
+                    } else {
+                        $("#jqGrid").setColProp("Value1", { editable: true });
+                    }
+                    if (rec['IsUsed2'] == 'false') {//过滤条件  
+                        $("#jqGrid").setColProp("Value2", { editable: false });
+                    } else {
+                        $("#jqGrid").setColProp("Value2", { editable: true });
+                    }
+                    var colNames = $("#jqGrid").jqGrid('getGridParam', 'colNames');
+                    if (colNames.length == iCol + 1) {
+                        $("#jqGrid").setColProp("WarrantyDate", { editable: false });
+                    } else {
+                        $("#jqGrid").setColProp("WarrantyDate", { editable: true });
+                    }
+                },
+                width: 898,
+                height: 400,
+                gridComplete: function () {
+                    var ids = jQuery("#jqGrid").jqGrid('getDataIDs'); //获取表格的所有列
+                    for (var i = 0; i < ids.length; i++) {
+                        var id = ids[i];
+                        var obj = $("#jqGrid").jqGrid("getRowData", id);
+                        var Btn = "";
+                        if (obj.IsHave == "true") {
+                            Btn = "<button class='btn btn-primary' id='SaveBtn' title='@UIText.SaveButton' onclick='editParam("
+                                + id
+                                + ")'>"
+                                        + "<span class='glyphicon glyphicon-check'>"
+                                        + "</span></button>"
+                                + "<button style='margin-left:10px;' class='btn btn-danger' id='DeleteBtn' title='@UIText.DeleteButton' onclick='deleteParam("
+                                + id
+                                + ")'>"
+                                + "<span class='glyphicon glyphicon-share'></span> </button>";
+                            }
+                            else {
+                                Btn = "<button class='btn btn-primary' id='SaveBtn' title='@UIText.SaveButton' onclick='editParam("
+                                    + id
+                                    + ")'>"
+                                            + "<span class='glyphicon glyphicon-check'>"
+                                            + "</span></button>";
+                            }
+
+
+                            jQuery("#jqGrid").jqGrid('setRowData', ids[i], { "@UIText.Operation": Btn }); //给每一列添加操作按钮
+                        }
+                    },
+                loadComplete: function () {
+                    // 当只有保固日期可以编辑时，点击保存后 日期又会重新弹出，此代码可修复此Bug
+                    $("#ui-datepicker-div").hide();
+                }
+            }).trigger("reloadGrid");
+        });
+
+
+            function editParam(rowId) {
+                //关闭编辑状态
+                $("#jqGrid").jqGrid("saveRow", rowId);
+                var obj = $("#jqGrid").jqGrid("getRowData", rowId);
+                var param = {};
+                param["model.VehicleID"] = "@Model.ID";
+                param["model.VehicleName"] = "@Model.PlateNum";
+                param["model.TypeID"] = obj.TypeID;
+                param["model.SensorName"] = obj.SensorName;
+                param["model.Value1"] = obj.Value1;
+                param["model.Value2"] = obj.Value2;
+                param["model.WarrantyDate"] = obj.WarrantyDate;
+
+            $.showConfirmDialog("@UIText.ConfirmModify", "@UIText.InformationTitle", "@UIText.Confirm", "@UIText.Cancel", function () {
+                    //Value1,Value2值  数字验证
+                    var reg = new RegExp("^[0-9]*$");
+                    if (!reg.test(obj.Value1) || !reg.test(obj.Value2)) {
+                        $.showPromptDialog("Value1,Value2" + "@DataAnnotations.ValueIsNum");
+                         return;
+                    }
+
+                    $.post("@Url.Content("~/Admin/VehicleSensor/EditVehicleSensor")", param, function (result) {
+                        if ($.handleAjaxError(result)) {
+                            return;
+                        }
+                        $("#jqGrid").jqGrid('setGridParam', {
+                            url: "@Url.Action("GetVehicleSensorInfo", "VehicleSensor")",
+                            datatype: 'json',
+                            //发送数据  
+                            postData: postData
+                        }).trigger('reloadGrid');//重新载入
+                    });
+            }, function () {
+               
+            });
+            };
+
+
+        function deleteParam(rowId) {
+                //关闭编辑状态
+                $("#jqGrid").jqGrid("saveRow");
+                var obj = $("#jqGrid").jqGrid("getRowData", rowId);
+                var param = { vehicleID: "@Model.ID", TypeID: obj.TypeID };
+                
+                $.showConfirmDialog("@UIText.ConfirmDelete", "@UIText.InformationTitle", "@UIText.Confirm", "@UIText.Cancel", function () {
+
+                    $.post("@Url.Content("~/Admin/VehicleSensor/DeleteVehicleSensor")", param, function (result) {
+                        if ($.handleAjaxError(result)) {
+                            return;
+                        }
+                        $("#jqGrid").jqGrid('setGridParam', {
+                            url: "@Url.Action("GetVehicleSensorInfo", "VehicleSensor")",
+                            datatype: 'json',
+                            //发送数据  
+                            postData: postData
+                        }).trigger('reloadGrid');//重新载入
+
+                    });
+                });
+            };
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<EFVehicleSearchModel, EFVehicleListModel>
+
+
+@using (Ajax.BeginForm("GetVehicleElectricFence", "ElectricFence", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_ElectricFence_divEFVehicleSearch",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchEFVehicle" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        @Html.HiddenFor(m => m.SearchModel.id, new { id="id"})
+            <tr>
+                 <td style="font-weight:bolder;">@DisplayText.FenceName：</td>
+                 <td colspan="5" style="font-weight:bolder;color:red;">@ViewData["FenceName"]</td>
+                <td><input id="pid" type="hidden" name="id" /></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.SearchModel.VIN)：</td>
+                <td>
+                    <input type="search" name="VIN" value=""  placeholder="@(UIText.PleaseInput + DisplayText.VIN)"/>
+                </td>
+                <td>@Html.LabelFor(m => m.SearchModel.VehicleName)：</td>
+                <td>
+                    <input type="search" name="VehicleName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.VehicleName)"/>
+                </td>
+                <td>
+                    @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                    <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                </td>
+            </tr>
+        </table>
+}
+
+
+<div id="Admin_ElectricFence_divEFVehicleSearch">
+    @Html.Partial("_ElectricFenceVehiclePagedGrid", Model)
+</div>
+
+
+<script>
+    $(function () {
+        var id = $("#id").val();
+        $("#pid").val(id);
+    });
+    $("#frmSearchEFVehicle").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+</script>

@@ -1,0 +1,2250 @@
+﻿@using Asiatek.Resource
+
+@section styles{
+    <style>
+        .ui-autocomplete {
+            height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .statusBtn {
+            background-color: transparent!important;
+            color: lightgray!important;
+        }
+
+
+        .statusBtnSelected {
+            background-color: #206bc3!important;
+            font-weight: bolder;
+        }
+
+        .indexDefault {
+            background-color: #2a363f!important;
+            color: lightgray!important;
+        }
+
+        .runningColor {
+            color: #00a1fe;
+        }
+
+        .stopColor {
+            color: #8c8c8c;
+        }
+
+        .offlineColor {
+            color: #ff0202;
+        }
+
+        .mask {
+            position: absolute;
+            background-color: gray;
+            z-index: 10;
+            opacity: 0.7;
+        }
+
+            .mask img {
+                position: relative;
+                margin: 0px auto;
+                top: 40%;
+                left: 25%;
+            }
+
+        #tdLeftInfo {
+            width: 300px;
+        }
+
+        .hundredPercentWidth {
+            width: 100%;
+        }
+
+        .hundredPercentHeight {
+            height: 100%;
+        }
+
+        #btnToggleLeftInfo {
+            font-weight: bolder;
+            color: aliceblue;
+            background-color: transparent;
+            border: none;
+        }
+
+            #btnToggleLeftInfo:hover {
+                color: deepskyblue;
+            }
+
+        #tbEmergencyAlarms tbody > tr:hover, #tbInspections tbody > tr:hover {
+            color: lightgreen;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+
+        .colorRed {
+            color: red;
+        }
+
+        #tdToggleLeftInfo, #tdToggleBottomInfo {
+            cursor: pointer;
+        }
+
+        #btnGroup {
+            z-index: 4;
+            position: absolute;
+            top: 20px;
+            right: 10px;
+            background-color: #ffffff;
+            width: 240px;
+            height: 34px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #btnGroupBottom {
+            z-index: 4;
+            position: absolute;
+            top: 54px;
+            right: 10px;
+            width: 240px;
+            height: 5px;
+            background-color: #0198fe;
+        }
+
+        .mapDialogImg {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 6px;
+            margin-top: 6px;
+        }
+
+        .button-group {
+            position: absolute;
+            right: 65px;
+            font-size: 12px;
+            padding: 10px;
+        }
+
+        #onConfirmBtn {
+            z-index: 3;
+            position: absolute;
+            height: 28px;
+            width: 60px;
+            background-color: #0D9BF2;
+            color: #FFF;
+            border: 0;
+            outline: none;
+            border-radius: 3px;
+            margin-bottom: 4px;
+            cursor: pointer;
+        }
+
+        .positionTextClass {
+            line-height: 2px;
+        }
+
+        /*#mapBottomImage {
+            z-index: 4;
+            position: absolute;
+            bottom: 0px;
+        }*/
+
+        #btnAllVehicles, #btnRunningVehicles, #btnStopVehicles, #btnOfflineVehicles {
+            outline: none;
+        }
+
+        .bottomBtn {
+            height: 28px;
+            width: 100%;
+            font-size: 21px;
+            font-family: 微软雅黑;
+            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#11c7ff, endColorstr=#0097ff); /*IE<9>*/
+            -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#11c7ff, endColorstr=#0097ff)"; /*IE8+*/
+            background: -moz-linear-gradient(top,#11c7ff,#0097ff); /*火狐*/
+            background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#11c7ff), to(#0097ff)); /*谷歌*/
+            background-image: -webkit-gradient(linear,left bottom,left top,color-start(0, #11c7ff),color-stop(1, #0097ff)); /* Safari & Chrome*/
+        }
+
+        .spanColor {
+            color: #0198fe;
+        }
+
+        .divDisplay {
+            display: none;
+        }
+
+        /*右下方可拉动样式*/
+        #expander {
+            width: 100%;
+            height: 5px;
+            background-color: lightgray!important;
+        }
+
+            #expander:hover {
+                cursor: n-resize;
+            }
+
+        /*重写simpleMarker iconLabel样式*/
+        .amap-simple-marker-label {
+            font-size: 1em !important;
+            vertical-align: middle !important;
+            top: 20px !important;
+        }
+
+        .amap-simple-marker.my-marker .amap-simple-marker-label {
+            text-decoration: initial !important;
+        }
+
+        /*地图搜索栏地址搜索样式*/
+        #myPageTop {
+            position: absolute;
+            top: 55px;
+            right: 10px;
+            background: #fff none repeat scroll 0 0;
+            border: 1px solid #ccc;
+            margin: 10px auto;
+            padding: 6px;
+            font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
+            font-size: 14px;
+        }
+
+            #myPageTop label {
+                margin: 0 20px 0 0;
+                color: #666666;
+                font-weight: normal;
+            }
+
+            #myPageTop input {
+                width: 226px;
+            }
+
+            #myPageTop .column2 {
+                padding-left: 25px;
+            }
+    </style>
+}
+<div class="row" style="overflow: auto; height: 100%;">
+    <table class="hundredPercentWidth">
+        <tbody class="hundredPercentWidth">
+            <tr class="hundredPercentWidth">
+                <!--左侧边栏-->
+                <td class="indexDefault" id="tdLeftInfo">
+                    <table class="hundredPercentHeight">
+                        <tbody>
+                            <!--搜索行-->
+                            <tr style="height: 50px; margin: 10px;">
+                                <td align="right" colspan="3">
+                                    <input id="txtVehicleName" type="text" name="vehicleName" value=""  class="form-control" style="width:179px;height:28px;" placeholder="@(UIText.PleaseInput + DisplayText.VehicleName + UIText.Search)" />
+                                    <input type="hidden" name="hidVehicleName" id="hidVehicleName" value="" />
+                                    <input type="hidden" name="hidVehicleID" id="hidVehicleID" value="" />
+                                </td>
+                                <td align="center">
+                                    <button class="btn btn-primary" id="btnSearch" style="height:30px;"  title="@UIText.Search">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!--状态按钮行-->
+                            <tr style="height: 40px; margin-top: 10px;">
+                                <td>
+                                    <button class="btn statusBtn" id="btnAllVehicles" name="btnAllVehicles" onmouseover="this.title='@UIText.All'" onclick="vehicleChangeImg(this)">
+                                        <img id="allImg" name="btnVehicleImg" src="~/Content/images/realtimeMonitor/All.png" style="display: none;" />
+                                        <img id="allSelImg" name="btnVehicleSelImg" src="~/Content/images/realtimeMonitor/Allselected.png" /><br />
+                                        <span></span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn statusBtn" id="btnRunningVehicles" name="btnRunningVehicles" onmouseover="this.title='@UIText.RunningStatus'" onclick="vehicleChangeImg(this)">
+                                        <img id="runningImg" name="btnVehicleImg" src="~/Content/images/realtimeMonitor/Running.png" />
+                                        <img id="runningSelImg" name="btnVehicleSelImg" src="~/Content/images/realtimeMonitor/Runningselected.png" style="display: none;" /><br />
+                                        <span></span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn statusBtn" id="btnStopVehicles" name="btnStopVehicles" onmouseover="this.title='@UIText.StopStatus'" onclick="vehicleChangeImg(this)">
+                                        <img id="stopImg" name="btnVehicleImg" src="~/Content/images/realtimeMonitor/Stop.png" />
+                                        <img id="stopSelImg" name="btnVehicleSelImg" src="~/Content/images/realtimeMonitor/Stopselected.png" style="display: none;" /><br />
+                                        <span></span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn statusBtn" id="btnOfflineVehicles" name="btnOfflineVehicles" onmouseover="this.title='@UIText.OfflineStatus'" onclick="vehicleChangeImg(this)">
+                                        <img id="offlineImg" name="btnVehicleImg" src="~/Content/images/realtimeMonitor/Offline.png" />
+                                        <img id="offlineSelImg" name="btnVehicleSelImg" src="~/Content/images/realtimeMonitor/Offlineselected.png" style="display: none;" /><br />
+                                        <span></span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <!--数据内容行-->
+                            <tr>
+                                <td id="tdLeftInfoContent" colspan="4" style="vertical-align: top;">
+                                    <div id="vehiclesTree" style="width: 245px; overflow: auto;" class="hundredPercentHeight">
+                                        <div id="divAllVehicles" style="width: 100%; float: left; white-space: nowrap">
+                                        </div>
+                                        <table class="table table-condensed runningColor" id="tbRunningVehicles" style="white-space: nowrap">
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-condensed stopColor" id="tbStopVehicles" style="white-space: nowrap">
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-condensed offlineColor" style="white-space: nowrap" id="tbOffineVehicles">
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <!--左侧边栏-->
+                <!--左侧收缩栏-->
+                <td onmouseover="style.backgroundColor='#C86F70'" onmouseout="style.backgroundColor='#0198fe'" style="background-color: #0198fe;" id="tdToggleLeftInfo">
+                    <div style="width: 6px;"></div>
+                </td>
+                <!--左侧收缩栏-->
+                <!--右侧内容：包括地图和下方表格-->
+                <td id="tdRightContent" class="hundredPercentWidth">
+                    <table class="hundredPercentWidth hundredPercentHeight">
+                        <tbody>
+                            <!--地图-->
+                            <tr class="hundredPercentHeight">
+                                <td style="background-color: darkgray;">
+                                    @*<div>
+                                        地图*@
+                                    <div id="btnGroup">
+                                        <img id="btnGroupCircleImg" name="btnGroupImg" class="mapDialogImg" onclick="javascript: mouseCircle()" onmouseover="this.title='@UIText.Circle'" src="~/Content/images/realtimeDialog/Circle.png" />
+                                        <img id="btnGroupCircleSelImg" name="btnGroupSelImg" class="mapDialogImg" onclick="javascript: mouseCircle()" onmouseover="this.title='@UIText.Circle'" src="~/Content/images/realtimeDialog/Circleselected.png" style="display:none;" />
+                                        <img id="btnGroupRectImg" name="btnGroupImg" class="mapDialogImg" onclick="javascript: mouseRect()" onmouseover="this.title='@UIText.Rectangle'" src="~/Content/images/realtimeDialog/Rect.png" />
+                                        <img id="btnGroupRectSelImg" name="btnGroupSelImg" class="mapDialogImg" onclick="javascript: mouseRect()" onmouseover="this.title='@UIText.Rectangle'" src="~/Content/images/realtimeDialog/Rectselected.png" style="display:none;" />
+                                        <img id="btnGroupPolygonImg" name="btnGroupImg" class="mapDialogImg" onclick="javascript: mousePolygon()" onmouseover="this.title='@UIText.Polygon'" src="~/Content/images/realtimeDialog/Polygon.png" />
+                                        <img id="btnGroupPolygonSelImg" name="btnGroupSelImg" class="mapDialogImg" onclick="javascript: mousePolygon()" onmouseover="this.title='@UIText.Polygon'" src="~/Content/images/realtimeDialog/Polygonselected.png" style="display:none;" />
+                                        <img id="btnGroupMarkerImg" name="btnGroupImg" class="mapDialogImg" onclick="javascript: ShowEFMarker()" onmouseover="this.title='@UIText.ShowEFMarker'" src="~/Content/images/realtimeDialog/ShowMarker.png" />
+                                        <img id="btnGroupMarkerSelImg" name="btnGroupSelImg" class="mapDialogImg" onclick="javascript: ShowEFMarker()" onmouseover="this.title='@UIText.ShowEFMarker'" src="~/Content/images/realtimeDialog/ShowMarkerselected.png" style="display:none;" />
+                                        @*<img id="btnGroupshowAreaImg" name="btnGroupImg" class="mapDialogImg" onclick="javascript: showArea()"  onmouseover="this.title='@UIText.ShowArea'" src="~/Content/images/realtimeDialog/ShowArea.png" />
+                                        <img id="btnGroupshowAreaSelImg" name="btnGroupSelImg" class="mapDialogImg" onclick="javascript: showArea()"  onmouseover="this.title='@UIText.ShowArea'" src="~/Content/images/realtimeDialog/ShowAreaselected.png" style="display:none;" />*@
+                                        <img id="btnGrouprulerImg" name="btnGroupImg" class="mapDialogImg" onmouseover="this.title='@UIText.Rule'" onclick="javascript: startRuler()" src="~/Content/images/realtimeDialog/Ruler.png" />
+                                        <img id="btnGrouprulerSelImg" name="btnGroupSelImg" class="mapDialogImg" onmouseover="this.title='@UIText.Rule'" onclick="javascript: startRuler()" src="~/Content/images/realtimeDialog/Rulerselected.png" style="display:none;" />
+                                        @*<img name="btnGroupImg" class="mapDialogImg" onmouseover="this.title='@UIText.VehicleSearch'" src="~/Content/images/realtimeDialog/VehicleSearch.png" />
+                                            <img name="btnGroupSelImg" class="mapDialogImg" onmouseover="this.title='@UIText.VehicleSearch'" src="~/Content/images/realtimeDialog/VehicleSearchselected.png" style="display:none;" />*@
+                                    </div>
+                                    <div id="btnGroupBottom">
+                                    </div>
+
+
+                                    <div id="container">
+                                        @*<div id="mapBottomImage">
+                                            <img id="downImg" name="downImg" src="~/Content/images/realtimeMonitor/DownBtn.png" onclick="changeImg(this)" />
+                                            <img id="upImg" name="upImg" style="display: none;" src="~/Content/images/realtimeMonitor/UpBtn.png" onclick="changeImg(this)" />
+                                        </div>*@
+                                    </div>
+
+                                    <div id="myPageTop">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label>@UIText.Please_Enter_The_Address_Information：</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input id="txtAddress" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <!--地图-->
+                            <!--下方收缩栏-->
+                            <tr style="height: 6px; font-size: xx-small; background-color: #0198fe; text-align: center;">
+                                <td id="tdToggleBottomInfo" onmouseover="style.backgroundColor='#C86F70'" onmouseout="style.backgroundColor='#0198fe'" style="background-color: #0198fe;"></td>
+                            </tr>
+                            <!--下方收缩栏-->
+                            <tr class="indexDefault">
+                                <td id="tdBottomInfo">
+                                    <table class="bottomBtn" id="bottomBtn" style="height: 28px;" title="@UIText.DragChangeSize">
+                                        <tr>
+                                            <td>
+                                                <button class="btn statusBtn statusBtnSelected" id="btnCheckedVehicles">@UIText.CheckedVehicles<span></span></button>
+                                                <button class="btn statusBtn" id="btnIntraScopeVehicles">@UIText.IntraScopeVehicles<span></span></button>
+                                                <button class="btn statusBtn" id="btnRealTimeExceptions">@UIText.RealTimeExceptions<span></span></button>
+                                                <button class="btn statusBtn" id="btnEmergencyAlarms">@UIText.EmergencyAlarms<span></span></button>
+                                                <button class="btn statusBtn" id="btnInspections">@UIText.Inspections<span></span></button>
+                                                <button class="btn statusBtn" id="btnYearCheck">@UIText.YearsCheckAlarm<span></span></button>
+                                                <button class="btn statusBtn" id="btnMaintenanceCheck">@UIText.MaintenanceCheckAlarm<span></span></button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div id="divBottomInfo" style="height: 100px; overflow: auto;">
+                                        <div id="expander"></div>
+                                        <!--下方监视车辆-->
+                                        <table class="table table-condensed" id="tbCheckedVehicles">
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th>@DisplayText.VehicleName</th>
+                                                    <th>@DisplayText.StrucName</th>
+                                                    <th>@DisplayText.Direction</th>
+                                                    <th>@DisplayText.VehicleVelocity</th>
+                                                    <th>@DisplayText.SignalDateTime</th>
+                                                    <th>@DisplayText.Address</th>
+                                                    <th>@DisplayText.Temperature</th>
+                                                    <th>@DisplayText.Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方监视车辆-->
+                                        <!--下方区域车辆-->
+                                        <table class="table table-condensed" id="tbIntraScopeVehicles">
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th>@DisplayText.VehicleName</th>
+                                                    <th>@DisplayText.StrucName</th>
+                                                    <th>@DisplayText.Address</th>
+                                                    <th>@DisplayText.VehicleVelocity</th>
+                                                    <th>@DisplayText.Direction</th>
+                                                    <th>@DisplayText.IsOnline</th>
+                                                    <th>@DisplayText.SignalDateTime</th>
+                                                    <th>@DisplayText.Temperature</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方区域车辆-->
+                                        <!--下方实时异常-->
+                                        <table class="table table-condensed" id="tbRealTimeExceptions">
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th>@DisplayText.VehicleName</th>
+                                                    <th>@DisplayText.StrucName</th>
+                                                    <th>@DisplayText.ExceptionTypeName</th>
+                                                    <th>@DisplayText.ExceptionStartDateTime</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方实时异常-->
+                                        <!--下方紧急报警-->
+                                        <table class="table table-condensed" id="tbEmergencyAlarms">
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th>@DisplayText.VehicleName</th>
+                                                    <th>@DisplayText.StrucName</th>
+                                                    <th>@DisplayText.ExceptionStartDateTime</th>
+                                                    <th>@DisplayText.ExceptionAddress</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方紧急报警-->
+                                        <!--下方查岗信息-->
+                                        <table class="table table-condensed" id="tbInspections">
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th>@DisplayText.InspectionContent</th>
+                                                    <th>@DisplayText.InspectionDateTime</th>
+                                                    <th>@DisplayText.PlatformName</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方年检预警信息-->
+                                        <table class="table table-condensed" id="tbYearCheck">
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th style="width: 25%">@DisplayText.VehicleName</th>
+                                                    <th style="width: 25%">@DisplayText.AnnualInspectionTime</th>
+                                                    <th style="width: 25%">@DisplayText.AnnualInspectionTime1</th>
+                                                    <th style="width: 25%">@DisplayText.StrucName</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方保养预告信息-->
+                                        <table class="table table-condensed" id="tbMaintenanceCheck">
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th>@DisplayText.VehicleName</th>
+                                                    <th>@DisplayText.ScheduleName</th>
+                                                    <th>@DisplayText.RulesType</th>
+                                                    <th>@DisplayText.MaintenanceTime</th>
+                                                    <th>@DisplayText.StrucName</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方保养预警信息-->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <!--右侧内容-->
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="divMask" class="mask">
+    <img id="imgMask" src="../../Content/images/treeloading.gif" alt="" />
+</div>
+<div id="divInspectionReply" title="@UIText.ReplyInspection" style="display: none;">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="hidden" name="hidInspectionId" id="hidInspectionId" value="" />
+                    <h5 id="hInspectionContent"></h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="txtReply" id="txtReply" value="" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="@UIText.Reply" onclick="replyInspection()" class="btn btn-success" id="btnReplyInspection"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="divDealEmergencyAlarm" title="@UIText.DealEmergencyAlarm" style="display: none;">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <!--报警记录ID，用于处理后更新数据状态-->
+                    <input type="hidden" name="hidAlarmID" id="hidAlarmID" value="" />
+                    <!--发生紧急报警的终端号，用于发送人工确认报警消息-->
+                    <input type="hidden" name="hidAlarmTerminalCode" id="hidAlarmTerminalCode" value="" />
+                    <h5 class="colorRed" id="hExtraInfo"></h5>
+                    <h5 id="hEAStrucName"></h5>
+                    <h5 id="hEAVehicleName"></h5>
+                    <input type="text" name="txtDealEmergencyAlarmInfo" id="txtDealEmergencyAlarmInfo" value="" placeholder="@(UIText.PleaseInput + DisplayText.DealInfo)" class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" value="@UIText.Deal" onclick="dealEmergencyAlarm()" class="btn btn-success"  id="btnDealEmergencyAlarm"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+@section scripts{
+    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=865e5946e363e3889a01b89f8ba5d069&plugin=AMap.Autocomplete,AMap.PlaceSearch"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <!-- UI组件库 1.0 -->
+    <script type="text/javascript" src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+    <!-- 自定义js文件 -->
+    <script src="@Url.Content("~/Scripts/gaodeMap/map.js?v=1.2")"></script>
+    <script src="~/Scripts/pageMethod/realtimeMonitorPage.js?v=1.0"></script>
+
+    <script>
+        var $divMask = $("#divMask");//遮罩层
+        var $tdLeftInfo = $("#tdLeftInfo");//左侧信息单元格
+        var $tdToggleBottomInfo = $("#tdToggleBottomInfo");//下方收缩栏单元格
+        var $tdToggleLeftInfo = $("#tdToggleLeftInfo");//左侧收缩栏单元格
+        var $tdBottomInfo = $("#tdBottomInfo");//下方信息单元格
+
+        var $btnAllVehicles = $("#btnAllVehicles");//全部车辆按钮
+        var $btnRunningVehicles = $("#btnRunningVehicles");//行驶车辆按钮
+        var $btnStopVehicles = $("#btnStopVehicles");//停车车辆按钮
+        var $btnOfflineVehicles = $("#btnOfflineVehicles");//离线车辆按钮
+
+        var $divAllVehicles = $("#divAllVehicles");//全部车辆div
+        var $tbRunningVehicles = $("#tbRunningVehicles");//行驶车辆table
+        var $tbStopVehicles = $("#tbStopVehicles");//停车车辆table
+        var $tbOffineVehicles = $("#tbOffineVehicles");//离线车辆table
+
+        var $tbCheckedVehicles = $("#tbCheckedVehicles");//监控车辆表格
+        var $tbIntraScopeVehicles = $("#tbIntraScopeVehicles");//区域车辆表格
+        var $tbRealTimeExceptions = $("#tbRealTimeExceptions");//实时异常表格
+        var $tbEmergencyAlarms = $("#tbEmergencyAlarms");//紧急报警
+        var $tbInspections = $("#tbInspections");//查岗信息表格
+        var $tbYearCheck = $("#tbYearCheck");//年检
+        var $tbMaintenanceCheck = $("#tbMaintenanceCheck");//车辆保养
+
+        var $txtVehicleName = $("#txtVehicleName");
+        var $hidVehicleName = $("#hidVehicleName");
+        var $hidVehicleID = $("#hidVehicleID");
+        var currentTbCheckVehicleID;//当前行驶、停车、掉线表格中选中或取消选中的车辆ID
+
+        var $btnCheckedVehicles = $("#btnCheckedVehicles");
+        var $btnIntraScopeVehicles = $("#btnIntraScopeVehicles");
+        var $btnRealTimeExceptions = $("#btnRealTimeExceptions");
+        var $btnEmergencyAlarms = $("#btnEmergencyAlarms");
+        var $btnInspections = $("#btnInspections");
+        var $btnYearCheck = $("#btnYearCheck");
+        var $btnMaintenanceCheck = $("#btnMaintenanceCheck");
+        var $ltdBottomInfoStatusButtons = $("#tdBottomInfo button.statusBtn");
+
+        //回复查岗相关对象
+        var $hidInspectionId = $("#hidInspectionId");//查岗ID
+        var $hInspectionContent = $("#hInspectionContent");//查岗内容
+        var $divInspectionReply = $("#divInspectionReply");//回复查岗的操作界面窗体
+        var $txtReply = $("#txtReply");//回复内容
+
+        var offineLineObjs = new Array();//掉线车辆
+        var runningObjs = new Array();//行驶中
+        var stopObjs = new Array();//停车
+
+        //搜索标识，切换全部、行驶中、停车、掉线时
+        //搜索为在当前结果中搜索，如果不是在全部中搜索，则搜索到以后同时选中全部节点下的车辆节点，引发事件
+        //1为全部、2为行驶中 3为停车 4为掉线  默认为全部
+        var searchFlag = 1;
+        var treeViewObj;//树对象
+        //标识是否具有查看与回复查岗的权限
+        var inspectionFlag = false;
+        //标识是否具有查看与处理紧急报警的权限
+        var emergencyAlarmsFlag = false;
+
+        //因为这边用到很多资源文件中的名称，所以放在这边，没有写到js中
+        //定位信息
+        //原本是将定位信息和基本信息一起加载，按钮触及显示指定内容，隐藏其他内容；这种方法存在一种问题：当两个页面内容长度相差太多，显示不同div时，会靠左对齐，导致指向车辆小箭头有偏差；长度相差越多，偏差越大
+        //分开加载会分别指向当前车辆
+        function getPositionInfo(result) {
+            var info = [];
+            info.push("<span style='font-weight:bold;font-size:x-large;color:#0198fe; '>" + result.VN + "(" + result.SN + ")</span>");
+            info.push("<div id='content_1' >");
+            info.push("<div class='positionTextClass'>@DisplayText.PositionTime：" + result.SignalTime + "</div>");
+            info.push("<div class='positionTextClass'>@DisplayText.ACCState：" + result.ACCState + "</div>");
+            info.push("<div class='positionTextClass'>@DisplayText.Direction：" + result.Direction + "</div>");
+            if (result.RollerState == 0) { info.push("<div class='positionTextClass'>@DisplayText.RollerState：@DisplayText.StopRoller </div>"); }
+            if (result.RollerState == 1) { info.push("<div class='positionTextClass'>@DisplayText.RollerState：@DisplayText.FrontRoller </div>"); }
+            if (result.RollerState == 2) { info.push("<div class='positionTextClass'>@DisplayText.RollerState：@DisplayText.UnFrontRoller </div>"); }
+            if (result.Temperature != null) { info.push("<div class='positionTextClass'>@DisplayText.Temperature：" + result.Temperature + "</div>"); }
+            info.push("<div class='positionTextClass'>@DisplayText.Speed " + "( km/h )：" + result.Speed + "</div>");
+            info.push("<div class='positionTextClass'>@DisplayText.Mileage：" + result.Mileage + "</div>");
+            if (result.OilHeight != null) { info.push("<div class='positionTextClass'>@DisplayText.OilHeight " + "( cm )：" + result.OilHeight + "</div>"); }
+            info.push("<div class='positionTextClass'>@DisplayText.LngAndLat ：" + result.Longitude.toFixed(2) + "，" + result.Latitude.toFixed(2) + "</div>");
+            if (result.FlagState != "") {
+                //substring去掉最后的','
+                //console.log(result.FlagState.substring(0, result.FlagState.lastIndexOf(',')));
+                info.push("<div class='positionTextClass'>@DisplayText.Status：" + result.FlagState + " </div>");
+            }
+            info.push("<div>@DisplayText.Address：" + result.Address + "</div>");
+            info.push("</div>");
+            //传递参数  将result换成json对象
+            info.push("<span id='ptSpan' style='font-weight:bold;cursor:pointer;' class='spanColor' onclick='ptSpanFun(" + JSON.stringify(result).replace(/"/g, '&quot;') + ")' >@DisplayText.PositionInfo</span>&nbsp;&nbsp;&nbsp;<span id='baseSpan' style='font-weight:bold;cursor:pointer;' onclick='baseSpanFun(" + JSON.stringify(result).replace(/"/g, '&quot;') + ")' >@DisplayText.BaseInfo</span>");
+            return info;
+        }
+
+        //基本信息
+        function getBaseInfo(result) {
+            var info = [];
+            info.push("<span style='font-weight:bold;font-size:x-large;color:#0198fe; '>" + result.VN + "(" + result.SN + ")</span>");
+            info.push("<div id='content_2' >");
+            info.push("<div class='positionTextClass'>@DisplayText.VIN：" + result.VIN + "</div>");
+            info.push("<div class='positionTextClass'>@DisplayText.PlateColor ：" + result.PlateColor + "</div>");
+            info.push("<div class='positionTextClass'>@DisplayText.VehicleType ：" + result.VehicleType + "</div>");
+            if (result.DriverName != null && result.DriverName != "") { info.push("<div class='positionTextClass'>@DisplayText.DriverName ：" + result.DriverName + "</div>"); }
+            if (result.DriverPhone != null && result.DriverPhone != "") { info.push("<div class='positionTextClass'>@DisplayText.DriverPhone ：" + result.DriverPhone + "</div>"); }
+            if (result.EscortName != null && result.EscortName != "") { info.push("<div class='positionTextClass'>@DisplayText.EscortName ：" + result.EscortName + "</div>"); }
+            if (result.EscortPhone != null && result.EscortPhone != "") { info.push("<div class='positionTextClass'>@DisplayText.EscortPhone ：" + result.EscortPhone + "</div>"); }
+            if (result.OwnersName != null && result.OwnersName != "") { info.push("<div class='positionTextClass'>@DisplayText.OwnersName ：" + result.OwnersName + "</div>"); }
+            if (result.OwnersPhone != null && result.OwnersPhone != "") { info.push("<div class='positionTextClass'>@DisplayText.OwnersPhone ：" + result.OwnersPhone + "</div>"); }
+            info.push("</div>");
+            info.push("<span id='ptSpan' style='font-weight:bold;cursor:pointer;' onclick='ptSpanFun(" + JSON.stringify(result).replace(/"/g, '&quot;') + ")' >@DisplayText.PositionInfo</span>&nbsp;&nbsp;&nbsp;<span id='baseSpan' style='font-weight:bold;cursor:pointer;' class='spanColor' onclick='baseSpanFun(" + JSON.stringify(result).replace(/"/g, '&quot;') + ")' >@DisplayText.BaseInfo</span>");
+            return info;
+        }
+
+        //realtimeMonitorPage.js中显示资源文件
+        function getDisplayText() {
+            var text = ['@DisplayText.Yes', '@DisplayText.No'];
+            return text;
+        }
+        function getDataAnnotations() {
+            return '@DataAnnotations.UserReturnNoData';
+        }
+
+        window.onload = function () { setTreeContentSize(); };
+        window.onresize = function () { setTreeContentSize(); };
+
+        $(function () {
+            showMask();
+            $tbRunningVehicles.hide();
+            $tbStopVehicles.hide();
+            $tbOffineVehicles.hide();
+
+            $tbIntraScopeVehicles.hide();
+            $tbRealTimeExceptions.hide();
+            $tbEmergencyAlarms.hide();
+            $tbInspections.hide();
+            $tbYearCheck.hide();
+            $tbMaintenanceCheck.hide();
+            initVehicleNameAutoComplete();
+            initClickEvent();
+            initChangeEvent();
+            initLeftInfo();//初始化左侧信息
+            refreshDatas();
+            setTreeContentSize();
+
+
+            //检查查岗权限
+            inspectionFlag = '@AsiatekUIHelper.CheckPremission("GetInspectionInfos", "Home", "DefaultArea")' == "True";
+            if (!inspectionFlag) {
+                $btnInspections.hide();
+            } else {
+                getInspectionInfo(refreshInspectionInfo);//获取查岗信息
+            }
+            //检查年检权限
+            YearCheckFlag = '@AsiatekUIHelper.CheckPremission("GetYearCheck", "Home", "DefaultArea")' == "True";
+            if (!YearCheckFlag) {
+                $btnYearCheck.hide();
+            } else {
+                getYearCheckAlarm(refreshYearCheckInfo);//获取年检信息
+            }
+            //检查车辆保养权限
+            MaintenanceCheckFlag = '@AsiatekUIHelper.CheckPremission("GetMaintenanceCheck", "Home", "DefaultArea")' == "True";
+            if (!MaintenanceCheckFlag) {
+                $btnMaintenanceCheck.hide();
+            } else {
+                getMaintenanceCheckAlarm(refreshMaintenanceCheckInfo);//获取年检信息
+            }
+            //检查紧急报警权限
+            emergencyAlarmsFlag = '@AsiatekUIHelper.CheckPremission("GetEmergencyAlarms", "Home", "DefaultArea")' == "True";
+            if (!emergencyAlarmsFlag) {
+                $btnEmergencyAlarms.hide();
+            } else {
+                getEmergencyAlarms(refreshEmergencyAlarms);//紧急告警信息
+            }
+
+            //检查紧急报警权限
+            var _realTimeExceptionsFlag = '@AsiatekUIHelper.CheckPremission("GetRealTimeExceptions", "Home", "DefaultArea")' == "True";
+            if (!_realTimeExceptionsFlag) {
+                $btnRealTimeExceptions.hide();
+            } else {
+                getRealTimeExceptions(refreshRealTimeExceptions);//获取实时异常
+            }
+
+            //右下方divBottomInfo拖动功能
+            var src_posi_Y = 0, dest_posi_Y = 0, move_Y = 0, is_mouse_down = false, destHeight = 100;
+            $("#expander").mousedown(function (e) {
+                src_posi_Y = e.pageY;
+                is_mouse_down = true;
+            });
+            $(document).bind("click mouseup", function (e) {
+                if (is_mouse_down) {
+                    is_mouse_down = false;
+                }
+            }).mousemove(function (e) {
+                dest_posi_Y = e.pageY;
+                move_Y = src_posi_Y - dest_posi_Y;
+                src_posi_Y = dest_posi_Y;
+                destHeight = $("#divBottomInfo").height() + move_Y;
+                if (is_mouse_down) {
+                    $("#divBottomInfo").css("height", destHeight > 100 ? destHeight : 100);       //高度等于100时，不可以再向下拖动（右下方最小高度为100px）
+                    setTreeContentSize();                  //调整页面布局
+                }
+            });
+
+        });
+
+        var getYearCheckAlarm = function (doneCallBack) {
+            $.get("@Url.Content("~/Home/GetYearCheck")", {}, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                if (result.length != 0) {
+                    flashItem($btnYearCheck);
+                }
+                //清理
+                var _$tbody = $tbYearCheck.find("tbody");
+                _$tbody.empty();
+                $btnYearCheck.find("span").text("");
+                $.each(result, function (i, v) {
+                    buildYearCheckContent(v);
+                });
+            }).done(function () {
+                if (typeof (doneCallBack) == "function") {
+                    doneCallBack();
+                }
+            });
+        };
+
+        //车辆保养预告
+        var getMaintenanceCheckAlarm = function (doneCallBack) {
+            $.get("@Url.Content("~/Home/GetMaintenanceCheck")", {}, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                if (result.length != 0) {
+                    flashItem($btnMaintenanceCheck);
+                }
+                //清理
+                var _$tbody = $tbMaintenanceCheck.find("tbody");
+                _$tbody.empty();
+                $btnMaintenanceCheck.find("span").text("");
+                $.each(result, function (i, v) {
+                    buildMaintenanceCheckContent(v);
+                });
+            }).done(function () {
+                if (typeof (doneCallBack) == "function") {
+                    doneCallBack();
+                }
+            });
+        };
+
+        var getRealTimeExceptions = function (doneCallBack) {
+            $.get("@Url.Content("~/Home/GetRealTimeExceptions")", {}, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                if (result.length != 0) {
+                    flashItem($btnRealTimeExceptions);
+                }
+                //清理
+                var _$tbody = $tbRealTimeExceptions.find("tbody");
+                _$tbody.empty();
+                $btnRealTimeExceptions.find("span").text("");
+                $.each(result, function (i, v) {
+                    buildRealTimeExceptionContent(v);
+                });
+            }).done(function () {
+                if (typeof (doneCallBack) == "function") {
+                    doneCallBack();
+                }
+            });
+        };
+        var refreshYearCheckInfo = function () {
+            setInterval(function () {
+                getYearCheckAlarm();
+            }, 5000);
+        }
+
+        //刷新车辆保养预告
+        var refreshMaintenanceCheckInfo = function () {
+            setInterval(function () {
+                getMaintenanceCheckAlarm();
+            }, 5000);
+        }
+
+        //刷新实时异常
+        var refreshRealTimeExceptions = function () {
+            setInterval(function () {
+                getRealTimeExceptions();
+            }, 5000);
+        }
+
+        //创建异常信息内容
+        var buildRealTimeExceptionContent = function (result) {
+            var _$tbody = $tbRealTimeExceptions.find("tbody");
+            var _$tr = $("<tr></tr>");
+            _$tr.append($("<td></td>").text(result.VN));
+            _$tr.append($("<td></td>").text(result.SN));
+            _$tr.append($("<td></td>").text(result.TypeName));
+            _$tr.append($("<td></td>").text(result.StartDateTime));
+            _$tbody.append(_$tr);
+            $btnRealTimeExceptions.find("span").text("(" + $tbRealTimeExceptions.find("tbody>tr").length + ")");
+        }
+
+        var emergencyAlarmsArray = new Array();
+        //获取紧急告警信息
+        var getEmergencyAlarms = function (doneCallBack) {
+            $.get("@Url.Content("~/Home/GetEmergencyAlarms")", {}, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                if (result.length != 0) {
+                    flashItem($btnEmergencyAlarms);
+                }
+                //清理
+                var _$tbody = $tbEmergencyAlarms.find("tbody");
+                _$tbody.empty();
+                $btnEmergencyAlarms.find("span").text("");
+                var _newEmergencyAlarmsArray = new Array();
+                var _newEmergencyAlarmsFlag = false;
+                $.each(result, function (i, v) {
+                    _newEmergencyAlarmsArray.push(v.ID);
+                    buildEmergencyAlarmsContent(v);
+                    if (inspectionsArray.length != 0 && $.inArray(v.ID, emergencyAlarmsArray) == -1)//如果出现上一次未出现的异常ID
+                    {
+                        _newEmergencyAlarmsFlag = true;
+                    }
+                });
+                //如果有新的紧急告警或是第一次查询到紧急告警
+                if (_newEmergencyAlarmsFlag || (emergencyAlarmsArray.length == 0 && _newEmergencyAlarmsArray.length != 0)) {
+                    $.showPromptDialog('@UIText.NewEmergencyAlarm', null, null, null, false, null, "divEAPrompt");
+            }
+                emergencyAlarmsArray = _newEmergencyAlarmsArray;
+            }).done(function () {
+                if (typeof (doneCallBack) == "function") {
+                    doneCallBack();
+                }
+            });
+        };
+    var emergencyAlarmRefreshTimerID;//紧急报警刷新计时器
+    //刷新紧急报警
+    var refreshEmergencyAlarms = function () {
+        emergencyAlarmRefreshTimerID = setInterval(function () {
+            getEmergencyAlarms();
+        }, 5000);
+    }
+
+
+    //创建紧急告警内容
+    var buildEmergencyAlarmsContent = function (result) {
+        var _$tbody = $tbEmergencyAlarms.find("tbody");
+        var _$tr = $("<tr></tr>");
+        if (result.Status == 1)//成功
+        {
+            _$tr.data("dealFlag", 1);
+            _$tr.addClass("colorRed");
+        } else if (result.Status == 2)//超时
+        {
+            _$tr.data("dealFlag", 2);
+            _$tr.addClass("colorRed");
+        }
+        //var _dt = new Date(result.StartDateTime);
+        //var _yyyy = _dt.getFullYear();
+        //var _MM = _dt.getMonth() + 1;
+        //if (_MM.toString().length == 1)
+        //{
+        //    _MM = "0" + _MM;
+        //}
+        //var _tableName = _yyyy + _MM;//201703
+
+        //_$tr.data("item", { ID: result.ID, TerminalCode: result.TerminalCode, StrucName: result.StrucName, VehicleName: result.VehicleName, TableName: _tableName });
+        _$tr.data("item", { ID: result.ID, TerminalCode: result.TerminalCode, StrucName: result.StrucName, VehicleName: result.VehicleName });
+        _$tr.append($("<td></td>").text(result.VehicleName));
+        _$tr.append($("<td></td>").text(result.StrucName));
+        _$tr.append($("<td></td>").text(result.StartDateTime));
+        _$tr.append($("<td></td>").text(result.Address));
+        _$tbody.append(_$tr);
+        $btnEmergencyAlarms.find("span").text("(" + $tbEmergencyAlarms.find("tbody>tr").length + ")");
+    }
+
+    //回复查岗
+    var replyInspection = function () {
+        var _id = $hidInspectionId.val();
+        var _replyContent = $txtReply.val();
+
+        if (_replyContent == undefined || _replyContent == "" || _replyContent == null || _replyContent.trim().length == 0) {
+            $.showPromptDialog("@(UIText.PleaseInput + DisplayText.InspectionContent)");
+            return;
+        }
+
+        $.showConfirmDialog("@UIText.ConfirmReply", "@UIText.InformationTitle", "@UIText.Confirm", "@UIText.Cancel", function () {
+            var _$btnReplyInspection = $("#btnReplyInspection");
+            _$btnReplyInspection.prop("disabled", true);
+            var _token = $('@Html.AntiForgeryToken()').val();
+            var data = { __RequestVerificationToken: _token, ID: _id, replyContent: _replyContent };
+            $.post("@Url.Content("~/Home/ReplyInspection")", data, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                $.showPromptDialog(result.Message);
+                _$btnReplyInspection.prop("disabled", false);
+            });
+        });
+    }
+
+    var inspectionInfoRefreshTimerID;//查岗刷新计时器
+
+
+    var inspectionsArray = new Array();
+    //获取查岗信息
+    var getInspectionInfo = function (doneCallBack) {
+        $.get("@Url.Content("~/Home/GetInspectionInfos")", {}, function (result) {
+            if ($.handleAjaxError(result)) {
+                return;
+            }
+            if (result.length != 0) {
+                flashItem($btnInspections);
+            }
+            //清理
+            var _$tbody = $tbInspections.find("tbody");
+            _$tbody.empty();
+            $btnInspections.find("span").text("");
+            var _newInspectionsArray = new Array();
+            var _newInspectionFlag = false;
+            $.each(result, function (i, v) {
+                _newInspectionsArray.push(v.ID);
+                buildInspectionInfoContent(v);
+                if (inspectionsArray.length != 0 && $.inArray(v.ID, inspectionsArray) == -1)//如果出现上一次未出现的新查岗ID
+                {
+                    _newInspectionFlag = true;
+                }
+            });
+            //如果有新的查岗或是第一次查询到查岗
+            if (_newInspectionFlag || (inspectionsArray.length == 0 && _newInspectionsArray.length != 0)) {
+                $.showPromptDialog("@UIText.NewInspectionInfo!", null, null, null, false, null, "divInspectionPrompt");
+        }
+            inspectionsArray = _newInspectionsArray;
+        }).done(function () {
+            if (typeof (doneCallBack) == "function") {
+                doneCallBack();
+            }
+        });
+    };
+
+
+//刷新查岗信息
+var refreshInspectionInfo = function () {
+    inspectionInfoRefreshTimerID = setInterval(function () {
+        getInspectionInfo();
+    }, 5000);
+}
+
+//创建查岗信息内容
+var buildInspectionInfoContent = function (result) {
+    var _$tbody = $tbInspections.find("tbody");
+    var _$tr = $("<tr></tr>");
+    _$tr.data("item", { ID: result.ID, Content: result.Content });
+    _$tr.append($("<td></td>").text(result.Content));
+    _$tr.append($("<td></td>").text(result.CheckDateTime));
+    _$tr.append($("<td></td>").text(result.PlatformName));
+    _$tbody.append(_$tr);
+    $btnInspections.find("span").text("(" + $tbInspections.find("tbody>tr").length + ")");
+}
+//创建年检信息内容
+var buildYearCheckContent = function (result) {
+    //console.log(result);
+    var _$tbody = $tbYearCheck.find("tbody");
+    var _$tr = $("<tr></tr>");
+    _$tr.data("item", { ID: result.VehicleName, Content: result.CheckTime });
+    _$tr.append($("<td></td>").text(result.VehicleName));
+    _$tr.append($("<td></td>").text(result.CheckTime));
+    _$tr.append($("<td></td>").text(result.CheckTime1));
+    _$tr.append($("<td></td>").text(result.StrucName));
+    _$tr.append($("<td></td>"));
+    _$tbody.append(_$tr);
+    $btnYearCheck.find("span").text("(" + $tbYearCheck.find("tbody>tr").length + ")");
+}
+//创建保养信息内容
+var buildMaintenanceCheckContent = function (result) {
+    var _$tbody = $tbMaintenanceCheck.find("tbody");
+    var _$tr = $("<tr></tr>");
+    _$tr.data("item", { ID: result.VehicleName, Content: result.RulesType });
+    _$tr.append($("<td></td>").text(result.VehicleName));
+    _$tr.append($("<td></td>").text(result.ScheduleName));
+    if (result.RulesType == 1)        //里程周期
+    {
+        _$tr.append($("<td></td>").text("@UIText.MileagePeriod"));
+}
+    if (result.RulesType == 2)       //时间周期
+    {
+        _$tr.append($("<td></td>").text("@UIText.TimePeriod"));
+    }
+    if (result.RulesType == 3)       //里程或时间周期
+    {
+        _$tr.append($("<td></td>").text("@UIText.MileageAndTimePeriod"));
+    }
+    _$tr.append($("<td></td>").text(result.AlarmInfo));
+    _$tr.append($("<td></td>").text(result.StrucName));
+    _$tr.append($("<td></td>"));
+    _$tbody.append(_$tr);
+    $btnMaintenanceCheck.find("span").text("(" + $tbMaintenanceCheck.find("tbody>tr").length + ")");
+}
+//刷新数据
+var refreshDatas = function () {
+
+    //30秒刷新一次选中的车辆定位信息、10分钟刷新一次全部信息
+    //定时器30秒执行一次，因此每当执行到第20次时，刷新全部，否则刷新选中
+    var _flag = 1;
+    setInterval(function () {
+
+        if (_flag == 3) {
+            showMask();
+            refreshAllVehicleInfo();
+            _flag = 1;
+        } else {
+            refreshCheckedVehicleInfo();
+        }
+        _flag++;
+    }, 10000);
+}
+
+//刷新选中车辆信息
+var refreshCheckedVehicleInfo = function () {
+    //刷新选中的车辆定位信息
+    //1.获取要刷新的信息
+    //2.获取新定位数据
+    //3.更新树节点状态
+    //4.更新详细信息表格
+    //5.更新下方监控车辆信息
+
+    //1.获取要刷新的信息
+    var _checkedNodes = treeViewObj.getChecked();
+    //过滤出有意义的车辆节点
+    var _vehicleNodes = $.grep(_checkedNodes, function (item, index) {
+        var _tag = item.tag;
+        return _tag != null && !_tag.NoSignal;
+    });
+
+    if (_vehicleNodes.length == 0) {
+        return;
+    }
+    flashItem($btnCheckedVehicles);
+    var _nidvids = new Array();
+    $.each(_vehicleNodes, function (i, v) {
+        _nidvids.push({ nodeId: v.nodeId, vid: v.tag.VID });
+    });
+    //2.发送ID获取定位数据
+    getCurrentSignals(_nidvids, true);
+}
+//刷新全部车辆信息
+var refreshAllVehicleInfo = function () {
+    //刷新全部车辆定位信息
+    //注意，其实可以不用重新创建整个树，只更新车辆节点状态，然后render，但是如果用户有新分配的车辆，就无法更新出来了
+
+    //1.获取展开的节点,记录下ID，之所以不用nodeId，
+    //是因为nodeId重新生成后可能会变；不用单位名称也是因为单位名称可能会被修改
+    //唯一不变的是ID
+    var _strucNodes = treeViewObj.getExpanded();
+    var _expandedSIDs = new Array();
+    $.each(_strucNodes, function (i, v) {
+        _expandedSIDs.push(v.sid);
+    });
+
+    //获取选中的单位与车辆节点，只用ID，道理同上
+    var _checkedNodes = treeViewObj.getChecked();
+    //过滤出有意义的车辆节点
+    var _vehicleNodes = $.grep(_checkedNodes, function (item, index) {
+        var _tag = item.tag;
+        return _tag != null && !_tag.NoSignal;
+    });
+    var _checkedVIDs = new Array();
+    $.each(_vehicleNodes, function (i, v) {
+        _checkedVIDs.push(v.tag.VID);
+    });
+
+    //过滤出单位节点
+    var _checkedStrucNodes = $.grep(_checkedNodes, function (item, index) {
+        var _tag = item.tag;
+        return _tag == null;
+    });
+    var _checkedSIDs = new Array();
+    $.each(_checkedStrucNodes, function (i, v) {
+        _checkedSIDs.push(v.sid);
+    });
+
+
+    //2.重新初始化左侧信息
+    initLeftInfo(function () {
+        //3.获取新的单位节点、车辆节点
+        var _allNodes = treeViewObj.getUnchecked();//获取全部节点（对于新数据，未选中的就是全部）
+        var _allStrucNodes = new Array();
+        var _allVehicleNodes = new Array();
+        $.each(_allNodes, function (i, v) {
+            if (v.tag == null)//单位节点
+            {
+                _allStrucNodes.push(v);
+            } else//车辆节点
+            {
+                _allVehicleNodes.push(v);
+            }
+        });
+
+        //4.根据获取到的信息，获取原本选中的车辆节点现在的node
+        var _newVehicleNodes = new Array();
+        $.each(_allVehicleNodes, function (i, v) {
+            if ($.inArray(v.tag.VID, _checkedVIDs) != -1) {
+                _newVehicleNodes.push(v);
+            }
+        });
+        //5.重新选中之前选中过的车辆节点
+        treeViewObj.checkNode(_newVehicleNodes, { silent: true });
+
+
+        //6根据获取到的信息，获取原本选中的单位节点现在的nodeid
+        var _newCheckedStrucNodeIds = new Array();
+        $.each(_allStrucNodes, function (i, v) {
+            if ($.inArray(v.sid, _checkedSIDs) != -1) {
+                _newCheckedStrucNodeIds.push(v.nodeId);
+            }
+        });
+        //7.重新选中之前选中过的单位节点
+        treeViewObj.checkNode(_newCheckedStrucNodeIds, { silent: true });
+
+
+
+        //8.根据获取到的信息，获取原本展开的单位节点现在的nodeid
+        var _newStrucNodeIds = new Array();
+        $.each(_allStrucNodes, function (i, v) {
+            if ($.inArray(v.sid, _expandedSIDs) != -1) {
+                _newStrucNodeIds.push(v.nodeId);
+            }
+        });
+        //9.重新展开之前展开过的单位节点
+        treeViewObj.expandNode(_newStrucNodeIds, { silent: true });
+
+
+        //对车辆详细信息进行恢复
+        //用之前选中的车辆ID，到各个状态的表格中去寻找，找到就check
+        var _$tempTrs = $tbOffineVehicles.find("tbody>tr");
+        $.each(_$tempTrs, function (i, v) {
+            var _currentChk = $(this).find(":checkbox");
+            var _currentVID = parseInt(_currentChk.val());
+            if ($.inArray(_currentVID, _checkedVIDs) != -1) {
+                _currentChk.prop("checked", true);
+            }
+        });
+
+        _$tempTrs = $tbRunningVehicles.find("tbody>tr");
+        $.each(_$tempTrs, function (i, v) {
+            var _currentChk = $(this).find(":checkbox");
+            var _currentVID = parseInt(_currentChk.val());
+            if ($.inArray(_currentVID, _checkedVIDs) != -1) {
+                _currentChk.prop("checked", true);
+            }
+        });
+
+        _$tempTrs = $tbStopVehicles.find("tbody>tr");
+        $.each(_$tempTrs, function (i, v) {
+            var _currentChk = $(this).find(":checkbox");
+            var _currentVID = parseInt(_currentChk.val());
+            if ($.inArray(_currentVID, _checkedVIDs) != -1) {
+                _currentChk.prop("checked", true);
+            }
+        });
+
+        hideMask();
+
+        //刷新下方监控车辆（这里只能重新查询一次选中的车辆，否则就得刷新树的时候直接带出详细定位信息）
+        var _nidvids = new Array();
+        $.each(_newVehicleNodes, function (i, v) {
+            _nidvids.push({ nodeId: v.nodeId, vid: v.tag.VID });
+        });
+        if (_nidvids.length != 0) {
+            flashItem($btnCheckedVehicles);
+            getCurrentSignals(_nidvids, true);
+        }
+
+    });
+}
+
+//修改树节点状态
+var changeNodeSignalStatus = function (nodeId, status) {
+    var _currentNode = treeViewObj.getNode(nodeId);
+    var _tag = _currentNode.tag;
+    if (status === 1)//行驶中
+    {
+        _tag.IsOnline = true;
+        _tag.IsRunning = true;
+        _currentNode.color = "#00a1fe";
+    } else if (status === 2)//停车
+    {
+        _tag.IsOnline = true;
+        _tag.IsRunning = false;
+        _currentNode.color = "#8c8c8c";
+    } else//掉线
+    {
+        _tag.IsOnline = false;
+        _currentNode.color = "#ff0202";
+    }
+    treeViewObj.asiatekRender();
+}
+
+//初始化车代号搜索自动补全功能
+var initVehicleNameAutoComplete = function () {
+    $txtVehicleName.autocomplete({
+        delay: 500,
+        minLength: 1,
+        select: function (event, ui) {
+            $hidVehicleName.val(ui.item.value);
+            $hidVehicleID.val(ui.item.VID);
+        },
+        source: function (request, response) {
+            // 提取到公共控制器
+            $.get('@Url.Content("~/Common/GetUserVehiclesByVehicleName")', { vehicleName: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+}
+//初始化复选框change事件
+var initChangeEvent = function () {
+    $tbRunningVehicles.on("change", ":checkbox", function () {
+        tbVehiclesNodeChange($(this));
+    });
+
+    $tbStopVehicles.on("change", ":checkbox", function () {
+        tbVehiclesNodeChange($(this));
+    });
+
+    $tbOffineVehicles.on("change", ":checkbox", function () {
+        tbVehiclesNodeChange($(this));
+    });
+}
+
+
+var $hidAlarmID = $("#hidAlarmID");
+var $hidAlarmTerminalCode = $("#hidAlarmTerminalCode");
+var $txtDealEmergencyAlarmInfo = $("#txtDealEmergencyAlarmInfo");
+var $hEAStrucName = $("#hEAStrucName");
+var $hEAVehicleName = $("#hEAVehicleName");
+var $divDealEmergencyAlarm = $("#divDealEmergencyAlarm");
+
+
+var $hExtraInfo = $("#hExtraInfo");
+
+var dealEmergencyAlarm = function () {
+    $.showConfirmDialog("@UIText.ConfirmDeal", "@UIText.InformationTitle", "@UIText.Confirm", "@UIText.Cancel", function () {
+        var _$btnDealEmergencyAlarm = $("#btnDealEmergencyAlarm");
+        _$btnDealEmergencyAlarm.prop("disabled", true);
+        var _id = $hidAlarmID.val();
+        var _terminalCode = $hidAlarmTerminalCode.val();
+        var _dealInfo = $txtDealEmergencyAlarmInfo.val();
+        var _token = $('@Html.AntiForgeryToken()').val();
+        var data = { __RequestVerificationToken: _token, ID: _id, TerminalCode: _terminalCode, DealInfo: _dealInfo };
+        $.post("@Url.Content("~/Home/DealEmergencyAlarm")", data, function (result) {
+            if ($.handleAjaxError(result)) {
+                return;
+            }
+            $.showPromptDialog(result.Message);
+            _$btnDealEmergencyAlarm.prop("disabled", false);
+        });
+    });
+}
+
+//初始化点击事件
+var initClickEvent = function () {
+    //紧急告警
+    $tbEmergencyAlarms.find("tbody").on("click", "tr", function () {
+        clearTimeout(emergencyAlarmRefreshTimerID);//打开处理紧急告警确认框时，停止刷新机制
+        $hidAlarmID.val("");
+        $hidAlarmTerminalCode.val("");
+        $hEAStrucName.text("");
+        $hEAVehicleName.text("");
+        $hExtraInfo.text("");
+        // 清空处理信息
+        $txtDealEmergencyAlarmInfo.val("");
+
+
+        var _$obj = $(this);
+        var _item = _$obj.data("item");
+
+        var _dealFlag = _$obj.data("dealFlag");
+        if (_dealFlag === 1)//成功
+        {
+            $hExtraInfo.text("@UIText.EmergencyAlarmExtraInfo1");
+        } else if (_dealFlag === 2)//超时
+        {
+            $hExtraInfo.text("@UIText.EmergencyAlarmExtraInfo2");
+            }
+        $hidAlarmID.val(_item.ID);
+        $hidAlarmTerminalCode.val(_item.TerminalCode);
+        $hEAStrucName.text(_item.StrucName);
+        $hEAVehicleName.text(_item.VehicleName);
+
+
+        $divDealEmergencyAlarm.dialog(
+            {
+                modal: true,
+                close: function () {
+                    getEmergencyAlarms(refreshEmergencyAlarms);//关闭紧急报警处理框后，立即获取紧急报警信息
+                }
+            });
+    });
+
+    //查岗
+    $tbInspections.find("tbody").on("click", "tr", function () {
+        clearTimeout(inspectionInfoRefreshTimerID);//打开查岗回复框时，停止刷新机制
+        $hidInspectionId.val("");
+        $hInspectionContent.text("");
+        $txtReply.val("");
+        var _$obj = $(this);
+        var _item = _$obj.data("item");
+        $hidInspectionId.val(_item.ID);
+        $hInspectionContent.text(_item.Content);
+        $divInspectionReply.dialog(
+            {
+                modal: true,
+                close: function () {
+                    getInspectionInfo(refreshInspectionInfo);;//关闭查岗回复框后，立即获取查岗信息
+                }
+            });
+    });
+    //下方栏状态按钮
+    $ltdBottomInfoStatusButtons.on("click", function () {
+        $ltdBottomInfoStatusButtons.removeClass("statusBtnSelected");
+        $(this).addClass("statusBtnSelected");
+    });
+
+    $btnCheckedVehicles.on("click", function () {
+        showCheckedVehicles();
+        setTreeContentSize();
+    });
+    $btnIntraScopeVehicles.on("click", function () {
+        showIntraScopeVehicles();
+        setTreeContentSize();
+    });
+
+    $btnRealTimeExceptions.on("click", function () {
+        showRealTimeExceptions();
+        setTreeContentSize();
+    });
+
+    $btnInspections.on("click", function () {
+        showInspections();
+        setTreeContentSize();
+    });
+    $btnYearCheck.on("click", function () {
+        showYearCheck();
+        setTreeContentSize();
+    });
+    $btnMaintenanceCheck.on("click", function () {
+        showMaintenanceCheck();
+        setTreeContentSize();
+    });
+    $btnEmergencyAlarms.on("click", function () {
+        showEmergencyAlarms();
+        setTreeContentSize();
+    });
+
+    $btnStopVehicles.on("click", function () {
+        showStop();
+    });
+
+    $btnOfflineVehicles.on("click", function () {
+        showOffline();
+    });
+
+    $btnAllVehicles.on("click", function () {
+        showAll();
+    });
+
+    $btnRunningVehicles.on("click", function () {
+        showRunning();
+    });
+
+    $tdToggleLeftInfo.on("click", function () {
+        $tdLeftInfo.toggle();
+        setTreeContentSize();
+    });
+
+    $tdToggleBottomInfo.on("click", function () {
+        //$("#mapBottomImage").on("click", function () {
+        $tdBottomInfo.toggle();
+        setTreeContentSize();
+    });
+
+    $("#btnSearch").on("click", function () {
+        //搜索
+        var _vehicleName = $hidVehicleName.val();
+        if (_vehicleName == undefined || _vehicleName == "" || _vehicleName.trim() == "") {
+            $.showPromptDialog("@UIText.PleaseInputVehicleNameAndPickOne", null, null, null, false);
+                return;
+            }
+            if (searchFlag == 1)//搜全部
+            {
+                searchFormTree(_vehicleName);
+            } else if (searchFlag == 2)//搜行驶中
+            {
+                searchFromTable($tbRunningVehicles, _vehicleName, "@UIText.RunningStatus");
+            } else if (searchFlag == 3)//停车
+            {
+                searchFromTable($tbStopVehicles, _vehicleName, "@UIText.StopStatus");
+            } else//离线
+            {
+                searchFromTable($tbOffineVehicles, _vehicleName, "@UIText.OfflineStatus");
+            }
+        });
+}
+
+//显示监控车辆
+var showCheckedVehicles = function () {
+    $tbIntraScopeVehicles.hide();
+    $tbInspections.hide();
+    $tbEmergencyAlarms.hide();
+    $tbRealTimeExceptions.hide();
+    $tbCheckedVehicles.show();
+    $tbYearCheck.hide();
+    $tbMaintenanceCheck.hide();
+}
+//显示区域车辆
+var showIntraScopeVehicles = function () {
+    $tbIntraScopeVehicles.show();
+    $tbInspections.hide();
+    $tbEmergencyAlarms.hide();
+    $tbRealTimeExceptions.hide();
+    $tbCheckedVehicles.hide();
+    $tbYearCheck.hide();
+    $tbMaintenanceCheck.hide();
+}
+//显示实时异常
+var showRealTimeExceptions = function () {
+    $tbIntraScopeVehicles.hide();
+    $tbInspections.hide();
+    $tbEmergencyAlarms.hide();
+    $tbRealTimeExceptions.show();
+    $tbCheckedVehicles.hide();
+    $tbYearCheck.hide();
+    $tbMaintenanceCheck.hide();
+}
+//显示紧急报警
+var showEmergencyAlarms = function () {
+    $tbIntraScopeVehicles.hide();
+    $tbInspections.hide();
+    $tbEmergencyAlarms.show();
+    $tbRealTimeExceptions.hide();
+    $tbCheckedVehicles.hide();
+    $tbYearCheck.hide();
+    $tbMaintenanceCheck.hide();
+}
+//显示年检预告
+showYearCheck = function () {
+    $tbIntraScopeVehicles.hide();
+    $tbInspections.hide();
+    $tbEmergencyAlarms.hide();
+    $tbRealTimeExceptions.hide();
+    $tbCheckedVehicles.hide();
+    $tbYearCheck.show();
+    $tbMaintenanceCheck.hide();
+}
+//显示保养预告
+showMaintenanceCheck = function () {
+    $tbIntraScopeVehicles.hide();
+    $tbInspections.hide();
+    $tbEmergencyAlarms.hide();
+    $tbRealTimeExceptions.hide();
+    $tbCheckedVehicles.hide();
+    $tbYearCheck.hide();
+    $tbMaintenanceCheck.show();
+}
+//显示查岗信息
+var showInspections = function () {
+    $tbIntraScopeVehicles.hide();
+    $tbInspections.show();
+    $tbEmergencyAlarms.hide();
+    $tbRealTimeExceptions.hide();
+    $tbCheckedVehicles.hide();
+    $tbYearCheck.hide();
+    $tbMaintenanceCheck.hide();
+}
+
+
+var searchFormTree = function (text) {
+    //搜索采用的是正则表达式，这里转义正则表达式符号
+    //	MXL-135H(MAK010)
+    if (text.indexOf('(')) {
+        text = text.replace("(", "\\(")
+    }
+    if (text.indexOf(')')) {
+        text = text.replace(")", "\\)")
+    }
+    treeViewObj.search(text, {
+        ignoreCase: true,     // 忽略大小写
+        exactMatch: true,    // 精确匹配
+        revealResults: false,  // 显示匹配的节点
+    });
+}
+//点击行驶、停车、掉线表中车辆复选框后，选中或取消选中树中的节点
+var tbVehiclesNodeChange = function ($obj) {
+    var _vehicleName = $obj.closest("tr").children("td:last").find("span:first").text();
+    var _val = $obj.val();
+    currentTbCheckVehicleID = _val;
+    var _checked = $obj.prop("checked");
+    if (_checked) {
+        //选中以后，从树中搜索
+        searchFormTree(_vehicleName);
+    } else {
+        //取消选中则从选中的节点中找到 对应状态的 节点 取消其选中
+        var _checkedNodes = treeViewObj.getChecked();
+        for (var i in _checkedNodes) {
+            var _tempNode = _checkedNodes[i];
+            var _tag = _tempNode.tag;
+            if (_tag == null) {
+                continue;
+            }
+            var _text = _tempNode.text;
+            var _vid = _tempNode.tag.VID;
+            var _isOnline = _tempNode.tag.IsOnline;
+            var _isRunning = _tempNode.tag.IsRunning;
+            if (_vid == _val)//选中节点中有匹配的
+            {
+                treeViewObj.uncheckNode(_tempNode);
+            }
+        }
+    }
+}
+
+//显示行驶中
+var showRunning = function () {
+    searchFlag = 2;
+    $divAllVehicles.hide();
+    $tbStopVehicles.hide();
+    $tbOffineVehicles.hide();
+    $tbRunningVehicles.show();
+}
+//显示停车
+var showStop = function () {
+    searchFlag = 3;
+    $divAllVehicles.hide();
+    $tbRunningVehicles.hide();
+    $tbOffineVehicles.hide();
+    $tbStopVehicles.show();
+}
+//显示掉线
+var showOffline = function () {
+    searchFlag = 4;
+    $divAllVehicles.hide();
+    $tbRunningVehicles.hide();
+    $tbOffineVehicles.show();
+    $tbStopVehicles.hide();
+}
+//显示全部
+var showAll = function () {
+    searchFlag = 1;
+    $divAllVehicles.show();
+    $tbRunningVehicles.hide();
+    $tbOffineVehicles.hide();
+    $tbStopVehicles.hide();
+}
+
+//从行驶中、停车、离线中搜索车辆
+var searchFromTable = function ($tbObj, text, typeName) {
+    var _result = $tbObj.find("span:contains(" + text + ")");
+    if (_result.length == 0) {
+        var _temp = "@UIText.RealTimeMonitoringSearchResult";
+        _temp = _temp.format(text, typeName);
+        $.showPromptDialog(_temp, null, null, null, false);
+    } else {
+        $.each(_result, function () {
+            var _$chk = $(this).closest("tr").children("td:first").find(":checkbox");
+            if (!_$chk.prop("checked"))//原本是选中的 则跳过
+            {
+                _$chk.prop("checked", true).trigger("change");
+            }
+        });
+    }
+}
+
+
+var changeTableNodeCheckState = function ($tbObj, vid, checked) {
+    var _$chk = $tbObj.find(":checkbox[value='" + vid + "']");
+    if (_$chk.length != 0) {
+        _$chk.prop("checked", checked);
+    }
+}
+
+
+//获取最新单个车辆信号
+var getCurrentSignal = function (nodeId, vid, prevIsOnline, prevIsRunning) {
+    $.get("@Url.Content("~/Home/GetRealTimeSignalByVehicleID")", { vehicleID: vid }, function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        resetAfterGetNewestSignal(result, nodeId, prevIsOnline, prevIsRunning);
+    });
+}
+
+
+//获取最新的批量车辆信息
+var getCurrentSignals = function (nidvids, timerFlag) {
+    if (nidvids.length == 0) {
+        return;
+    }
+    var _vids = "";
+    $.each(nidvids, function (i, v) {
+        _vids += v.vid + "|";
+    });
+    $.post("@Url.Content("~/Home/GetRealTimeSignalsByVehicleIds")", { ids: _vids }, function (result) {
+
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        $.each(result, function (i, v) {
+            var _currentVID = v.VID;
+            var _prevIsOnline;
+            var _prevIsRunning;
+            var _nodeId;
+            $.each(nidvids, function (i, v) {
+                if (v.vid == _currentVID) {
+                    var _node = treeViewObj.getNode(v.nodeId);
+                    _prevIsOnline = _node.tag.IsOnline;
+                    _prevIsRunning = _node.tag.IsRunning;
+                    _nodeId = v.nodeId;
+                    return false;
+                }
+            });
+            resetAfterGetNewestSignal(v, _nodeId, _prevIsOnline, _prevIsRunning, timerFlag);
+        });
+    });
+}
+
+var resetAfterGetNewestSignal = function (result, nodeId, prevIsOnline, prevIsRunning, timerFlag) {
+    var _nowIsOnline = result.IsOnline;
+    var _nowIsRunning = result.IsRunning;
+    var _vid = result.VID;
+
+    if (!prevIsOnline)//之前离线
+    {
+        if (_nowIsOnline)//现在上线
+        {
+            if (_nowIsRunning)//行驶
+            {
+                changeNodeSignalStatus(nodeId, 1);
+                moveVehicleInfo(_vid, $tbOffineVehicles, $btnOfflineVehicles, $tbRunningVehicles, $btnRunningVehicles);
+            }
+            else//停车
+            {
+                changeNodeSignalStatus(nodeId, 2);
+                moveVehicleInfo(_vid, $tbOffineVehicles, $btnOfflineVehicles, $tbStopVehicles, $btnStopVehicles);
+            }
+        }
+    }
+    else//之前在线
+    {
+        if (!_nowIsOnline)//现在离线
+        {
+            changeNodeSignalStatus(nodeId, 3);
+            if (prevIsRunning)//原本是行驶
+            {
+                moveVehicleInfo(_vid, $tbRunningVehicles, $btnRunningVehicles, $tbOffineVehicles, $btnOfflineVehicles);
+            } else//原本是停车
+            {
+                moveVehicleInfo(_vid, $tbStopVehicles, $btnStopVehicles, $tbOffineVehicles, $btnOfflineVehicles);
+            }
+        }
+        else if (!prevIsRunning && _nowIsRunning)//原本停车，现在行驶
+        {
+            changeNodeSignalStatus(nodeId, 1);
+            moveVehicleInfo(_vid, $tbStopVehicles, $btnStopVehicles, $tbRunningVehicles, $btnRunningVehicles);
+        }
+        else if (prevIsRunning && !_nowIsRunning)//原本行驶，现在停车
+        {
+            changeNodeSignalStatus(nodeId, 2);
+            moveVehicleInfo(_vid, $tbRunningVehicles, $btnRunningVehicles, $tbStopVehicles, $btnStopVehicles);
+        }
+    }
+
+    buildCheckVehiclesContent(result, timerFlag);
+}
+
+
+//如果获取定位信息后、车辆状态发生改变
+//那么需要移动信息到对应的状态下，重新统计数量
+var moveVehicleInfo = function (vid, $originalTable, $originalButton, $targetTable, $targetButton) {
+    //从原表格移除，追加到目标表格
+    $originalTable.find(":checkbox[value='" + vid + "']").closest("tr").remove()
+        .prependTo($targetTable.find("tbody"));
+    //统计
+    showVehicleDetailNum($originalTable, $originalButton);
+    showVehicleDetailNum($targetTable, $targetButton);
+}
+
+var showVehicleDetailNum = function ($tb, $btn) {
+    $btn.find("span").text("(" + $tb.find("tbody>tr").length + ")");
+}
+
+
+var buildCheckVehiclesContent = function (result, timerFlag) {
+    var _$tbody = $tbCheckedVehicles.find("tbody");
+    if (result.FlagState != null && result.FlagState != "") {     //删除右边的","
+        var str = result.FlagState;
+        str = (str.substring(str.length - 1) == ',') ? str.substring(0, str.length - 1) : str;
+        result.FlagState = str;
+    }
+    if (timerFlag)//定时刷新不是追加节点，而是更新原有节点
+    {
+        var _$trs = _$tbody.find("tr");
+        $.each(_$trs, function (i, v) {
+            var _$tr = $(this);
+            var _vid = _$tr.data("vid");
+            if (result.VID == _vid) {
+                if (!result.IsOnline) {
+                    _$tr.removeClass();
+                    _$tr.addClass("offlineColor");
+                } else if (result.IsRunning) {
+                    _$tr.removeClass();
+                    _$tr.addClass("runningColor");
+                } else {
+                    _$tr.removeClass();
+                    _$tr.addClass("stopColor");
+                }
+                _$tr.find("td:first").text(result.VN);
+                _$tr.find("td:nth-child(2)").text(result.SN);
+                _$tr.find("td:nth-child(3)").text(result.Direction);
+                _$tr.find("td:nth-child(4)").text(result.Speed);
+                _$tr.find("td:nth-child(5)").text(result.SignalTime);
+                _$tr.find("td:nth-child(6)").text(result.Address);
+                _$tr.find("td:nth-child(7)").text(result.Temperature);
+                _$tr.find("td:last").text(result.FlagState);
+            }
+        });
+    } else {
+        var _$tr = $("<tr></tr>");
+        _$tr.data("vid", result.VID);
+        if (!result.IsOnline) {
+            _$tr.removeClass();
+            _$tr.addClass("offlineColor");
+        } else if (result.IsRunning) {
+            _$tr.removeClass();
+            _$tr.addClass("runningColor");
+        } else {
+            _$tr.removeClass();
+            _$tr.addClass("stopColor");
+        }
+        _$tr.append($("<td></td>").text(result.VN));
+        _$tr.append($("<td></td>").text(result.SN));
+        _$tr.append($("<td></td>").text(result.Direction));
+        _$tr.append($("<td></td>").text(result.Speed));
+        _$tr.append($("<td></td>").text(result.SignalTime));
+        _$tr.append($("<td></td>").text(result.Address));
+        _$tr.append($("<td></td>").text(result.Temperature));
+        _$tr.append($("<td></td>").text(result.FlagState));
+        _$tbody.prepend(_$tr);
+        $btnCheckedVehicles.find("span").text("(" + $tbCheckedVehicles.find("tbody>tr").length + ")");
+    }
+
+    showMarkers(result);
+
+}
+
+//创建树
+var buildTree = function (result) {
+    if (treeViewObj != null) {
+        treeViewObj.remove();
+    }
+    var _$strucTree = $("#divAllVehicles");
+    _$strucTree.treeview({
+        data: result,
+        showCheckbox: true,
+        showBorder: false,
+        highlightSearchResults: false,
+        backColor: "#2a363f",
+        color: "#fdffff",
+        onhoverColor: "#1e2a33"
+    });
+    treeViewObj = _$strucTree.data('treeview');
+
+
+    var _childVehicleNodes = new Array();
+
+    //获取节点的所有直接与间接子节点
+    var getAllChildNodes = function (nodeIds, childNodes) {
+        if (childNodes != undefined) {
+            childNodes.forEach(function (obj) {
+                if (obj.tag != null && !obj.tag.NoSignal)//记录选中的车辆节点（原本无定位的忽略）
+                {
+                    _childVehicleNodes.push(obj);
+                }
+                nodeIds.push(obj.nodeId);
+                getAllChildNodes(nodeIds, obj.nodes);
+            });
+        }
+    };
+
+
+    //获取节点的所有直接与间接父节点
+    var getAllParentNodes = function (parentIds, nodeId) {
+        var _parentNode = treeViewObj.getParent(nodeId);
+        if (_parentNode != undefined) {
+            var _pid = _parentNode.nodeId;
+            parentIds.push(_pid);
+            getAllParentNodes(parentIds, _pid);
+        }
+    };
+
+
+    //树节点点击后引发，所有的操作最终都指向该事件
+    //查询单个车辆新的定位数据均在这里处理
+    //1.选中行驶、停车、掉线表格中的车辆，会先按照选中节点的车代号在树中执行搜索，搜索到以后进行选中
+    //2.对行驶、停车、掉线表格中的车辆进行搜索，搜索到以后进行选中，选中后再次在树中搜索，搜索到再选中
+    //2.直接选中树的节点
+    _$strucTree.on('nodeChecked ', function (event, data) {
+        clearAreaResult();             //有区域查车结果，先清除，再显示车辆
+        if (data.tag != null)//tag不为null表示是车辆节点
+        {
+            //根据节点状态同时对对应状态的列表元素进行选中
+            var _isRunning = data.tag.IsRunning;
+            var _isOnline = data.tag.IsOnline;
+            var _noSignal = data.tag.NoSignal;
+            var _vehicleName = data.text;
+            var _vid = data.tag.VID;
+            if (!_noSignal)//原本无定位信息的终端不查询
+            {
+                if (!_isOnline)//离线
+                {
+                    changeTableNodeCheckState($tbOffineVehicles, _vid, true);
+                } else if (_isRunning)//行驶中
+                {
+                    changeTableNodeCheckState($tbRunningVehicles, _vid, true);
+                } else//停车
+                {
+                    changeTableNodeCheckState($tbStopVehicles, _vid, true);
+                }
+                //查询定位信息
+                getCurrentSignal(data.nodeId, _vid, _isOnline, _isRunning);
+            }
+
+            //检查当前节点的父节点是否需要选中（子节点全部选中则父节点也选中）
+            //获取兄弟节点
+            var _sibs = treeViewObj.getSiblings(data.nodeId);
+            var _allChecked = true;
+            for (var i = 0; i < _sibs.length; i++) {
+                var _temp = _sibs[i];
+                if (!_temp.state.checked) {
+                    _allChecked = false;
+                    break;
+                }
+            }
+            if (_allChecked) {
+                //选中父节点
+                treeViewObj.checkNode(data.parentId, { silent: true });
+            }
+            return;
+        }
+
+        //选中单位节点后进行子节点的选中
+        var _nodeIds = new Array();
+        getAllChildNodes(_nodeIds, data.nodes);
+        treeViewObj.checkNode(_nodeIds, { silent: true });
+
+        var nidvids = new Array();
+        //选中单位会批量选中车辆节点，由于性能问题，采用的选中方式并不是依靠引发单个节点的选中事件
+        //所以这里需要单独做车辆表格与树的选中同步问题
+        for (var i = 0; i < _childVehicleNodes.length; i++) {
+            var _obj = _childVehicleNodes[i];
+            var _isRunning = _obj.tag.IsRunning;
+            var _isOnline = _obj.tag.IsOnline;
+            var _vehicleName = _obj.text;
+            var _vid = _obj.tag.VID;
+            var _checked = _obj.state.checked;
+            if (_checked)//跳过原本单独选中过的车辆节点
+            {
+                continue;
+            }
+
+            if (!_isOnline)//离线
+            {
+                changeTableNodeCheckState($tbOffineVehicles, _vid, true);
+            } else if (_isRunning)//行驶中
+            {
+                changeTableNodeCheckState($tbRunningVehicles, _vid, true);
+            } else//停车
+            {
+                changeTableNodeCheckState($tbStopVehicles, _vid, true);
+            }
+            nidvids.push({ nodeId: _obj.nodeId, vid: _vid });
+        }
+        _childVehicleNodes = new Array();
+        //批量查询信号
+        getCurrentSignals(nidvids, false);
+    });
+
+
+    _$strucTree.on('nodeUnchecked  ', function (event, data) {
+        if (data.tag == null)//单位节点
+        {
+            //取消选中节点后进行子节点的取消选中
+            var _nodeIds = new Array();
+            getAllChildNodes(_nodeIds, data.nodes);
+            treeViewObj.uncheckNode(_nodeIds, { silent: true });
+
+            //取消行驶中、停车、掉线表格中对应车辆的选中
+            for (var i = 0; i < _childVehicleNodes.length; i++) {
+
+                var _obj = _childVehicleNodes[i];
+                var _isRunning = _obj.tag.IsRunning;
+                var _isOnline = _obj.tag.IsOnline;
+                var _vehicleName = _obj.text;
+                var _vid = _obj.tag.VID;
+
+                if (!_isOnline)//离线
+                {
+                    changeTableNodeCheckState($tbOffineVehicles, _vid, false);
+                } else if (_isRunning)//行驶中
+                {
+                    changeTableNodeCheckState($tbRunningVehicles, _vid, false);
+                } else//停车
+                {
+                    changeTableNodeCheckState($tbStopVehicles, _vid, false);
+                }
+                removeVehicleInfoFromBottomTable(_vid);
+
+            }
+            _childVehicleNodes = new Array();
+        }
+        //只要一个子节点未选中，父节点就取消选中，包括所有上级节点
+        var _parentNodeIds = new Array();
+        getAllParentNodes(_parentNodeIds, data.nodeId);
+        treeViewObj.uncheckNode(_parentNodeIds, { silent: true });
+
+        if (data.tag != null)//tag不为null表示是车辆节点
+        {
+            //根据节点状态同时对对应状态的列表元素进行取消选中
+            var _isRunning = data.tag.IsRunning;
+            var _isOnline = data.tag.IsOnline;
+            var _noSignal = data.tag.NoSignal;
+            var _vehicleName = data.text;
+            var _vid = data.tag.VID;
+
+
+            if (!_noSignal) {
+                if (!_isOnline)//离线
+                {
+                    changeTableNodeCheckState($tbOffineVehicles, _vid, false);
+                } else if (_isRunning)//行驶中
+                {
+                    changeTableNodeCheckState($tbRunningVehicles, _vid, false);
+                } else//停车
+                {
+                    changeTableNodeCheckState($tbStopVehicles, _vid, false);
+                }
+            }
+            removeVehicleInfoFromBottomTable(_vid);
+
+        }
+    });
+
+    _$strucTree.on('searchComplete  ', function (event, results) {
+        var finded = false;
+        for (var item in results) {
+            //console.log(item);
+            finded = true;
+            var _nodeId = results[item].nodeId;
+            if (_nodeId != null) {
+                var _currentNode = treeViewObj.getNode(_nodeId);
+                var _isOnline = _currentNode.tag.IsOnline;
+                var _isRunning = _currentNode.tag.IsRunning;
+                var _noSignal = _currentNode.tag.NoSignal;
+                var _vid = _currentNode.tag.VID;
+                //判断搜索标识，根据当前搜索标识决定是否跳过搜到到的但却不该选中的节点
+                //比如搜多行驶中车辆，但是由于不同单位的车代号可以重复，所以如果行驶中和停车中的车辆具有相同的车代号，那么会造成
+                //从树中搜索时 同时搜索到不同状态相同车代号的节点，这时只能选中那个行驶中的，否则违背业务逻辑
+
+                if (searchFlag == 1) {
+                    if ($hidVehicleID.val() == _vid) {
+                        var _parentNodeIds = new Array();
+                        getAllParentNodes(_parentNodeIds, _nodeId);
+                        treeViewObj.expandNode(_parentNodeIds, { silent: true });
+                        treeViewObj.checkNode(_nodeId, { silent: false });
+                    }
+                } else//在行驶、停车、掉线中点击或搜索引发的操作
+                {
+                    if (!_noSignal) {
+                        if (searchFlag == 4 && _isOnline)//搜索掉线中的车，则跳过在线的
+                        {
+                            continue;
+                        }
+                        if (searchFlag == 2 && (!_isOnline || !_isRunning))//搜索行驶中的车，则跳过掉线或停车的
+                        {
+                            continue;
+                        }
+                        if (searchFlag == 3 && (!_isOnline || _isRunning))//搜索停车中的车，则跳过掉线或行驶的
+                        {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                    //如果在同一个类别下，出现同车代号的记录，那么必须要判断vid，否则会造成，勾选一辆车，而树中选中多辆车
+                    if (!$.isEmptyObject(currentTbCheckVehicleID)) {
+                        if (_vid == currentTbCheckVehicleID) {
+                            var _parentNodeIds = new Array();
+                            getAllParentNodes(_parentNodeIds, _nodeId);
+                            treeViewObj.expandNode(_parentNodeIds, { silent: true });
+                            treeViewObj.checkNode(_nodeId, { silent: false });
+                        }
+                    }
+                }
+            }
+        }
+        if (!finded) {
+            var _temp = "@UIText.RealTimeMonitoringSearchResult";
+            _temp = _temp.format($hidVehicleName.val(), "");
+            $.showPromptDialog(_temp, null, null, null, false);
+        }
+    });
+}
+
+
+//从下方监控车辆表格移除车辆信息
+var removeVehicleInfoFromBottomTable = function (vid) {
+    //从下方监控车辆中移除对应车辆
+    var _$checkedTrs = $tbCheckedVehicles.find("tbody>tr");
+    $.each(_$checkedTrs, function () {
+        var _$this = $(this);
+        if (_$this.data("vid") == vid) {
+            _$this.remove();
+            return;
+        }
+    });
+    var _length = $tbCheckedVehicles.find("tbody>tr").length;
+    if (_length == 0) {
+        $btnCheckedVehicles.find("span").text("");
+    } else {
+        $btnCheckedVehicles.find("span").text("(" + $tbCheckedVehicles.find("tbody>tr").length + ")");
+    }
+    //删除指定marker
+    removeMarker(vid);
+}
+
+
+var buildVehicleDetails = function (nodes) {
+    if (nodes == null) {
+        return;
+    }
+    for (var i = 0; i < nodes.length; i++) {
+        var _node = nodes[i];
+        var _tag = _node.tag;
+        if (_tag != null) {
+            var _vehicleName = _node.text;
+            var _sn = _tag.SN;//使用单位名
+            var _isOnline = _tag.IsOnline;
+            var _isRunning = _tag.IsRunning;
+            var _noSignal = _tag.NoSignal;//无定位
+
+            var _vObj = { vid: _tag.VID, vn: _vehicleName, sn: _sn };
+            if (!_noSignal) {
+                if (!_isOnline) {
+                    offineLineObjs.push(_vObj);
+                }
+                else if (_isRunning) {
+                    runningObjs.push(_vObj);
+                } else {
+                    stopObjs.push(_vObj);
+                }
+            }
+        }
+        buildVehicleDetails(_node.nodes);
+    }
+}
+//创建 行驶中、停车、离线车辆详细信息表
+var buildDetailInfo = function (result) {
+    runningObjs = new Array();
+    stopObjs = new Array();
+    offineLineObjs = new Array();
+    for (var i = 0; i < result.length; i++) {
+        var _obj = result[i];
+        buildVehicleDetails(_obj.nodes);
+    }
+    $btnRunningVehicles.find("span").text("(" + runningObjs.length + ")");
+    $btnStopVehicles.find("span").text("(" + stopObjs.length + ")");
+    $btnOfflineVehicles.find("span").text("(" + offineLineObjs.length + ")");
+    $btnAllVehicles.find("span").text("(" + (runningObjs.length + stopObjs.length + offineLineObjs.length) + ")");
+
+    buildRunninginfo();
+    buildStopinfo();
+    buildOfflineInfo();
+}
+
+//构造行驶中
+var buildRunninginfo = function () {
+    var _html = "";
+    for (var i = 0; i < runningObjs.length; i++) {
+        var _obj = runningObjs[i];
+        _html += "<tr>" +
+                                "<td>" +
+                                    "<input type='checkbox' name='vid' value='" + _obj.vid + "' />" +
+                                "</td>" +
+                               "<td>" +
+                                         "<span>" + _obj.vn + "</span>——" +
+                                         "<span>" + _obj.sn + "</span>" +
+                                "</td>" +
+                            "</tr>";
+    }
+    $tbRunningVehicles.find("tbody").html(_html);
+}
+
+
+//构造停车
+var buildStopinfo = function () {
+    var _html = "";
+    for (var i = 0; i < stopObjs.length; i++) {
+        var _obj = stopObjs[i];
+        _html += "<tr>" +
+                                "<td>" +
+                                    "<input type='checkbox' name='vid' value='" + _obj.vid + "' />" +
+                                "</td>" +
+                              "<td>" +
+                                         "<span>" + _obj.vn + "</span>——" +
+                                         "<span>" + _obj.sn + "</span>" +
+                                "</td>" +
+                            "</tr>";
+    }
+    $tbStopVehicles.find("tbody").html(_html);
+}
+
+
+//构造掉线
+var buildOfflineInfo = function () {
+    var _html = "";
+    for (var i = 0; i < offineLineObjs.length; i++) {
+        var _obj = offineLineObjs[i];
+        _html += "<tr>" +
+                                "<td>" +
+                                    "<input type='checkbox' name='vid' value='" + _obj.vid + "' />" +
+                                "</td>" +
+                                "<td>" +
+                                         "<span>" + _obj.vn + "</span>——" +
+                                         "<span>" + _obj.sn + "</span>" +
+                                "</td>" +
+                            "</tr>";
+    }
+    $tbOffineVehicles.find("tbody").html(_html);
+}
+
+
+//初始化左侧信息
+var initLeftInfo = function (doneCallBack) {
+    $.get("@Url.Content("~/Home/GetRealTimeSignals")", {}, function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        buildTree(result);
+        buildDetailInfo(result);
+        if (typeof (doneCallBack) != "function") {
+            hideMask();
+        }
+    }).done(function () {
+        if (typeof (doneCallBack) === "function") {
+            doneCallBack();
+        }
+    });
+};
+
+var $imgMask = $("#imgMask");//遮罩层里的图片
+var showMask = function () {
+    var _$tdLeftInfo = $("#tdLeftInfo");
+
+    var top = _$tdLeftInfo.position().top;
+    var left = _$tdLeftInfo.position().left;
+    var height = _$tdLeftInfo.height();
+    var width = _$tdLeftInfo.width() + $tdToggleLeftInfo.width();
+    if (_$tdLeftInfo.is(':hidden'))//如果侧边栏隐藏，则此时遮罩层宽度是收缩按钮宽度,并且不显示图片
+    {
+        width = $tdToggleLeftInfo.width();
+        top = $tdToggleLeftInfo.position().top;
+        $imgMask.hide();
+    } else {
+        $imgMask.show();
+    }
+
+    $divMask.css("height", height);
+    $divMask.css("width", width);
+    $divMask.css({ "top": top, "left": left });
+    $divMask.show();
+}
+
+var hideMask = function () {
+    $divMask.hide();
+}
+//闪烁对象
+var flashItem = function ($obj) {
+    $obj.fadeOut(150).fadeIn(150).fadeOut(150).fadeIn(150);
+}
+    </script>
+}

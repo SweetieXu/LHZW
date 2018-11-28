@@ -1,0 +1,315 @@
+﻿@using Asiatek.Resource
+
+
+<style>
+    #tbStrucVehicleDistribution td
+    {
+        width: 25%;
+    }
+
+    #tbVehicles tr
+    {
+        height: 30px;
+        line-height: 30px;
+    }
+</style>
+
+<table class="table table-striped table-condensed table-bordered">
+    <tbody>
+        <tr>
+            <td style="width: 10%;">
+                <label>@UIText.SelectUser：</label>
+            </td>
+            <td style="width: 15%;">
+                <select id="ddlUsers" class="form-control"></select>
+                <input type="hidden" name="userID" id="hidUserID">
+            </td>
+            <td>
+                <span class="btn btn-primary" title="@UIText.Search" id="btnFindUser">
+                    <span class="glyphicon glyphicon-search"></span>
+                </span>
+                <span class="btn btn-warning" title="@UIText.AllotButton" id="btnAllot">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <table id="tbStrucVehicleDistribution" class="table table-striped table-condensed table-bordered">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label>@UIText.StrucDistribution</label>
+                            </td>
+                            <td>&nbsp;</td>
+                            <td>
+                                <label>@UIText.VehicleDistribution</label>
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="search" id="txtStrucName" class="form-control" />
+                            </td>
+                            <td>
+                                <span class="btn btn-primary" title="@UIText.Search" id="btnSearch">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </span>
+                                <span class="btn btn-info" title="@UIText.CheckAll" id="btnSelectAll">
+                                    <span class="glyphicon glyphicon-check"></span>
+                                </span>
+                                <span class="btn btn-info" title="@UIText.CancelSelect" id="btnCancelSelect">
+                                    <span class="glyphicon glyphicon-unchecked"></span>
+                                </span>
+                            </td>
+                            <td colspan="2">
+                                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddVehicle">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                </span>
+                                <span class="btn btn-danger" title="@UIText.Clear" id="btnClearVehicle">
+                                    <span class="glyphicon glyphicon-remove-sign"></span>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="divStrucTree" style="height: 600px; overflow-y: scroll"></div>
+                            </td>
+                            <td colspan="2">
+                                <div style="height: 600px; overflow-y: scroll">
+                                    <table id="tbVehicles" class="table table-condensed table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>@DisplayText.PlateNum</th>
+                                                <th>@DisplayText.SubordinateStrucName</th>
+                                                <th>@UIText.Operation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+<script>
+    var $btnAllot = $("#btnAllot");
+    var $tbStrucVehicleDistribution = $("#tbStrucVehicleDistribution");
+    $btnAllot.hide();
+    $tbStrucVehicleDistribution.hide();
+    var $ddlUsers = $("#ddlUsers");
+    var $hidUserID = $("#hidUserID");
+    var tv;
+
+
+    $.get("@Url.Content("~/Admin/User/GetUsers")", {}, function (result)
+    {
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        var _html = "";
+        $ddlUsers.html("");
+        for (var i = 0; i < result.length; i++)
+        {
+            var obj = result[i];
+
+            _html += "<option value='" + obj.ID + "'>" + obj.UserName + "</option>";
+
+        }
+        $ddlUsers.html(_html);
+        $ddlUsers.editableSelect({ effects: 'fade' })
+        .on('select.editable-select', function (e, li)
+        {
+            $hidUserID.val(li.val());
+        });
+    });
+
+
+
+    var getStrucTree = function (userID)
+    {
+        $.get("@Url.Content("~/Admin/Structure/GetDistributiveStrucsByUserID")", { uid: userID }, function (result)
+        {
+            if ($.handleAjaxError(result))
+            {
+                return;
+            }
+            var _$strucTree = $("#divStrucTree");
+            _$strucTree.treeview({
+                data: result,
+                showCheckbox: true,
+            });
+            tv = _$strucTree.data('treeview');
+
+            $("#btnSearch").on("click", function ()
+            {
+                //搜索
+                var _strucName = $("#txtStrucName").val();
+                tv.search(_strucName, {
+                    ignoreCase: true,     // 忽略大小写
+                    exactMatch: false,    // 模糊匹配
+                    revealResults: true,  // 显示匹配的节点
+                });
+            });
+
+            $("#btnSelectAll").on("click", function ()
+            {
+                //全选
+                tv.checkAll({ silent: true });
+            });
+
+            $("#btnCancelSelect").on("click", function ()
+            {
+                //取消全选
+                tv.uncheckAll({ silent: true });
+            });
+
+
+            var setNodeCheckState = function (nodeIds, childNodes)
+            {
+                if (childNodes != undefined)
+                {
+                    childNodes.forEach(function (obj)
+                    {
+                        nodeIds.push(obj.nodeId);
+                        setNodeCheckState(nodeIds, obj.nodes);
+                    });
+                }
+            };
+
+            _$strucTree.on('nodeChecked ', function (event, data)
+            {
+                var nodeIds = new Array();
+                setNodeCheckState(nodeIds, data.nodes);
+                tv.checkNode(nodeIds, { silent: true });
+            });
+        });
+    };
+
+
+
+    var getVehicles = function (userID)
+    {
+        $.get("@Url.Content("~/Admin/Vehicle/GetDistributiveVehiclesByUserID")", { uid: userID }, function (result)
+        {
+            if ($.handleAjaxError(result))
+            {
+                return;
+            }
+            $("#tbVehicles>tbody").html("");
+            if (result.length == 0)
+            {
+                return;
+            }
+
+            var _html = "";
+            for (var i = 0; i < result.length; i++)
+            {
+                var obj = result[i];
+                _html += "<tr>" +
+                                    "<td>" + obj.PlateNum + "</td>" +
+                                    "<td>" + obj.StrucName + "</td>" +
+                                    "<td>" +
+                                        "<input type='checkbox' checked='checked' style='display:none;' value='" + obj.ID + "'/>" +
+                                        "<span class='btn btn-danger' title='@UIText.Clear'  onclick='delTr(this)' >" +
+                                                "<span class='glyphicon glyphicon-remove-sign'></span>" +
+                                          "</span>" +
+                                    "</td>" +
+                                "</tr>";
+            }
+            $("#tbVehicles>tbody").html(_html);
+        });
+    }
+
+
+
+    $("#btnFindUser").on("click", function ()
+    {
+
+        var _userID = $hidUserID.val();
+        if (_userID === "")
+        {
+            $.showPromptDialog("@UIText.PleaseChooseUserFirst", "@UIText.InformationTitle", "@UIText.Close", true);
+            return;
+        }
+        getStrucTree(_userID);
+        getVehicles(_userID);
+        $btnAllot.show();
+        $tbStrucVehicleDistribution.show();
+    });
+
+
+
+
+
+
+    $btnAllot.on("click", function ()
+    {
+        $.showConfirmDialog("@UIText.ConfirmAllot", '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function ()
+        {
+            if (tv)
+            {
+                //获取分配的单位ID
+                var _checkedNodes = tv.getChecked();
+                var _strucIDs = "";
+                for (var i = 0; i < _checkedNodes.length; i++)
+                {
+                    _strucIDs += _checkedNodes[i].tag + "|";
+                }
+                //获取分配的车辆ID
+                var _vids = "";
+                $("#tbVehicles tbody :checkbox").each(function (i)
+                {
+                    _vids += $(this).val() + "|";
+                });
+                //用户ID
+                var _userID = $hidUserID.val();
+                //保存操作
+                var _token = $('@Html.AntiForgeryToken()').val();
+                var data = { __RequestVerificationToken: _token, sids: _strucIDs, vids: _vids, uid: _userID };
+                $.post("@Url.Content("~/Admin/StrucVehicleDistribution/AllotStrucAndVehicle")", data, function (result)
+                {
+                    if ($.handleAjaxError(result))
+                    {
+                        return;
+                    }
+                    $.showPromptDialog(result.Message);
+                });
+            }
+        });
+
+    });
+
+    var delTr = function (obj)
+    {
+        $(obj).closest("tr").remove();
+    }
+
+    $("#btnAddVehicle").on("click", function ()
+    {
+        var _url = "@Url.Content("~/Admin/StrucVehicleDistribution/AllotVehicles")";
+        var _data = {};
+        var _title = "@UIText.SelectVehiclesToBeAllocated";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnClearVehicle").on("click", function ()
+    {
+        $("#tbVehicles>tbody").html("");
+    });
+
+</script>

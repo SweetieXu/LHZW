@@ -1,0 +1,304 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model EmployeeInfoEditModel
+
+
+@using (Ajax.BeginForm("EditEmployeeInfo", "EmployeeInfo", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditEmployeeInfo" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ID)
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.EmployeeID)：</td>
+                <td>
+                    @Html.HiddenFor(m => m.EmployeeID)
+                    @Model.EmployeeID
+                </td>
+
+                <td>@Html.LabelForRequired(m => m.EmployeeName)：</td>
+                <td>@Html.TextBoxFor(m => m.EmployeeName)</td>
+
+                <td>@Html.LabelForRequired(m => m.EmployeeGender)：</td>
+                <td>
+                    @Html.RadioButtonFor(m => m.EmployeeGender, false, new { id="rdoGender1" })
+                    <label for="rdoGender1">@DisplayText.Man</label>
+                    @Html.RadioButtonFor(m => m.EmployeeGender, true, new { id="rdoGender2" })
+                    <label for="rdoGender2">@DisplayText.Woman</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.EmployeeName)</td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.EmployeeGender)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.CertificateTypeID)：</td>
+                <td>@Html.DropDownListFor(m => m.CertificateTypeID, Model.CertificateTypeSelectList)</td>
+
+                <td>@Html.LabelForRequired(m => m.CertificateCode)：</td>
+                <td>@Html.TextBoxFor(m => m.CertificateCode)</td>
+
+                <td>@Html.LabelFor(m => m.BirthDate)：</td>
+                <td>@Html.TextBoxFor(m => m.BirthDate, new { @class = "datepickerClass" })</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.CertificateCode)</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.CertificateOffice)：</td>
+                <td>@Html.TextBoxFor(m => m.CertificateOffice)</td>
+
+                <td>@Html.LabelFor(m => m.ValidStartTime)：</td>
+                <td>@Html.TextBoxFor(m => m.ValidStartTime, new { id="startDatepicker" }) </td>
+                <td>@Html.LabelFor(m => m.ValidEndTime)</td>
+                <td>@Html.TextBoxFor(m => m.ValidEndTime, new { id="endDatepicker" }) </td>
+            </tr>
+            <tr>
+                <td colspan="3"></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ContactPhone)：</td>
+                <td>@Html.TextBoxFor(m => m.ContactPhone)</td>
+
+                <td>@Html.LabelForRequired(m => m.ContactAddress)：</td>
+                <td colspan="3">
+                    @Html.TextBoxFor(m => m.ContactAddress)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.ContactPhone)</td>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.ContactAddress)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.StrucID)：</td>
+                <td>
+                    <select id="ddlAddUserStrucs">
+                    </select>
+                    <input type="hidden" name="StrucID" value="-1" id="hidAddUserStrucID" />
+                </td>
+
+                <td>@Html.LabelForRequired(m => m.IsDriver)：</td>
+                <td>
+                    @Html.RadioButtonFor(m => m.IsDriver, true, new { id="IsDriver1",@class="IsDriverClass" })
+                    <label for="IsDriver1">@DisplayText.Yes</label>
+                    @Html.RadioButtonFor(m => m.IsDriver, false, new { id="IsDriver2",@class="IsDriverClass" })
+                    <label for="IsDriver2">@DisplayText.No</label>
+                </td>
+
+                <td>@Html.LabelFor(m => m.DriveCode)：</td>
+                <td>@Html.TextBoxFor(m => m.DriveCode)</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.StrucID)</td>
+                <td colspan="2"></td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.DriveCode)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.DriveCodeValidTime)：</td>
+                <td>@Html.TextBoxFor(m => m.DriveCodeValidTime, new { @class = "datepickerClass" })</td>
+
+                <td>@Html.LabelFor(m => m.DriveTypeID)：</td>
+                <td>@Html.DropDownListFor(m => m.DriveTypeID, Model.DriveTypeSelectList)</td>
+
+                <td>@Html.LabelFor(m => m.DriveLicenseStateID)：</td>
+                <td>@Html.DropDownListFor(m => m.DriveLicenseStateID, Model.DriveLicenseStateSelectList)</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.DriveCodeValidTime)</td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.DriveTypeID)</td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.DriveLicenseStateID)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.IsCarrier)：</td>
+                <td>
+                     @Html.RadioButtonFor(m => m.IsCarrier, true, new { id="IsCarrier1"})
+                    <label for="IsCarrier1">@DisplayText.Yes</label>
+                    @Html.RadioButtonFor(m => m.IsCarrier, false, new { id="IsCarrier2"})
+                    <label for="IsCarrier2">@DisplayText.No</label>
+                </td>
+
+                <td>@Html.LabelFor(m => m.EmergePhone)：</td>
+                <td>@Html.TextBoxFor(m => m.EmergePhone)</td>
+                 <td>@Html.LabelFor(m => m.CarrierCode)：</td>
+                <td>@Html.TextBoxFor(m => m.CarrierCode)</td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.EmergePhone)</td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.CarrierCode)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="5">@Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $ddlAddUserStrucs = $("#ddlAddUserStrucs");
+    var $hidAddUserStrucID = $("#hidAddUserStrucID");
+    //获取当前用户权限范围内的机构
+    $.get("@Url.Content("~/Admin/Structure/GetStrucListByUserID")", {}, function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        var _html = "";
+        for (var i = 0; i < result.length; i++) {
+            var obj = result[i];
+            if (i == 0) {
+                _html += "<option selected='selected' value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+                $hidAddUserStrucID.val(obj.ID);
+            } else {
+                _html += "<option value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+            }
+
+        }
+        $ddlAddUserStrucs.html(_html);
+        $ddlAddUserStrucs.editableSelect({ effects: 'fade' })
+        .on('select.editable-select', function (e, li) {
+            $hidAddUserStrucID.val(li.val());
+        });
+    });
+
+    var $frmEditEmployeeInfo = $("#frmEditEmployeeInfo");
+    $frmEditEmployeeInfo.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    $frmEditEmployeeInfo.fixUnobtrusiveValidation();
+
+    $(".datepickerClass").datepicker({
+        changeMonth: true,
+        changeYear: true,
+    });
+
+    //结束时间不得早于开始时间
+    $("#startDatepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        onClose: function (selectedDate) {
+            $("#endDatepicker").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    $("#endDatepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        onClose: function (selectedDate) {
+            $("#startDatepicker").datepicker("option", "maxDate", selectedDate);
+        }
+    });
+
+    $(".IsDriverClass").change(function () {
+        var selectedValue = $(this).val();
+        if (selectedValue == "True") {
+            var certificateCode = $("#CertificateCode").val();
+            document.getElementById("DriveCode").value = certificateCode;
+        }
+    });
+
+    //提交时前台各种验证
+    $frmEditEmployeeInfo.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+    var checkForm = function () {
+        //身份证号验证
+        var isCard = isCardNo($("#CertificateCode").val());
+        if ($("#CertificateTypeID").val() == 1 && $("#CertificateCode").val() != "" && $("#CertificateCode").val() != null ) {
+            //格式不正确
+            if (isCard == false) {
+                var _message = '@DataAnnotations.IDcardError';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            //身份证号重复
+            if (isCard == true) {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Content("~/Admin/EmployeeInfo/CheckEditIDCardIsExists")",
+                    data: { idCard: $("#CertificateCode").val(), employeeID: $("#EmployeeID").val() },
+                    success: function (result) {
+                        if (!result) {
+                            var _message = '@DataAnnotations.IDCardIsExist';
+                            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                            return false;
+                        }
+                    }
+                });
+            }
+        }
+
+        //是驾驶员时验证
+        if ($("input[name='IsDriver']:checked").val() == "True") {
+            //驾驶证号
+            if ($("#DriveCode").val() == "" || $("#DriveCode").val() == null) {
+                var _message = '@DataAnnotations.NeedDriveCode';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            //驾驶证有效期
+            if ($("#DriveCodeValidTime").val() == "" || $("#DriveCodeValidTime").val() == null) {
+                var _message = '@DataAnnotations.MustInputDriveCodeValidTime';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            //准驾车型
+            if ($("#DriveTypeID option:selected").val() == 0) {
+                var _message = '@DataAnnotations.MustInputDriveTypeID';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+        }
+
+        //是押运员时验证
+        if ($("input[name='IsCarrier']:checked").val() == "True") {
+            //紧急联系电话
+            if ($("#EmergePhone").val() == "" || $("#EmergePhone").val() == null) {
+                var _message = '@DataAnnotations.NeedEmergePhone';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            //押运员资格证
+            if ($("#CarrierCode").val() == "" || $("#CarrierCode").val() == null) {
+                var _message = '@DataAnnotations.NeedCarrierCode';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function isCardNo(card) {
+        // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X  
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        if (reg.test(card) === false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+</script>

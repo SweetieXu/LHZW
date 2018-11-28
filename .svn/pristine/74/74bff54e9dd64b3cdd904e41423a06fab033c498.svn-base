@@ -1,0 +1,21 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model  ControllerSettingModel
+
+
+@Styles.Render("~/Content/pagerCss")
+@using (Ajax.BeginForm("GetControllerInfo", "Ctr", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Ctr_ControllerInfo_divControllersGrid",
+    OnSuccess = "commonAjaxSuccess"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.LabelFor(m => m.AreasSelectList)@:：
+    @Html.DropDownList("areaID", Model.AreasSelectList)
+    <input type="text" name="controllerName" value="" placeholder="@UIText.ControllerNamePlaceHolder" />
+    <input type="submit" value="@UIText.SearchButton" accesskey="S" />
+}
+<div id="Admin_Ctr_ControllerInfo_divControllersGrid">
+    @Html.Partial("_ControllerPagedGrid", Model.PagedControllers)
+</div>

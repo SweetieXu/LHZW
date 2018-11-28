@@ -1,0 +1,215 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  StructureSettingModel
+
+@{
+    string updateTargetId = "Admin_Structure_StructureSetting_divStructures";
+    var pagedDatas = Model.PagedDatas;
+}
+@if (pagedDatas.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+    using (Ajax.BeginForm("DeleteStruc", "Structure", new AjaxOptions()
+    {
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelStruc" }))
+    {
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+                <th>@UIText.Operation</th>
+                <th>@DisplayText.StrucName</th>
+                <th>@DisplayText.StrucAccount</th>
+                <th>@UIText.InspectType</th>
+                <th>@UIText.ExNoticeType</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr class="@(item.IsNightBan == 1 ? "warning" : "")">
+                    <td>
+                        @if (item.ParentID == null)
+                        {
+                            @:&nbsp;
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="strucid" value="@item.ID" id="chkCtrID@(item.ID)"/>
+                        }
+                    </td>
+                    <td>
+                        @if (item.ParentID == null)
+                        {
+                            <span class="btn btn-default" style="visibility: hidden;">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="btn btn-default" onclick="edit(@item.ID)" title="@UIText.EditButton">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </span> 
+                        }
+                        <span class="btn btn-success" onclick='addSubStruc(this)' title="@UIText.AddSubStruc" data-keyword='{"parentID":"@item.ID","parentStrucName":"@item.StrucName"}' >
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                        </span>
+                        @if (item.ParentID != null)
+                        {
+                            <span class="btn btn-warning" onclick="searchTransportIndustry(@item.ID)" title="@UIText.SearchTransportIndustry">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </span>
+                            
+                            <span class="btn btn-primary" onclick="searchBusinessScope(@item.ID)" title="@UIText.SearchBusinessScope">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        <label for="chkCtrID@(item.ID)">@item.StrucName</label>
+                    </td>
+                    <td>@item.StrucAccount</td>
+                    <td>@ShowInspectInfo(item)</td>
+                    <td>@ShowExNoticeTypeInfo(item)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+
+
+    
+    @Ajax.AsiatekAjaxPagerBootstrap(pagedDatas, new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "Structure",
+    ActionName = "GetStructureInfo",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+
+
+
+
+@helper ShowInspectInfo(StructureListModel model)
+{
+    bool hasInfo = false;
+    if (model.InspectType1)
+    {
+    <span>@DisplayText.NotificationTypePlateform</span>
+        hasInfo = true;
+    }
+    if (model.InspectType2)
+    {
+        if (hasInfo)
+        {
+    <span>|</span>
+        }
+    <span>@DisplayText.NotificationTypeMessage</span>
+        hasInfo = true;
+    }
+    if (model.InspectType3)
+    {
+        if (hasInfo)
+        {
+    <span>|</span>
+        }
+    <span>@DisplayText.NotificationTypeGuanXin</span>
+    }
+}
+
+@helper  ShowExNoticeTypeInfo(StructureListModel model)
+{
+    bool hasInfo = false;
+    if (model.ExNoticeType1)
+    {
+    <span>@DisplayText.NotificationTypePlateform</span>
+        hasInfo = true;
+    }
+    if (model.ExNoticeType3)
+    {
+        if (hasInfo)
+        {
+    <span>|</span>
+        }
+    <span>@DisplayText.NotificationTypeGuanXin</span>
+    }
+}
+
+
+
+
+
+<script>
+
+    //删除完成后
+    var delCallBack = function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+
+
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchStruc #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchStruc").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+
+    var addSubStruc = function (obj) {
+        var _keyword = $(obj).data("keyword");
+        var _url = "@Url.Content("~/Admin/Structure/AddSubStrucToCurrentStruc")";
+        var _data = _keyword;
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/Structure/EditStructureInfo")";
+        var _data = { id: id };
+        var _title = "@UIText.EditButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    // 查看经营范围
+    var searchBusinessScope = function (id) {
+        var _url = "@Url.Content("~/Admin/Structure/SearchBusinessScope")";
+        var _data = { id: id };
+        var _title = "@UIText.SearchBusinessScope";
+        $.showEditDialog(_url, _data, _title, null, "35%");
+    }
+
+    // 查看运输行业
+    var searchTransportIndustry = function (id) {
+        var _url = "@Url.Content("~/Admin/Structure/SearchTransportIndustry")";
+        var _data = { id: id };
+        var _title = "@UIText.SearchTransportIndustry";
+        $.showEditDialog(_url, _data, _title, null, "35%");
+    }
+
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='strucid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+</script>

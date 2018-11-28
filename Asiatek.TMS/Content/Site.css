@@ -1,0 +1,228 @@
+﻿*
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+ol, ul
+{
+    list-style: none;
+}
+
+
+div#container
+{
+    height: 63rem;
+}
+
+
+
+div#header
+{
+    background-color: skyblue;
+    min-height: 5rem;
+    min-width: 30rem;
+}
+
+
+div#menu, div#content, div#resizer
+{
+    height: 750px;
+    position: absolute;
+}
+
+div#menu
+{
+    width: 15%;
+}
+
+div#resizer
+{
+    width: 0.5%;
+    background: #666;
+    left: 15%;
+}
+
+    div#resizer:hover
+    {
+        cursor: ew-resize;
+    }
+
+div#content
+{
+    right: 0;
+    left: 15.5%;
+    width: auto;
+}
+
+
+/*div#menu, div#resizer {
+    float: left;
+}*/
+
+/*div#menu {
+    background-color: dimgray;
+    min-width: 20rem;
+    max-width: 20rem;
+    height: 63rem;
+    overflow: scroll;
+}
+
+div#resizer {
+    overflow: hidden;
+    text-align: center;
+    height: 100%;
+    width: 0.7rem;
+}
+
+
+    div#resizer > button {
+        width: 100%;
+        height: 100%;
+        color: white;
+        background-color: lightskyblue;
+    }
+
+        div#resizer > button:hover {
+            background-color: coral;
+        }
+
+div#content {
+    background-color: #EEEEEE;
+    height: 63rem;
+    width: auto;
+}*/
+
+
+
+header, footer, nav, section
+{
+    display: block;
+}
+
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset
+{
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend
+{
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea
+{
+    min-height: 75px;
+}
+
+.editor-label
+{
+    margin: 1em 0 0 0;
+}
+
+.editor-field
+{
+    margin: 0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    font-weight: bolder;
+    color: #e43434;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #e43434;
+    background-color: #fee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bolder;
+    color: #e43434;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+
+
+
+/* 全局通用样式*/
+.nopadding
+{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.negativeMargin
+{
+    margin-left: -15px !important;
+    margin-right: -15px !important;
+}
+
+.negativeLeftMargin
+{
+    margin-left: -15px !important;
+}
+
+.negativeRightMargin
+{
+    margin-right: -15px !important;
+}
+
+
+.colorBlue
+{
+    font-weight: bold;
+    color: blue;
+}
+
+.colorOrange
+{
+    color: orange;
+    font-weight: bolder;
+}
+
+.fixTextArea
+{
+    outline: none;
+    resize: none;
+    width: 100%;
+    height: 5rem;
+}
+
+.table th, .table td
+{
+    vertical-align: middle !important;
+}
+
+
+.requiredField
+{
+    color: red;
+    font-weight: bolder;
+    font-size: larger;
+}

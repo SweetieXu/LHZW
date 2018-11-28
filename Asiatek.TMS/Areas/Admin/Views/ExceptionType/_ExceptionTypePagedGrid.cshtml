@@ -1,0 +1,103 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<ExceptionTypeSeachModel, ExceptionTypeListModel>
+
+
+@{
+    string updateTargetId = "Admin_ExceptionType_SeachExceptionType_ExceptionType";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+
+    var pagedDatas = Model.PagedDatas;
+}
+
+
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                @*<th>
+                    <input type="checkbox" id="chkAll" />
+                </th>*@
+               @* <th>
+                    <label>@UIText.Operation</label>
+                </th>*@
+                <th>@Html.DisplayNameFor(m => m.ID)</th>
+                <th>@Html.DisplayNameFor(m => m.ExName)</th>
+                <th>@Html.DisplayNameFor(m => m.Remark)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    @*<td>
+                        <input type="checkbox" name="tid" value="@item.ID" id="chkTID@(item.ID)" />
+                    </td>*@
+                  @*  <td>
+                        <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>
+                    </td>*@
+                    <td>
+                        <label for="chkTID@(item.ID)">@item.ID</label>
+                    </td>
+                    <td>
+                        <label>@item.ExName</label>
+                    </td>
+                    <td>
+                        <label>@item.Remark</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+    {
+        AreaName = "Admin",
+        ControllerName = "ExceptionType",
+        ActionName = "GetExceptionTypeInfo",
+        UpdateTargetId = updateTargetId,
+        OnSuccess = "commonAjaxSuccess",
+    });
+}
+
+
+<script>
+
+
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@Model.PagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchExceptionType #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchExceptionType").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/ExceptionType/EditExceptionType")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='tid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+</script>

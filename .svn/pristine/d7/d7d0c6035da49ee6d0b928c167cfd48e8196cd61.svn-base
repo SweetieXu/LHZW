@@ -1,0 +1,159 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model TerminalEditModel
+
+
+
+@using (Ajax.BeginForm("EditTerminal", "TerminalController", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditTerminal" }))
+{
+    @Html.HiddenFor(m => m.ID)
+    @Html.HiddenFor(m => m.SIMCodeIDOld)
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.TerminalCode)：</td>
+                <td>@Html.TextBoxFor(m => m.TerminalCode)</td>
+                <td>@Html.LabelForRequired(m => m.SIMCodeID)：</td>
+                <td>@Html.TextBoxFor(m => m.SIMCode)
+                    @Html.HiddenFor(m => m.SIMCodeID)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.TerminalCode)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.SIMCodeID)</td>
+            </tr>
+            <td>@Html.LabelForRequired(m => m.VehicleID)：</td>
+            <td>@Html.TextBoxFor(m => m.VehicleID)</td>
+            <td>@Html.LabelForRequired(m => m.ServerInfoID)：</td>
+            <td>@Html.DropDownListFor(m => m.ServerInfoID, Model.ServerInfoSelectList, new { id = "ddlAddServerInfoTT" })</td>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.VehicleID)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ServerInfoID)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.TerminalManufacturerID)：</td>
+                <td>@Html.DropDownListFor(m => m.TerminalManufacturerID, Model.TerminalManufacturerSelectList, new { id = "ddlEditTerminalTM" })</td>
+                <td>@Html.LabelForRequired(m => m.TerminalTypeID)：</td>
+                <td>@Html.DropDownListFor(m => m.TerminalTypeID, Model.TerminalTypeSelectList, new { id = "ddlEditTerminalTT" })</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.TerminalManufacturerID)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.TerminalTypeID)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.OverspeedThreshold)：</td>
+                <td>@Html.TextBoxFor(m => m.OverspeedThreshold,new { @readonly=true})</td>
+                <td>@Html.LabelForRequired(m => m.MinimumDuration)：</td>
+                <td>@Html.TextBoxFor(m => m.MinimumDuration,new { @readonly=true})</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.OverspeedThreshold)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.MinimumDuration)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ContinuousDrivingThreshold)：</td>
+                <td>@Html.TextBoxFor(m => m.ContinuousDrivingThreshold,new { @readonly=true})</td>
+                <td>@Html.LabelForRequired(m => m.MinimumBreakTime)：</td>
+                <td>@Html.TextBoxFor(m => m.MinimumBreakTime,new { @readonly=true})</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ContinuousDrivingThreshold)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.MinimumBreakTime)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.DrivingTimeThreshold)：</td>
+                <td>@Html.TextBoxFor(m => m.DrivingTimeThreshold, new { @readonly=true})</td>
+                <td>@Html.LabelForRequired(m => m.MaximumParkingTime)：</td>
+                <td>@Html.TextBoxFor(m => m.MaximumParkingTime,new { @readonly=true})</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.DrivingTimeThreshold)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.MaximumParkingTime)</td>
+            </tr>
+
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="3">@Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmEditTerminal = $("#frmEditTerminal");
+    $frmEditTerminal.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmEditTerminal.fixUnobtrusiveValidation();
+
+    var $ddlEditTerminalTM = $("#ddlEditTerminalTM");
+    var $ddlEditTerminalTT = $("#ddlEditTerminalTT");
+    $ddlEditTerminalTM.change(function () {
+        var _tmID = $.trim($ddlEditTerminalTM.find("option:selected").val());
+        $.get("@Url.Content("~/Admin/TerminalType/GetTerminalDDLByTMID")", { tmID: _tmID }, function (result) {
+            $ddlEditTerminalTT.empty();
+            $.each(result, function (i, item) {
+                $ddlEditTerminalTT.append($("<option></option>").text(item.TerminalName).val(item.ID));
+            });
+        });
+    });
+
+    //文本框的值发生改变就清空值 并显示错误提示
+    $("#SIMCode").bind("input propertychange", function () {
+        $("#SIMCodeID").val('');
+        $("span[data-valmsg-for='SIMCodeID']").show();
+    })
+
+    /*
+     appendTo:
+     必须指定该元素，否则对于jquery ui dialog中使用的该控件的弹出选择部分会因为层级原因会被dialog遮挡，
+     而且因为dialog的层级会动态调整即使设定了autocomplete的z-index也可能会失效，
+     所以必须设置ui-dialog的z-index，但是全局修改可能造成其他问题
+   */
+    $("#SIMCode").autocomplete({
+        delay: 500,
+        minLength: 1,
+        appendTo: $frmEditTerminal,
+        select: function (event, ui) {
+            $("span[data-valmsg-for=SIMCodeID]").hide();
+            $("#SIMCodeID").val(ui.item.VID);
+        },
+        source: function (request, response) {
+            $.get('@Url.Content("~/Admin/Terminal/GetNotUserdSimCodeList")', { simCode: request.term,simCodeId:"@Model.SIMCodeID" }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+</script>
+
+

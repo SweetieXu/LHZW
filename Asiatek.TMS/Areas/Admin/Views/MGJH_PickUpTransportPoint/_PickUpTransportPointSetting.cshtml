@@ -1,0 +1,74 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<MGJH_PickUpTransportPointSearchModel, MGJH_PickUpTransportPointListModel>
+
+
+@using (Ajax.BeginForm("GetPickUpTransportPoint", "MGJH_PickUpTransportPoint", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_PickUpTransportPoint_PickUpTransportPointSetting_divPickUpTransportPoint",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchPickUpTransportPoint" }))
+{
+    <!--提货点查询条件-->
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.AddressName)：</td>
+            <td>
+                <input type="search" name="AddressName" value=""  placeholder="@UIText.PleaseInput@DisplayText.PickUpAddressName"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.AddressCode)：</td>
+            <td>
+                <input type="search" name="AddressCode" value=""  placeholder="@UIText.PleaseInput@DisplayText.PickUpAddressCode"/>
+            </td>
+            <td colspan="4">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAdd">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDel">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+}
+
+
+<div id="Admin_PickUpTransportPoint_PickUpTransportPointSetting_divPickUpTransportPoint">
+    @Html.Partial("_PickUpTransportPointPagedGrid", Model)
+</div>
+
+
+<script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+<script src="http://webapi.amap.com/maps?v=1.3&key=865e5946e363e3889a01b89f8ba5d069&plugin=AMap.Autocomplete,AMap.PlaceSearch"></script>
+<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+<script type="text/javascript"  src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+<script src="~/Scripts/gaodeMap/map.js?v=1.2"></script>
+
+<script>
+    $("#frmSearchPickUpTransportPoint").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    //提货点添加事件
+    $("#btnAdd").on("click", function () {
+        var _url = "@Url.Content("~/Admin/MGJH_PickUpTransportPoint/AddPickUpTransportPoint")";
+        var _data = { };
+        var _title = "@UIText.AddButton@UIText.PickUpPoint";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    //提货点删除事件
+    $("#btnDel").on("click", function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='pid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#frmDelPickUpTransportPoint").submit();
+        });
+    });
+</script>

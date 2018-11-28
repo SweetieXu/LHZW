@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetHistorySignals">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetHistorySignalsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetHistorySignalsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllExceptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllExceptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllExceptionsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExceptionTypeID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetExceptionsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsAndDealInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExceptionTypeID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="DealUser" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsAndDealInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetExceptionsAndDealInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVehicleExceptionsForEquipmen">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExceptionTypeID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVehicleExceptionsForEquipmenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVehicleExceptionsForEquipmenResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsForMainPower">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExceptionTypeID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsForMainPowerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetExceptionsForMainPowerResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsForMapLine">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExceptionTypeID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="LineID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsForMapLineResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetExceptionsForMapLineResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsForMapRegion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="ExceptionTypeID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="RegionID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetExceptionsForMapRegionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetExceptionsForMapRegionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVehicleDistance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="VehicleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="StartDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="EndDateTime" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVehicleDistanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVehicleDistanceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetHistorySignalsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetHistorySignals" />
+  </wsdl:message>
+  <wsdl:message name="GetHistorySignalsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetHistorySignalsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllExceptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllExceptions" />
+  </wsdl:message>
+  <wsdl:message name="GetAllExceptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllExceptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetExceptions" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetExceptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsAndDealInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetExceptionsAndDealInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsAndDealInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetExceptionsAndDealInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleExceptionsForEquipmenSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVehicleExceptionsForEquipmen" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleExceptionsForEquipmenSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVehicleExceptionsForEquipmenResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsForMainPowerSoapIn">
+    <wsdl:part name="parameters" element="tns:GetExceptionsForMainPower" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsForMainPowerSoapOut">
+    <wsdl:part name="parameters" element="tns:GetExceptionsForMainPowerResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsForMapLineSoapIn">
+    <wsdl:part name="parameters" element="tns:GetExceptionsForMapLine" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsForMapLineSoapOut">
+    <wsdl:part name="parameters" element="tns:GetExceptionsForMapLineResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsForMapRegionSoapIn">
+    <wsdl:part name="parameters" element="tns:GetExceptionsForMapRegion" />
+  </wsdl:message>
+  <wsdl:message name="GetExceptionsForMapRegionSoapOut">
+    <wsdl:part name="parameters" element="tns:GetExceptionsForMapRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleDistanceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVehicleDistance" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleDistanceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVehicleDistanceResponse" />
+  </wsdl:message>
+  <wsdl:portType name="HistoricalDataSoap">
+    <wsdl:operation name="GetHistorySignals">
+      <wsdl:input message="tns:GetHistorySignalsSoapIn" />
+      <wsdl:output message="tns:GetHistorySignalsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllExceptions">
+      <wsdl:input message="tns:GetAllExceptionsSoapIn" />
+      <wsdl:output message="tns:GetAllExceptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptions">
+      <wsdl:input message="tns:GetExceptionsSoapIn" />
+      <wsdl:output message="tns:GetExceptionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsAndDealInfo">
+      <wsdl:input message="tns:GetExceptionsAndDealInfoSoapIn" />
+      <wsdl:output message="tns:GetExceptionsAndDealInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleExceptionsForEquipmen">
+      <wsdl:input message="tns:GetVehicleExceptionsForEquipmenSoapIn" />
+      <wsdl:output message="tns:GetVehicleExceptionsForEquipmenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMainPower">
+      <wsdl:input message="tns:GetExceptionsForMainPowerSoapIn" />
+      <wsdl:output message="tns:GetExceptionsForMainPowerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMapLine">
+      <wsdl:input message="tns:GetExceptionsForMapLineSoapIn" />
+      <wsdl:output message="tns:GetExceptionsForMapLineSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMapRegion">
+      <wsdl:input message="tns:GetExceptionsForMapRegionSoapIn" />
+      <wsdl:output message="tns:GetExceptionsForMapRegionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleDistance">
+      <wsdl:input message="tns:GetVehicleDistanceSoapIn" />
+      <wsdl:output message="tns:GetVehicleDistanceSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HistoricalDataSoap" type="tns:HistoricalDataSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetHistorySignals">
+      <soap:operation soapAction="http://tempuri.org/GetHistorySignals" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllExceptions">
+      <soap:operation soapAction="http://tempuri.org/GetAllExceptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptions">
+      <soap:operation soapAction="http://tempuri.org/GetExceptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsAndDealInfo">
+      <soap:operation soapAction="http://tempuri.org/GetExceptionsAndDealInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleExceptionsForEquipmen">
+      <soap:operation soapAction="http://tempuri.org/GetVehicleExceptionsForEquipmen" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMainPower">
+      <soap:operation soapAction="http://tempuri.org/GetExceptionsForMainPower" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMapLine">
+      <soap:operation soapAction="http://tempuri.org/GetExceptionsForMapLine" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMapRegion">
+      <soap:operation soapAction="http://tempuri.org/GetExceptionsForMapRegion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleDistance">
+      <soap:operation soapAction="http://tempuri.org/GetVehicleDistance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="HistoricalDataSoap12" type="tns:HistoricalDataSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetHistorySignals">
+      <soap12:operation soapAction="http://tempuri.org/GetHistorySignals" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllExceptions">
+      <soap12:operation soapAction="http://tempuri.org/GetAllExceptions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptions">
+      <soap12:operation soapAction="http://tempuri.org/GetExceptions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsAndDealInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetExceptionsAndDealInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleExceptionsForEquipmen">
+      <soap12:operation soapAction="http://tempuri.org/GetVehicleExceptionsForEquipmen" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMainPower">
+      <soap12:operation soapAction="http://tempuri.org/GetExceptionsForMainPower" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMapLine">
+      <soap12:operation soapAction="http://tempuri.org/GetExceptionsForMapLine" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetExceptionsForMapRegion">
+      <soap12:operation soapAction="http://tempuri.org/GetExceptionsForMapRegion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleDistance">
+      <soap12:operation soapAction="http://tempuri.org/GetVehicleDistance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HistoricalData">
+    <wsdl:port name="HistoricalDataSoap" binding="tns:HistoricalDataSoap">
+      <soap:address location="http://localhost:43336/HistoricalData.asmx" />
+    </wsdl:port>
+    <wsdl:port name="HistoricalDataSoap12" binding="tns:HistoricalDataSoap12">
+      <soap12:address location="http://localhost:43336/HistoricalData.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

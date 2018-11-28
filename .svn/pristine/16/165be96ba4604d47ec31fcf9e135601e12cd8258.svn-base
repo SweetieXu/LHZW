@@ -1,0 +1,257 @@
+﻿using Asiatek.AjaxPager;
+using Asiatek.DBUtility;
+using Asiatek.Model;
+using Asiatek.Resource;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+
+namespace Asiatek.BLL.MSSQL
+{
+    public class ServerManagerBLL
+    {
+        #region 查询
+        public static AsiatekPagedList<ServerManagerListModel> GetPagedServerManager(ServerManagerSearchModel model, int searchPage, int pageSize)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@tableName","ServerInfo"),
+                new SqlParameter("@pageSize",pageSize),
+                new SqlParameter("@currentPage",searchPage),
+                new SqlParameter("@orderBy","ID"),
+                new SqlParameter("@showColumns","ID,ServerCode,ServerName,LinkedServerName,IP,WCFAddress"),
+            };
+
+            if (!string.IsNullOrWhiteSpace(model.ServerName))
+            {
+                paras.Add(new SqlParameter("@conditionStr", "ServerName LIKE '%" + model.ServerName + "%'"));
+            }
+
+            paras.Add(new SqlParameter()
+            {
+                ParameterName = "@totalItemCount",
+                Direction = ParameterDirection.Output,
+                SqlDbType = SqlDbType.Int
+            });
+            paras.Add(new SqlParameter()
+            {
+                ParameterName = "@newCurrentPage",
+                Direction = ParameterDirection.Output,
+                SqlDbType = SqlDbType.Int
+            });
+            List<ServerManagerListModel> list = ConvertToList<ServerManagerListModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.StoredProcedure, "Proc_GetPagedDatas", paras.ToArray()));
+            int totalItemCount = Convert.ToInt32(paras[paras.Count - 2].Value);
+            int newCurrentPage = Convert.ToInt32(paras[paras.Count - 1].Value);
+            return list.ToPagedList(newCurrentPage, pageSize, totalItemCount);
+        }
+
+        #endregion
+
+        #region 新增服务器
+        public static OperationResult AddServer(ServerManagerEditModel model)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ServerCode",SqlDbType.VarChar),
+                new SqlParameter("@ServerName",SqlDbType.NVarChar),
+                new SqlParameter("@LinkedServerName",SqlDbType.VarChar),
+                new SqlParameter("@IP",SqlDbType.VarChar),
+                new SqlParameter("@WCFAddress",SqlDbType.VarChar) ,
+                new SqlParameter("@CreateUserID",SqlDbType.Int)  
+            };
+
+            paras[0].Value = model.ServerCode.Trim();
+            paras[1].Value = model.ServerName.Trim();
+            paras[2].Value = model.LinkedServerName.Trim();
+            paras[3].Value = model.IP.Trim();
+            paras[4].Value = model.WCFAddress.Trim();
+            paras[5].Value = model.CreateUserID;
+            #region  SQL
+            string sql = @"INSERT  INTO dbo.ServerInfo
+        ( ServerCode ,
+          ServerName ,
+          LinkedServerName,IP,WCFAddress,CreateUserID
+        )VALUES  ( @ServerCode ,  
+          @ServerName, 
+          @LinkedServerName ,@IP,@WCFAddress,@CreateUserID
+        )";
+            #endregion
+
+
+            bool result = MSSQLHelper.ExecuteNonQuery(CommandType.Text, sql, paras.ToArray()) > 0;
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.OperationSuccess : PromptInformation.DBError
+            };
+        }
+        #endregion
+
+        #region 修改服务器
+
+        public static SelectResult<ServerManagerEditModel> GetServerByID(int id)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ID",SqlDbType.Int),
+            };
+            paras[0].Value = id;
+            string sql = @"SELECT  [ID],[ServerCode],[ServerName],[LinkedServerName],IP,WCFAddress 
+                           FROM  [dbo].[ServerInfo] WHERE    ID = @ID";
+            List<ServerManagerEditModel> list = ConvertToList<ServerManagerEditModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql, paras.ToArray()));
+
+            ServerManagerEditModel data = null;
+            string msg = string.Empty;
+
+            if (list == null)
+            {
+                msg = PromptInformation.DBError;
+            }
+            else if (list.Count == 0)
+            {
+                msg = PromptInformation.NotExists;
+            }
+            else
+            {
+                data = list[0];
+            }
+            return new SelectResult<ServerManagerEditModel>()
+            {
+                DataResult = data,
+                Message = msg
+            };
+        }
+
+        public static OperationResult EditServer(ServerManagerEditModel model)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ServerCode",SqlDbType.VarChar),
+                new SqlParameter("@ServerName",SqlDbType.NVarChar),
+                new SqlParameter("@LinkedServerName",SqlDbType.VarChar),
+                new SqlParameter("@ID",SqlDbType.Int),
+                new SqlParameter("@IP",SqlDbType.VarChar) ,
+                new SqlParameter("@WCFAddress",SqlDbType.VarChar) ,
+                new SqlParameter("@UpdateUserID",SqlDbType.Int)  
+            };
+
+            paras[0].Value = model.ServerCode.Trim();
+            paras[1].Value = model.ServerName.Trim();
+            paras[2].Value = model.LinkedServerName.Trim();
+            paras[3].Value = model.ID;
+            paras[4].Value = model.IP.Trim();
+            paras[5].Value = model.WCFAddress.Trim();
+            paras[6].Value = model.UpdateUserID;
+
+            #region  SQL
+            string sql = @"UPDATE   dbo.ServerInfo
+       SET      ServerCode = @ServerCode ,
+                ServerName = @ServerName ,IP = @IP,
+                LinkedServerName = @LinkedServerName,
+                WCFAddress = @WCFAddress,
+                UpdateUserID = @UpdateUserID,
+                UpdateDate = GETDATE()
+       WHERE    ID = @ID";
+            #endregion
+
+
+            int result = MSSQLHelper.ExecuteNonQuery(CommandType.Text, sql, paras.ToArray());
+            string msg = string.Empty;
+            switch (result)
+            {
+                case 1:
+                    msg = PromptInformation.OperationSuccess;
+                    break;
+                case 0:
+                    msg = PromptInformation.NotExists;
+                    break;
+                case -1:
+                    msg = PromptInformation.DBError;
+                    break;
+            }
+            return new OperationResult()
+            {
+                Success = result > 0,
+                Message = msg
+            };
+        }
+        #endregion
+
+        #region 删除服务器
+        /// <summary>
+        /// 根据终端厂商ID批量删除（物理删除）
+        /// </summary>
+        public static OperationResult DeleteServer(string[] ids)
+        {
+            string[] sqls = new string[ids.Length];
+            SqlParameter[][] paras = new SqlParameter[ids.Length][];
+            for (int i = 0; i < ids.Length; i++)
+            {
+                sqls[i] = @"DELETE FROM dbo.ServerInfo WHERE ID=@ID";
+                paras[i] = new SqlParameter[1];
+                SqlParameter temp = new SqlParameter("@ID", SqlDbType.Int);
+                temp.Value = ids[i];
+                paras[i][0] = temp;
+            }
+            bool result = MSSQLHelper.ExecuteTransaction(CommandType.Text, sqls, paras);
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.DeleteSuccess : PromptInformation.DeleteFailure
+            };
+        }
+        #endregion
+
+        #region 服务器下拉数据
+        public static List<ServerInfoDDLModel> GetServerInfoList()
+        {
+            string sql = "SELECT [ID],[ServerName] FROM  [dbo].[ServerInfo]";
+            return ConvertToList<ServerInfoDDLModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql));
+        }
+        #endregion
+
+        #region 获取终端服务器信息
+        /// <summary>
+        /// 根据终端号获取终端所属服务器信息
+        /// </summary>
+        public static SelectResult<TerminalServerInfoModel> GetTerminalServerInfo(string terminalCode)
+        {
+            string sql = @"SELECT LinkedServerName,WCFAddress FROM dbo.ServerInfo s
+INNER JOIN dbo.Terminals t ON s.ID=t.ServerInfoID
+WHERE t.TerminalCode=@TerminalCode";
+            SqlParameter para = new SqlParameter()
+            {
+                ParameterName = "@TerminalCode",
+                SqlDbType = SqlDbType.VarChar,
+                Size = 20,
+                Value = terminalCode.Trim()
+            };
+            List<TerminalServerInfoModel> list = ConvertToList<TerminalServerInfoModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql, para));
+
+            TerminalServerInfoModel data = null;
+            string msg = string.Empty;
+
+            if (list == null)
+            {
+                msg = PromptInformation.DBError;
+            }
+            else if (list.Count == 0)
+            {
+                msg = PromptInformation.NotExists;
+            }
+            else
+            {
+                data = list[0];
+            }
+            return new SelectResult<TerminalServerInfoModel>()
+            {
+                DataResult = data,
+                Message = msg
+            };
+        }
+        #endregion
+    }
+}

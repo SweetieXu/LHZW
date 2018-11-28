@@ -1,0 +1,88 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<MSBindVehicleSearchModel, MSBindVehicleListModel>
+
+
+@using (Ajax.BeginForm("GetVehicleMaintenanceSchedule", "MaintenanceSchedule", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_MaintenanceSchedule_divMSBindVehicleSearch",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchMSBindVehicle" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        @Html.HiddenFor(m => m.SearchModel.id, new { id="id"})
+            <tr>
+                 <td style="font-weight:bolder;">@DisplayText.ScheduleName：</td>
+                 <td colspan="3" style="font-weight:bolder;color:red;">@ViewData["ScheduleName"]</td>
+                <td><input id="pid" type="hidden" name="id" /></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.SearchModel.VehicleName)：</td>
+                <td>
+                    <input type="search" name="VehicleName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.VehicleName)"/>
+                </td>
+                <td>
+                    @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                    <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                    <span class="btn btn-primary" title="@UIText.BindVehicle" id="btnBindVehicle">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+}
+
+
+<div id="Admin_MaintenanceSchedule_divMSBindVehicleSearch">
+    @Html.Partial("_BindVehiclePagedGrid", Model)
+</div>
+
+
+<script>
+    $("#frmSearchMSBindVehicle").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+    $(function () {
+        var id = $("#id").val();
+        $("#pid").val(id);
+    });
+
+    var reg = /^(0|[1-9]\d*|[1-9]\d*\.\d+|0\.\d*[1-9]\d*)$/;  //验证整数或者正浮点数
+    $("#btnBindVehicle").on("click", function () {
+        var checkdata = [];    //选中的所有车辆数据
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='vid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        else {
+            $("input[name='vid']:checked").each(function () {
+                checkdata.push($(this).val());   
+            });
+            for (var j = 0; j < checkdata.length; j++) {       //前台验证firstMile必填且数字，firstTime必填
+                var firstMile = $("#FirstMaintenanceMile_" + checkdata[j]).val();
+                var firstTime = $("#FirstMaintenanceTime_" + checkdata[j]).val();
+                if (firstMile == "" || firstMile == null || firstTime == "" || firstTime == null) {
+                    var _message = '@DataAnnotations.PleaseInputLastMaintenanceMileAndTimeFirst';
+                    $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+                if (!reg.test(firstMile)) {
+                    var _message = '@DataAnnotations.FirstMaintenanceMilePleaseInputNum';
+                    $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+            }
+        }
+        //设置后台只获取选中行的数据，否则全都传过去会包括未选中但是填值的数据，无法对应每行的各个数据
+        //将FirstMaintenanceMile和FirstMaintenanceTime input框内容绑定到选中的fmm和fmt框
+        for (var j = 0; j < checkdata.length; j++) {
+            $("#fmm_" + checkdata[j]).val($("#FirstMaintenanceMile_" + checkdata[j]).val());
+            $("#fmt_" + checkdata[j]).val($("#FirstMaintenanceTime_" + checkdata[j]).val());
+        }
+        _message = '@UIText.Confirm' + '@UIText.BindVehicle';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#frmBindVehicleList").submit();
+        });
+    });
+</script>

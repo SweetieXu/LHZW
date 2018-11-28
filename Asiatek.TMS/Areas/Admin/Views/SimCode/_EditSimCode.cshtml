@@ -1,0 +1,179 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model EditSimCodeModels
+@using (Ajax.BeginForm("EditSimCode", "SimCode", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditSimCode" }))
+{
+    @Html.HiddenFor(m => m.ID)
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.SimCode)：</td>
+                <td>@Html.TextBoxFor(m => m.SimCode, new { @readonly = "true" })</td>
+                <td>@Html.LabelForRequired(m => m.CommMode)：</td>
+                <td style="width: 208px;">@Html.DropDownListFor(m => m.CommMode, Model.CommModeSelectList)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.SimCode)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.CommMode)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.PurchaseDate)：</td>
+                <td>@*@Html.TextBoxFor(m => m.PurchaseDate, new { id = "txtPurchaseDate" })*@
+                     <input id="txtPurchaseDate" type="text" name="PurchaseDate" class="form-control" value="@Model.PurchaseDate.ToString("yyyy-MM-dd")"/>
+                </td>
+                <td>@Html.LabelForRequired(m => m.OwnerStrucID)：</td>
+                <td>
+                    <input id="ddlAddOwnerStruc" type="text"  class="form-control" value="@Model.OwnerStrucName"/>
+                     @Html.HiddenFor(m => m.OwnerStrucID, new {id="hidEditOwnerStrucID" })
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.PurchaseDate)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.OwnerStrucID)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.OpeningDate)：</td>
+                <td>@*@Html.TextBoxFor(m => m.OpeningDate, new { id = "txtOpeningDate" })*@
+                    <input id="txtOpeningDate" type="text" name="OpeningDate" class="form-control" value="@Model.OpeningDate.ToString("yyyy-MM-dd")"/>
+                </td>
+                <td>@Html.LabelForRequired(m => m.UseStrucID)：</td>
+                <td>
+                     <input id="ddlAddUseStruc" type="text" class="form-control" value="@Model.UseStrucName"/>
+                     @Html.HiddenFor(m => m.UseStrucID, new {id="hidEditUseStrucID" })
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.OpeningDate)</td>
+                <td></td>
+               <td>@Html.ValidationMessageFor(m => m.UseStrucID)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ExpiryDate)：</td>
+                <td>@*@Html.TextBoxFor(m => m.ExpiryDate, new { id = "txtExpiryDate" })*@
+                     <input id="txtExpiryDate" type="text" name="ExpiryDate" class="form-control" value="@Model.ExpiryDate.ToString("yyyy-MM-dd")"/>
+                </td>
+                <td>@Html.LabelForRequired(m => m.ServiceProviderID)：</td>
+                <td>@Html.DropDownListFor(m => m.ServiceProviderID, Model.ServiceProviderSelectList)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ExpiryDate)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ServiceProviderID)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="3">@Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })</td>
+            </tr>
+            <tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+
+<script>
+    var $frmAddPlateColo = $("#frmEditSimCode");
+    $frmAddPlateColo.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmAddPlateColo.fixUnobtrusiveValidation();
+
+    //SIM卡开通日期不可以早于购买日期  SIM卡过期日期不可以早于开通日期
+    // 购买日期
+    $("#txtPurchaseDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        onClose: function (selectedDate) {
+            $("#txtOpeningDate").datepicker("option", "minDate", selectedDate);
+            $("#txtExpiryDate").datepicker("option", "minDate", selectedDate);
+        }
+    });
+
+    // 开通日期
+    $("#txtOpeningDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        onClose: function (selectedDate) {
+            $("#txtPurchaseDate").datepicker("option", "maxDate", selectedDate);
+            $("#txtExpiryDate").datepicker("option", "minDate", selectedDate);
+        }
+    });
+
+    ///过期日期
+    $("#txtExpiryDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        onClose: function (selectedDate) {
+            $("#txtPurchaseDate").datepicker("option", "maxDate", selectedDate);
+            $("#txtOpeningDate").datepicker("option", "maxDate", selectedDate);
+        }
+    });
+
+    //文本框的值发生改变就清空值 并显示错误提示
+    $("#ddlAddOwnerStruc").bind("input propertychange", function () {
+        $("#hidEditOwnerStrucID").val('');
+        $("span[data-valmsg-for='OwnerStrucID']").show();
+    })
+
+    //文本框的值发生改变就清空值 并显示错误提示
+    $("#ddlAddUseStruc").bind("input propertychange", function () {
+        $("#hidEditUseStrucID").val('');
+        $("span[data-valmsg-for='UseStrucID']").show();
+    })
+
+    $("#ddlAddOwnerStruc").autocomplete({
+            delay: 500,
+            minLength: 1,
+            appendTo: $("#frmEditSimCode"),
+            select: function (event, ui) {
+                $("#hidEditOwnerStrucID").val(ui.item.ID);
+                $("span[data-valmsg-for='OwnerStrucID']").hide();
+            },
+            source: function (request, response) {
+                $.get('@Url.Content("~/Admin/Structure/GetStructuresByStructureName")', { structuresName: request.term }, function (data, status, xhr) {
+                    if ($.handleAjaxError(data)) {
+                        return;
+                    }
+                    response(data);
+                });
+            }
+        });
+            $("#ddlAddUseStruc").autocomplete({
+                delay: 500,
+                minLength: 1,
+                appendTo: $("#frmEditSimCode"),
+                select: function (event, ui) {
+                    $("#hidEditUseStrucID").val(ui.item.ID);
+                    $("span[data-valmsg-for='UseStrucID']").hide();
+                },
+                source: function (request, response) {
+                    $.get('@Url.Content("~/Admin/Structure/GetStructuresByStructureName")', { structuresName: request.term }, function (data, status, xhr) {
+                    if ($.handleAjaxError(data)) {
+                        return;
+                    }
+                    response(data);
+                });
+            }
+        });
+</script>

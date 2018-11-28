@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/STD808Core.Information" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/STD808Core.Information" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="TextInformationData">
+    <xs:sequence>
+      <xs:element name="Content" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="TextInformationFlag" type="tns:TextInformationFlag">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TextInformationData" nillable="true" type="tns:TextInformationData" />
+  <xs:simpleType name="TextInformationFlag">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="紧急">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="终端显示器显示" />
+          <xs:enumeration value="终端TTS播读" />
+          <xs:enumeration value="广告屏显示" />
+          <xs:enumeration value="CAN故障码信息" />
+          <xs:enumeration value="All">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">61</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="TextInformationFlag" nillable="true" type="tns:TextInformationFlag" />
+  <xs:complexType name="EventSettingData">
+    <xs:sequence>
+      <xs:element name="EventSettingItems" nillable="true" type="tns:ArrayOfEventSettingItem" />
+      <xs:element name="EventSettingType" type="tns:EventSettingType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EventSettingData" nillable="true" type="tns:EventSettingData" />
+  <xs:complexType name="ArrayOfEventSettingItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="EventSettingItem" nillable="true" type="tns:EventSettingItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfEventSettingItem" nillable="true" type="tns:ArrayOfEventSettingItem" />
+  <xs:complexType name="EventSettingItem">
+    <xs:sequence>
+      <xs:element name="EventContent" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="EventID" type="xs:unsignedByte" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EventSettingItem" nillable="true" type="tns:EventSettingItem" />
+  <xs:simpleType name="EventSettingType">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="删除终端现有所有事件" />
+      <xs:enumeration value="更新时间" />
+      <xs:enumeration value="追加时间" />
+      <xs:enumeration value="修改事件" />
+      <xs:enumeration value="删除特定几项事件" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="EventSettingType" nillable="true" type="tns:EventSettingType" />
+  <xs:complexType name="QuestionSendingData">
+    <xs:sequence>
+      <xs:element name="AnswerItems" nillable="true" type="tns:ArrayOfAnswerItem">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Question" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="QuestionSendingFlag" type="tns:QuestionSendingFlag">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QuestionSendingData" nillable="true" type="tns:QuestionSendingData" />
+  <xs:complexType name="ArrayOfAnswerItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AnswerItem" nillable="true" type="tns:AnswerItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAnswerItem" nillable="true" type="tns:ArrayOfAnswerItem" />
+  <xs:complexType name="AnswerItem">
+    <xs:sequence>
+      <xs:element name="AnswerContent" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ID" type="xs:unsignedByte" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AnswerItem" nillable="true" type="tns:AnswerItem" />
+  <xs:simpleType name="QuestionSendingFlag">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="紧急">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="终端TTS播读">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="广告屏显示">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="All">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">25</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="QuestionSendingFlag" nillable="true" type="tns:QuestionSendingFlag" />
+</xs:schema>

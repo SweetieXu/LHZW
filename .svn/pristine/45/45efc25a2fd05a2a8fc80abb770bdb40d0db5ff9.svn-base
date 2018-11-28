@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessExcelFailed" xml:space="preserve">
+    <value>无法获取Excel内容！</value>
+  </data>
+  <data name="DBError" xml:space="preserve">
+    <value>数据库发生错误！请联系管理员！</value>
+  </data>
+  <data name="DeleteFailure" xml:space="preserve">
+    <value>删除失败！</value>
+  </data>
+  <data name="DeleteSuccess" xml:space="preserve">
+    <value>删除成功！</value>
+  </data>
+  <data name="GetFunctionsError" xml:space="preserve">
+    <value>获取当前账号功能信息时发生错误！请联系管理员！</value>
+  </data>
+  <data name="ImportFailed" xml:space="preserve">
+    <value>导入失败！</value>
+  </data>
+  <data name="ImportSuccess" xml:space="preserve">
+    <value>导入成功！</value>
+  </data>
+  <data name="LoginDBError" xml:space="preserve">
+    <value>登录失败！发生错误!</value>
+  </data>
+  <data name="LoginError" xml:space="preserve">
+    <value>登录失败！输入有误！</value>
+  </data>
+  <data name="MissingField" xml:space="preserve">
+    <value>缺失</value>
+  </data>
+  <data name="NoDatas" xml:space="preserve">
+    <value>查无数据！</value>
+  </data>
+  <data name="NoFunctions" xml:space="preserve">
+    <value>当前账号无任何功能信息</value>
+  </data>
+  <data name="NotExists" xml:space="preserve">
+    <value>记录不存在！</value>
+  </data>
+  <data name="NoVehicles" xml:space="preserve">
+    <value>没有找到任何车辆资料！</value>
+  </data>
+  <data name="OperationSuccess" xml:space="preserve">
+    <value>操作成功！</value>
+  </data>
+  <data name="RowIndex" xml:space="preserve">
+    <value>第{0}行：</value>
+  </data>
+  <data name="OnlyBoolean" xml:space="preserve">
+    <value>只能是TRUE或FALSE</value>
+  </data>
+  <data name="SamePlateNumInExcel" xml:space="preserve">
+    <value>Excel中存在重复车牌号</value>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>无效</value>
+  </data>
+  <data name="InvalidVehicelNameInExcel" xml:space="preserve">
+    <value>Excel中存在同单位下的相同车代号</value>
+  </data>
+  <data name="NotExistsOrHasBeenUsed" xml:space="preserve">
+    <value>记录不存在或已被使用</value>
+  </data>
+  <data name="SamePrimaryTerminalCodeInExcel" xml:space="preserve">
+    <value>Excel中存在重复主定位终端号</value>
+  </data>
+  <data name="CommunicationError" xml:space="preserve">
+    <value>通信异常！</value>
+  </data>
+  <data name="OperationFailure" xml:space="preserve">
+    <value>操作失败</value>
+  </data>
+  <data name="InspectionHadBeenRelied" xml:space="preserve">
+    <value>查岗信息已被回复！</value>
+  </data>
+  <data name="RemotingError" xml:space="preserve">
+    <value>远程服务发生错误！</value>
+  </data>
+  <data name="TerminalIsOffline" xml:space="preserve">
+    <value>终端已离线！</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>超时！</value>
+  </data>
+  <data name="TerminalCodeFormatError" xml:space="preserve">
+    <value>终端号格式有误！</value>
+  </data>
+  <data name="TerminalCodeNotExist" xml:space="preserve">
+    <value>终端号不存在！</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>未知错误！</value>
+  </data>
+  <data name="MessageWrong" xml:space="preserve">
+    <value>消息有误！</value>
+  </data>
+  <data name="NotSupport" xml:space="preserve">
+    <value>不支持！</value>
+  </data>
+  <data name="FailReason" xml:space="preserve">
+    <value>失败原因</value>
+  </data>
+  <data name="TerminalSetting_SendTextMessageSuccess" xml:space="preserve">
+    <value>文本消息下发成功</value>
+  </data>
+  <data name="TerminalSetting_WCFError" xml:space="preserve">
+    <value>终端所属WCF地址暂未设置，请先设置！</value>
+  </data>
+  <data name="QueryContent" xml:space="preserve">
+    <value>查询内容</value>
+  </data>
+  <data name="TerminalSetting_UpdateTerminalSettingFail" xml:space="preserve">
+    <value>终端设置下发失败，请重新下发</value>
+  </data>
+  <data name="TerminalSetting_UpdateTerminalSettingSuccess" xml:space="preserve">
+    <value>终端设置下发成功</value>
+  </data>
+  <data name="YouHaveNoPermission" xml:space="preserve">
+    <value>抱歉，您不具备该操作的权限！</value>
+  </data>
+  <data name="PlateNumberError" xml:space="preserve">
+    <value>公安交通管理部门颁发的机动车号牌长度必须为7或8位</value>
+  </data>
+  <data name="SpeedalarmwarningdifferenceError" xml:space="preserve">
+    <value>超速报警预警差值必须介于0到6553.5之间</value>
+  </data>
+  <data name="VehicleOdometerReadingError" xml:space="preserve">
+    <value>车辆里程表读数必须介于0到429496729.5之间</value>
+  </data>
+  <data name="HaveRelateEFPropertyInfo" xml:space="preserve">
+    <value>删除失败，该属性在电子围栏中被使用！</value>
+  </data>
+  <data name="HaveRelateReceiveTransportPoint" xml:space="preserve">
+    <value>删除失败，该收货点有相关的下级数据！</value>
+  </data>
+  <data name="AuditeFailed" xml:space="preserve">
+    <value>审核失败</value>
+  </data>
+  <data name="AuditeSuccess" xml:space="preserve">
+    <value>审核成功</value>
+  </data>
+  <data name="StatusChange" xml:space="preserve">
+    <value>状态已改变，修改失败!</value>
+  </data>
+</root>

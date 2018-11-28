@@ -1,0 +1,109 @@
+16:56:05：
+异常信息：没有为该对象定义无参数的构造函数。
+堆栈信息：   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance[T]()
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 154
+----------------------------------------------------------------------------------------------------
+16:56:05：
+里程报表未将对象引用设置到对象的实例。]
+----------------------------------------------------------------------------------------------------
+16:56:20：
+异常信息：没有为该对象定义无参数的构造函数。
+堆栈信息：   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance[T]()
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 154
+----------------------------------------------------------------------------------------------------
+16:56:23：
+里程报表未将对象引用设置到对象的实例。]
+----------------------------------------------------------------------------------------------------
+16:56:58：
+异常信息：没有为该对象定义无参数的构造函数。
+堆栈信息：   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance[T]()
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 154
+----------------------------------------------------------------------------------------------------
+16:57:05：
+里程报表未将对象引用设置到对象的实例。]
+----------------------------------------------------------------------------------------------------
+16:57:42：
+异常信息：没有为该对象定义无参数的构造函数。
+堆栈信息：   在 System.RuntimeTypeHandle.CreateInstance(RuntimeType type, Boolean publicOnly, Boolean noCheck, Boolean& canBeCached, RuntimeMethodHandleInternal& ctor, Boolean& bNeedSecurityCheck)
+   在 System.RuntimeType.CreateInstanceSlow(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.RuntimeType.CreateInstanceDefaultCtor(Boolean publicOnly, Boolean skipCheckThis, Boolean fillCache, StackCrawlMark& stackMark)
+   在 System.Activator.CreateInstance[T]()
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 154
+----------------------------------------------------------------------------------------------------
+16:57:49：
+里程报表未将对象引用设置到对象的实例。]
+----------------------------------------------------------------------------------------------------
+17:01:00：
+里程报表值不能为 null。
+参数名: collection]
+----------------------------------------------------------------------------------------------------
+17:01:22：
+里程报表值不能为 null。
+参数名: collection]
+----------------------------------------------------------------------------------------------------
+17:02:12：
+里程报表值不能为 null。
+参数名: collection]
+----------------------------------------------------------------------------------------------------
+17:03:08：
+里程报表值不能为 null。
+参数名: collection]
+----------------------------------------------------------------------------------------------------
+17:04:11：
+里程报表值不能为 null。
+参数名: collection]
+----------------------------------------------------------------------------------------------------
+17:07:58：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:09:59：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:12:14：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:12:55：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:13:17：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:13:34：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:16:58：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:19:08：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:20:12：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:20:54：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:21:36：
+里程报表查看器控件对象处于只读状态]
+----------------------------------------------------------------------------------------------------
+17:31:29：
+里程报表值不能为 null。
+参数名: collection]
+----------------------------------------------------------------------------------------------------
+17:31:36：
+里程报表值不能为 null。
+参数名: collection]
+----------------------------------------------------------------------------------------------------
+17:31:57：
+里程报表值不能为 null。
+参数名: collection]
+----------------------------------------------------------------------------------------------------

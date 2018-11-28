@@ -1,0 +1,198 @@
+﻿@using Asiatek.Resource
+
+@*公共页面 单位车辆列表页面*@
+<div class="container-fluid">
+    <div class="row">
+
+        @*begin车辆列表*@
+        <div class="col-md-3">
+            <form>
+                <div class="form-group">
+                    <label for="company">@DisplayText.Useunits</label>
+                    <input type="text" class="form-control" id="strucName" value="">
+                </div>
+                <div class="form-group">
+                    <label for="plateOrTerminal">@DisplayText.Licenseplatenumberorterminalnumber</label>
+                    <input type="text" class="form-control" id="plateOrTerminal" value="">
+                </div>
+                <button id="queryVehicle" class="btn btn-primary">@UIText.Search</button>
+            </form>
+            <div id="vehiclesTree" style="margin-top: 10px; height: 520px; overflow-y: scroll;"></div>
+        </div>
+        @* end车辆列表 *@
+
+        @*  脚本必须放在链接页面的上面 否则链接页面处会报错误 如消息下发页面 会提示 VehicleCheckedEventHandlers 未定义*@
+        <script>
+            var vehiclesTree = undefined;
+            var VehicleCheckedEventHandlers = new Array();
+            var VehicleSelectedEventHandlers = new Array();
+            var VehicleUnselectedEventHandlers = new Array();
+
+            $(function () {
+                
+                $('#queryVehicle').click(function () {
+                    data = {
+                        strucName: $.trim($('#strucName').val()),
+                        plateNumOrTerminalCode:$.trim($('#plateOrTerminal').val())
+                    };
+
+                    $.get(
+                    '@Url.Content("~/TerminalSetting/TerminalsSetting/GetVehiclesListByCurrentUserID")',
+                    data,
+                    function (returnval) {
+                        $('#vehiclesTree').treeview({
+                            data: returnval,
+                            showCheckbox: @ViewBag.TreeViewShowCheckBox.ToString().ToLower(),
+                            onNodeChecked: vehiclesTree_OnNodeChecked,
+                            onNodeUnchecked: vehiclesTree_OnNodeUnchecked,
+                            onNodeSelected: vehiclesTree_OnNodeSelected,
+                            onNodeUnselected: vehiclesTree_OnNodeUnselected
+                        });
+                        vehiclesTree = $('#vehiclesTree').treeview(true);
+                    });
+                    return false;
+                });
+                
+                $('#queryVehicle').click();
+            });
+
+            //获取节点的所有直接与间接子节点
+            var getAllChildNodes = function (nodeIds, childNodes) {
+                if (childNodes != undefined) {
+                    childNodes.forEach(function (obj) {
+                        if (obj.tag != null && !obj.tag.NoSignal)//记录选中的车辆节点（原本无定位的忽略）
+                        {
+                            _childVehicleNodes.push(obj);
+                        }
+                        nodeIds.push(obj.nodeId);
+                        getAllChildNodes(nodeIds, obj.nodes);
+                    });
+                }
+            };
+
+            //获取节点的所有直接与间接父节点
+            var getAllParentNodes = function (parentIds, nodeId) {
+                var _parentNode = vehiclesTree.getParent(nodeId);
+                if (_parentNode != undefined) {
+                    var _pid = _parentNode.nodeId;
+                    parentIds.push(_pid);
+                    getAllParentNodes(parentIds, _pid);
+                }
+            };
+
+            function vehiclesTree_OnNodeChecked(event, data) {
+                //检查当前节点的父节点是否需要选中（子节点全部选中则父节点也选中）
+                //获取兄弟节点
+                var _sibs = vehiclesTree.getSiblings(data.nodeId);
+                //console.log( _sibs.length);
+                var _allChecked = true;
+                for (var i = 0; i < _sibs.length; i++) {
+                    var _temp = _sibs[i];
+                    if (!_temp.state.checked) {
+                        _allChecked = false;
+                        break;
+                    }
+                }
+
+                if (_allChecked) {
+                    if(data.parentId != undefined)
+                    {
+                        //选中父节点
+                        vehiclesTree.checkNode(data.parentId, { silent: true });
+                    }                 
+                }
+
+                //选中父节点后进行子节点的选中
+                var _nodeIds = new Array();
+                getAllChildNodes(_nodeIds, data.nodes);
+                vehiclesTree.checkNode(_nodeIds, { silent: true });
+
+                //获取所有选中的车辆
+                var nodes = vehiclesTree.getChecked();
+                var leafs = new Array();
+                nodes.forEach(function (node) {
+                    if (node.nodes == undefined)
+                        leafs.push(node);
+                });
+                
+                var vehiclesChecked = {};
+                leafs.forEach(function (node) {
+                    vehiclesChecked[node.text] = node.tags;
+                });
+
+                //调用回调函数
+                VehicleCheckedEventHandlers.forEach(function (callback) {
+                    callback(vehiclesChecked);
+                });
+            }
+
+            function vehiclesTree_OnNodeUnchecked(event, data) {
+                //取消选中节点后进行子节点的取消选中
+                var _nodeIds = new Array();
+                getAllChildNodes(_nodeIds, data.nodes);
+                vehiclesTree.uncheckNode(_nodeIds, { silent: true });
+
+                //只要一个子节点未选中，父节点就取消选中，包括所有上级节点
+                var _parentNodeIds = new Array();
+                getAllParentNodes(_parentNodeIds, data.nodeId);
+                vehiclesTree.uncheckNode(_parentNodeIds, { silent: true });
+
+                //获取所有选中的车辆
+                var nodes = vehiclesTree.getChecked();
+                var leafs = new Array();
+                nodes.forEach(function (node) {
+                    if (node.nodes == undefined)
+                        leafs.push(node);
+                });
+
+                var vehiclesChecked = {};
+                leafs.forEach(function (node) {
+                    vehiclesChecked[node.text] = node.tags;
+                });
+
+                //调用回调函数
+                VehicleCheckedEventHandlers.forEach(function (callback) {
+                    callback(vehiclesChecked);
+                });
+            }
+
+            //获取当前选中的所有节点
+            function vehiclesTree_GetSelectedNode() {
+                var selected = vehiclesTree.getSelected();
+                var vehicleSelected = new Object();
+                selected.forEach(function (node) {
+                    if (node.nodes == undefined)
+                        vehicleSelected[node.text] = node.tags;
+                });
+
+                return vehicleSelected;
+            }
+
+            function vehiclesTree_OnNodeSelected(event, data) {
+                VehicleSelectedEventHandlers.forEach(function (callback) {
+                    obj = {};
+                    obj[data.text] = data.tags;
+                    callback();
+                });
+            }
+
+            function vehiclesTree_OnNodeUnselected(event, data) {
+                VehicleUnselectedEventHandlers.forEach(function (callback) {
+                    obj = {};
+                    obj[data.text] = data.tags;
+                    callback(obj);
+                });
+            }
+        </script>
+
+        @*列表页面右侧具体的操作页面 如文本消息下发页等*@
+        <div class="col-md-9">
+            @{
+                Html.RenderPartial((string)ViewBag.SubView);
+            }
+        </div>
+
+    </div>
+</div>
+
+

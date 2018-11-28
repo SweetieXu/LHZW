@@ -1,0 +1,56 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<ExceptionTypeSeachModel, ExceptionTypeListModel>
+
+
+@using (Ajax.BeginForm("GetExceptionTypeInfo", "ExceptionType", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_ExceptionType_SeachExceptionType_ExceptionType",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchExceptionType" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.ExName)：</td>
+            <td>
+                <input type="search" name="ExName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.ExName)"/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+               @* <span class="btn btn-info" title="@UIText.AddButton" id="btnAddExceptionTypes">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>*@
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+<div id="Admin_ExceptionType_SeachExceptionType_ExceptionType">
+    @Html.Partial("_ExceptionTypePagedGrid", Model)
+</div>
+
+
+
+
+
+<script>
+    $("#frmSearchExceptionType").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnAddExceptionTypes").on("click", function () {
+        var _url = "@Url.Content("~/Admin/ExceptionType/AddExceptionType")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+</script>
+
+

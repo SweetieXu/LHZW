@@ -1,0 +1,190 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<RepairRecordSearchModel, RepairRecordModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string detailText = UIText.Detail;
+
+    string updateTargetId = "Admin_RepairRecord_RepairRecordDetail";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    using (Ajax.BeginForm("DeleteRepairRecord", "RepairRecord", new AjaxOptions()
+    {
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelRepairRecord" }))
+    {
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+                <th>
+                    <label>@UIText.Operation</label>
+                </th>
+                <th>@Html.DisplayNameFor(m => m.PlateNum)</th>
+                <th>@Html.DisplayNameFor(m => m.DriverName)</th>
+                <th>@Html.DisplayNameFor(m => m.DriverPhone)</th>
+                <th>@Html.DisplayNameFor(m => m.RepairStartTime)</th>
+                <th>@Html.DisplayNameFor(m => m.RepairEndTime)</th>
+                <th>@Html.DisplayNameFor(m => m.RepairType)</th>
+                <th>@Html.DisplayNameFor(m => m.TotalPrice)</th>
+                <th>@Html.DisplayNameFor(m => m.Status)</th>
+                <th>@Html.DisplayNameFor(m => m.OperateUserName)</th>
+                <th>@Html.DisplayNameFor(m => m.AuditUserName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    <td>
+                        @if (item.Status == 0)
+                        {
+                        <input type="checkbox" name="tid" value="@item.ID" id="chkTID@(item.ID)" />
+                        }
+                    </td>
+                    <td>
+                        @if (item.Status == 0)
+                        {
+                            <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </span>
+
+                        }
+                        else
+                        {
+                            <span class="btn btn-default" onclick="view(@item.ID)" title="@detailText">
+                                <span class="glyphicon glyphicon-zoom-in"></span>
+                            </span>
+                        }
+                        <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelRepairRecord" onclick="del(@item.ID)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </td>
+                    <td>
+                        <label  for="chkTID@(item.ID)">@item.PlateNum</label>
+                    </td>
+                    <td>
+                        <label>@item.DriverName</label>
+                    </td>
+                    <td>
+                        <label>@item.DriverPhone</label>
+                    </td>
+                    <td>
+                        <label>@item.RepairStartTime</label>
+                    </td>
+                    <td>
+                        <label>@item.RepairEndTime</label>
+                    </td>
+                    <td>
+                        <label>@item.RepairType</label>
+                    </td>
+                    <td>
+                        <label>@item.TotalPrice</label>
+                    </td>
+                    <td>
+                        @if (@item.Status == 0)
+                        {
+                            <label>@UIText.NotAudite</label>
+                        }
+                        else
+                        {
+                            <label>@UIText.HasAudite</label>
+                        }
+                    </td>
+                    <td><label>@item.OperateUserName</label></td>
+                    <td><label>@item.AuditUserName</label></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "RepairRecord",
+    ActionName = "GetRepairRecordInfo",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+
+<script>
+
+
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@Model.PagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchRepairRecord #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchRepairRecord").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        //$hidSearchPage.val('1');
+    }
+
+    //删除完成后
+    var delCallBack = function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/RepairRecord/EditRepairRecord")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm, "60%");
+    }
+    var view = function (id) {
+        var _url = "@Url.Content("~/Admin/RepairRecord/DetailViewRepairRecord")";
+        var _data = { id: id };
+        var _title = "@detailText";
+           $.showEditDialog(_url, _data, _title, refreshSearchForm, "60%");
+    }
+@*    var period = function (id) {
+        var _url = "@Url.Content("~/Admin/ElectricFenceProperty/EditEFPropertyPeriodInfo")";
+        var _data = { id: id };
+        var _title = "@DisplayText.WeekInfo";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }*@
+    var del = function (id) {
+        var _data = { id: id };
+        $.showConfirmDialog('@UIText.ConfirmDelete', '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $.ajax({
+                type: "Post",
+                contentType: "application/json",
+                url: "@Url.Action("DeleteRepairRecord")",
+                cache: false,
+                data: JSON.stringify(_data),
+                success: function (result) {
+                    $.showCommonDialog(result.Message, '@UIText.DeleteButton', true, refreshSearchForm());
+            }
+            })
+        })
+    }
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='tid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+</script>

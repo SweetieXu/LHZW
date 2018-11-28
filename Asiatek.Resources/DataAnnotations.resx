@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActionIDHadBeenLinkedWithFunction" xml:space="preserve">
+    <value>当前动作已经绑定过功能</value>
+  </data>
+  <data name="ActionNameExists" xml:space="preserve">
+    <value>同控制器下已存在同名动作！</value>
+  </data>
+  <data name="AreaControllerActionName" xml:space="preserve">
+    <value>必须以大写字母开头，特殊字符只能包含下划线</value>
+  </data>
+  <data name="AuxiliaryTerminalIDError" xml:space="preserve">
+    <value>主终端与辅助终端重复！</value>
+  </data>
+  <data name="ChinesePhoneError" xml:space="preserve">
+    <value>电话号码格式有误！</value>
+  </data>
+  <data name="ConfirmPasswordError" xml:space="preserve">
+    <value>确认密码与新密码输入不一致！</value>
+  </data>
+  <data name="ControllerNameExists" xml:space="preserve">
+    <value>同区域下已存在同名控制器！</value>
+  </data>
+  <data name="DateError" xml:space="preserve">
+    <value>日期格式有误，只能是 年-月-日</value>
+  </data>
+  <data name="DateTimeError" xml:space="preserve">
+    <value>日期格式有误，只能是 年-月-日 时:分:秒</value>
+  </data>
+  <data name="FieldExists" xml:space="preserve">
+    <value>{0}已存在！</value>
+  </data>
+  <data name="FileDoesNotExist" xml:space="preserve">
+    <value>文件不存在！</value>
+  </data>
+  <data name="LicenseNoError" xml:space="preserve">
+    <value>业户经营许可证号为12位纯数字且不能以0开头！</value>
+  </data>
+  <data name="LogoSizeError" xml:space="preserve">
+    <value>公司Logo最大1M！</value>
+  </data>
+  <data name="LogoTypeError" xml:space="preserve">
+    <value>Logo类型只能是jpg或png！</value>
+  </data>
+  <data name="ManufacturerCodeError" xml:space="preserve">
+    <value>车载终端厂商编码只能是5位纯数字！</value>
+  </data>
+  <data name="MaxLength" xml:space="preserve">
+    <value>{0}的最大长度为{1}个字符！</value>
+  </data>
+  <data name="MaxMinLength" xml:space="preserve">
+    <value>{0}的长度在{1}到{2}</value>
+  </data>
+  <data name="MustInput" xml:space="preserve">
+    <value>必须输入{0}！</value>
+  </data>
+  <data name="MustSelectAction" xml:space="preserve">
+    <value>必须选择一个动作方法！</value>
+  </data>
+  <data name="MustSelectAtLeastOneFunction" xml:space="preserve">
+    <value>至少选择一个功能！</value>
+  </data>
+  <data name="MustSelectPrimaryTerminal" xml:space="preserve">
+    <value>必须选择定位终端！</value>
+  </data>
+  <data name="NationalityCodeError" xml:space="preserve">
+    <value>行政区划码只能是6位纯数字！</value>
+  </data>
+  <data name="NewPasswordError" xml:space="preserve">
+    <value>新密码不可以与原密码相同！</value>
+  </data>
+  <data name="OriginalPasswordError" xml:space="preserve">
+    <value>原密码输入不正确！</value>
+  </data>
+  <data name="PlateNumLengthError" xml:space="preserve">
+    <value>车牌号长度为7位或8位！</value>
+  </data>
+  <data name="RangeError" xml:space="preserve">
+    <value>{0}范围在{1}到{2}</value>
+  </data>
+  <data name="RoleMustHaveOneFunction" xml:space="preserve">
+    <value>角色至少得包含一个功能！</value>
+  </data>
+  <data name="SIMCodeError" xml:space="preserve">
+    <value>SIM卡号为11位或13位纯数字！</value>
+  </data>
+  <data name="StructureMobilesError" xml:space="preserve">
+    <value>最多4个手机号，采用半角;分割！</value>
+  </data>
+  <data name="StructureMustSelectMapType" xml:space="preserve">
+    <value>必须选择一种地图类型！</value>
+  </data>
+  <data name="TimeInterval" xml:space="preserve">
+    <value>开始日期要小于截止日期、区间不能大于30天！</value>
+  </data>
+  <data name="ValidateCodeError" xml:space="preserve">
+    <value>验证码输入错误！</value>
+  </data>
+  <data name="ValueIsNum" xml:space="preserve">
+    <value>值只能是数字！</value>
+  </data>
+  <data name="VehicleNameExists" xml:space="preserve">
+    <value>当前使用单位下已存在相同的车代号！</value>
+  </data>
+  <data name="WarrantyDateError" xml:space="preserve">
+    <value>{0}必须大于等于{1}</value>
+  </data>
+  <data name="WrongFileType" xml:space="preserve">
+    <value>错误的文件格式！</value>
+  </data>
+  <data name="VehicleSensorSetError" xml:space="preserve">
+    <value>每个车辆不能重复设置相同的传感器</value>
+  </data>
+  <data name="MustBeThreeIntegers" xml:space="preserve">
+    <value>{0}最多为三位整数！</value>
+  </data>
+  <data name="PlateColor" xml:space="preserve">
+    <value>最多输入2个纯汉字！</value>
+  </data>
+  <data name="VehicleTName" xml:space="preserve">
+    <value>最多输入10个纯汉字！</value>
+  </data>
+  <data name="NeedDriveCode" xml:space="preserve">
+    <value>员工为驾驶员时，驾驶证号必须输入！</value>
+  </data>
+  <data name="NeedEmergePhone" xml:space="preserve">
+    <value>员工为押运员时，紧急电话必须输入！</value>
+  </data>
+  <data name="IDcardError" xml:space="preserve">
+    <value>身份证号格式有误！</value>
+  </data>
+  <data name="NeedDrawError" xml:space="preserve">
+    <value>请先绘制图形，然后提交！</value>
+  </data>
+  <data name="MustInputDriveCodeValidTime" xml:space="preserve">
+    <value>必须输入驾驶证有效期！</value>
+  </data>
+  <data name="MustInputDriveLicenseStateID" xml:space="preserve">
+    <value>必须输入驾照状态！</value>
+  </data>
+  <data name="MustInputDriveTypeID" xml:space="preserve">
+    <value>必须输入准驾车型！</value>
+  </data>
+  <data name="IsCheckSpeedMustInput" xml:space="preserve">
+    <value>限速选中时，最高速度和超速持续时间必填！</value>
+  </data>
+  <data name="IsCheckTimeMustInput" xml:space="preserve">
+    <value>判断行驶时间选中时，路段行驶过长和路段行驶不足必填！</value>
+  </data>
+  <data name="StartTimeMoreThanEndTimeError" xml:space="preserve">
+    <value>开始时间不可以大于结束时间！</value>
+  </data>
+  <data name="NeedCarrierCode" xml:space="preserve">
+    <value>员工为押运员时，押运员资格证必须输入！</value>
+  </data>
+  <data name="PleaseInputVehicleNameFirst" xml:space="preserve">
+    <value>请先输入车辆代号选择一条记录!</value>
+  </data>
+  <data name="PleaseSearchFirst" xml:space="preserve">
+    <value>请先查询记录!</value>
+  </data>
+  <data name="UserReturnNoData" xml:space="preserve">
+    <value>当前用户下没有数据！</value>
+  </data>
+  <data name="NeedDrawLineError" xml:space="preserve">
+    <value>请先绘制路线，确认后再提交！</value>
+  </data>
+  <data name="TimeRangeOver2Months" xml:space="preserve">
+    <value>时间跨度不可以超过2个月</value>
+  </data>
+  <data name="SearchReturnNoData" xml:space="preserve">
+    <value>此次查询无返回结果！</value>
+  </data>
+  <data name="IDCardIsExist" xml:space="preserve">
+    <value>身份证号不能重复！</value>
+  </data>
+  <data name="MustSelect" xml:space="preserve">
+    <value>必须选择{0}！</value>
+  </data>
+  <data name="VINError" xml:space="preserve">
+    <value>车架号为17位数字和字母组合！</value>
+  </data>
+  <data name="PositiveIntegerError" xml:space="preserve">
+    <value>{0}必须为正整数！</value>
+  </data>
+  <data name="PleaseSelectSearchTime" xml:space="preserve">
+    <value>请先选择查询时间！</value>
+  </data>
+  <data name="PleaseDrawElectricFenceFirst" xml:space="preserve">
+    <value>请先绘制图形电子围栏！</value>
+  </data>
+  <data name="EndTimeRangeOverNow" xml:space="preserve">
+    <value>结束时间不能大于当前时间</value>
+  </data>
+  <data name="StartTimeRangeOver6Months" xml:space="preserve">
+    <value>开始时间不能小于结束时间6个月以上！</value>
+  </data>
+  <data name="PleaseInputSearchInfoFirst" xml:space="preserve">
+    <value>请先输入查询条件!</value>
+  </data>
+  <data name="NeedDriveCodeValidTime" xml:space="preserve">
+    <value>员工为驾驶员时，驾驶证有效期必须输入！</value>
+  </data>
+  <data name="CarrierError" xml:space="preserve">
+    <value>类型为押运员的员工已关联相关车辆，不能取消选择押运员！</value>
+  </data>
+  <data name="DriverError" xml:space="preserve">
+    <value>类型为驾驶员的员工已关联相关车辆，不能取消选择驾驶员！</value>
+  </data>
+  <data name="EmployeeTypeError" xml:space="preserve">
+    <value>必须选择员工类型！</value>
+  </data>
+  <data name="NeedCarrieCodeValidTime" xml:space="preserve">
+    <value>员工为押运员时，押运员证有效期必须输入！</value>
+  </data>
+  <data name="DoNotSupportCanvas" xml:space="preserve">
+    <value>当前环境不支持 Canvas！</value>
+  </data>
+  <data name="SearchResultWithNoTemperData" xml:space="preserve">
+    <value>当前查询结果没有温度数据！</value>
+  </data>
+  <data name="CarToLandError" xml:space="preserve">
+    <value>车籍地必输输入6位纯数字！</value>
+  </data>
+  <data name="PleaseInputMaxSpeedFirst" xml:space="preserve">
+    <value>请先输入限速值！</value>
+  </data>
+  <data name="PleaseInputTimeFirst" xml:space="preserve">
+    <value>请先输入周期时间！</value>
+  </data>
+  <data name="PleaseChooseWeekFirst" xml:space="preserve">
+    <value>请先选择周期！</value>
+  </data>
+  <data name="PleaseChooseOneAlarmType" xml:space="preserve">
+    <value>请先选择一种报警类型！</value>
+  </data>
+  <data name="PleaseInputUnLoadTimeFirst" xml:space="preserve">
+    <value>请先输入预计卸货时长！</value>
+  </data>
+  <data name="OnlyOneDriver" xml:space="preserve">
+    <value>只能选择一个驾驶员！</value>
+  </data>
+  <data name="OnlyOneEscort" xml:space="preserve">
+    <value>只能选择一个押运员！</value>
+  </data>
+  <data name="PleaseInputCycleSettingInfo" xml:space="preserve">
+    <value>请先输入周期设置信息！</value>
+  </data>
+  <data name="PleaseInputMaintenanceProjectDetails" xml:space="preserve">
+    <value>请先输入保养项目！</value>
+  </data>
+  <data name="PleaseInputLastMaintenanceMileAndTimeFirst" xml:space="preserve">
+    <value>请先输入上次保养里程和上次保养时间信息！</value>
+  </data>
+  <data name="NumAndUnitPriceMustNumber" xml:space="preserve">
+    <value>数量和单价是数字！</value>
+  </data>
+  <data name="SettingMileAndSettingDayPleaseInputInteger" xml:space="preserve">
+    <value>里程周期和时间周期设置需要输入整数！</value>
+  </data>
+  <data name="FirstMaintenanceMilePleaseInputNum" xml:space="preserve">
+    <value>初次保养里程请输入数字！</value>
+  </data>
+  <data name="BindVehicleNoEdit" xml:space="preserve">
+    <value>已经绑定车辆无法修改！</value>
+  </data>
+  <data name="VehicleMustCheck" xml:space="preserve">
+    <value>必须选择车辆</value>
+  </data>
+  <data name="TimeSpanNum" xml:space="preserve">
+    <value>时间间隔只能是正整数</value>
+  </data>
+  <data name="TimespanMust" xml:space="preserve">
+    <value>时间间隔必须为大于等于2的正整数</value>
+  </data>
+  <data name="TimeSpanError" xml:space="preserve">
+    <value>时间间隔设置错误</value>
+  </data>
+  <data name="DrawEFArea" xml:space="preserve">
+    <value>绘制电子围栏区域</value>
+  </data>
+  <data name="PleaseFirstRightClickAddEF" xml:space="preserve">
+    <value>请先鼠标右击新增电子围栏</value>
+  </data>
+  <data name="ThenClickTopRightTool" xml:space="preserve">
+    <value>然后点击右上角工具</value>
+  </data>
+  <data name="EmailFormatError" xml:space="preserve">
+    <value>错误的邮箱格式！</value>
+  </data>
+  <data name="NotLessThan" xml:space="preserve">
+    <value>不应小于</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>或者</value>
+  </data>
+</root>

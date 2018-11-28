@@ -1,0 +1,115 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model EquipmentFailureSearchModel
+
+<style>
+    .ui-autocomplete {
+        height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+@using (Ajax.BeginForm("GetUnusuallyDetailSummaryInfo", "UnusuallyDetailSummary", new AjaxOptions()
+{
+    UpdateTargetId = "ReportManage_UnusuallyDetailSummary_UnusuallyDetailSummaryGrid_divUnusuallyDetailSummary",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchUnusuallyDetailSummary" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.VehicleName)：</td>
+            <td>
+                @Html.TextBoxFor(m => m.VehicleName, new { placeholder = (UIText.PleaseInput + DisplayText.VehicleName) })
+                @Html.ValidationMessageFor(m => m.VehicleName)
+                <input type="hidden" name="hidVehicleName" id="hidVehicleName" value="" />
+                <input type="hidden" name="hidVehicleID" id="hidVehicleID" value="" />
+            </td>
+            <td>
+                <label>时间区间：</label></td>
+            <td>
+                @Html.TextBoxFor(m => m.GPSStartTime, new { id = "GPSStartTime", placeholder = (UIText.PleaseInput + DisplayText.StartDate) })
+            </td>
+            <td>---</td>
+            <td>
+                @Html.TextBoxFor(m => m.GPSEndTime, new { id = "GPSEndTime", placeholder = (UIText.PleaseInput + DisplayText.ExpirationDate) })
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                @Html.ValidationMessageFor(m => m.VehicleName)
+                @Html.ValidationMessageFor(m => m.GPSEndTime)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <button class="btn btn-primary" id="btnExportOut" title="@UIText.ExportExcel"><span class="glyphicon glyphicon-export"></span></button>
+            </td>
+        </tr>
+    </table>
+}
+
+<div id="ReportManage_UnusuallyDetailSummary_UnusuallyDetailSummaryGrid_divUnusuallyDetailSummary">
+    @*@Html.Partial("_UnusuallyDetailSummaryGrid", Model)*@
+</div>
+
+
+<script>
+    var $hidVehicleName = $("#hidVehicleName");
+    var $hidVehicleID = $("#hidVehicleID");
+    var $txtVehicleName = $("#VehicleName");
+    $(function () {
+        initVehicleNameAutoComplete();
+    });
+
+    var initVehicleNameAutoComplete = function () {
+        $txtVehicleName.autocomplete({
+            delay: 500,
+            minLength: 1,
+            select: function (event, ui) {
+                $hidVehicleName.val(ui.item.value);
+                $hidVehicleID.val(ui.item.VID);
+            },
+            source: function (request, response) {
+                $.get('@Url.Content("~/Home/GetUserVehiclesByVehicleName")', { vehicleName: request.term }, function (data, status, xhr) {
+                    if ($.handleAjaxError(data)) {
+                        return;
+                    }
+                    response(data);
+                });
+            }
+        });
+    }
+
+        $('#GPSStartTime').datetimepicker({
+            changeMonth: true,
+            changeYear: true,
+            showSecond: true,
+            showButtonPanel: false,
+            timeFormat: 'HH:mm:ss'
+        });
+
+        $("#GPSEndTime").datetimepicker({
+            changeMonth: true,
+            changeYear: true,
+            showSecond: true,
+            showButtonPanel: false,
+            timeFormat: 'HH:mm:ss'
+        });
+
+        var frmSearchMileage = $("#frmSearchUnusuallyDetailSummary");
+        frmSearchMileage.find("input:not(:submit,:checkbox,:radio,:button),textarea,select").addClass("form-control");
+        frmSearchMileage.fixUnobtrusiveValidation();
+
+        $("#btnExportOut").click(function () {
+            var _params = $("#frmSearchUnusuallyDetailSummary").serialize();
+            var _url = "@Url.Content("~/ReportManage/UnusuallyDetailSummary/UnusuallyDetailSummaryToExcel")" + "?" + _params;
+            $('<form method="POST" action="' + _url + '"></form>').appendTo('body').submit().remove();
+        });
+</script>
+
+

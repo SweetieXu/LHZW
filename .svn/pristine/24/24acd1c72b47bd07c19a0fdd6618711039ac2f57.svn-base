@@ -1,0 +1,46 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model EditMaintenanceRecordModel
+
+
+@using (Ajax.BeginForm("EditMaintenanceRecord", "MaintenanceRecord", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditMaintenanceRecord" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ID)
+     <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelFor(m => m.VehicleName)：</td>
+                <td>
+                    @Html.TextBoxFor(m => m.VehicleName, new { @readonly=true })
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.RecordDetails)</td>
+                <td>@Html.TextAreaFor(m => m.RecordDetails, 5, 50, new { })</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmEditMaintenanceRecord = $("#frmEditMaintenanceRecord");
+    $frmEditMaintenanceRecord.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+
+</script>

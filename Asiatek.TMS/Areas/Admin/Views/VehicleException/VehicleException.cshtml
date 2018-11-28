@@ -1,0 +1,69 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model VehicleExceptionInfoParaModel
+
+<fieldset>
+        <legend>@DisplayText.PlateNum：@Model.PlateNum</legend>
+</fieldset>
+
+<div>
+    <div>
+        <table id="mainTable" class="table table-bordered">
+        </table>
+    </div>
+    <div>
+        <button class="btn btn-primary" onclick="saveInfo()" title="@UIText.SaveButton">
+            <span class="glyphicon glyphicon-ok"></span>
+        </button>
+    </div>
+ </div>
+
+<script type="text/javascript">
+    var postData = { vehicleID: "@Model.ID" };
+    $.ajax({
+        type: "GET",
+        url: '@Url.Action("GetVehicleExceptionInfo", "VehicleException")',
+        datatype: "json",
+        data: postData,
+        success: function (result) {
+            var trStr = '';
+            for (var i = 0; i < result.length; i++) {//循环遍历出json对象中的每一个数据并显示在对应的td中
+                trStr += '<tr>';
+                //trStr += '<td style="display:none" >' + result[i].ID + '</td>';
+                if (result[i].VehicleID != 0) {
+                    trStr += '<td><label><input type="checkbox" id="' + result[i].ID + '" name="exCheck" style="margin-right:5px;" checked="true" />' + result[i].ExName + '（' + result[i].Remark + '）' + '</label></td>';
+                } else {
+                    trStr += '<td><label><input type="checkbox" id="' + result[i].ID + '" name="exCheck" style="margin-right:5px;" />' + result[i].ExName + '（' + result[i].Remark + '）' + '</label></td>';
+                }
+                trStr += '</tr>';
+            }
+            $("#mainTable").html(trStr);//运用html方法将拼接的table添加到tbody中return;
+        },
+        error: function (error) {
+            alert(error);
+        }
+    });
+
+    function saveInfo() {
+        var exChecks = document.getElementsByName("exCheck");
+        var checkedExIDs = "";
+        for (i = 0; i < exChecks.length; i++) {
+            if (exChecks[i].checked == true) {
+                checkedExIDs = checkedExIDs + "," + exChecks[i].id;
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("EditVehicleException", "VehicleException")',
+            datatype: "json",
+            data: { checkedExIDs: checkedExIDs, vehicleID: "@Model.ID" },
+            success: function (result) {
+                
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    }
+</script>
+

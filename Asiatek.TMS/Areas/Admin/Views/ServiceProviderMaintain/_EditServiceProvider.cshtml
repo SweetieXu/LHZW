@@ -1,0 +1,48 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model EditServiceProviderModel
+
+
+
+@using (Ajax.BeginForm("EditServiceProvider", "ServiceProviderMaintain", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditServiceProvider" }))
+{
+    @Html.HiddenFor(m => m.ID)
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.Name)：</td>
+                <td colspan="3">@Html.TextBoxFor(m => m.Name, new { id = "txtName" })</td>
+            </tr>
+            <tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.Name)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="3">@Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })</td>
+            </tr>
+            <tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmEditSensor = $("#frmEditServiceProvider");
+    $frmEditSensor.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmEditSensor.fixUnobtrusiveValidation();
+</script>
+

@@ -1,0 +1,714 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model NewEditVehicleModel
+
+<style>
+           /*设置autocomplete样式 当列表数据过多时 会出现滚动条*/
+        .ui-autocomplete {
+            max-height: 100px;
+            max-width: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    </style>
+<link href="~/Content/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+<ul id="customertab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#vehicleBasicInfo" data-toggle="tab">@UIText.VehicleBasicInfo</a>
+    </li>
+    <li>
+        <a href="#vehicleSensorInfo" data-toggle="tab">@UIText.VehicleSensorInfo</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="vehicleBasicInfo">
+        @using (Ajax.BeginForm("NewEditVehicle", "Vehicle", new AjaxOptions()
+        {
+            OnSuccess = "showCommonEditResult",
+        }, new { id = "frmEditVehicle" }))
+        {
+            <div id="divContent" style="overflow-y: auto;">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Status)
+                @Html.HiddenFor(m => m.ID)
+                @Html.HiddenFor(m => m.OldTerminalID)
+                @Html.HiddenFor(m => m.TerminalCode)
+                @Html.HiddenFor(m => m.BusinessScopeList)
+                @Html.HiddenFor(m => m.TransportManagementList)
+                <fieldset>
+                    <legend>@UIText.VehicleBasicInfo</legend>
+                    <table class="table table-striped table-condensed table-hover">
+                        <tbody>
+                            <tr>
+                                <td>@Html.LabelForRequired(m => m.PlateNum)：</td>
+                                @*让当前文本框获取焦点 是为了解决初次加载编辑页面头部tab页面的样式问题*@
+                                <td>@Html.TextBoxFor(m => m.PlateNum, new { autofocus = "autofocus" })</td>
+                                <td>@Html.LabelForRequired(m => m.VehicleName)：</td>
+                                <td>@Html.TextBoxFor(m => m.VehicleName)</td>
+                                <td>@Html.LabelFor(m => m.IsReceived)：@Html.CheckBoxFor(m => m.IsReceived)</td>
+                                <td>@Html.LabelFor(m => m.IsAccess)：@Html.CheckBoxFor(m => m.IsAccess)</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>@Html.ValidationMessageFor(m => m.PlateNum)</td>
+                                <td></td>
+                                <td colspan="3">@Html.ValidationMessageFor(m => m.VehicleName)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelForRequired(m => m.PlateColorCode)：</td>
+                                <td>@Html.DropDownListFor(m => m.PlateColorCode, Model.PlateColorsSelectList)</td>
+                                <td>@Html.LabelForRequired(m => m.VehicleTypeCode)：</td>
+                                <td>@Html.DropDownListFor(m => m.VehicleTypeCode, Model.VehicleTypesSelectList)</td>
+                                <td>@Html.LabelForRequired(m => m.PrimaryTerminalID)：</td>
+                                <td>
+                                    @Html.DropDownListFor(m => m.PrimaryTerminalID, Model.TerminalsSelectList)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>@Html.ValidationMessageFor(m => m.PlateColorCode)</td>
+                                <td></td>
+                                <td>@Html.ValidationMessageFor(m => m.VehicleTypeCode)</td>
+                                <td></td>
+                                <td>
+                                    @Html.ValidationMessageFor(m => m.PrimaryTerminalID)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelForRequired(m => m.EditStrucID)：</td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.UserStrucName)
+                                    @Html.HiddenFor(m => m.StrucID)
+                                    @Html.HiddenFor(m => m.EditStrucID)
+                                </td>
+                                <td>@Html.LabelForRequired(m => m.Ownership)：</td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.OwnerStrucName)
+                                    @Html.HiddenFor(m => m.Ownership)
+                                </td>
+                                <td>@Html.LabelForRequired(m => m.SoftwareDate)：</td>
+                                <td>@Html.TextBoxFor(m => m.SoftwareDate)</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>@Html.ValidationMessageFor(m => m.EditStrucID)</td>
+                                <td></td>
+                                <td>@Html.ValidationMessageFor(m => m.Ownership)</td>
+                                <td></td>
+                                <td>@Html.ValidationMessageFor(m => m.SoftwareDate)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelForRequired(m => m.Icon)：</td>
+                                <td>
+                                    @foreach (var item in Model.Icons)
+                                    {
+                                        bool temp = item == Model.Icon;
+                                        if (temp)
+                                        {
+                                        <input type="radio" name="icon" value="@item" id="rdo@(item)" checked="checked"/>
+                                        }
+                                        else
+                                        {  
+                                        <input type="radio" name="icon" value="@item" id="rdo@(item)"/>
+
+                                        }
+                                        <label for="rdo@(item)">
+                                            <img src="@Url.Content("~/Content/vehicleIcons/" + item + "/Legend.png?" + DateTime.Now)" alt=""  />
+                                        </label>
+                                    }
+                                </td>
+                                <td>@Html.LabelForRequired(m => m.VIN)：</td>
+                                <td>@Html.TextBoxFor(m => m.VIN)</td>
+                                <td>@Html.LabelForRequired(m => m.WarrantyDate)：</td>
+                                <td>@Html.TextBoxFor(m => m.WarrantyDate)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"></td>
+                                <td></td>
+                                <td>@Html.ValidationMessageFor(m => m.VIN)</td>
+                                <td></td>
+                                <td>@Html.ValidationMessageFor(m => m.WarrantyDate)</td>
+                            </tr>
+                            <tr>
+                                <td>@Html.LabelFor(m => m.IsDangerous)：</td>
+                                <td>@Html.CheckBoxFor(m => m.IsDangerous)</td>
+                                <td>@Html.LabelFor(m => m.Driver)：</td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Driver)
+                                    @Html.HiddenFor(m => m.DriverID)
+                                </td>
+                                <td>@Html.LabelFor(m => m.Carrier)：</td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Carrier, new { @disabled = true })
+                                    @Html.HiddenFor(m => m.CarrierID)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6"></td>
+                            </tr>
+                            <tr class="hid">
+                                <td>@Html.LabelFor(m => m.IsTransmit)：</td>
+                                <td>@Html.CheckBoxFor(m => m.IsTransmit)</td>
+                                <td>@Html.LabelFor(m => m.CarToLand)：</td>
+                                <td>@Html.TextBoxFor(m => m.CarToLand)</td>
+                                <td>@Html.LabelFor(m => m.RoadransportNo)：</td>
+                                <td>@Html.TextBoxFor(m => m.RoadransportNo)</td>
+                            </tr>
+                            <tr class="hid">
+                                <td colspan="3"></td>
+                                <td colspan="3">@Html.ValidationMessageFor(m => m.CarToLand)</td>
+                            </tr>
+                            <tr class="hid">
+                                <td>@Html.LabelFor(m => m.TransportIndustryCode)：</td>
+                                <td colspan="5" id="distributionTransportIndustryCode">
+                                    @if (Model.IsDangerous && ViewBag.TransportIndustryList != null)
+                                    {
+                                        var listTransportIndustry = ViewBag.TransportIndustryList as List<TransportIndustryModel>;
+                                        var strHtml = "<table>";
+                                        var listTransportIndustryCount = listTransportIndustry.Count;
+                                        for (int i = 0; i < listTransportIndustryCount; i++)
+                                        {
+                                            if (i % 4 == 0)
+                                            {
+                                                strHtml += "<tr>";
+                                            }
+
+                                            var isChecked = Model.TransportIndustryCode == listTransportIndustry[i].Code ? "checked" : string.Empty;
+                                            strHtml += "<td><input value='" + listTransportIndustry[i].Code + "'" +
+                                                 "id='chkTransportIndustryCode " + listTransportIndustry[i].Code + "'" +
+                                                " name='TransportIndustryCode' type='radio' " + isChecked + ">&nbsp;" +
+                                               "<label style='margin-right: 15px' for='chkTransportIndustryCode " + listTransportIndustry[i].Code + "'>"
+                                               + listTransportIndustry[i].Name + "</label></td>";
+                                            if (i % 4 == 3 || i == listTransportIndustryCount - 1)
+                                            {
+                                                strHtml += "</tr>";
+                                            }
+                                        }
+                                        strHtml += "</table>";
+                                        @Html.Raw(strHtml);
+                                    }
+                                </td>
+                            </tr>
+                            <tr class="hid">
+                                <td colspan="6"></td>
+                            </tr>
+                            <tr class="hid" id="trTransportManagementList">
+                                <td>@Html.Label(@UIText.TransportManagement)：</td>
+                                <td colspan="5" id="distributionTransportManagement">
+                                    @if (Model.IsDangerous && Model.IsTransmit && ViewBag.TransportManagementList != null)
+                                    {
+                                        var listTransportManagement = ViewBag.TransportManagementList as List<TransportManagementDDLModel>;
+                                        var strHtml = "<table>";
+                                        var listTransportManagementCount = listTransportManagement.Count;
+                                        for (int i = 0; i < listTransportManagementCount; i++)
+                                        {
+                                            if (i % 3 == 0)
+                                            {
+                                                strHtml += "<tr>";
+                                            }
+
+                                            var isChecked = listTransportManagement[i].IsHas ? "checked" : string.Empty;
+                                            strHtml += "<td><input value='" + listTransportManagement[i].ID + "'" +
+                                                 "id='chkTransportManagement " + listTransportManagement[i].ID + "'" +
+                                                " name='chkTransportManagement' type='checkbox' " + isChecked + ">&nbsp;" +
+                                               "<label style='margin-right: 15px' for='chkTransportManagement " + listTransportManagement[i].ID + "'>"
+                                               + listTransportManagement[i].Name + "</label></td>";
+                                            if (i % 3 == 2 || i == listTransportManagementCount - 1)
+                                            {
+                                                strHtml += "</tr>";
+                                            }
+                                        }
+                                        strHtml += "</table>";
+                                        @Html.Raw(strHtml);
+                                    }
+                                </td>
+                            </tr>
+                        <tr class="hid">
+                                <td colspan="6"></td>
+                            </tr>
+                        
+
+                            <tr class="hid" id="trSpaceTransportManagement">
+                                <td colspan="6"></td>
+                            </tr>
+                            <tr class="hid">
+                                <td>@Html.Label(@DisplayText.BusinessScopeName)：</td>
+                                <td colspan="5" id="distributionBusinessScope" style="max-width: 841px; word-wrap: break-word; word-break: break-all;">
+                                    @if (Model.IsDangerous && ViewBag.StrucVehicleBussinessScope != null)
+                                    {
+                                        var listStrucVehicleBussinessScope = ViewBag.StrucVehicleBussinessScope as List<StrucVehicleBussinessScopeDDLModel>;
+                                        var strHtml = "<table>";
+                                        var listStrucVehicleBussinessScopeCount = listStrucVehicleBussinessScope.Count;
+                                        for (int i = 0; i < listStrucVehicleBussinessScopeCount; i++)
+                                        {
+                                            if (i % 3 == 0)
+                                            {
+                                                strHtml += "<tr>";
+                                            }
+
+                                            var isChecked = listStrucVehicleBussinessScope[i].IsHas ? "checked" : string.Empty;
+                                            strHtml += "<td><input value='" + listStrucVehicleBussinessScope[i].BusinessScopeCode + "'" +
+                                                 "id='chkBusinessScope " + listStrucVehicleBussinessScope[i].BusinessScopeCode + "'" +
+                                                " name='chkBusinessScope' type='checkbox' " + isChecked + ">&nbsp;" +
+                                               "<label style='margin-right: 15px' for='chkBusinessScope " + listStrucVehicleBussinessScope[i].BusinessScopeCode + "'>"
+                                               + listStrucVehicleBussinessScope[i].Name + "</label></td>";
+                                            if (i % 3 == 2 || i == listStrucVehicleBussinessScopeCount - 1)
+                                            {
+                                                strHtml += "</tr>";
+                                            }
+                                        }
+                                        strHtml += "</table>";
+                                        @Html.Raw(strHtml);
+                                    }
+                                </td>
+                            </tr>
+                          <tr>
+                        <td>@Html.LabelFor(m=>m.AnnualInspectionTime)：</td>
+                        <td>
+                            @Html.TextBoxFor(m => m.AnnualInspectionTime)
+                        </td>
+                         <td>@Html.LabelFor(m=>m.RemindTimeSpan)：</td>
+                        <td>
+                            @Html.TextBoxFor(m => m.RemindTimeSpan)
+                        </td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>@Html.ValidationMessageFor(m => m.RemindTimeSpan)</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                               <tr>
+                        <td>@Html.LabelFor(m => m.AnnualInspectionTime1)：</td>
+                        <td>
+                            @Html.TextBoxFor(m => m.AnnualInspectionTime1)
+                        </td>
+                        <td>@Html.LabelFor(m => m.RemindTimeSpan1)：</td>
+                        <td>
+                            @Html.TextBoxFor(m => m.RemindTimeSpan1)
+                        </td>
+                          <td></td>
+                          <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>@Html.ValidationMessageFor(m => m.RemindTimeSpan1)</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                            <tr>
+                                <td>@Html.LabelFor(m => m.Remark)：</td>
+                                <td colspan="5">
+                                    @Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+            <table>
+                <tr>
+                    <td>
+                        <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+    <div class="tab-pane fade" id="vehicleSensorInfo" style="height: 550px; width: 900px;"></div>
+</div>
+
+<script>
+    var $frmEditVehicle = $("#frmEditVehicle");
+    $frmEditVehicle.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+
+    //设置让经营范围自动换行
+    //$("#distributionBusinessScope").attr("style", "max-width:" + $("#divAsiatekEditWin").width() + "px;word-wrap:break-word;word-break:break-all;")
+    // 设置内层div的最大高度 超出高度后自动出现滚动条
+    $("#divContent").css("max-height", ($(window).height() * 0.65) + "px");
+
+    //提交时前台各种验证
+    $frmEditVehicle.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+    $(document).ready(function () {
+        var id = document.getElementById("ID").value;
+        var plateNum = document.getElementById("PlateNum").value;
+        $('.nav-tabs a[href="#vehicleSensorInfo"]').click(function () {
+            $("#vehicleSensorInfo").load('@Url.Content("~/Admin/VehicleSensor/GetVehicleSensor")', { 'id': id, 'plateNum': plateNum });
+        });
+    });
+
+    // 表单验证
+    var checkForm = function () {
+        if ($("#RemindTimeSpan").val() < 0) {
+            $.showPromptDialog('@UIText.YearsCheckTimeSpan', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+        // 只要是危险品车 就必须选择押运员 驾驶员 和 经营范围
+        if ($("#IsDangerous").prop("checked")) {
+            if (!$("#DriverID").val()) {
+                $.showPromptDialog('@UIText.DriverError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            else if (!$("#CarrierID").val()) {
+                $.showPromptDialog('@UIText.CarrierError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            else if (!$("#CarToLand").val()) {
+                $.showPromptDialog('@UIText.CarToLandError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            else if (!$("#RoadransportNo").val()) {
+                $.showPromptDialog('@UIText.RoadransportNoError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            else if ($("input[name='TransportIndustryCode']:checked").length == 0) {
+                $.showPromptDialog('@UIText.TransportIndustryError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            else if ($("input[name='chkTransportManagement']:checked").length == 0 && $("#IsTransmit").prop("checked")) {
+                $.showPromptDialog('@UIText.TransportManagementError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            else if ($("input[name='chkBusinessScope']:checked").length == 0) {
+                $.showPromptDialog('@UIText.BusinessScopeError', '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+            }
+}
+        // 获取选中的经营范围
+        var businessScopeList = "";
+        // 获取选中的运管所
+        var transportManagementList = "";
+        $("input[name='chkBusinessScope']:checked").each(function (inde, obj) {
+            businessScopeList += $(obj).val() + ",";
+        });
+        $("input[name='chkTransportManagement']:checked").each(function (inde, obj) {
+            transportManagementList += $(obj).val() + ",";
+        });
+
+        $("#BusinessScopeList").val(businessScopeList);
+        $("#TransportManagementList").val(transportManagementList);
+        return true;
+    }
+
+// 初始化界面 针对是否是危险品车作出相关的页面处理
+if ($("#IsDangerous").prop("checked")) {
+    $("#Carrier").removeAttr('disabled');
+    if (!$("#IsTransmit").prop("checked")) {
+        $("#trTransportManagementList").hide();
+        $("#trSpaceTransportManagement").hide();
+    }
+}
+else {
+    $("tr[class='hid']").hide();
+}
+
+// 软件服务到期日期 硬件服务到期日期
+$("#WarrantyDate,#SoftwareDate").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    dateFormat: "yy-mm-dd",
+    minDate: new Date('@DateTime.Now.ToString("yyyy-MM-dd")')
+});
+    $("#AnnualInspectionTime").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+    });
+    $("#AnnualInspectionTime1").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+    });
+// 使用单位文本chang事件
+$("#UserStrucName").bind("input propertychange", function () {
+    $("#EditStrucID").val('');
+    $("#StrucID").val(-1);
+    $("span[data-valmsg-for='EditStrucID']").show();
+    commonHide();
+});
+
+// 产权所属单位文本chang事件
+$("#OwnerStrucName").bind("input propertychange", function () {
+    $("#Ownership").val('');
+    $("span[data-valmsg-for='Ownership']").show();
+})
+
+
+//必须指定appendto，否则对于jquery ui dialog中使用的该控件的弹出选择部分会因为层级原因被dialog遮挡，
+//而且因为dialog的层级会动态调整即使设定了autocomplete的z - index也可能会失效，所以必须设置ui - dialog的z - index，
+//但是全局修改可能造成其他问题
+$("#UserStrucName").autocomplete({
+    delay: 500,
+    minLength: 1,
+    appendTo: $frmEditVehicle,
+    select: function (event, ui) {
+        $("#EditStrucID").val(ui.item.ID);
+        $("#StrucID").val(ui.item.ID);
+        $("span[data-valmsg-for='EditStrucID']").hide();
+        
+        //选择了使用单位 则驾驶员信息就可输入
+        $("#Driver").attr('disabled', false);
+
+        // 如果选择了使用单位 且是危险品车 则获取使用单位对应的经营范围 运输行业
+        if ($("#IsDangerous").prop("checked")) {
+            $("#Carrier").attr('disabled', false);
+            $("tr[class='hid']").show();
+            // 获取经营范围
+            getBusinessScope();
+            // 获取运输行业
+            getTransportIndustry();
+            // 默认选中转发运管
+            $("#IsTransmit").prop("checked", true);
+            getTransportManagement();
+        }
+    },
+    source: function (request, response) {
+        $.get('@Url.Content("~/Admin/Vehicle/GetStrucAndSubStrucByName")', { name: request.term }, function (data, status, xhr) {
+            if ($.handleAjaxError(data)) {
+                return;
+            }
+            response(data);
+        });
+    }
+});
+
+    $("#OwnerStrucName").autocomplete({
+        delay: 500,
+        minLength: 1,
+        appendTo: $frmEditVehicle,
+        select: function (event, ui) {
+            $("#Ownership").val(ui.item.ID);
+            $("span[data-valmsg-for='Ownership']").hide();
+        },
+        source: function (request, response) {
+            $.get('@Url.Content("~/Admin/Vehicle/GetStrucAndSubStrucByName")', { name: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+
+        // 危险品车click事件
+        $("#IsDangerous").click(function () {
+            if ($("#IsDangerous").prop("checked") && $("#EditStrucID").val()) {
+                $("#Carrier").attr('disabled', false);
+                // 如果选择了使用单位 且是危险品车 则获取使用单位对应的经营范围
+                getBusinessScope();
+                getTransportIndustry();
+                getTransportManagement();
+                $("tr[class='hid']").show();
+                // 点击危险品车 默认选中 转发运管
+                $("#IsTransmit").prop("checked", true);
+            }
+            else {
+                if ($("#IsDangerous").prop("checked")) {
+                    $("#IsTransmit").prop("checked", true);
+                    getTransportManagement();
+                }
+                commonHide();
+            }
+        });
+
+        // 转发运管click事件
+        $("#IsTransmit").click(function () {
+            if ($("#IsTransmit").prop("checked")) {
+                // 如果选择转发运管 则显示运管列表信息
+                $("#trTransportManagementList").show();
+                $("#trSpaceTransportManagement").show();
+                getTransportManagement();
+            }
+            else {
+                $("#trTransportManagementList").hide();
+                $("#trSpaceTransportManagement").hide();
+                $("#distributionTransportManagement").html('');
+            }
+
+        });
+
+        // 获取运管所列表
+        var getTransportManagement = function () {
+            $.ajax({
+                url: "@Url.Content("~/Admin/Vehicle/GetTransportManagement")",
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function (result) {
+                    var htmlStr = "<table>";
+                    for (var i = 0; i < result.length; i++) {
+                        if (i % 3 == 0) {
+                            htmlStr += '<tr>';
+                        }
+                        htmlStr += '<td><input value="' + result[i].ID + ' "id="chkBusinessScope' + result[i].ID
+                                           + '" name="chkTransportManagement" type="checkbox">&nbsp;' +
+                                           '<label style="margin-right: 15px" for="chkBusinessScope' + result[i].ID + '">' + result[i].Name + '</label></td>'
+                        if (i % 3 == 2 || i == result.length - 1) {
+                            htmlStr += '</tr>';
+                        }
+                    }
+                    htmlStr += '</table>';
+                    $("#distributionTransportManagement").html(htmlStr);
+                },
+                fail: function (err, status) {
+                    console.log(err)
+                }
+            });
+        }
+
+        // 获取使用单位对应的经营范围
+        var getBusinessScope = function () {
+            $.ajax({
+                url: "@Url.Content("~/Admin/Vehicle/GetBusinessScopeByStrucID")",
+                data: {
+                    strucID: $("#EditStrucID").val()
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function (result) {
+                    var htmlStr = "<table>";
+                    for (var i = 0; i < result.length; i++) {
+                        if (i % 3 == 0) {
+                            htmlStr += '<tr>';
+                        }
+                        htmlStr += '<td><input value="' + result[i].BusinessScopeCode + ' "id="chkBusinessScope' + result[i].BusinessScopeCode
+                                           + '" name="chkBusinessScope" type="checkbox">&nbsp;' +
+                                           '<label style="margin-right: 15px" for="chkBusinessScope' + result[i].BusinessScopeCode + '">' + result[i].Name + '</label></td>'
+                        if (i % 3 == 2 || i == result.length - 1) {
+                            htmlStr += '</tr>';
+                        }
+                    }
+                    htmlStr += '</table>';
+                    $("#distributionBusinessScope").html(htmlStr);
+                },
+                fail: function (err, status) {
+                    console.log(err)
+                }
+            });
+        }
+
+        // 获取使用单位对应的运输行业
+        var getTransportIndustry = function () {
+            $.ajax({
+                url: "@Url.Content("~/Admin/Vehicle/GetTransportIndustryByStrucID")",
+                data: {
+                    strucID: $("#EditStrucID").val()
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function (result) {
+                    var htmlStr = "<table>";
+                    for (var i = 0; i < result.length; i++) {
+                        if (i % 4 == 0) {
+                            htmlStr += '<tr>';
+                        }
+                        htmlStr += '<td><input value="' + result[i].TransportIndustryCode + ' "id="chkTransportIndustryCode' + result[i].TransportIndustryCode
+                                           + '" name="TransportIndustryCode" type="radio">&nbsp;' +
+                                           '<label style="margin-right: 15px" for="chkTransportIndustryCode' + result[i].TransportIndustryCode + '">' + result[i].Name + '</label></td>'
+                        if (i % 4 == 3 || i == result.length - 1) {
+                            htmlStr += '</tr>';
+                        }
+                    }
+                    htmlStr += '</table>';
+                    $("#distributionTransportIndustryCode").html(htmlStr);
+                },
+                fail: function (err, status) {
+                    console.log(err)
+                }
+            });
+        }
+
+        var commonHide = function () {
+            // 取消勾选危险品车后 则隐藏经营范围信息
+            $("tr[class='hid']").hide();
+            $("#distributionBusinessScope").html('');
+            $("#distributionTransportIndustryCode").html('');
+            $("#distributionTransportManagement").html('');
+
+            // 清空驾驶员车押运员信息
+            // 清空驾驶员车押运员信息
+            if (!$("#EditStrucID").val()) {
+                $("#Driver").val('');
+                $("#Driver").attr('disabled', true);
+                $("#DriverID").val('');
+            }
+            $("#Carrier").val('');
+            $("#Carrier").attr('disabled', true);
+            $("#CarrierID").val('');
+            $("#IsTransmit").prop("checked", false);
+
+        }
+    //只有一个终端无法更新
+        $("#TerminalCode").val($('#PrimaryTerminalID  option:selected').text());
+        // 获取终端的文本值
+        $("#PrimaryTerminalID").change(function () {
+            $("#TerminalCode").val($('#PrimaryTerminalID  option:selected').text());
+        });
+
+
+
+        // 驾驶员文本chang事件
+        $("#Driver").bind("input propertychange", function () {
+            $("#DriverID").val('');
+        });
+
+        // 押运员文本chang事件
+        $("#Carrier").bind("input propertychange", function () {
+            $("#CarrierID").val('');
+        })
+
+        $("#Driver").autocomplete({
+            delay: 500,
+            minLength: 1,
+            appendTo: $frmEditVehicle,
+            select: function (event, ui) {
+                $("#DriverID").val(ui.item.ID);
+            },
+            source: function (request, response) {
+                $.get('@Url.Content("~/Admin/Vehicle/GetEmployeeInfoByStrucIDAndName")', { name: request.term, type: 1, strucID: $("#EditStrucID").val() }, function (data, status, xhr) {
+                    if ($.handleAjaxError(data)) {
+                        return;
+                    }
+                    response(data);
+                });
+            }
+        });
+
+            $("#Carrier").autocomplete({
+                delay: 500,
+                minLength: 1,
+                appendTo: $frmEditVehicle,
+                select: function (event, ui) {
+                    $("#CarrierID").val(ui.item.ID);
+                },
+                source: function (request, response) {
+                    $.get('@Url.Content("~/Admin/Vehicle/GetEmployeeInfoByStrucIDAndName")', { name: request.term, type: 2, strucID: $("#EditStrucID").val() }, function (data, status, xhr) {
+                    if ($.handleAjaxError(data)) {
+                        return;
+                    }
+                    response(data);
+                });
+            }
+        });
+</script>

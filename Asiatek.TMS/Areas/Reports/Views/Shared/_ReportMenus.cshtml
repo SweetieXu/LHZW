@@ -1,0 +1,34 @@
+﻿@using Asiatek.Model
+@model IEnumerable<FunctionsInfoModel>
+@using Asiatek.TMS.Helpers
+
+
+<ul class="nav nav-pills  nav-stacked" role="tablist" id="ulRptMenu">
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var item = Model.ElementAt(i);
+        var realFunctionName = AsiatekUIHelper.GetUIText(item.FunctionName);
+        if (string.IsNullOrWhiteSpace(item.ActionName))//仅仅是个菜单，不绑定任何具体Action
+        {
+        <li role="presentation" class="@(i == 0 ? "active navLi" : "navLi")">
+            <a href="javascript:void(0)">@realFunctionName</a>
+        </li>
+        }
+        else
+        {
+        <li role="presentation" class="@(i == 0 ? "active navLi" : "navLi")">
+            @Html.AsiatekActionLink(realFunctionName, item.ActionName, item.ControllerName, item.AreaName)
+        </li>
+        }
+    }
+</ul>
+
+
+<script>
+    var currentHref = location.href;
+    var temp = currentHref.split("/");
+    var rptName = temp[temp.length - 1];
+    $("#ulRptMenu>li").removeClass("active");
+   // $("#ulRptMenu>li>a[href*='" + rptName + "']").parent("li").addClass("active");
+    $("#ulRptMenu>li>a[href*='/" + rptName + "']").parent("li").addClass("active");
+</script>

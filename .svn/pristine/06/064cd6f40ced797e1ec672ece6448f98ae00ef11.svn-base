@@ -1,0 +1,2555 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+您 Web 项目的发布/打包进程将使用此文件。您可以通过编辑此 MSBuild 文件
+来自定义该进程的行为。若要了解与此相关的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkID=208121。
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastUsedBuildConfiguration>Release</LastUsedBuildConfiguration>
+    <LastUsedPlatform>Any CPU</LastUsedPlatform>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="App_Code/AsiatekUIHelper.cshtml">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Action/OLD_ActionPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Action/OLD_ActionSetting.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Action/_ActionPagedGrid.cshtml">
+      <publishTime>06/16/2017 10:03:51</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Action/_ActionSetting.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Action/_AddActionInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Action/_EditActionInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Area/NEW_AreaInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Area/NEW_AreaPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Area/OLD_AreaInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Area/OLD_AreaPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Area/_AddAreaInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Area/_AreaInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Area/_AreaPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Area/_EditAreaInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CommunicationType/_AddCommunicationType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CommunicationType/_CommunicationTypeGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CommunicationType/_EditCommunicationType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/CommunicationType/_SeachCommunicationType.cshtml">
+      <publishTime>08/07/2017 10:09:01</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Ctr/NEW_ControllerInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Ctr/NEW_ControllerPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Ctr/OLD_ControllerInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Ctr/OLD_ControllerPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Ctr/_AddControllerInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Ctr/_ControllerInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Ctr/_ControllerPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Ctr/_EditControllerInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/NGJH_AddElectricFence.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/NGJH_EditElectricFence.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/_AddElectricFence.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/_EditElectricFence.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/_ElectricFencePagedGrid.cshtml">
+      <publishTime>12/11/2017 16:57:35</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/_ElectricFenceSetting.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/_ElectricFenceVehicleBindList.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/_ElectricFenceVehiclePagedGrid.cshtml">
+      <publishTime>08/16/2017 08:52:20</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFence/_ElectricFenceVehicleSetting.cshtml">
+      <publishTime>08/16/2017 08:52:20</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFenceProperty/_AddElectricFenceProperty.cshtml">
+      <publishTime>10/11/2017 17:13:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFenceProperty/_EditElectricFenceProperty.cshtml">
+      <publishTime>10/11/2017 17:13:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFenceProperty/_ElectricFencePropertyPagedGrid.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ElectricFenceProperty/_ElectricFencePropertySetting.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmployeeInfo/_AddEmployeeInfo.cshtml">
+      <publishTime>08/25/2017 19:57:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmployeeInfo/_AddEmployeeInfoNew.cshtml">
+      <publishTime>12/06/2017 11:15:43</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmployeeInfo/_EditEmployeeInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmployeeInfo/_EditEmployeeInfoNew.cshtml">
+      <publishTime>12/06/2017 11:19:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmployeeInfo/_EmployeeInfoPagedGrid.cshtml">
+      <publishTime>09/08/2017 14:04:18</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/EmployeeInfo/_EmployeeInfoSetting.cshtml">
+      <publishTime>10/23/2017 14:30:49</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ExceptionType/_AddExceptionType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ExceptionType/_EditExceptionType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ExceptionType/_ExceptionType.cshtml">
+      <publishTime>08/07/2017 10:12:17</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ExceptionType/_ExceptionTypePagedGrid.cshtml">
+      <publishTime>08/07/2017 10:12:32</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Function/NEW_AddFunctionInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Function/NEW_EditFunctionInfo.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Function/OLD_FunctionPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Function/OLD_FunctionSetting.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Function/_AddFunctionInfo.cshtml">
+      <publishTime>12/21/2017 11:57:38</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Function/_EditFunctionInfo.cshtml">
+      <publishTime>12/21/2017 13:23:30</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Function/_FunctionPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Function/_FunctionSetting.cshtml">
+      <publishTime>12/21/2017 11:20:05</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Index.cshtml">
+      <publishTime>06/12/2017 11:45:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceRecord/_AddMaintenanceRecord.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceRecord/_EditMaintenanceRecord.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceRecord/_MaintenanceRecordPagedGrid.cshtml">
+      <publishTime>02/07/2018 08:46:58</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceRecord/_MaintenanceRecordSetting.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceSchedule/_AddMaintenanceSchedule.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceSchedule/_BindVehicleList.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceSchedule/_BindVehiclePagedGrid.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceSchedule/_BindVehicleSetting.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceSchedule/_EditMaintenanceSchedule.cshtml">
+      <publishTime>02/07/2018 08:46:58</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceSchedule/_MaintenanceSchedulePagedGrid.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MaintenanceSchedule/_MaintenanceScheduleSetting.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_PickUpTransportPoint/_AddPickUpTransportPoint.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_PickUpTransportPoint/_EditPickUpTransportPoint.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_PickUpTransportPoint/_PickUpTransportPointPagedGrid.cshtml">
+      <publishTime>11/21/2017 08:26:52</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_PickUpTransportPoint/_PickUpTransportPointSetting.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_ReceiveTransportPoint/_AddReceiveTransportPoint.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_ReceiveTransportPoint/_EditReceiveTransportPoint.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_ReceiveTransportPoint/_ReceiveTransportPointPagedGrid.cshtml">
+      <publishTime>11/21/2017 08:26:53</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_ReceiveTransportPoint/_ReceiveTransportPointSetting.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_SynchroReceivePoint/_EditSynchroReceivePoint.cshtml">
+      <publishTime>11/21/2017 08:26:53</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_SynchroReceivePoint/_SynchroReceivePointPagedGrid.cshtml">
+      <publishTime>02/03/2018 09:30:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/MGJH_SynchroReceivePoint/_SynchroReceivePointSetting.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/NightBan/_AddNightBan.cshtml">
+      <publishTime>09/14/2017 17:48:03</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/NightBan/_EditNightBan.cshtml">
+      <publishTime>09/14/2017 14:51:35</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/NightBan/_NightBanPagedGrid.cshtml">
+      <publishTime>12/04/2017 10:58:35</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/NightBan/_NightBanSetting.cshtml">
+      <publishTime>09/14/2017 13:21:31</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/RepairRecord/_RepairRecordAdd.cshtml">
+      <publishTime>02/03/2018 09:03:15</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/RepairRecord/_RepairRecordDetail.cshtml">
+      <publishTime>02/03/2018 09:03:15</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/RepairRecord/_RepairRecordEdit.cshtml">
+      <publishTime>02/03/2018 09:03:15</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/RepairRecord/_RepairRecordPageGrid.cshtml">
+      <publishTime>02/07/2018 08:46:57</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/RepairRecord/_RepairRecordReadOnly.cshtml">
+      <publishTime>02/03/2018 09:03:15</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Role/OLD_RolePagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Role/OLD_RoleSetting.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Role/_AddRole.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Role/_EditRole.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Role/_RolePagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Role/_RoleSetting.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Sensor/_AddSensorType.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Sensor/_EditSensorType.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Sensor/_SeachSensorType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Sensor/_SensorPagedGrid.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ServerManager/_AddServer.cshtml">
+      <publishTime>07/25/2017 14:53:21</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ServerManager/_EditServer.cshtml">
+      <publishTime>07/25/2017 14:54:35</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ServerManager/_ServerPagedGrid.cshtml">
+      <publishTime>07/25/2017 14:29:45</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ServerManager/_ServerSetting.cshtml">
+      <publishTime>07/25/2017 14:29:02</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ServiceProviderMaintain/_AddServiceProvider.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ServiceProviderMaintain/_EditServiceProvider.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ServiceProviderMaintain/_SeachServiceProviderType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/ServiceProviderMaintain/_ServiceProviderGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/SimCode/_AddSimCode.cshtml">
+      <publishTime>08/21/2017 14:01:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/SimCode/_EditSimCode.cshtml">
+      <publishTime>09/30/2017 15:11:55</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/SimCode/_SeachSimCodeList.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/SimCode/_SearchSimCodeList.cshtml">
+      <publishTime>08/21/2017 14:01:16</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/SimCode/_SimCodePagedGrid.cshtml">
+      <publishTime>08/31/2017 14:50:44</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_AddStructureInfo.cshtml">
+      <publishTime>12/04/2017 10:50:02</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_AddSubStructureInfo.cshtml">
+      <publishTime>12/04/2017 10:50:02</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_BusinessScope.cshtml">
+      <publishTime>09/26/2017 13:11:07</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_EditStructureInfo.cshtml">
+      <publishTime>12/04/2017 10:50:02</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_SearchBusinessScope.cshtml">
+      <publishTime>08/30/2017 14:10:56</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_SearchSearchTransportIndustry.cshtml">
+      <publishTime>09/15/2017 10:33:12</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_StructurePagedGrid.cshtml">
+      <publishTime>12/08/2017 10:58:13</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_StructureSetting.cshtml">
+      <publishTime>12/08/2017 11:06:31</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Structure/_TransportIndustry.cshtml">
+      <publishTime>09/26/2017 13:12:53</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/StrucVehicledistribution/_AllotVehicles.cshtml">
+      <publishTime>08/28/2017 18:34:04</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/StrucVehicledistribution/_DistributionSetting.cshtml">
+      <publishTime>08/28/2017 18:34:04</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TemperatureAlarmRule/_AddTemperatureAlarmRule.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TemperatureAlarmRule/_EditTemperatureAlarmRuleEditCompletely.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TemperatureAlarmRule/_EditTemperatureAlarmRuleEditPartially.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TemperatureAlarmRule/_TemperatureAlarmRuleDistribution.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TemperatureAlarmRule/_TemperatureAlarmRulePagedGrid.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TemperatureAlarmRule/_TemperatureAlarmRules.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TemperatureAlarmRule/_TemperatureAlarmRuleSetting.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TemperatureAlarmRule/_VehicleTemperatureAlarmRulesPagedGrid.cshtml">
+      <publishTime>10/11/2017 13:51:08</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Terminal/_AddTerminal.cshtml">
+      <publishTime>08/07/2017 09:19:50</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Terminal/_EditTerminal.cshtml">
+      <publishTime>03/29/2018 10:06:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Terminal/_TerminalPagedGrid.cshtml">
+      <publishTime>03/29/2018 10:06:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Terminal/_TerminalSetting.cshtml">
+      <publishTime>12/21/2017 13:36:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TerminalManufacturer/_AddTerminalManufacturer.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TerminalManufacturer/_EditTerminalManufacturer.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TerminalManufacturer/_TerminalManufacturerPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TerminalManufacturer/_TerminalManufacturerSetting.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TerminalType/_AddTerminalType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TerminalType/_EditTerminalType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TerminalType/_TerminalTypePagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TerminalType/_TerminalTypeSetting.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TransportManagement/_TransportManagementPagedGrid.cshtml">
+      <publishTime>09/15/2017 15:40:33</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/TransportManagement/_TransportManagementSetting.cshtml">
+      <publishTime>09/15/2017 15:29:05</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/_AddUserInfo.cshtml">
+      <publishTime>09/01/2017 17:05:32</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/_EditUserInfo.cshtml">
+      <publishTime>09/01/2017 17:05:39</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/_UserPagedGrid.cshtml">
+      <publishTime>09/01/2017 17:18:10</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/User/_UserSetting.cshtml">
+      <publishTime>09/01/2017 17:28:44</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/OLD_AddVehicle.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/old_EditVehicle.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/OLD_VehiclePagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/OLD_VehicleSetting.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_AddVehicle.cshtml">
+      <publishTime>08/17/2017 10:52:43</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_AddVehicleNew.cshtml">
+      <publishTime>10/16/2017 08:41:39</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_AddVehicle_New.cshtml">
+      <publishTime>10/16/2017 12:13:37</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_EditVehicle.cshtml">
+      <publishTime>08/31/2017 17:32:13</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_EditVehicleNew.cshtml">
+      <publishTime>10/16/2017 08:41:45</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_EditVehicle_New.cshtml">
+      <publishTime>10/16/2017 12:13:55</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_ModifySpeedLimit.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_ModifyWarrantyDate.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_NewAddVehicle.cshtml">
+      <publishTime>03/26/2018 15:25:14</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_NewEditVehicle.cshtml">
+      <publishTime>03/29/2018 10:06:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_NewEditVehicle_SZYD.cshtml">
+      <publishTime>12/14/2017 08:49:40</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_VehiclePagedGrid.cshtml">
+      <publishTime>04/03/2018 10:15:45</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Vehicle/_VehicleSetting.cshtml">
+      <publishTime>05/07/2018 08:27:34</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleException/VehicleException.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleMaintain/_AddPlateColorGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleMaintain/_PlateColorGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleMaintain/_SelectPlateColors.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleSensor/VehicleSensor.cshtml">
+      <publishTime>08/31/2017 17:32:50</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleType/_AddVehicleTypeGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleType/_EditVehicleTypes.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleType/_SelectVehicleType.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/VehicleType/_VehicleTypesGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Web.config">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/HistoricalRoute/Views/Home/Index.cshtml">
+      <publishTime>06/04/2018 08:37:19</publishTime>
+    </File>
+    <File Include="Areas/HistoricalRoute/Views/Home/Index_180116.cshtml">
+      <publishTime>01/22/2018 17:18:30</publishTime>
+    </File>
+    <File Include="Areas/HistoricalRoute/Views/Home/_ExportAllExceptionSignal.cshtml">
+      <publishTime>08/21/2017 16:17:13</publishTime>
+    </File>
+    <File Include="Areas/HistoricalRoute/Views/Home/_ExportAllSignal.cshtml">
+      <publishTime>08/21/2017 16:17:13</publishTime>
+    </File>
+    <File Include="Areas/HistoricalRoute/Views/Web.config">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Areas/PersonalSetting/Views/Home/Index.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/PersonalSetting/Views/User/_ModifyPassword.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/PersonalSetting/Views/Web.config">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/AbnormalPowerSupply/_AbnormalPowerSupplyGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/AbnormalPowerSupply/_SeachAbnormalPowerSupply.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/AbnormalRoute/_AbnormalRouteGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/AbnormalRoute/_SeachAbnormalRoute.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/AccumulativeDrivieTimeout/_AccumulativeDrivieTimeoutGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/AccumulativeDrivieTimeout/_SeachAccumulativeDrivieTimeout.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/EmergencyAlarm/_EmergencyAlarmGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/EmergencyAlarm/_SeachEmergencyAlarm.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/EquipmentFailure/_EquipmentFailureGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/EquipmentFailure/_SeachEquipmentFailure.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/FatigueDrive/_FatigueDriveGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/FatigueDrive/_SeachFatigueDrive.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/FatigueDriveWarn/_FatigueDriveWarnGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/FatigueDriveWarn/_SeachFatigueDriveWarn.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/Home/Index.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/Lost/_LostConnectionReport.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/Lost/_LostConnectionReportDetail.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/MileageReport/_CarMileageGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/MileageReport/_SeachCarMileage.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/RegionalAnomaly/_RegionalAnomalyGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/RegionalAnomaly/_SeachRegionalAnomaly.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/Reports/_SpeedReportDetailGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/Reports/_SpeedReportGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/RiskEarlyWarn/_RiskEarlyWarnGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/RiskEarlyWarn/_SeachRiskEarlyWarn.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/TimeoutPark/_SeachTimeoutPark.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/TimeoutPark/_SeachTimeoutParkGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/UnusuallyDetailSummary/_SeachUnusuallyDetailSummary.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/UnusuallyDetailSummary/_UnusuallyDetailSummaryGrid.cshtml">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/ReportManage/Views/Web.config">
+      <publishTime>06/09/2017 10:41:22</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/AccumulatedDrivingOvertime.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/DangerWarningRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/EmergencyAlarmRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/EquipmentFailureRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/ExceptionHandleRpt.cshtml">
+      <publishTime>12/13/2017 09:04:59</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/ExDetailsSummaryRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/FatigueDrivingEarlyWarningRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/FatigueDrivingRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/MGJHExpForIllegalDischarg.cshtml">
+      <publishTime>04/17/2018 08:38:46</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/MGJHService.cshtml">
+      <publishTime>04/17/2018 08:38:46</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/MileageStatisticsRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/NGAreaOverSpeedRpt.cshtml">
+      <publishTime>03/07/2018 15:11:24</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/NightDrivingRpt.cshtml">
+      <publishTime>01/03/2018 15:57:04</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/OfflineRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/OverSpeedRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/OvertimeParking.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/PowerAbnormalRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/RegionAbnormalRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/RouteAbnormalRpt.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/TemperExceptionRpt.cshtml">
+      <publishTime>10/11/2017 17:13:22</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/TemperForJSYY.cshtml">
+      <publishTime>03/12/2018 13:12:43</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/TemperRpt.cshtml">
+      <publishTime>10/11/2017 17:13:22</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Home/VehicleOffLineRpt.cshtml">
+      <publishTime>12/13/2017 09:04:59</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Shared/ReportsLayout.cshtml">
+      <publishTime>06/12/2017 11:51:31</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Shared/_ReportMenus.cshtml">
+      <publishTime>03/07/2018 16:25:06</publishTime>
+    </File>
+    <File Include="Areas/Reports/Views/Web.config">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/Home/Index.cshtml">
+      <publishTime>06/12/2017 13:34:32</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/MapLines/_AddMapLines.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/MapLines/_EditMapLines.cshtml">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/MapLines/_MapLinesPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/MapLines/_MapLinesSetting.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/MapRegions/_AddMapRegions.cshtml">
+      <publishTime>10/11/2017 13:51:09</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/MapRegions/_EditMapRegions.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/MapRegions/_MapRegionsPagedGrid.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/MapRegions/_MapRegionsSetting.cshtml">
+      <publishTime>05/10/2018 08:31:16</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/Logs.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/Logs_DataTable.cshtml">
+      <publishTime>08/02/2017 09:41:54</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/Main.cshtml">
+      <publishTime>07/27/2017 15:35:09</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/Paths.cshtml">
+      <publishTime>07/28/2017 09:29:54</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/Paths_DataTable.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/PhoneBook.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/Regions.cshtml">
+      <publishTime>06/12/2017 13:29:20</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/Regions_DataTable.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/TerminalFlags.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/TerminalFlagsViewer.cshtml">
+      <publishTime>08/01/2017 15:49:13</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalSetup/TextMessages.cshtml">
+      <publishTime>07/27/2017 14:42:04</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalsSetting/LogsDetail.cshtml">
+      <publishTime>08/18/2017 18:45:35</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalsSetting/LogsPagedGrid.cshtml">
+      <publishTime>08/14/2017 17:04:51</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalsSetting/LogsSetting.cshtml">
+      <publishTime>08/09/2017 09:38:41</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalsSetting/PublicPage.cshtml">
+      <publishTime>08/21/2017 18:47:40</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalsSetting/TerminalSettingsIssued.cshtml">
+      <publishTime>08/22/2017 10:21:24</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalsSetting/TerminalSettingsRead.cshtml">
+      <publishTime>08/22/2017 10:23:43</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/TerminalsSetting/TextMessagesIssued.cshtml">
+      <publishTime>08/22/2017 10:21:06</publishTime>
+    </File>
+    <File Include="Areas/TerminalSetting/Views/Web.config">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>06/09/2017 10:41:38</publishTime>
+    </File>
+    <File Include="bin/Asiatek.AjaxPager.dll">
+      <publishTime>06/04/2018 08:40:23</publishTime>
+    </File>
+    <File Include="bin/Asiatek.BLL.dll">
+      <publishTime>06/04/2018 08:40:24</publishTime>
+    </File>
+    <File Include="bin/Asiatek.Common.dll">
+      <publishTime>06/04/2018 08:40:23</publishTime>
+    </File>
+    <File Include="bin/Asiatek.Components.GIS.dll">
+      <publishTime>12/13/2017 17:48:40</publishTime>
+    </File>
+    <File Include="bin/Asiatek.CustomDataAnnotations.dll">
+      <publishTime>06/04/2018 08:40:22</publishTime>
+    </File>
+    <File Include="bin/Asiatek.DBUtility.dll">
+      <publishTime>06/04/2018 08:40:23</publishTime>
+    </File>
+    <File Include="bin/Asiatek.IBLL.dll">
+      <publishTime>06/04/2018 08:40:23</publishTime>
+    </File>
+    <File Include="bin/Asiatek.Model.dll">
+      <publishTime>06/04/2018 08:40:24</publishTime>
+    </File>
+    <File Include="bin/Asiatek.Resource.dll">
+      <publishTime>06/04/2018 08:40:23</publishTime>
+    </File>
+    <File Include="bin/Asiatek.TMS.dll">
+      <publishTime>06/04/2018 08:40:26</publishTime>
+    </File>
+    <File Include="bin/Aspose.Cells.dll">
+      <publishTime>06/09/2017 10:41:28</publishTime>
+    </File>
+    <File Include="bin/DataAnnotations.resx">
+      <publishTime>06/04/2018 08:37:20</publishTime>
+    </File>
+    <File Include="bin/DisplayText.Designer.cs">
+      <publishTime>06/04/2018 08:37:20</publishTime>
+    </File>
+    <File Include="bin/DisplayText.resx">
+      <publishTime>06/04/2018 08:37:20</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>06/09/2017 10:41:35</publishTime>
+    </File>
+    <File Include="bin/GpsCommData.dll">
+      <publishTime>12/13/2017 14:59:51</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>06/09/2017 10:41:33</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Mvc.FixedDisplayModes.dll">
+      <publishTime>06/09/2017 10:41:36</publishTime>
+    </File>
+    <File Include="bin/NetDecry.dll">
+      <publishTime>06/09/2017 10:41:32</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>06/09/2017 10:41:40</publishTime>
+    </File>
+    <File Include="bin/NPOI.dll">
+      <publishTime>05/07/2018 08:27:36</publishTime>
+    </File>
+    <File Include="bin/NPOI.OOXML.dll">
+      <publishTime>05/07/2018 08:27:36</publishTime>
+    </File>
+    <File Include="bin/NPOI.OpenXml4Net.dll">
+      <publishTime>05/07/2018 08:27:36</publishTime>
+    </File>
+    <File Include="bin/NPOI.OpenXmlFormats.dll">
+      <publishTime>05/07/2018 08:27:36</publishTime>
+    </File>
+    <File Include="bin/PromptInformation.Designer.cs">
+      <publishTime>02/03/2018 08:53:43</publishTime>
+    </File>
+    <File Include="bin/PromptInformation.resx">
+      <publishTime>02/03/2018 08:53:43</publishTime>
+    </File>
+    <File Include="bin/RemoteClass.dll">
+      <publishTime>08/09/2017 08:51:12</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.dll">
+      <publishTime>06/09/2017 10:41:44</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>06/09/2017 10:41:42</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.WebRequest.dll">
+      <publishTime>06/09/2017 10:41:44</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>06/09/2017 10:41:43</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>06/09/2017 10:41:41</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>06/09/2017 10:41:42</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>06/09/2017 10:41:43</publishTime>
+    </File>
+    <File Include="bin/System.Web.Providers.dll">
+      <publishTime>06/09/2017 10:41:37</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>06/09/2017 10:41:41</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>06/09/2017 10:41:37</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>06/09/2017 10:41:37</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>06/09/2017 10:41:37</publishTime>
+    </File>
+    <File Include="bin/UIText.resx">
+      <publishTime>06/04/2018 08:37:20</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>06/09/2017 10:41:38</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/EntityFramework.resources.dll">
+      <publishTime>06/09/2017 10:41:35</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Net.Http.Formatting.resources.dll">
+      <publishTime>06/09/2017 10:41:42</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Net.Http.resources.dll">
+      <publishTime>06/09/2017 10:41:44</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Net.Http.WebRequest.resources.dll">
+      <publishTime>06/09/2017 10:41:44</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Http.resources.dll">
+      <publishTime>06/09/2017 10:41:43</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Http.WebHost.resources.dll">
+      <publishTime>06/09/2017 10:41:41</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Mvc.resources.dll">
+      <publishTime>06/09/2017 10:41:42</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Optimization.resources.dll">
+      <publishTime>06/09/2017 10:41:43</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Providers.resources.dll">
+      <publishTime>06/09/2017 10:41:37</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.Razor.resources.dll">
+      <publishTime>06/09/2017 10:41:41</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.WebPages.Deployment.resources.dll">
+      <publishTime>06/09/2017 10:41:37</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.WebPages.Razor.resources.dll">
+      <publishTime>06/09/2017 10:41:37</publishTime>
+    </File>
+    <File Include="bin/zh-Hans/System.Web.WebPages.resources.dll">
+      <publishTime>06/09/2017 10:41:37</publishTime>
+    </File>
+    <File Include="Content/AsiatekAjaxPagerStyles.css">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/audio/异常信息通知V1.mp3">
+      <publishTime>12/11/2017 16:57:36</publishTime>
+    </File>
+    <File Include="Content/bootstrap/bootstrap.min.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/fonts/glyphicons-halflings-regular.eot">
+      <publishTime>03/24/2017 12:00:58</publishTime>
+    </File>
+    <File Include="Content/fonts/glyphicons-halflings-regular.svg">
+      <publishTime>03/24/2017 12:00:58</publishTime>
+    </File>
+    <File Include="Content/fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>03/24/2017 12:00:58</publishTime>
+    </File>
+    <File Include="Content/fonts/glyphicons-halflings-regular.woff">
+      <publishTime>03/24/2017 12:00:58</publishTime>
+    </File>
+    <File Include="Content/fonts/glyphicons-halflings-regular.woff2">
+      <publishTime>03/24/2017 12:00:58</publishTime>
+    </File>
+    <File Include="Content/images/expand.gif">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/head/Admin.png">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Content/images/head/Administrator.png">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Content/images/head/ElectricFence.png">
+      <publishTime>08/18/2017 17:45:55</publishTime>
+    </File>
+    <File Include="Content/images/head/HistoricalRoute.png">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Content/images/head/Logout.png">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Content/images/head/PersonalSetting.png">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Content/images/head/RealTime.png">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Content/images/head/Reports.png">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Content/images/head/TerminalSetting.png">
+      <publishTime>08/18/2017 16:38:06</publishTime>
+    </File>
+    <File Include="Content/images/head/个人设定.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/head/历史轨迹.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/head/实时监控.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/head/报表统计.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/head/注销.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/head/管理中心.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/head/管理员.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/login/AsiatekLOGO.png">
+      <publishTime>08/21/2017 17:47:40</publishTime>
+    </File>
+    <File Include="Content/images/login/FirmID.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/Homepage.jpg">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/login.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/logo.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/long.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/name.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/pwd.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/short.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/TMS2.0_Android_Ios_DownLoadApp.png">
+      <publishTime>05/17/2018 09:44:28</publishTime>
+    </File>
+    <File Include="Content/images/login/UserName.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/Verify.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/VerifyCode.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/images/login/公司ID.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/名称.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/密码.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/效果图.jpg">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/效果图_spec.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/用户名.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/登录.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/短.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/选中.jpg">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/长.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/首页.jpg">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/验证码.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/login/验证码框.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/mark_b1.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/mark_b2.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/images/pic/0.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/120.png">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/150.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/180.png">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/210.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/240.png">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/270.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/30.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/300.png">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/330.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/60.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/90.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/CN.bmp">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/Discharge.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/E.bmp">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/E.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/End1.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/loading.gif">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/mark.jpg">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/mark.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/N.bmp">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/N.png">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/NE.bmp">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/NE.png">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/NW.bmp">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/NW.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/page_excel.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/S.bmp">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/S.png">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/SE.bmp">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/SE.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/Start1.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/SW.bmp">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/pic/SW.png">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/W.bmp">
+      <publishTime>08/31/2017 14:20:51</publishTime>
+    </File>
+    <File Include="Content/images/pic/W.png">
+      <publishTime>08/31/2017 14:20:50</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/Circle.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/Circleselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/Polygon.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/Polygonselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/Rect.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/Rectselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/Ruler.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/Rulerselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/ShowArea.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/ShowAreaselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/ShowMarker.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/ShowMarkerselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/VehicleSearch.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/VehicleSearchselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/圆.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/圆selected.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/多边形.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/多边形selected.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/显示区域.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/显示区域selected.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/显示地标.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/显示地标selected.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/测距.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/测距selected.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/矩形.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/矩形selected.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/车辆查询.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeDialog/车辆查询selected.png">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/All.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Allselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/DownBtn.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Offline.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Offlineselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Running.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Runningselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Search.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Searchselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Stop.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/Stopselected.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/UpBtn.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/上拉按钮.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/下拉按钮.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/停车.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/停车selected.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/全部.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/全部selected.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/掉线.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/掉线selected.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/搜索.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/搜索selected.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/行驶.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/realtimeMonitor/行驶selected.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/shrank.gif">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/images/treeloading.gif">
+      <publishTime>06/09/2017 10:41:24</publishTime>
+    </File>
+    <File Include="Content/images/Welcome.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/jqEditableSelect/jquery-editable-select.min.css">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/jqPlot/jquery.jqplot.min.css">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Content/jqueryGrid/ui.jqgrid-bootstrap.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/jqueryGrid/ui.jqgrid.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/jqueryPlay/barstyle.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/jqueryPlay/barstyle.min.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/jqueryui/images/ui-icons_444444_256x240.png">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/images/ui-icons_555555_256x240.png">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/images/ui-icons_777620_256x240.png">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/images/ui-icons_777777_256x240.png">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/images/ui-icons_cc0000_256x240.png">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/images/ui-icons_ffffff_256x240.png">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/jquery-ui.css">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/jquery-ui.min.css">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/jquery-ui.structure.css">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/jquery-ui.structure.min.css">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/jquery-ui.theme.css">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/jqueryui/jquery-ui.theme.min.css">
+      <publishTime>06/09/2017 10:41:26</publishTime>
+    </File>
+    <File Include="Content/ladda/ladda-themeless.min.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/logos/foxconn.png">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/accordion.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/all.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/autocomplete.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/base.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/button.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/core.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/datepicker.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/dialog.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/draggable.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_flat_0_aaaaaa_40x100.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_flat_75_ffffff_40x100.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_55_fbf9ee_1x400.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_65_ffffff_1x400.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_75_dadada_1x400.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_75_e6e6e6_1x400.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_glass_95_fef1ec_1x400.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-bg_highlight-soft_75_cccccc_1x100.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_222222_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_2e83ff_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_444444_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_454545_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_555555_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_777620_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_777777_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_888888_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_cc0000_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_cd0a0a_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/images/ui-icons_ffffff_256x240.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/jquery-ui.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/jquery-ui.min.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/menu.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/progressbar.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/resizable.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/selectable.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/selectmenu.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/slider.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/sortable.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/spinner.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/tabs.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/theme.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/themes/base/tooltip.css">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Legend.png">
+      <publishTime>10/18/2017 16:57:37</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Offline0.png">
+      <publishTime>10/18/2017 10:19:57</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Offline135.png">
+      <publishTime>10/18/2017 10:19:57</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Offline180.png">
+      <publishTime>10/18/2017 10:19:57</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Offline225.png">
+      <publishTime>10/18/2017 10:19:57</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Offline270.png">
+      <publishTime>10/18/2017 10:19:57</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Offline315.png">
+      <publishTime>10/18/2017 10:19:57</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Offline45.png">
+      <publishTime>10/18/2017 10:19:57</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Offline90.png">
+      <publishTime>10/18/2017 10:19:57</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Running0.png">
+      <publishTime>10/18/2017 10:19:40</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Running135.png">
+      <publishTime>10/18/2017 10:19:40</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Running180.png">
+      <publishTime>10/18/2017 10:19:40</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Running225.png">
+      <publishTime>10/18/2017 10:19:40</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Running270.png">
+      <publishTime>10/18/2017 10:19:40</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Running315.png">
+      <publishTime>10/18/2017 10:19:40</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Running45.png">
+      <publishTime>10/18/2017 10:19:40</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Running90.png">
+      <publishTime>10/18/2017 10:19:40</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Stop0.png">
+      <publishTime>10/18/2017 10:19:51</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Stop135.png">
+      <publishTime>10/18/2017 10:19:51</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Stop180.png">
+      <publishTime>10/18/2017 10:19:51</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Stop225.png">
+      <publishTime>10/18/2017 14:38:18</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Stop270.png">
+      <publishTime>10/18/2017 10:19:51</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Stop315.png">
+      <publishTime>10/18/2017 10:19:51</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Stop45.png">
+      <publishTime>10/18/2017 10:19:51</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/Stop90.png">
+      <publishTime>10/18/2017 10:19:51</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/停车0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/停车135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/停车180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/停车225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/停车270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/停车315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/停车45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/停车90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/掉线0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/掉线135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/掉线180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/掉线225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/掉线270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/掉线315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/掉线45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/掉线90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/行驶0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/行驶135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/行驶180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/行驶225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/行驶270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/行驶315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/行驶45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Arrow/行驶90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Legend.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Offline0.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Offline135.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Offline180.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Offline225.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Offline270.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Offline315.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Offline45.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Offline90.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Running0.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Running135.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Running180.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Running225.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Running270.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Running315.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Running45.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Running90.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Stop0.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Stop135.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Stop180.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Stop225.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Stop270.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Stop315.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Stop45.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/Stop90.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/停车0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/停车135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/停车180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/停车225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/停车270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/停车315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/停车45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/停车90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/掉线0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/掉线135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/掉线180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/掉线225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/掉线270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/掉线315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/掉线45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/掉线90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/行驶0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/行驶135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/行驶180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/行驶225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/行驶270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/行驶315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/行驶45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/Default/行驶90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Legend.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Offline0.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Offline135.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Offline180.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Offline225.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Offline270.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Offline315.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Offline45.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Offline90.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Running0.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Running135.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Running180.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Running225.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Running270.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Running315.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Running45.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Running90.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Stop0.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Stop135.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Stop180.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Stop225.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Stop270.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Stop315.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Stop45.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/Stop90.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/停车0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/停车135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/停车180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/停车225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/停车270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/停车315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/停车45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/停车90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/行驶0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/行驶135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/行驶180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/行驶225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/行驶270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/行驶315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/行驶45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/MixerTruck/行驶90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Legend.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Offline0.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Offline135.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Offline180.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Offline225.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Offline270.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Offline315.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Offline45.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Offline90.png">
+      <publishTime>08/18/2017 16:38:07</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Running0.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Running135.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Running180.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Running225.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Running270.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Running315.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Running45.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Running90.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Stop0.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Stop135.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Stop180.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Stop225.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Stop270.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Stop315.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Stop45.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/Stop90.png">
+      <publishTime>08/04/2017 10:51:28</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/停车0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/停车135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/停车180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/停车225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/停车270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/停车315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/停车45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/停车90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/行驶0.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/行驶135.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/行驶180.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/行驶225.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/行驶270.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/行驶315.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/行驶45.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="Content/vehicleIcons/PumpTruck/行驶90.png">
+      <publishTime>06/09/2017 10:41:25</publishTime>
+    </File>
+    <File Include="DLL/Aspose.Cells.dll">
+      <publishTime>06/09/2017 10:41:28</publishTime>
+    </File>
+    <File Include="DLL/GpsCommData.dll">
+      <publishTime>12/13/2017 14:59:51</publishTime>
+    </File>
+    <File Include="DLL/RemoteClass.dll">
+      <publishTime>08/09/2017 08:51:12</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Properties/Settings.settings">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/AccumulatedDrivingOvertime.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/EmergencyAlarmRpt.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/ExceptionHandle.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/FatigueDriving.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/MGJHExpForIllegalDischarg.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/MGJHService.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/Mileage.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/NGAreaAverageOverSpeed.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/NGAreaOverSpeed.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/NightDriving.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/OffLineRate.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/OverSpeed.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/OvertimeParking.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/ReportDataSet.xsc">
+      <publishTime>03/07/2018 15:37:28</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/ReportDataSet.xss">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/Rpt1.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/Rpt2.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/Rpt3.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/Rpt4.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/Rpt5.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/Temper.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/rdlcs/TemperException.rdlc">
+      <publishTime>05/02/2018 08:48:56</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/ExceptionHandleRpt.aspx">
+      <publishTime>12/13/2017 09:05:03</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/MGJHExpForIllegalDischarg.aspx">
+      <publishTime>04/17/2018 08:38:46</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/MGJHService.aspx">
+      <publishTime>05/02/2018 08:48:57</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/NGAreaOverSpeedRpt.aspx">
+      <publishTime>04/17/2018 08:38:46</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/NightDrivingRpt.aspx">
+      <publishTime>01/03/2018 15:57:05</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/RptBaseForm.aspx">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/RptForm1.aspx">
+      <publishTime>09/06/2017 09:16:16</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/RptForm2.aspx">
+      <publishTime>09/06/2017 09:18:57</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/RptForm3.aspx">
+      <publishTime>09/06/2017 09:19:08</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/RptForm4.aspx">
+      <publishTime>09/06/2017 09:19:13</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/RptForm5.aspx">
+      <publishTime>08/22/2017 11:30:35</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/TemperExceptionForm.aspx">
+      <publishTime>10/12/2017 12:55:28</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/TemperForJSYY.aspx">
+      <publishTime>03/12/2018 13:29:43</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/TemperForm.aspx">
+      <publishTime>10/12/2017 12:55:28</publishTime>
+    </File>
+    <File Include="ReportFiles/reports/VehicleOffLineRpt.aspx">
+      <publishTime>12/13/2017 14:59:50</publishTime>
+    </File>
+    <File Include="Scripts/asiatekAjaxPager/AsiatekAjaxPagerJS.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/asiatekExtend/AsiatekCommonJS.js">
+      <publishTime>07/28/2017 13:37:00</publishTime>
+    </File>
+    <File Include="Scripts/asiatekExtend/AsiatekjQueryExtend.js">
+      <publishTime>08/21/2017 14:28:47</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap/bootstrap.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap/FixBootstrapConflict.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/bootstraptreeview/bootstrap-treeview.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/echarts/echarts.js">
+      <publishTime>01/22/2018 17:18:29</publishTime>
+    </File>
+    <File Include="Scripts/echarts/echartsSetting.js">
+      <publishTime>02/27/2018 15:58:27</publishTime>
+    </File>
+    <File Include="Scripts/gaodeMap/map.js">
+      <publishTime>05/10/2018 08:31:15</publishTime>
+    </File>
+    <File Include="Scripts/gaodeMap/realTimeMap.js">
+      <publishTime>08/16/2017 08:52:19</publishTime>
+    </File>
+    <File Include="Scripts/initplugin/InitPlugin.js">
+      <publishTime>08/22/2017 11:25:50</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.barRenderer.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.canvasAxisLabelRenderer.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.canvasAxisTickRenderer.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.canvasOverlay.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.canvasTextRenderer.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.categoryAxisRenderer.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.cursor.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.dateAxisRenderer.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.highlighter.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqplot.pointLabels.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jqPlotUsage.js">
+      <publishTime>01/22/2018 17:18:29</publishTime>
+    </File>
+    <File Include="Scripts/jqPlot/jquery.jqplot.min.js">
+      <publishTime>09/11/2017 10:51:18</publishTime>
+    </File>
+    <File Include="Scripts/jquery/jquery-2.2.3.js">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery/jquery-2.2.3.min.js">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery/jquery-2.2.3.min.map">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Scripts/jqueryEditableSelect/jquery-editable-select.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryForm/jquery.form.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryForm/jquery.form.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryForm/jquery.form.min.js.map">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryGrid/grid.locale-cn.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryGrid/grid.locale-en.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryGrid/jquery.jqGrid.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryGrid/jquery.jqGrid.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryPlay/jquery-1.11.1.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryPlay/jquery-PlayBar.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryPlay/jquery-PlayBar.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryPlay/jquery-PlayBar2.min.js">
+      <publishTime>08/31/2017 17:32:16</publishTime>
+    </File>
+    <File Include="Scripts/jqueryub/jquery.unobtrusive-ajax.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryub/jquery.unobtrusive-ajax.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryui/jquery-ui-1.12.0.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryui/jquery-ui-1.12.0.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryui/jquery-ui-1.12.0.min.js.map">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryuitimepicker/jquery-ui-timepicker-addon.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/jqueryval/jquery.validate.js">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Scripts/jqueryval/jquery.validate.min.js">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Scripts/jqueryval/jquery.validate.unobtrusive.js">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Scripts/jqueryval/jquery.validate.unobtrusive.min.js">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Scripts/jqueryval/jquery.validateExtend-Asiatek.js">
+      <publishTime>06/09/2017 10:41:20</publishTime>
+    </File>
+    <File Include="Scripts/ladda/ladda.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/ladda/ladda.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/ladda/spin.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/ladda/spin.min.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Scripts/pageMethod/dateRelate.js">
+      <publishTime>05/10/2018 08:31:15</publishTime>
+    </File>
+    <File Include="Scripts/pageMethod/historicalRoutePage.js">
+      <publishTime>06/04/2018 08:37:19</publishTime>
+    </File>
+    <File Include="Scripts/pageMethod/historyPageDisplayAndLayout.js">
+      <publishTime>05/10/2018 08:31:15</publishTime>
+    </File>
+    <File Include="Scripts/pageMethod/pathSimplifier.js">
+      <publishTime>05/17/2018 09:44:28</publishTime>
+    </File>
+    <File Include="Scripts/pageMethod/realtimeMonitorPage.js">
+      <publishTime>05/17/2018 09:44:28</publishTime>
+    </File>
+    <File Include="Scripts/RepairRecord/RepairRecordAdd.js">
+      <publishTime>02/03/2018 08:53:42</publishTime>
+    </File>
+    <File Include="Scripts/RepairRecord/RepairRecordEdit.js">
+      <publishTime>02/03/2018 08:53:42</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>06/09/2017 10:41:21</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetAllExceptionsResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetExceptionsAndDealInfoResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetExceptionsForMainPowerResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetExceptionsForMapLineResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetExceptionsForMapRegionResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetExceptionsResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetHistorySignalsResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetVehicleDistanceResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/HistoricalDataNS/Asiatek.TMS.HistoricalDataNS.GetVehicleExceptionsForEquipmenResponse.datasource">
+      <publishTime>08/11/2017 09:06:59</publishTime>
+    </File>
+    <File Include="Service References/MyService/configuration.svcinfo">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Service References/MyService/configuration91.svcinfo">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Service References/MyService/Reference.svcmap">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Service References/MyService/WebService.disco">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Service References/MyService/WebService.wsdl">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Service References/PlatformServicesNS/Asiatek.TMS.PlatformServicesNS.ReplyInspectionMessageResponse.datasource">
+      <publishTime>08/09/2017 08:51:11</publishTime>
+    </File>
+    <File Include="Service References/TerminalOperation/Asiatek.TMS.TerminalOperation.OperationResultGeneralRep.datasource">
+      <publishTime>08/02/2017 16:06:07</publishTime>
+    </File>
+    <File Include="Service References/TerminalOperation/Asiatek.TMS.TerminalOperation.OperationResultMultimediaDataRetrievalRespData.datasource">
+      <publishTime>08/02/2017 16:06:07</publishTime>
+    </File>
+    <File Include="Service References/TerminalOperation/Asiatek.TMS.TerminalOperation.OperationResultQueryTerminalParaRespData.datasource">
+      <publishTime>08/02/2017 16:06:07</publishTime>
+    </File>
+    <File Include="Views/Account/Login.cshtml">
+      <publishTime>05/17/2018 09:44:28</publishTime>
+    </File>
+    <File Include="Views/Account/UnAuth.cshtml">
+      <publishTime>08/18/2017 18:53:37</publishTime>
+    </File>
+    <File Include="Views/Errors/NotFound.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Views/Errors/OtherError.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Views/Functions/_GetMenus.cshtml">
+      <publishTime>08/21/2017 17:47:40</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>05/17/2018 09:44:28</publishTime>
+    </File>
+    <File Include="Views/Home/Welcome.cshtml">
+      <publishTime>06/12/2017 11:43:17</publishTime>
+    </File>
+    <File Include="Views/Home/_NeedDealAlarmList.cshtml">
+      <publishTime>01/22/2018 17:18:30</publishTime>
+    </File>
+    <File Include="Views/Home/_NeedDealAlarmPagedGrid.cshtml">
+      <publishTime>01/22/2018 17:18:30</publishTime>
+    </File>
+    <File Include="Views/HomeElectricFence/Index.cshtml">
+      <publishTime>12/12/2017 16:41:39</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>12/22/2017 08:47:56</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>06/09/2017 10:41:23</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>06/04/2018 08:40:27</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

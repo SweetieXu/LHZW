@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/STD808Core.LocationAlarm" />
+  <xs:complexType name="CameraShotImmediatelyCMDData">
+    <xs:sequence>
+      <xs:element name="Brightness" type="xs:unsignedByte" />
+      <xs:element name="Chroma" type="xs:unsignedByte" />
+      <xs:element name="ContrastRatio" type="xs:unsignedByte" />
+      <xs:element name="Quality" type="xs:unsignedByte" />
+      <xs:element name="Resolution" type="tns:Resolution">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="Saturation" type="xs:unsignedByte" />
+      <xs:element name="Save" type="xs:boolean" />
+      <xs:element name="ShootCMD" type="xs:unsignedShort" />
+      <xs:element name="TakeIntervalOrRecordDuration" type="xs:unsignedShort" />
+      <xs:element name="TunnelID" type="xs:unsignedByte" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CameraShotImmediatelyCMDData" nillable="true" type="tns:CameraShotImmediatelyCMDData" />
+  <xs:simpleType name="Resolution">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="W320_H240" />
+      <xs:enumeration value="W640_H480" />
+      <xs:enumeration value="W800_H600" />
+      <xs:enumeration value="W1024_H768" />
+      <xs:enumeration value="W176_H144_Qcif" />
+      <xs:enumeration value="W352_H288_Cif" />
+      <xs:enumeration value="W704_H288_HALF_D1" />
+      <xs:enumeration value="W704_H576_D1" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="Resolution" nillable="true" type="tns:Resolution" />
+  <xs:complexType name="MultimediaDataRetrievalData">
+    <xs:sequence>
+      <xs:element name="EndDateTime" type="xs:dateTime" />
+      <xs:element name="MultimediaEventCode" type="tns:MultimediaEventCode" />
+      <xs:element name="MultimediaType" type="tns:MultimediaType" />
+      <xs:element name="StartDateTime" type="xs:dateTime" />
+      <xs:element name="TunnelID" type="xs:unsignedByte" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MultimediaDataRetrievalData" nillable="true" type="tns:MultimediaDataRetrievalData" />
+  <xs:simpleType name="MultimediaEventCode">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="平台下发指令" />
+      <xs:enumeration value="定时动作" />
+      <xs:enumeration value="抢劫报警触发" />
+      <xs:enumeration value="碰撞侧翻报警触发" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MultimediaEventCode" nillable="true" type="tns:MultimediaEventCode" />
+  <xs:simpleType name="MultimediaType">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="图像" />
+      <xs:enumeration value="音频" />
+      <xs:enumeration value="视频" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MultimediaType" nillable="true" type="tns:MultimediaType" />
+  <xs:complexType name="MultimediaDataRetrievalRespData">
+    <xs:sequence>
+      <xs:element name="Count" type="xs:unsignedShort" />
+      <xs:element name="MultimediaRetrievalItems" nillable="true" type="tns:ArrayOfMultimediaRetrievalItem" />
+      <xs:element name="SerialNumber" type="xs:unsignedShort" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MultimediaDataRetrievalRespData" nillable="true" type="tns:MultimediaDataRetrievalRespData" />
+  <xs:complexType name="ArrayOfMultimediaRetrievalItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MultimediaRetrievalItem" nillable="true" type="tns:MultimediaRetrievalItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMultimediaRetrievalItem" nillable="true" type="tns:ArrayOfMultimediaRetrievalItem" />
+  <xs:complexType name="MultimediaRetrievalItem">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/STD808Core.LocationAlarm" name="BaseLocationData" nillable="true" type="q1:BaseLocationData" />
+      <xs:element name="ID" type="xs:unsignedInt" />
+      <xs:element name="MultimediaEventCode" type="tns:MultimediaEventCode" />
+      <xs:element name="MultimediaType" type="tns:MultimediaType" />
+      <xs:element name="TunnelID" type="xs:unsignedByte" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MultimediaRetrievalItem" nillable="true" type="tns:MultimediaRetrievalItem" />
+  <xs:complexType name="MultimediaDataUploadCMDData">
+    <xs:sequence>
+      <xs:element name="Delete" type="xs:boolean" />
+      <xs:element name="EndDateTime" type="xs:dateTime" />
+      <xs:element name="MultimediaEventCode" type="tns:MultimediaEventCode" />
+      <xs:element name="MultimediaType" type="tns:MultimediaType" />
+      <xs:element name="StartDateTime" type="xs:dateTime" />
+      <xs:element name="TunnelID" type="xs:unsignedByte" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MultimediaDataUploadCMDData" nillable="true" type="tns:MultimediaDataUploadCMDData" />
+  <xs:complexType name="MultimediaDataSingleUploadCMDData">
+    <xs:sequence>
+      <xs:element name="Delete" type="xs:boolean" />
+      <xs:element name="ID" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MultimediaDataSingleUploadCMDData" nillable="true" type="tns:MultimediaDataSingleUploadCMDData" />
+</xs:schema>

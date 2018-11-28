@@ -1,0 +1,368 @@
+﻿@{
+    ViewBag.Title = "Regions";
+}
+@using Asiatek.Common
+@using Asiatek.Model.TerminalSetting
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@using Asiatek.TMS.TerminalOperation
+@model SearchDataWithPagedDatas<int, MapRegionSettingModel>
+
+<style>
+    #regionVehicleTable td {
+        text-align: center;
+    }
+
+    #regionSetup tr > td:nth-child(1) {
+        text-align: center;
+        width: 15%;
+    }
+
+    #regionSetup tr > td:nth-child(2) {
+        width: 30%;
+    }
+</style>
+
+<table id="regionSetup" class="table table-bordered" style="margin-top:10px;">
+    <tr>
+        <td>区域类型</td>
+        <td>
+            <select id="regionType_Settings" class="form-control">
+                <option value="1">圆形</option>
+                <option value="2">矩形</option>
+                <option value="3">多边形</option>
+            </select>
+        </td>
+        <td rowspan="8">
+            <div style="height:520px;width:450px;" id="container"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>区域名称</td>
+        <td>
+            <div class="row">
+                <div class="col-md-8 text-center">
+                    <select id="regions" class="form-control">
+                        
+                    </select>
+                </div>
+                <div class="col-md-3 text-center">
+                    <button class="btn btn-default" onclick="onDrawSelectResult();">@UIText.TerminalSetting_ShowPathOrRegion</button>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>是否周期</td>
+        <td id="periodic" class="text-center"></td>
+    </tr>
+    <tr>
+        <td>时间起</td>
+        <td id="startTime" class="text-center"></td>
+    </tr>
+    <tr>
+        <td>时间迄</td>
+        <td id="endTime" class="text-center"></td>
+    </tr>
+    <tr>
+        <td>最高速度</td>
+        <td id="speedLimit" class="text-center"></td>
+    </tr>
+    <tr>
+        <td>超速持续时间</td>
+        <td id="overSpeedDuration" class="text-center"></td>
+    </tr>
+    <tr>
+        <td>区域属性</td>
+        <td>
+            <div class="checkbox">
+                <label><input type="checkbox" name="regionProp" value="@((ushort)RegionProperty.根据时间)">根据时间</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="regionProp" value="@((ushort)RegionProperty.限速)">限速</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="regionProp" value="@((ushort)RegionProperty.进区域报警给驾驶员)">进区域报警给驾驶员</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="regionProp" value="@((ushort)RegionProperty.进区域报警给平台)">进区域报警给平台</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="regionProp" value="@((ushort)RegionProperty.出区域报警给驾驶员)">出区域报警给驾驶员</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="regionProp" value="@((ushort)RegionProperty.进区域报警给平台)">进区域报警给平台</label>
+            </div>
+            <div class="checkbox hidden">
+                <label><input type="checkbox" name="regionProp" value="@((ushort)RegionProperty.南纬)">南纬</label>
+            </div>
+            <div class="checkbox hidden">
+                <label><input type="checkbox" name="regionProp" value="@((ushort)RegionProperty.西经)">西经</label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <button class="btn btn-default" id="update" disabled onclick="onSendRegionSettings(@((byte)RegionSettingType.更新区域));">更新</button>
+            <button class="btn btn-default" id="add" disabled onclick="onSendRegionSettings(@((byte)RegionSettingType.追加区域));">追加</button>
+        </td>
+    </tr>
+</table>
+
+<form class="form-inline" style="margin-bottom:5px;">
+    <div class="form-group">
+        <select id="regionType" class="form-control">
+            <option value="1" selected>圆形区域</option>
+            <option value="2">矩形区域</option>
+            <option value="3">多边形区域</option>
+        </select>
+    </div>
+    <button id ="queryRegionSettings" class="btn btn-primary" disabled onclick="onQueryVehicleRegionSetting(); return false;">查询</button>
+    <button id="delRegionSettings" class="btn btn-danger" disabled onclick="onDeleteVehicleRegionSetting(); return false;">删除</button>
+</form>
+<div id="dataTable">
+    @Html.Partial("Regions_DataTable", Model)
+</div>
+
+@Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+    AreaName = "TerminalSetting",
+    ControllerName = "TerminalSetup",
+    ActionName = "LoadRegionVehicleTable",
+    UpdateTargetId = "dataTable",
+    OnSuccess = "commonAjaxSuccess"
+})
+
+<script>
+    var vehiclesChecked = undefined;
+    var antiForgeryToken = $('@Html.AntiForgeryToken()');
+    var regionData = undefined;
+
+    //定义map对象
+    var mapObj = initMap('container', true, 12, null);
+
+    $(function () {
+        $('#regionType_Settings').change(onQueryAllRegions);
+
+        $('#regionType_Settings').trigger('change');
+
+        VehicleCheckedEventHandlers.push(_OnVehicleChecked);
+
+        // 查询指定区域数据
+        $('#regions').change(function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetRegionData")',
+                cache: false,
+                data: {
+                    RegionID: parseInt($('#regions option:selected').val()),
+                },
+                traditional: true,
+                success: function (result) {
+                    if (result.length == 0) {
+                        regionData = undefined;
+                        return;
+                    }
+                    regionData = result;
+                    
+                    $('#periodic').text(result[0].Periodic === true ? '@DisplayText.Yes' : '@DisplayText.No');
+                    var startTime = '';
+                    if (result[0].StartDate !== null)
+                        startTime += result[0].StartDate + ' ';
+                    if (result[0].StartTime !== null)
+                        startTime += result[0].StartTime;
+                    $('#startTime').text(startTime === '' ? '-' : startTime);
+
+                    var endTime = '';
+                    if (result[0].EndDate !== null)
+                        endTime += result[0].EndDate + ' ';
+                    if (result[0].EndTime !== null)
+                        endTime += result[0].EndTime;
+                    $('#endTime').text(endTime === '' ? '-' : endTime);
+
+                    $('#speedLimit').text(result[0].SpeedLimit === null ? '' : result[0].SpeedLimit);
+                    $('#overSpeedDuration').text(result[0].OverSpeedDuration === null ? '' : result[0].OverSpeedDuration);
+                }
+            });
+        });
+        
+    });
+
+    function _OnVehicleChecked(vehicles) {
+        if ($.isEmptyObject(vehicles)) {
+            // 当未选中任何车辆时禁用 下发消息、查询 按钮
+            $('#queryRegionSettings').attr('disabled', true);
+            $('#update').attr('disabled', true);
+            $('#add').attr('disabled', true);
+            vehiclesChecked = undefined;
+        }
+        else {
+            // 启用 下发消息、查询 按钮
+            $('#queryRegionSettings').removeAttr('disabled');
+            $('#update').removeAttr('disabled');
+            $('#add').removeAttr('disabled');
+            vehiclesChecked = new Array();
+            for (v in vehicles) {
+                vehiclesChecked.push(v + '#' + vehicles[v]);
+            }
+        }
+    }
+
+    function onSendRegionSettings(type) {
+        if (vehiclesChecked === undefined || vehiclesChecked.length === 0)
+            return;
+        
+        var regionProp = 0;
+        $('input[name=regionProp]:checked').each(function (index, e) {
+            var val = $(e).val();
+            regionProp |= parseInt(val);
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SendRegionSettings")',
+            cache: false,
+            data: {
+                __RequestVerificationToken: antiForgeryToken.val(),
+                OperationType: type,
+                RegionProperty: regionProp,
+                Vehicles: vehiclesChecked,
+                RegionID: parseInt($('#regions option:selected').val())
+            },
+            traditional: true,
+            success: function (result) {
+                alert(result[0].Message);
+            }
+        });
+    }
+
+    //获取当前用户可以操作的所有指定类型的区域
+    function onQueryAllRegions() {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetAllRegions")',
+            cache: false,
+            data: {
+                RegionType: parseInt($(this).children('option:selected').val()),
+            },
+            traditional: true,
+            success: function (result) {
+                html = "";
+                if (result.DataResult !== null) {
+                    result.DataResult.forEach(function (e) {
+                        html += '<option value="' + e.Item1 + '">' + e.Item2 + '</option>';
+                    });
+                    $('#regions').html(html)
+                    $('#regions').trigger('change');
+                }
+                else {
+                    alert(result.Message);
+                }
+            }
+        });
+    }
+
+    // 绘制区域查询结果
+    function onDrawSelectResult() {
+        if (regionData === undefined)
+            return;
+
+        var result = regionData;
+        mapObj.clearMap();
+        var regionsType = $('#regionType_Settings option:selected').val();
+        //圆形
+        if (regionsType == 1) {
+            var tempCenterLng = result[0].CenterLongitude;
+            var tempCenterLat = result[0].CenterLatitude;
+            var tempRadius = result[0].Radius;
+            var circle = new AMap.Circle({
+                center: [tempCenterLng, tempCenterLat],
+                radius: tempRadius,
+                fillOpacity: 0.3,
+                fillColor: "#0D9BF2",
+                strokeWeight: 2,
+                strokeColor: "#0D9BF2"
+            })
+            circle.setMap(mapObj);
+        }
+        //矩形
+        if (regionsType == 2) {
+            var tempLeftLat = result[0].LeftUpperLatitude;
+            var tempLeftLng = result[0].LeftUpperLongitude;
+            var tempRightLat = result[0].RightLowerLatitude;
+            var tempRightLng = result[0].RightLowerLongitude;
+            var rectArr = new Array();//多边形覆盖物节点坐标数组
+            rectArr.push([tempLeftLng, tempLeftLat]);
+            rectArr.push([tempLeftLng, tempRightLat]);
+            rectArr.push([tempRightLng, tempRightLat]);
+            rectArr.push([tempRightLng, tempLeftLat]);
+            var rect = new AMap.Polygon({
+                path: rectArr,
+                fillOpacity: 0.3,
+                fillColor: "#0D9BF2",
+                strokeWeight: 2,
+                strokeColor: "#0D9BF2"
+            });
+            rect.setMap(mapObj);
+        }
+        if (regionsType == 3) {//多边形
+            var polygonArr = new Array();//多边形覆盖物节点坐标数组
+            for (var i = 0; i < result.length - 1; i++) {
+                polygonArr.push([result[i].Longitude, result[i].Latitude]);
+            }
+            var polygon = new AMap.Polygon({
+                path: polygonArr,
+                fillOpacity: 0.3,
+                fillColor: "#0D9BF2",
+                strokeWeight: 2,
+                strokeColor: "#0D9BF2"
+            });
+            polygon.setMap(mapObj);
+        }
+        mapObj.setFitView();
+    }
+
+    //获取当前选中车辆所有设置的区域
+    function onQueryVehicleRegionSetting() {
+        if (vehiclesChecked == undefined || vehiclesChecked.length == 0)
+            return;
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("LoadRegionVehicleTable")',
+            cache: false,
+            data: {
+                __RequestVerificationToken: antiForgeryToken.val(),
+                RegionType: parseInt($('#regionType').val()),
+                SearchPage: 1,
+                Vehicles: vehiclesChecked
+            },
+            traditional: true,
+            success: function (data) { $('#dataTable').html(data); }
+        });
+    }
+
+    // 从数据库和车机上删除指定的区域设置
+    function onDeleteVehicleRegionSetting() {
+        var inputs = $('input[name=checkPath]');
+        var RegionIDs = new Array();
+        inputs.each(function (index, element) {
+            RegionIDs.push(parseInt($(element).data('relationID')));
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DeleteRegionVehicleRelation")',
+            cache: false,
+            data: {
+                __RequestVerificationToken: antiForgeryToken.val(),
+                RegionIDs: RegionIDs,
+            },
+            traditional: true,
+            success: function (data) {
+                // OperationResult[]
+                alert(data[0].Message);
+            }
+        });
+    }
+</script>

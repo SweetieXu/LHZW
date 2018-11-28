@@ -1,0 +1,76 @@
+﻿/*亚士德MVC Ajax分页扩展样式表*/
+#asiatekPager *
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+#asiatekPager
+{
+    height: 30px;
+    font-weight: bold;
+    font-size: 0px;
+}
+
+    #asiatekPager > div
+    {
+        display: inline-block;
+    }
+
+#asiatekPagerBack, #asiatekPagerFront
+{
+    width: 35px;
+    height: 30px;
+    line-height: 28px;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+    #asiatekPagerBack a, #asiatekPagerFront a
+    {
+        width: 35px;
+        height: 30px;
+    }
+
+#asiatekPagerContent > a
+{
+    display: inline-block;
+    min-width: 25px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+}
+
+
+
+#asiatekPager a
+{
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+.asiatekPagerDefault
+{
+    color: dimgray;
+    background-color: skyblue;
+}
+
+.asiatekPagerSelected
+{
+    background-color: orange;
+    color: white;
+}
+
+
+#asiatekPager a:hover
+{
+    background-color: orange;
+    color: white;
+}
+
+#asiatekPagerContent
+{
+    white-space: nowrap;
+    overflow: hidden;
+}

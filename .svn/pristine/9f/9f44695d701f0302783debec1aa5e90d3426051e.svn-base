@@ -1,0 +1,246 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model VehicleEditModel
+
+<link href="~/Content/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+<style>
+    .tab-content
+    {
+        height:600px;
+        width:900px;
+    }
+</style>
+
+<ul id="customertab" class="nav nav-tabs">
+    <li class="active">
+        <a href="#vehicleBasicInfo" data-toggle="tab">@UIText.VehicleBasicInfo</a>
+    </li>
+    <li>
+        <a href="#vehicleSensorInfo" data-toggle="tab">@UIText.VehicleSensorInfo</a>
+    </li>
+</ul>
+
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="vehicleBasicInfo">
+
+        @using (Ajax.BeginForm("EditVehicle", "Vehicle", new AjaxOptions()
+        {
+            OnSuccess = "showCommonEditResult",
+        }, new { id = "frmEditVehicle" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.ID)
+            @Html.HiddenFor(m => m.TerminalCode)
+            <fieldset>
+                <legend>@UIText.VehicleBasicInfo</legend>
+                <table class="table table-striped table-condensed table-hover">
+                    <tbody>
+                        <tr>
+                            <td>@Html.LabelForRequired(m => m.PlateNum)：</td>
+                             @*让当前文本框获取焦点 是为了解决初次加载编辑页面头部tab页面的样式问题*@
+                            <td>@Html.TextBoxFor(m => m.PlateNum, new { autofocus="autofocus"})</td>
+                            <td>@Html.LabelForRequired(m => m.VehicleName)：</td>
+                            <td>@Html.TextBoxFor(m => m.VehicleName)</td>
+                            <td>@Html.LabelForRequired(m => m.IsReceived)：</td>
+                            <td>@Html.CheckBoxFor(m => m.IsReceived)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>@Html.ValidationMessageFor(m => m.PlateNum)</td>
+                            <td></td>
+                            <td>@Html.ValidationMessageFor(m => m.VehicleName)</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelForRequired(m => m.PlateColorCode)：</td>
+                            <td>@Html.DropDownListFor(m => m.PlateColorCode, Model.PlateColorsSelectList)</td>
+                            <td>@Html.LabelForRequired(m => m.VehicleTypeCode)：</td>
+                            <td>@Html.DropDownListFor(m => m.VehicleTypeCode, Model.VehicleTypesSelectList)</td>
+                            <td>@Html.LabelForRequired(m => m.IsAccess)：</td>
+                            <td>@Html.CheckBoxFor(m => m.IsAccess)</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelForRequired(m => m.EditStrucID)：</td>
+                            <td>
+                                <input id="ddlEditVehicleStrucs" type="text" name="ddlEditVehicleStrucs" class="form-control" value="@Model.StrucName" />                                            
+                                @Html.HiddenFor(m => m.EditStrucID)
+                                @Html.HiddenFor(m => m.StrucID)
+                            </td>
+                            <td>@Html.LabelForRequired(m => m.Ownership)：</td>
+                            <td>
+                                <input id="ddlEditVehicleOwnerships" type="text" name="ddlEditVehicleOwnerships" class="form-control" value="@Model.OwnershipName" />                       
+                                @Html.HiddenFor(m=>m.Ownership)
+                            </td>
+                            <td colspan="2">  </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.EditStrucID)</td>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.Ownership)</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelForRequired(m => m.PrimaryTerminalID)：</td>
+                            <td>@Html.DropDownListFor(m => m.PrimaryTerminalID, Model.PrimaryTerminalsSelectList, new { id = "ddlPrimaryTerminalID" })</td>
+                            <td>@Html.LabelForRequired(m => m.WarrantyDate)：</td>
+                            <td>@Html.TextBoxFor(m => m.WarrantyDate, new { id = "txtWarrantyDate" })</td>
+                            <td colspan="2">  </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                @Html.ValidationMessageFor(m => m.PrimaryTerminalID)
+                            </td>
+                            <td></td>
+                            <td>
+                                @Html.ValidationMessageFor(m => m.WarrantyDate)
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelForRequired(m => m.Icon)：</td>
+                            <td>
+                                @foreach (var item in Model.Icons)
+                                {
+                                    bool temp = item == Model.Icon;
+                                    if (temp)
+                                    {
+                                    <input type="radio" name="icon" value="@item" id="rdo@(item)" checked="checked"/>
+                                    }
+                                    else
+                                    {  
+                                    <input type="radio" name="icon" value="@item" id="rdo@(item)"/>
+
+                                    }
+                                    <label for="rdo@(item)">
+                                        <img src="@Url.Content("~/Content/vehicleIcons/" + item + "/Legend.png?" + DateTime.Now)" alt=""  />
+                                    </label>
+                                }
+                            </td>
+                            <td>@Html.LabelForRequired(m => m.VIN)：</td>
+                            <td>@Html.TextBoxFor(m => m.VIN)</td>
+                            <td colspan="2">  </td>
+                        </tr>
+                        <tr>
+                             <td colspan="2"></td>
+                            <td></td>
+                            <td>@Html.ValidationMessageFor(m => m.VIN)</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(m => m.Remark)：</td>
+                            <td colspan="5">
+                                @Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="5">@Html.ValidationMessageFor(m => m.Remark)</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </fieldset>
+        }
+    </div>
+    <div class="tab-pane fade" id="vehicleSensorInfo"> </div>
+</div>
+
+
+<script>
+    var $frmEditVehicle = $("#frmEditVehicle");
+    var $ddlEditVehicleStrucs = $("#ddlEditVehicleStrucs");
+    var $hidEditStrucID = $("#EditStrucID");
+    var $hidStrucID = $("#StrucID");
+    var $ddlEditVehicleOwnerships = $("#ddlEditVehicleOwnerships");
+    var $hidEditOwnership = $("#Ownership");
+
+    $(document).ready(function () {
+        var id = document.getElementById("ID").value;
+        var plateNum = document.getElementById("PlateNum").value;
+        $('.nav-tabs a[href="#vehicleSensorInfo"]').click(function () {  
+            $("#vehicleSensorInfo").load('@Url.Content("~/Admin/VehicleSensor/GetVehicleSensor")', { 'id': id, 'plateNum': plateNum });
+        });
+    });
+
+    $frmEditVehicle.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    $frmEditVehicle.fixUnobtrusiveValidation();
+
+
+    $ddlEditVehicleStrucs.bind("input propertychange", function () {
+        $hidEditStrucID.val('');
+        $hidStrucID.val(-1);
+        $("span[data-valmsg-for='EditStrucID']").show();
+    });
+    $ddlEditVehicleOwnerships.bind("input propertychange", function () {
+        $hidEditOwnership.val('');
+        $("span[data-valmsg-for='Ownership']").show();
+    })
+
+
+    $("#txtWarrantyDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        minDate: new Date('@DateTime.Now.ToString("yyyy-MM-dd")')
+    });
+
+
+    //必须指定appendto，否则对于jquery ui dialog中使用的该控件的弹出选择部分会因为层级原因被dialog遮挡，而且因为dialog的层级会动态调整即使设定了autocomplete的z-index也可能会失效，所以必须设置ui-dialog的z-index，但是全局修改可能造成其他问题
+    $ddlEditVehicleStrucs.autocomplete({
+        delay: 500,
+        minLength: 1,
+        appendTo: "#frmEditVehicle",
+        select: function (event, ui) {
+            $hidEditStrucID.val(ui.item.ID);
+            $hidStrucID.val(ui.item.ID);
+            $("span[data-valmsg-for='EditStrucID']").hide();
+        },
+        source: function (request, response) {
+            $.get('@Url.Content("~/Admin/Vehicle/GetStructuresByName")', { name: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+        $ddlEditVehicleOwnerships.autocomplete({
+            delay: 500,
+            minLength: 1,
+            appendTo: "#frmEditVehicle",
+            select: function (event, ui) {
+                $hidEditOwnership.val(ui.item.ID);
+                $("span[data-valmsg-for='Ownership']").hide();
+            },
+            source: function (request, response) {
+                $.get('@Url.Content("~/Admin/Vehicle/GetStructuresByName")', { name: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+</script>

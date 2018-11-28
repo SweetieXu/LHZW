@@ -1,0 +1,265 @@
+﻿@using Asiatek.Resource
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    @*对比缓存使用*@
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width" />
+    <title>@(ViewBag.Title)-@Asiatek.Resource.UIText.DefaultTitle</title>
+
+    <!--###############################样式###############################-->
+    <!--网站全局样式-->
+    @Styles.Render("~/Content/css")
+    <!--jquery ui样式-->
+    @Styles.Render("~/Content/jqueryui/css")
+    <!-- 新 Bootstrap 核心 CSS -->
+    @Styles.Render("~/Content/bootstrap")
+
+    @Styles.Render("~/Content/jqEditableSelect/css")
+
+    @Styles.Render("~/Content/ladda/css")
+    <!--###############################脚本###############################-->
+    <!--jQuery-->
+    @Scripts.Render("~/asiatek/jquery")
+    <!--jQuery.Form-->
+    @Scripts.Render("~/asiatek/jqueryform")
+    <!--jQuery验证、非介入式验证-->
+    @Scripts.Render("~/asiatek/jqueryval")
+    <!--jQuery非介入式Ajax脚本-->
+    @Scripts.Render("~/asiatek/jqueryub")
+    <!--jQuery-UI-->
+    @Scripts.Render("~/asiatek/jqueryui")
+    <!--亚士德jQuery、js扩展-->
+    @Scripts.Render("~/asiatek/asiatekExtend")
+    <!--亚士德ajax分页-->
+    @Scripts.Render("~/asiatek/asiatekAjaxPager")
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    @Scripts.Render("~/asiatek/bootstrap")
+    <!--Bootstrap-TreeView-->
+    @Scripts.Render("~/asiatek/bootstraptreeview")
+
+
+    @Scripts.Render("~/asiatek/jqueryEditableSelect")
+
+    @Scripts.Render("~/asiatek/bootstraptreeview")
+    @Scripts.Render("~/asiatek/fixbootstrap")
+
+    @Scripts.Render("~/asiatek/ladda")
+    @Scripts.Render("~/asiatek/jqueryuitimepicker")
+    @Scripts.Render("~/asiatek/initplugin")
+
+    @RenderSection("styles", required: false)
+
+    <style>
+        #logoutId a {
+            float: right;
+            color: #fffffd;
+            font-family: 微软雅黑;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+            #logoutId a:hover {
+                color: #fffffd;
+                text-decoration: none;
+            }
+
+        .logoutImg {
+            margin-right: 10px;
+        }
+
+        #menusDiv {
+            height: 71px;
+            overflow: hidden;
+            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#12cbff, endColorstr=#0e76ea); /*IE<9>*/
+            -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#12cbff, endColorstr=#0e76ea)"; /*IE8+*/
+            background: -moz-linear-gradient(top,#12cbff,#0e76ea); /*火狐*/
+            background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#12cbff), to(#0e76ea)); /*谷歌*/
+            background-image: -webkit-gradient(linear,left bottom,left top,color-start(0, #12cbff),color-stop(1, #0e76ea)); /* Safari & Chrome*/
+        }
+
+        #bottomDiv {
+            text-align: center;
+            display: block;
+            background-color: #1d63bb;
+            height: 18px;
+            line-height: 18px;
+            font-family: 微软雅黑;
+            color: #dfe5f4;
+        }
+
+        /*设置autocomplete样式 当列表数据过多时 会出现滚动条*/
+        .ui-autocomplete {
+            max-height: 300px;
+            max-width: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="mainDiv" class="container-fluid">
+        <div id="headDiv" class="row" style="background-color: #1d63bb; height: 31px; line-height: 30px;">
+            <div class="col-xs-6">
+                <img style="margin-left: 10px;" src="~/Content/images/head/Administrator.png" />
+                <span style="font-family: 微软雅黑; font-weight: 300; color: #fffffd;">@AsiatekUIHelper.CurrentUserInfo()</span>
+                @{
+                    var dealAlarmFlag = AsiatekUIHelper.CheckPremission("NeedDealAlarmList", "Home");
+                }
+                @if (dealAlarmFlag)
+                {
+                    <audio preload="auto" id="adAlarmNotification">
+                        <source  src="@Url.Content("~/Content/audio/异常信息通知V1.mp3")" type="audio/mp3">
+                    </audio>
+                }
+            </div>
+            <div id="logoutId" style="text-align: right; margin-right: 20px;">
+
+                @if (Session["OriginalUserID"] != null)
+                {
+                    @Ajax.ActionLink(Asiatek.Resource.UIText.SwitchToOriginalUser, "SwitchToOriginalUser", new { controller = "User", area = "Admin" }, new AjaxOptions()
+                   {
+                       HttpMethod = "POST",
+                       OnSuccess = "switchUserCallBack"
+                   });
+                }
+                @if (dealAlarmFlag)
+                {
+                    <span class="btn btn-danger btn-sm">
+                        <span class="glyphicon glyphicon-volume-up" id="spAlarmVolume" title="@(UIText.Close + UIText.ExceptionNoticeSound)"></span>
+                        [<span id="spNeedDealAlarmCount" title="@(UIText.Open + UIText.PendingListOfExceptions)"></span>]
+                    </span>
+                }
+                <img class="logoutImg" src="~/Content/images/head/Logout.png" />
+                @Html.ActionLink(Asiatek.Resource.UIText.Logout, "Logout", new { controller = "Account", area = string.Empty })
+            </div>
+        </div>
+        @*<div class="row" style="background-color:#abeefe;">
+        </div>*@
+        <div id="menusDiv" class="row">
+            <div style="vertical-align: middle; margin: 7px;">
+                @Html.Action("GetMenus", "Functions", new { area = string.Empty })
+            </div>
+        </div>
+        <div id="contentDiv" class="row" style="margin-top: 0px;">
+            <div class="col-xs-12">
+                @RenderBody()
+            </div>
+        </div>
+        <div id="bottomDiv" class="row">
+            @DisplayText.Copyright&nbsp;&nbsp;&nbsp;@DisplayText.Asiatek
+        </div>
+    </div>
+
+
+    @*    <div id="container">
+        <div id="header">
+            @Html.ActionLink(Asiatek.Resource.UIText.Logout, "Logout", new { controller = "Account", area = string.Empty })
+            @if (Session["OriginalUserID"] != null)
+            {
+                @Ajax.ActionLink(Asiatek.Resource.UIText.SwitchToOriginalUser, "SwitchToOriginalUser", new { controller = "User", area = "Admin" }, new AjaxOptions()
+               {
+                   HttpMethod = "POST",
+                   OnSuccess = "switchUserCallBack"
+               });
+            }
+            @Html.Action("GetMenus", "Functions", new { area = string.Empty })
+        </div>
+        @RenderBody()
+    </div>*@
+
+
+    <script>
+        var switchUserCallBack = function (result) {
+            if ($.handleAjaxError(result)) {
+                return;
+            }
+            if (result.Url) {
+                location.href = result.Url;
+            }
+        }
+
+        window.onload = function () { getViewportSize(); };
+        window.onresize = function () { getViewportSize(); };
+
+        function getViewportSize(w) {
+            var mainDiv = document.getElementById("mainDiv");
+            w = w || window;
+            //除了IE8以及更早版本外，其它浏览器都能用  
+            if (w.innerWidth != null) {
+                mainDiv.style.height = w.innerHeight + 'px';
+                mainDiv.style.width = w.innerWidth + 'px';
+            };
+
+        }
+        var dealAlarmFlag = '@dealAlarmFlag' == "True";
+
+        if (dealAlarmFlag) {
+
+            var $spNeedDealAlarmCount = $("#spNeedDealAlarmCount");
+            var $adAlarmNotification = $("#adAlarmNotification");
+            var $spAlarmVolume = $("#spAlarmVolume");
+
+            $(function () {
+                getNeedDealAlarmCount(refreshNeedDealAlarmCount);
+                $spNeedDealAlarmCount.on("click", function () {
+                    var _url = "@Url.Content("~/Home/NeedDealAlarmList")";
+                    var _data = {};
+                    var _title = "@UIText.PendingListOfExceptions";
+                    $.showEditDialog(_url, _data, _title, null, 1300);
+                });
+                $spAlarmVolume.on("click", function () {
+                    if ($adAlarmNotification.prop("muted")) {//当前禁音
+                        $adAlarmNotification.prop("muted", false);
+                        $spAlarmVolume.removeClass("glyphicon-volume-off");
+                        $spAlarmVolume.addClass("glyphicon-volume-up");
+                        $spAlarmVolume.prop("title", "@(UIText.Close + UIText.ExceptionNoticeSound)");
+                    } else {
+                        $adAlarmNotification.prop("muted", true);
+                        $spAlarmVolume.removeClass("glyphicon-volume-up");
+                        $spAlarmVolume.addClass("glyphicon-volume-off");
+                        $spAlarmVolume.prop("title", "@(UIText.Open + UIText.ExceptionNoticeSound)");
+                    }
+                });
+            });
+
+
+
+            //获取需要处理的异常数量
+            var getNeedDealAlarmCount = function (doneCallBack) {
+                $.get("@Url.Content("~/Home/GetNeedDealAlarmCount")", {}, function (result) {
+                    if ($.handleAjaxError(result)) {
+                        return;
+                    }
+                    $spNeedDealAlarmCount.text(result);
+                    if (result != 0) {
+                        //如果数量不是0，闪烁提示，且播放声音
+                        $spNeedDealAlarmCount.fadeOut(150).fadeIn(150).fadeOut(150).fadeIn(150);
+                        $adAlarmNotification[0].play();
+                    }
+                }).done(function () {
+                    if (typeof (doneCallBack) == "function") {
+                        doneCallBack();
+                    }
+                });
+            };
+
+            //刷新需要处理的异常数量
+            var refreshNeedDealAlarmCount = function () {
+                setInterval(function () {
+                    getNeedDealAlarmCount();
+                }, 30000);
+            }
+            }
+
+
+
+
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

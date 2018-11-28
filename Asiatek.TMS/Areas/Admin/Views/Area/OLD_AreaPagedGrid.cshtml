@@ -1,0 +1,159 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model  AsiatekPagedList<AreaModel>
+
+@{
+    string updateTargetId = "Admin_Area_AreaInfo_divAreasGrid";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    
+}
+
+
+
+
+
+
+<button id="btnAddAreaInfo">@UIText.AddAreaInfo</button>
+
+
+@if (Model.Count == 0)
+{
+    <h1>@Asiatek.Resource.UIText.NoDatas</h1>
+}
+else
+{
+
+    using (Ajax.BeginForm("DeleteArea", "Area", new AjaxOptions()
+    {
+        UpdateTargetId = updateTargetId,
+        OnSuccess = "commonAjaxSuccess"
+    }))
+    {
+    @Html.AntiForgeryToken()
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.ID)</th>
+                <th>@Html.DisplayNameFor(m => m.AreaName)</th>
+                <th>@Html.DisplayNameFor(m => m.Description)</th>
+                <th>@editText</th>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.AreaName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <input type="button" value="@editText" onclick="edit(@item.ID)"/>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="areaid" value="@item.ID" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="button" value="@delText" onclick="beginDelete()"/>
+                    <input type="submit" id="subDeleteArea" value="" style="display: none;" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    }
+
+
+    @Ajax.AsiatekAjaxPager(Model, cp =>
+    {
+        return new AjaxOptions()
+        {
+            UpdateTargetId = updateTargetId,
+            OnSuccess = "commonAjaxSuccess",
+            Url = Url.Action("AreaPagedGrid", "Area", new { currentPage = cp, areaName = ViewBag.AreaName })
+        };
+    })
+
+
+    @Scripts.Render("~/asiatek/pagerJS")
+}
+
+
+
+<script>
+
+    var beginDelete = function ()
+    {
+        var _message='@UIText.PleaseSelectItem';
+        if ($(":checkbox:checked").length == 0)
+        {
+            $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+            return;
+        }
+        _message='@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message,'@informationTitle','@UIText.Confirm','@UIText.Cancel',function(){
+            $("#subDeleteArea").trigger("click");
+        });
+    }
+
+
+    var edit = function (id)
+    {
+        var _url="@Url.Content("~/Admin/Area/EditAreaInfo")";
+        var _data={id:id};
+        var _title="@editText";
+        $.showEditDialog(_url,_data,_title,editCallBack);
+    }
+
+    var showMessage=function(){
+        var _message = "@ViewBag.Message";
+        $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+    }
+
+    var setAddBtn=function(){
+        $("#btnAddAreaInfo").on("click",function(){
+            var _url="@Url.Content("~/Admin/Area/AddAreaInfo")";
+            var _data={};
+            var _title="@editText";
+            $.showEditDialog(_url,_data,_title,editCallBack);
+        });
+    }
+
+
+
+    var editCallBack=function(){
+        var _areaName = "@ViewBag.AreaName";
+        var _currentPage = "@Model.CurrentPageIndex";
+        $.post("@Url.Action("AreaPagedGrid", "Area")", { areaName: _areaName, currentPage: _currentPage }, function (result)
+        {
+            if ($.handleAjaxError(result)) {
+                return;
+            }
+            $("#@updateTargetId").html(result);
+        })
+    }
+
+    $(function ()
+    {
+        var _$chkAllObj = $("#chkAll");
+        var _$chkObjs = $("input[name='areaid']");
+        $.setCheckBox(_$chkAllObj,_$chkObjs);
+        setAddBtn();
+        showMessage();
+    });
+</script>
+
+
+
+
+

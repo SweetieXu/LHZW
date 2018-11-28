@@ -1,0 +1,178 @@
+﻿@using Asiatek.Model
+@model IEnumerable<FunctionsInfoModel>
+@using Asiatek.TMS.Helpers
+
+<style>
+    /*ul#Functions_GetMenus_ulMenu
+    {
+        float: right;
+    }*/
+
+    /*ul#Functions_GetMenus_ulMenu > li
+        {
+            float: left;
+            padding: 3rem 2rem 0rem 2rem;
+        }
+
+    .Functions_GetMenus_ulMenuSelected
+    {
+        color: orange;
+        background-color: white;
+    }*/
+    #Functions_GetMenus_ulMenu li
+    {
+        margin-top: 17px;
+        height: 48px;
+        /*width: 138px;*/
+    }
+
+    #Functions_GetMenus_ulMenu a
+    {
+        font-size: 12pt;
+        font-family: 微软雅黑;
+        color: #fffffd;
+    }
+
+        #Functions_GetMenus_ulMenu a:hover, Functions_GetMenus_ulMenu a:active, #Functions_GetMenus_ulMenu a:visited
+        {
+            background-color: #1d63bb;
+        }
+
+        #Functions_GetMenus_ulMenu a:focus
+        {
+            outline: none;
+        }
+
+    .nav-tabs li a:link, .nav-tabs li a:visited, .nav-tabs li a:hover, .nav-tabs li a:active
+    {
+        border: none;
+    }
+</style>
+<img id="imgMenuLogo" style="float:left;margin-left:10px;margin-right:20px;height:60px;" src="@Url.Action("GetCurrentOrParentLogo", "Structure", new { area = "Admin", id = ViewBag.CurrentUserStrucID })"/>
+@*<ul id="Functions_GetMenus_ulMenu" class="nav nav-tabs" role="tablist" style="border: 0;">
+    <li role="presentation">@Html.ActionLink(Asiatek.Resource.UIText.WelcomePage, "Welcome", "Home")</li>
+    @foreach (var item in Model)
+    {
+        if (string.IsNullOrEmpty(item.ActionName))
+        {
+        <li role="presentation">@item.FunctionName</li>
+        }
+        else
+        {
+
+            if (item.AreaName == "DefaultArea")
+            {
+        <li role="presentation">@Html.AsiatekActionLink(item.FunctionName, item.ActionName, item.ControllerName, "")</li>
+            }
+            else
+            {
+        <li role="presentation">@Html.AsiatekActionLink(item.FunctionName, item.ActionName, item.ControllerName, item.AreaName)</li>
+            }
+        }
+    }
+</ul>*@
+
+
+
+
+
+@*列举出来，和图片一一对应*@
+<ul id="Functions_GetMenus_ulMenu" class="nav nav-tabs" role="tablist" style="border: 0; width: 100%;">
+    @foreach (var item in Model)
+    {
+
+        var realFunctionName = AsiatekUIHelper.GetUIText(item.FunctionName);
+
+
+        if (string.IsNullOrEmpty(item.ActionName))
+        {
+        <li role="presentation">@realFunctionName</li>
+        }
+        else
+        {
+
+            if (item.AreaName == "DefaultArea")
+            {
+                if (item.ControllerName == "HomeElectricFence")
+                {
+                    <li role="presentation">
+                        <a href="~/@item.ControllerName/@item.ActionName/@item.ActionName">
+                            <img src="~/Content/images/head/ElectricFence.png" />
+                            @realFunctionName
+                        </a>
+                    </li>
+                    continue;
+                }
+                else{
+                    <li role="presentation">
+                        <a href="~/@item.ControllerName/@item.ActionName/@item.ActionName">
+                            <img src="~/Content/images/head/RealTime.png" />
+                            @realFunctionName
+                        </a>
+                    </li>
+                     continue;
+                }
+            }
+
+            var hrefStr = string.Format("{0}/{1}/{2}", item.AreaName, item.ControllerName, item.ActionName, item.ActionName);
+
+            if (item.AreaName == "HistoricalRoute")
+            {
+        <li role="presentation">
+            <a href="~/@hrefStr">
+                <img src="~/Content/images/head/HistoricalRoute.png" />
+                @realFunctionName
+            </a>
+        </li>
+                continue;
+            }
+            if (item.AreaName == "Reports")
+            {
+        <li role="presentation">
+            <a href="~/@hrefStr">
+                <img src="~/Content/images/head/Reports.png" />
+                @realFunctionName
+            </a>
+        </li>
+                continue;
+            }
+            if (item.AreaName == "PersonalSetting")
+            {
+        <li role="presentation">
+            <a href="~/@hrefStr">
+                <img src="~/Content/images/head/PersonalSetting.png" />
+                @realFunctionName
+            </a>
+        </li>
+                continue;
+            }
+            if (item.AreaName == "Admin")
+            {
+        <li role="presentation">
+            <a href="~/@hrefStr">
+                <img src="~/Content/images/head/Admin.png" />
+                @realFunctionName
+            </a>
+        </li>
+                continue;
+            }
+            if (item.AreaName == "TerminalSetting")
+            {
+        <li role="presentation">
+            <a href="~/@hrefStr">
+                <img src="~/Content/images/head/TerminalSetting.png" />
+                @realFunctionName
+            </a>
+        </li>
+                continue;
+            }
+             
+        }
+    }
+</ul>
+
+<script>
+    var _currentTitle = $("title").text().split("-")[0];//获取当前的标题名
+    //将导航条中对应的链接设置样式
+    $("#Functions_GetMenus_ulMenu>li>a:contains('" + _currentTitle + "')").parent("li").addClass("active");
+</script>

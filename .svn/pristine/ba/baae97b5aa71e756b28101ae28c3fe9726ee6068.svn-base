@@ -1,0 +1,262 @@
+﻿@using Asiatek.Resource
+@using Asiatek.TMS.Helpers
+@using Asiatek.TMS.TerminalOperation
+@using Asiatek.Model
+
+<style>
+    tr > td:nth-child(1) {
+        text-align: center;
+        width: 30%;
+    }
+
+    tr > td:nth-child(2) {
+        width: 70%;
+    }
+</style>
+
+<div class="panel panel-default" style="margin: 10px 0">
+    <div class="panel-heading">@UIText.TerminalSetting_Update</div>
+    <div class="panel-body">
+            <table class="table ">
+                <tbody>
+                    @* 终端心跳发送间隔 （s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_HeartbeatInterval</td>
+                        <td>
+                            <input class="form-control" type="number" id="heartbeatInterval" onkeyup="positiveInteger(this)"/>
+                        </td>
+                    </tr>
+                    @*主服务器IP地址或域名*@
+                    <tr>
+                        <td>@UIText.PrimaryServerIP</td>
+                        <td>
+                            <input class="form-control" type="text" id="primaryServerIP" /></td>
+                    </tr>
+                    @*备份服务器IP地址或域名*@
+                    <tr>
+                        <td>@UIText.BackupServerIP</td>
+                        <td>
+                            <input class="form-control" type="text" id="backupServerIP" /></td>
+                    </tr>
+                    @*服务器TCP端口*@
+                    <tr>
+                        <td>@UIText.ServerTCPPort</td>
+                        <td>
+                            <input class="form-control" type="text" id="serverTCPPort" /></td>
+                    </tr>
+                    @*休眠时汇报时间间隔 （s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_StateRepotrInterval_Sleep</td>
+                        <td>
+                            <input class="form-control" type="number" id="stateRepotrIntervalSleep" onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*紧急报警时汇报时间间隔 （s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_StateRepotrInterval_Urgent</td>
+                        <td>
+                            <input class="form-control" type="number" id="stateRepotrIntervalUrgent" onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*缺省时间汇报间隔 （s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_StateRepotrInterval_General</td>
+                        <td>
+                            <input class="form-control" type="number" id="stateRepotrIntervalGeneral" onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*最高速度 （km/h） *@
+                    <tr>
+                        <td>@UIText.TerminalSetting_MaximumSpeed</td>
+                        <td>
+                            <input class="form-control" type="number" id="maximumSpeed"  onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*超速持续时间 （s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_OverspeedCheckTime</td>
+                        <td>
+                            <input class="form-control" type="number" id="overspeedCheckTime"  onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*连续驾驶时间门限 （s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_MaximumDrivingTime</td>
+                        <td>
+                            <input class="form-control" type="number" id="maximumDrivingTime" onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*当天累计驾驶时间门限*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_MaximumDrivingTimeToday</td>
+                        <td>
+                            <input class="form-control" type="number" id="maximumDrivingTimeToday" onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*最小休息时间（s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_MinimumBreakTime</td>
+                        <td>
+                            <input class="form-control" type="number" id="minimumBreakTime"  onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*最长停车时间（s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_MaximumStoppingTime</td>
+                        <td>
+                            <input class="form-control" type="number" id="maximumStoppingTime" onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*超速报警预警差值（km/h）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_DifferenceOfOverspeedValues</td>
+                        <td>
+                            <input class="form-control" type="number" id="differenceOfOverspeedValues" />
+                        </td>
+                    </tr>
+                    @*疲劳驾驶预警差值（s）*@
+                    <tr>
+                        <td>@UIText.TerminalSetting_DifferenceOfFatigueDrivingTime</td>
+                        <td>
+                            <input class="form-control" type="number" id="differenceOfFatigueDrivingTime" onkeyup="positiveInteger(this)"/></td>
+                    </tr>
+                    @*车辆里程表读数（km） *@
+                    <tr>
+                        <td>@UIText.TerminalSetting_TotalODO</td>
+                        <td>
+                            <input class="form-control" type="number" id="totalODO"/></td>
+                    </tr>
+                    @*公安交通管理部门颁发的机动车号牌*@
+                    <tr>
+                        <td>@UIText.MotorNumberPlate</td>
+                        <td>
+                            <input class="form-control" type="text" id="motorNumberPlate" /></td>
+                    </tr>
+                    @*车牌颜色*@
+                    <tr>
+                        <td>@UIText.LicensePlateColor</td>
+                        <td>
+                            <select id="licensePlateColor" class="form-control">
+                                 <option>@DisplayText.PleaseSelect</option>
+                                @foreach (var item in (List<PlateColorsDDLModel>)ViewBag.SubViewData)
+                                { 
+                                   <option value="@item.Code">@item.Name</option>
+                                }
+                            </select>
+                       
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <input type="button" id="updateSetting" class="btn btn-primary pull-right" onclick="return onUpdateSettings()" value="@UIText.TerminalSetting_UpdateSetting" disabled />
+    </div>
+</div>
+
+<script>
+    var vehiclesChecked = undefined;
+    var antiForgeryToken = $('@Html.AntiForgeryToken()');
+
+    $(function () {
+        // 注册车辆选中回调函数
+        VehicleCheckedEventHandlers.push(_OnVehicleChecked);
+    });
+
+    function onUpdateSettings() {
+        var differenceOfOverspeedValues =  $('#differenceOfOverspeedValues').val();
+        var totalODO =  $('#totalODO').val();
+        var motorNumberPlate = $.trim($('#motorNumberPlate').val());
+
+        if (differenceOfOverspeedValues) {
+            if (differenceOfOverspeedValues < 0 || differenceOfOverspeedValues > 6553.5) {
+                $.showPromptDialog("@PromptInformation.SpeedalarmwarningdifferenceError");
+                return false;
+            }
+        }
+        if (totalODO)
+        {
+            if (totalODO < 0 || totalODO > 429496729.5)
+            {
+                $.showPromptDialog("@PromptInformation.VehicleOdometerReadingError");
+                return false;
+            }
+        }
+        if (motorNumberPlate)
+        {  
+            if (motorNumberPlate.length != 7 && motorNumberPlate.length != 8)
+            {
+                $.showPromptDialog("@PromptInformation.PlateNumberError");
+                return false;
+            }
+        }
+
+        if (vehiclesChecked == undefined || vehiclesChecked.length == 0)
+            return false;
+
+        var settings = vehiclesChecked.serializeObject("ListVehicles");
+        settings.终端心跳发送间隔 = $('#heartbeatInterval').val();
+        settings.主服务器IP地址或域名 = $.trim($('#primaryServerIP').val());
+        settings.备份服务器IP地址或域名 = $.trim($('#backupServerIP').val());
+        settings.服务器TCP端口 = $.trim($('#serverTCPPort').val());
+        settings.休眠时汇报时间间隔 = $('#stateRepotrIntervalSleep').val();
+        settings.紧急报警时汇报时间间隔 = $('#stateRepotrIntervalUrgent').val();
+        settings.缺省时间汇报间隔 = $('#stateRepotrIntervalGeneral').val();
+        settings.最高速度 = $('#maximumSpeed').val();
+        settings.超速持续时间 = $('#overspeedCheckTime').val();
+        settings.连续驾驶时间门限 = $('#maximumDrivingTime').val();
+        settings.当天累计驾驶时间门限 = $('#maximumDrivingTimeToday').val();
+        settings.最小休息时间 = $('#minimumBreakTime').val();
+        settings.最长停车时间 = $('#maximumStoppingTime').val();
+        settings.超速报警预警差值 = $('#differenceOfOverspeedValues').val();
+        settings.疲劳驾驶预警差值 = $('#differenceOfFatigueDrivingTime').val();
+        settings.车辆里程表读数 = $('#totalODO').val();
+        settings.公安交通管理部门颁发的机动车号牌 = motorNumberPlate;
+        settings.车牌颜色 = $('#licensePlateColor').val();
+        settings.__RequestVerificationToken = antiForgeryToken.val();
+
+        $("#updateSetting").val("@UIText.BeingProcessed");
+        $("#updateSetting").attr("disabled", "disabled");
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Content("~/TerminalSetting/TerminalsSetting/UpdateTerminalSetting")',
+                cache: false,
+                data: settings,
+                success: function (result) {
+                    if ($.handleAjaxError(result)) {
+                        return;
+                    }
+                    $.showPromptDialog(result.Message);
+                },
+                error: function (result) {
+                    if ($.handleAjaxError(result)) {
+                        return;
+                    }
+                    $.showPromptDialog(result.Message);
+                },
+                complete: function ()
+                {
+                    $("#updateSetting").removeAttr("disabled");
+                    $("#updateSetting").val("@UIText.TerminalSetting_UpdateSetting");
+                }
+            });
+        }
+
+        function _OnVehicleChecked(vehicles) {
+            if ($.isEmptyObject(vehicles)) {
+                // 当未选中任何车辆时禁用 下发设置 按钮
+                $('#updateSetting').attr('disabled', true);
+                vehiclesChecked = undefined;
+            }
+            else {
+                // 启用 下发消息 按钮
+                $('#updateSetting').removeAttr('disabled');
+                vehiclesChecked = new Array();
+                for (v in vehicles) {
+                    vehiclesChecked.push({ PlateNum: v, TerminalCode: vehicles[v] });
+                }
+            }
+        };
+       
+        // 只能输入正整数校验
+        function positiveInteger(obj)
+        {
+            obj.value = obj.value.replace(/\D/g, '');
+        }
+
+        function clearNoNum(obj) {
+           // obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
+            obj.value = obj.value.replace(/[^\d\.]/g, '')
+        }
+</script>

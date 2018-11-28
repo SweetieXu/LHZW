@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Asiatek.Components.GIS</name>
+    </assembly>
+    <members>
+        <member name="T:Asiatek.Components.GIS.Rectify">
+            <summary>
+            纠偏算法
+            </summary>
+        </member>
+        <member name="F:Asiatek.Components.GIS.Rectify.Pi">
+            <summary>
+            圆周率
+            </summary>
+        </member>
+        <member name="F:Asiatek.Components.GIS.Rectify.Radii">
+            <summary>
+            卫星椭球坐标投影到平面坐标系的投影因子
+            </summary>
+        </member>
+        <member name="F:Asiatek.Components.GIS.Rectify.Eccentricity">
+            <summary>
+            椭圆的离心率
+            </summary>
+        </member>
+        <member name="M:Asiatek.Components.GIS.Rectify.Wgs84_To_Gcj02(System.Double@,System.Double@)">
+            <summary>
+            84坐标系转成火星坐标系
+            </summary>
+            <param name="lat">纬度</param>
+            <param name="lon">经度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Asiatek.Components.GIS.Rectify.Gcj02_To_Wgs84(System.Double@,System.Double@)">
+            <summary>
+            火星坐标系转成84坐标系
+            </summary>
+            <param name="lat">纬度</param>
+            <param name="lon">经度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Asiatek.Components.GIS.Rectify.Gcj02_To_Bd09(System.Double@,System.Double@)">
+            <summary>
+            火星坐标系转成百度坐标系
+            </summary>
+            <param name="gg_lat">纬度</param>
+            <param name="gg_lon">经度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Asiatek.Components.GIS.Rectify.Bd09_To_Gcj02(System.Double@,System.Double@)">
+            <summary>
+            百度坐标系转成火星坐标系
+            </summary>
+            <param name="bd_lat">纬度</param>
+            <param name="bd_lon">经度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Asiatek.Components.GIS.Rectify.Bd09_To_Wgs84(System.Double@,System.Double@)">
+            <summary>
+            百度坐标系转成84坐标系
+            </summary>
+            <param name="bd_lat">纬度</param>
+            <param name="bd_lon">经度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Asiatek.Components.GIS.Rectify.Wgs84_To_Bd09(System.Double@,System.Double@)">
+            <summary>
+            84坐标系转成百度坐标系
+            </summary>
+            <param name="lat">纬度</param>
+            <param name="lon">经度</param>
+            <returns></returns>
+        </member>
+        <member name="M:Asiatek.Components.GIS.Rectify.OutOfChina(System.Double,System.Double)">
+            <summary>
+            是否为国外坐标(为国外坐标不纠偏)
+            </summary>
+            <param name="lat">纬度</param>
+            <param name="lon">经度</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

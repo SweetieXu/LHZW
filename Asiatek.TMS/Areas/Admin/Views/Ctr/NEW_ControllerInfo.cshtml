@@ -1,0 +1,23 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model  ControllerSettingModel
+
+
+
+@using (Ajax.BeginForm("GetControllerInfo", "Ctr", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Ctr_ControllerInfo_divControllersGrid",
+    OnSuccess = "commonAjaxSuccess"
+}, new { id = "frmSearchController" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.LabelFor(m => m.AreasSelectList)@:：
+    @Html.DropDownListFor(m => m.AreaID, Model.AreasSelectList)
+    <input type="search" name="controllerName" value="" placeholder="@UIText.ControllerNamePlaceHolder" />
+    @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+    <input type="submit" value="@UIText.SearchButton" accesskey="S" />
+}
+
+<div id="Admin_Ctr_ControllerInfo_divControllersGrid">
+    @Html.Partial("_ControllerPagedGrid", Model)
+</div>

@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Asiatek.TMS.Helpers
+
+<div class="row">
+       <div class="col-xs-2 nopadding">
+        <div id="tdLeftDivInfo" style="border-right: 5px solid darkgray; overflow: auto;">
+            @Html.Action("GetReportMenus", "Home", new { area = "Reports" })
+        </div>
+    </div>
+    <div class="col-xs-10 nopadding" id="divPSContent" style="overflow: auto;">
+        @RenderBody()
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        window.onload = function () { setContentSize(); };
+        window.onresize = function () { setContentSize(); };
+
+        var setContentSize = function ()
+        {
+            var height = document.documentElement.scrollHeight;
+            var container = document.getElementById("divPSContent");//内容
+            var tdLeftDivInfo = document.getElementById("tdLeftDivInfo");//左侧边栏div
+            //布局页面div
+            var mainDiv = document.getElementById("mainDiv");
+            var headDivHt = document.getElementById("headDiv").clientHeight;
+            var menusDiv = document.getElementById("menusDiv");
+            var menusDivHt = document.getElementById("menusDiv").clientHeight;
+            var bottomDivHt = document.getElementById("bottomDiv").clientHeight;
+
+            container.style.height = window.innerHeight - headDivHt - menusDivHt - bottomDivHt + "px";
+            tdLeftDivInfo.style.height = container.style.height;
+
+            mainDiv.style.width = window.innerWidth + "px";
+            menusDiv.style.width = window.innerWidth + "px";
+
+        }
+    </script>
+}

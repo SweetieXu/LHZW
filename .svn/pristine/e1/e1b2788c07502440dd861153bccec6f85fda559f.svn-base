@@ -1,0 +1,112 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<MGJH_SynchroReceivePointSearchModel, MGJH_SynchroReceivePointListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+
+    string updateTargetId = "Admin_SynchroReceivePoint_SynchroReceivePointSetting_divSynchroReceivePoint";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    @Html.AntiForgeryToken()
+    <!--收货点信息记录显示-->
+    <table class="table table-striped table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="chkAll" />
+                    </th>
+                    <th>
+                        <label>@UIText.Operation</label>
+                    </th>
+                    <th>@Html.DisplayNameFor(m => m.AddressName)</th>
+                    <th>@Html.DisplayNameFor(m => m.AddressCode)</th>
+                    <th>@Html.DisplayNameFor(m => m.AddressArea)</th>
+                    <th>@Html.DisplayNameFor(m => m.CustomerName)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in pagedDatas)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="sid" value="@item.ID" id="chksid@(item.ID)" /></td>
+                        <td>
+                            <!--没有同步的显示同步按钮；已经同步的不可以再同步，不显示同步按钮-->
+                            @if(item.SourceID == null) {
+                            <span class="btn btn-default" onclick="edit(@item.ID)" title="@UIText.SynchroReceiveAddress">
+                                <span class="glyphicon glyphicon-retweet"></span>
+                            </span>
+                            }
+                        </td>
+                        <td>
+                            <label for="chksid@(item.ID)">@item.AddressName</label>
+                        </td>
+                        <td>
+                            <label>@item.AddressCode</label>
+                        </td>
+                        <td>
+                            <label>@item.AddressArea</label>
+                        </td>
+                        <td>
+                            <label>@item.CustomerName</label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+    AreaName = "Admin",
+    ControllerName = "MGJH_SynchroReceivePoint",
+    ActionName = "GetSynchroReceivePoint",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+
+<script>
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchSynchroReceivePoint #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchSynchroReceivePoint").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+    //收货点同步，加载收货点编辑界面，初始化时下方地图界面都不显示
+    @*    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/MGJH_SynchroReceivePoint/EditSynchroReceivePoint")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }*@
+    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/MGJH_ReceiveTransportPoint/AddReceiveTransportPoint")";
+        var _data = { synchroReceiveAddressId: id };
+            var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+        }
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='sid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+</script>

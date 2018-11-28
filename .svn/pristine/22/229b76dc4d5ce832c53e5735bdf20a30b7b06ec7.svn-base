@@ -1,0 +1,108 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model NightBanEditModel
+
+
+
+@using (Ajax.BeginForm("AddNightBan", "NightBan", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddNightBan" }))
+{
+    @Html.AntiForgeryToken()   
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.NightBanName)：</td>
+                <td>@Html.TextBoxFor(m => m.NightBanName)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.NightBanName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.NightBanAddress)：</td>
+                <td>@Html.TextBoxFor(m => m.NightBanAddress)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.NightBanAddress)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.StartTime)：</td>
+                <td>@Html.EditorFor(m => m.StartTime)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.StartTime)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.EndTime)：</td>
+                <td>@Html.EditorFor(m => m.EndTime)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.EndTime)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.IsEnabled)：</td>
+                <td>@Html.CheckBoxFor(m => m.IsEnabled)</td>
+            </tr>
+             <tr>
+                <td colspan="2"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmAddNightBan = $("#frmAddNightBan");
+    $frmAddNightBan.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmAddNightBan.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+
+    //时间控件 只显示时分秒
+    $("#StartTime,#EndTime").datetimepicker({
+        timeOnly: true,//只选择时间
+        timeOnlyTitle: '@UIText.Choose@UIText.Time',//timeOnly为true时有效
+        timeText: '@UIText.Time',
+        hourText: '@UIText.Hour',
+        minuteText: '@UIText.Minute',
+        secondText: '@UIText.Second',
+        currentText: '@UIText.Now',
+        closeText: '@UIText.Complete',
+        showSecond: true, //显示秒  
+        datepicker: false,
+        timeFormat: 'HH:mm:ss'//格式化时间 
+    });
+
+    var checkForm = function ()
+    {
+        if ($("#StartTime").val() > $("#EndTime").val())
+        {
+            $.showPromptDialog('@DataAnnotations.StartTimeMoreThanEndTimeError', '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+

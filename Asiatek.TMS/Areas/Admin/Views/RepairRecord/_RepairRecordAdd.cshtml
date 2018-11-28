@@ -1,0 +1,174 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model RepairRecordModel
+@using (Ajax.BeginForm("AddRecord", "RepairRecord", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddRepairRecord" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.PlateNum)：</td>
+                <td>
+                    <input class="form-control" name="PlateNum" id="PlateNum" />
+                      @Html.HiddenFor(m => m.LinkedVehicleID, new { id = "hidAddVehicleID" })
+                </td>
+                <td>@Html.LabelFor(m => m.DriverName)：</td>
+                <td>
+                  @Html.TextBoxFor(m=>m.DriverName)</td>
+            </tr>
+               <tr>
+             <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LinkedVehicleID)</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.DriverPhone)：</td>
+                <td>
+                    <input class="form-control" name="DriverPhone" value="" id="DriverPhone" /></td>
+                <td>@Html.LabelFor(m => m.RepairType)：</td>
+                <td>
+                    <input class="form-control" name="RepairType" value="" id="RepairType" /></td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.RepairStartTime)：</td>
+                <td>
+                    @Html.TextBoxFor(m=>m.RepairStartTime,new {id="RepairStartTime"})
+                   @* <input type="date"  class="form-control"  name="RepairStartTime" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="RepairStartTime"/>*@</td>
+                <td>@Html.LabelForRequired(m => m.RepairEndTime)：</td>
+                <td>
+                    @Html.TextBoxFor(m=>m.RepairEndTime,new {id="RepairEndTime"})
+                    @*<input  type="date"  class="form-control"  name="RepairEndTime" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="RepairEndTime"/>*@</td>
+            </tr>
+           <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.RepairStartTime)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.RepairEndTime)</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table class="table table-striped table-condensed table-hover" id="RepairRecordDetail">
+                        <tr>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].ProjectName)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].PartsName)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].PartsVersion)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].PartsNum)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].Price)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].Unit)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].MaterialCost)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].TimeFee)</td>
+                            <td style="text-align: center">
+                             <input type="button" class="btn btn-primary" value="@UIText.AddButton" id="btnaddProject"></td>
+                        </tr>
+                        <tr id="tr_0">
+                            <td>
+                                <input class="form-control" name="RepairRecordDetail[0].ProjectName" value="" /></td>
+                            <td>
+                                <input class="form-control" name="RepairRecordDetail[0].PartsName" value="" /></td>
+                            <td>
+                                <input class="form-control" name="RepairRecordDetail[0].PartsVersion" value="" /></td>
+                            <td>
+                                <input type="number" class="form-control" name="RepairRecordDetail[0].PartsNum" value=1 onblur="getmaterialcost(0)" id="PartsNum_0" min="0" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
+                            <td>
+                                <input type="number" class="form-control" name="RepairRecordDetail[0].Price" value="" onblur="getmaterialcost(0)" id="Price_0" min="0" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
+                            <td>
+                                <input class="form-control" name="RepairRecordDetail[0].Unit" value="" /></td>
+                            <td>
+                                <input type="number"  class="form-control" name="RepairRecordDetail[0].MaterialCost" value=0 id="MaterialCost_0" onblur="getMaterialCost(0)" onfocus="changeMaterialCost(0)" min="0" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
+                            <td>
+                                <input type="number"  class="form-control" name="RepairRecordDetail[0].TimeFee" value=0 onblur="getTimefee(0)" id="TimeFee_0" onfocus="changeTimefee(0)" min="0" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
+                            <td>
+                                <input type="button" value="@UIText.DeleteButton" name="del[0]" onclick="delRows(0,this)" class="btn btn-primary form-control"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m=>m.TotalPrice)</td>
+                <td>
+                    <input type="text" name="TotalPrice" id="TotalPrice" readonly="true" value="0"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                   <td>@Html.LabelFor(m=>m.Remark)</td>
+                     <td colspan="3">
+                         @Html.TextAreaFor(m=>m.Remark)
+                   </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    @*<input type="button" class="btn btn-primary form-control" name="sumbitInfo" value="@UIText.SaveButton" onclick="Addinformintion()" style="width:10%"/>*@
+                        <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+<script src="~/Scripts/RepairRecord/RepairRecordAdd.js"></script>
+<script>
+    var $frmAddPlateColo = $("#frmAddRepairRecord");
+    $frmAddPlateColo.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmAddPlateColo.fixUnobtrusiveValidation()
+    $("#PlateNum").bind("input propertychange", function () {
+        $("#hidAddVehicleID").val("");
+        $("span[data-valmsg-for='LinkedVehicleID']").show();
+    })
+    $("#PlateNum").autocomplete({
+        delay: 500,
+        minLength: 1,
+        appendTo: "#frmAddRepairRecord",
+        select: function (event, ui) {
+            $("span[data-valmsg-for='LinkedVehicleID']").hide();
+            $("#hidAddVehicleID").val(ui.item.ID);
+        },
+        source: function (request, response) {
+            $.get("../../Admin/RepairRecord/GetVehicleIDByPlateNum", { PlateNum: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+ //删除行
+    function delRows(rows, Obj) {
+     //var temp=[];  本来用于保存上移动tr中的td属性值  后来发现会自动匹配数据 所以隐藏了
+        var tempRow = $("#RepairRecordDetail tr").size();//获取表格的行数
+        var sub = $("#RepairRecordDetail tr").index($(Obj).parents()[1]);
+        //只有1行的时候不能删除
+        if (tempRow > 2) {
+            _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#TotalPrice").val(parseFloat($("#TotalPrice").val()) - parseFloat($("#MaterialCost_" + rows).val()) - parseFloat($("#TimeFee_" + rows).val()));
+            $("#tr_" + rows).remove();  //删除tr
+            var totalRow = $("#RepairRecordDetail tr").size();//获取表格的行数
+            for (var i = sub ; i < totalRow; i++) {
+                    var Recorddetail = {};
+                    for (var j = 0; j < 8; j++) {
+                        var name = $("#RepairRecordDetail tr:eq(" + i + ") td:eq(" + j + ") input").attr("name");
+                        var newname="RepairRecordDetail[" + (i - 1) + "]." + name.split(".")[1];
+                        $("#RepairRecordDetail tr:eq(" + i + ") td:eq(" + j + ") input").attr("name", newname);
+                    }
+                }
+        });
+    }
+}
+</script>
+

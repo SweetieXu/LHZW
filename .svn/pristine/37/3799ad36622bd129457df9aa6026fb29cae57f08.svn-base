@@ -1,0 +1,97 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model EmergencyAlarmSeachModel
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+    <table class="table table-striped">
+        @if (ViewBag.ExportFlag != null)
+        {
+            <tfoot>
+                <tr>
+                    <td>@Html.LabelFor(m => m.VehicleName):</td>
+                    <td>@Model.VehicleName</td>
+                    <td>@Html.LabelFor(m => m.DealUser):</td>
+                    <td>@Model.DealUser</td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>时间区间：</label></td>
+                    <td>@Model.GPSStartTime</td>
+                    <td>---</td>
+                    <td>@Model.GPSEndTime</td>
+                </tr>
+            </tfoot>
+        }
+        <thead>
+            <tr>
+                <th>@DisplayText.StrucName</th>
+                <th>@DisplayText.VehicleName</th>
+                <th>@DisplayText.StartDate</th>
+                <th>@DisplayText.ExpirationDate</th>
+                <th>@DisplayText.Duration</th>
+                <th>@DisplayText.DealUser</th>
+                <th>@DisplayText.DealTime</th>
+                <th>@DisplayText.DealInfo</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < pagedDatas.Count; i++)
+            {
+                var currentObj = pagedDatas[i];
+                string styleStr = i % 2 == 0 ? "background-color:white;" : "background-color:#F8F8F8;";
+                <tr>
+                    <td  style="@styleStr">
+                        <label>@currentObj.StrucName</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.VehicleName</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.GPSStartTime</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.GPSEndTime</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Time</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.DealUser</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.DealTime</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.DealInfo</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>    
+            if (ViewBag.ExportFlag == null)
+            {
+    @Ajax.AsiatekAjaxPagerBootstrap(pagedDatas, new AjaxPagerOptions()
+                            {
+                                AreaName = "ReportManage",
+                                ControllerName = "EmergencyAlarm",
+                                ActionName = "GetEmergencyAlarmInfo",
+                                UpdateTargetId = "ReportManage_EmergencyAlarm_EmergencyAlarmGrid_divEmergencyAlarm",
+                                OnSuccess = "commonAjaxSuccess",
+
+                            });
+            }
+}
+
+

@@ -1,0 +1,229 @@
+﻿@{
+    ViewBag.Title = "Paths";
+}
+@using Asiatek.Common
+@using Asiatek.Model.TerminalSetting
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@using Asiatek.TMS.TerminalOperation
+@model SearchDataWithPagedDatas<string[], MapLineSettingModel>
+
+<style>
+    #lineVehicleTable td {
+        text-align: center;
+    }
+
+    #lineSetup tr > td:nth-child(1) {
+        text-align: center;
+        width: 15%;
+    }
+
+    #lineSetup tr > td:nth-child(2) {
+        width: 30%;
+    }
+</style>
+
+<table id="lineSetup" class="table table-bordered" style="margin-top:10px;">
+    <tr>
+        <td>路线名称</td>
+        <td>
+            <div class="row">
+                <div class="col-md-8 text-center">
+                    <select id="lines" class="form-control">
+                        <option>路线名称</option>
+                    </select>
+                </div>
+                <div class="col-md-3 text-center">
+                    <button class="btn btn-default" onclick="onShowLineOnMap();">@UIText.TerminalSetting_ShowPathOrRegion</button>
+                </div>
+            </div>
+        </td>
+        <td rowspan="4"><div style="height:520px;width:450px;" id="container"></div></td>
+    </tr>
+    <tr>
+        <td>时间起</td>
+        <td class="text-center"></td>
+    </tr>
+    <tr>
+        <td>时间迄</td>
+        <td class="text-center"></td>
+    </tr>
+    <tr>
+        <td>路线属性</td>
+        <td>
+            <div class="checkbox">
+                <label><input type="checkbox" name="pathProp" value="">根据时间</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="pathProp" value="">进路线报警给驾驶员</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="pathProp" value="">进路线报警给平台</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="pathProp" value="">出路线报警给驾驶员</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="pathProp" value="">出路线报警给平台</label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <button class="btn btn-default" id="">发送</button>
+        </td>
+    </tr>
+</table>
+
+<form class="form-inline" style="margin-bottom:5px;">
+    <button id ="queryLineSettings" class="btn btn-primary" disabled onclick="onQueryVehicleLineSetting(); return false;">查询</button>
+    <button id="delLineSettings" class="btn btn-danger" disabled onclick="onDeleteVehicleLineSetting(); return false;">删除</button>
+</form>
+<div id="dataTable">
+    @Html.Partial("Paths_DataTable", Model)
+</div>
+
+<script>
+    var vehiclesChecked = undefined;
+    var antiForgeryToken = $('@Html.AntiForgeryToken()');
+
+    //定义map对象
+    var mapObj = initMap('container', true, 12, null);
+
+    $(function () {
+
+        VehicleCheckedEventHandlers.push(_OnVehicleChecked);
+
+        // 获取当前用户可以操作的所有指定类型的路线
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetAllLines")',
+            cache: false,
+            data: {
+                LineType: 4//default
+            },
+            traditional: true,
+            success: function (result) {
+                debugger;
+                html = "";
+                if (result.DataResult !== undefined) {
+                    result.DataResult.forEach(function (e) {
+                        html += '<option value="' + e.Item1 + '">' + e.Item2 + '</option>';
+                    });
+                    $('#lines').html(html)
+                }
+                else {
+                    alert(result.Message)
+                }
+            }
+        });
+
+    });
+
+    function _OnVehicleChecked(vehicles) {
+        if ($.isEmptyObject(vehicles)) {
+            // 当未选中任何车辆时禁用 下发消息 按钮
+            $('#queryLineSettings').attr('disabled', true);
+            vehiclesChecked = undefined;
+        }
+        else {
+            // 启用 下发消息 按钮
+            $('#queryLineSettings').removeAttr('disabled');
+            vehiclesChecked = new Array();
+            for (v in vehicles) {
+                vehiclesChecked.push(v + '#' + vehicles[v]);
+            }
+        }
+    }
+
+    //获取当前选中车辆所有设置的路线
+    function onQueryVehicleLineSetting() {
+        debugger;
+        if (vehiclesChecked == undefined || vehiclesChecked.length == 0)
+            return;
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("LoadLineVehicleTable")',
+            cache: false,
+            data: {
+                __RequestVerificationToken: antiForgeryToken.val(),
+                RegionType: 4,//default
+                SearchPage: 1,
+                Vehicles: vehiclesChecked
+            },
+            traditional: true,
+            success: function (data) { $('#dataTable').html(data); }
+        });
+    }
+
+    // 从数据库和车机上删除指定的路线设置
+    function onDeleteVehicleLineSetting() {
+        var inputs = $('input[name=checkPath]');
+        var LineIDs = new Array();
+        inputs.each(function (index, element) {
+            LineIDs.push(parseInt($(element).data('relationID')));
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DeleteLineVehicleRelation")',
+            cache: false,
+            data: {
+                __RequestVerificationToken: antiForgeryToken.val(),
+                RegionIDs: RegionIDs,
+            },
+            traditional: true,
+            success: function (data) {
+                // OperationResult[]
+                alert(data[0].Message);
+            }
+        });
+    }
+
+    // 查询指定区域数据
+    function onShowLineOnMap() {
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetLineData")',
+            cache: false,
+            data: {
+                LineID: parseInt($('#lines option:selected').val()),
+            },
+            traditional: true,
+            success: function (result) {
+                if (result.length > 0) {
+                    mapObj.clearMap();
+                    onDrawSelectResult(result);
+                }
+
+                //if (result.DataResult === undefined) {
+                //    alert(result.Message);
+                //    return;
+                //}
+
+            }
+        });
+    }
+
+    //路线查询结果
+    function onDrawSelectResult(result) {
+        var polygonArr = new Array();//多边形覆盖物节点坐标数组
+        for (var i = 0; i < result.length; i++) {
+            polygonArr.push([result[i].Longitude, result[i].Latitude]);
+            var marker = new AMap.Marker({
+                position: [result[i].Longitude, result[i].Latitude]
+            });
+            marker.setMap(mapObj);
+        }
+        var polyline = new AMap.Polyline({
+            map: mapObj,
+            path: polygonArr,
+            strokeColor: "#0D9BF2",  //线颜色
+            strokeOpacity: 1,     //线透明度
+            strokeWeight: 3,      //线宽
+            strokeStyle: "solid"  //线样式
+        });
+    }
+    mapObj.setFitView();
+</script>

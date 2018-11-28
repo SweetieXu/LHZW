@@ -1,0 +1,157 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  AsiatekPagedList<RoleListModel>
+
+@{
+    string updateTargetId = "Admin_Role_RoleSetting_divRolesGrid";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+}
+
+
+<button id="btnAddRoleInfo">@UIText.AddRoleInfo</button>
+
+
+@if (Model.Count == 0)
+{
+    <h1>@Asiatek.Resource.UIText.NoDatas</h1>
+}
+else
+{
+
+    using (Ajax.BeginForm("DeleteRole", "Role", new AjaxOptions()
+    {
+        UpdateTargetId = updateTargetId,
+        OnSuccess = "commonAjaxSuccess"
+    }))
+    {
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="currentPage" value="@Model.CurrentPageIndex" />
+    <input type="hidden" name="roleName" value="@ViewBag.RoleName" />
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.ID)</th>
+                <th>@Html.DisplayNameFor(m => m.RoleName)</th>
+                <th>@Html.DisplayNameFor(m => m.RoleLevel)</th>
+                <th>@Html.DisplayNameFor(m => m.IsDefault)</th>
+                <th>@Html.DisplayNameFor(m => m.Description)</th>
+                <th>@editText</th>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.RoleName</td>
+                    <td>@item.RoleLevel</td>
+                    <td>@Html.CheckBoxFor(m => item.IsDefault, new { disabled = "disabled" })</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <input type="button" value="@editText" onclick="edit(@item.ID)"/>
+                    </td>
+                    <td>
+                        @if (!item.IsDefault)
+                        {
+                            <input type="checkbox" name="roleid" value="@item.ID" />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="button" value="@delText" onclick="beginDelete()"/>
+                    <input type="submit" id="subDeleteArea" value="" style="display: none;" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    }
+
+
+    @Ajax.AsiatekAjaxPager(Model, cp =>
+    {
+        return new AjaxOptions()
+        {
+            UpdateTargetId = updateTargetId,
+            OnSuccess = "commonAjaxSuccess",
+            Url = Url.Action("RolePagedGrid", "Role", new { currentPage = cp, roleName = ViewBag.RoleName })
+        };
+    })
+
+
+    @Scripts.Render("~/asiatek/pagerJS")
+}
+
+
+
+<script>
+
+    var beginDelete = function ()
+    {
+        var _message='@UIText.PleaseSelectItem';
+        if ($("input[name='roleid']:checked").length == 0)
+        {
+            $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+            return;
+        }
+        _message='@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message,'@informationTitle','@UIText.Confirm','@UIText.Cancel',function(){
+            $("#subDeleteArea").trigger("click");
+        });
+    }
+
+    var edit = function (id)
+    {
+        var _url="@Url.Content("~/Admin/Role/EditRole")";
+        var _data={id:id};
+        var _title="@editText";
+        $.showEditDialog(_url,_data,_title,editCallBack);
+    }
+
+    var showMessage=function(){
+        var _message = "@ViewBag.Message";
+        $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+    }
+
+    var setAddBtn=function(){
+        $("#btnAddRoleInfo").on("click",function(){
+            var _url="@Url.Content("~/Admin/Role/AddRole")";
+            var _data={};
+            var _title="@editText";
+            $.showEditDialog(_url,_data,_title,editCallBack);
+        });
+    }
+
+    var editCallBack=function(){
+        var _roleName = "@ViewBag.RoleName";
+        var _currentPage = "@Model.CurrentPageIndex";
+        $.post("@Url.Action("RolePagedGrid", "Role")", { roleName: _roleName, currentPage: _currentPage }, function (result)
+        {
+            if ($.handleAjaxError(result)) {
+                return;
+            }
+            $("#@updateTargetId").html(result);
+        });
+    }
+
+    var $chkAllObj = $("#chkAll");
+    var $chkObjs = $("input[name='roleid']");
+    $.setCheckBox($chkAllObj,$chkObjs);
+    setAddBtn();
+    showMessage();
+</script>
+
+
+
+
+

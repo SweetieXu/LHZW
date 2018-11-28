@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="CircularRegionSettingData">
+    <xs:sequence>
+      <xs:element name="CircularRegionItems" nillable="true" type="tns:ArrayOfCircularRegionItem">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RegionSettingType" type="tns:RegionSettingType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CircularRegionSettingData" nillable="true" type="tns:CircularRegionSettingData" />
+  <xs:complexType name="ArrayOfCircularRegionItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CircularRegionItem" nillable="true" type="tns:CircularRegionItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCircularRegionItem" nillable="true" type="tns:ArrayOfCircularRegionItem" />
+  <xs:complexType name="CircularRegionItem">
+    <xs:sequence>
+      <xs:element name="CentralPointLatitude" type="xs:double" />
+      <xs:element name="CentralPointLongitude" type="xs:double" />
+      <xs:element name="EndDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="IsCyclical" type="xs:boolean" />
+      <xs:element name="MaxSpeed" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="OverSpeedDuration" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="Radius" type="xs:unsignedInt" />
+      <xs:element name="RegionID" type="xs:unsignedInt" />
+      <xs:element name="RegionProperty" type="tns:RegionProperty">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StartDateTime" nillable="true" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CircularRegionItem" nillable="true" type="tns:CircularRegionItem" />
+  <xs:simpleType name="RegionProperty">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedShort" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="根据时间">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="限速">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="进区域报警给驾驶员">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="进区域报警给平台">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="出区域报警给驾驶员">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="出区域报警给平台">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">32</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="南纬">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">64</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="西经">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">128</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="禁止开门">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">256</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="进区域关闭通信模块">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16384</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="进区域采集GNSS详细定位数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">32768</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="All">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">49663</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="RegionProperty" nillable="true" type="tns:RegionProperty" />
+  <xs:simpleType name="RegionSettingType">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="更新区域" />
+      <xs:enumeration value="追加区域" />
+      <xs:enumeration value="修改区域" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RegionSettingType" nillable="true" type="tns:RegionSettingType" />
+  <xs:complexType name="RegionLineDeletionData">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="IDs" nillable="true" type="q1:ArrayOfunsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RegionLineDeletionData" nillable="true" type="tns:RegionLineDeletionData" />
+  <xs:complexType name="RectangularRegionSettingData">
+    <xs:sequence>
+      <xs:element name="RectangularRegionItems" nillable="true" type="tns:ArrayOfRectangularRegionItem">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RegionSettingType" type="tns:RegionSettingType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RectangularRegionSettingData" nillable="true" type="tns:RectangularRegionSettingData" />
+  <xs:complexType name="ArrayOfRectangularRegionItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RectangularRegionItem" nillable="true" type="tns:RectangularRegionItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRectangularRegionItem" nillable="true" type="tns:ArrayOfRectangularRegionItem" />
+  <xs:complexType name="RectangularRegionItem">
+    <xs:sequence>
+      <xs:element name="BottomRightPointLatitude" type="xs:double" />
+      <xs:element name="BottomRightPointLongitude" type="xs:double" />
+      <xs:element name="EndDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="IsCyclical" type="xs:boolean" />
+      <xs:element name="MaxSpeed" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="OverSpeedDuration" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="RegionID" type="xs:unsignedInt" />
+      <xs:element name="RegionProperty" type="tns:RegionProperty" />
+      <xs:element name="StartDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="TopLeftPointLatitude" type="xs:double" />
+      <xs:element name="TopLeftPointLongitude" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RectangularRegionItem" nillable="true" type="tns:RectangularRegionItem" />
+  <xs:complexType name="PolygonRegionSettingData">
+    <xs:sequence>
+      <xs:element name="EndDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="IsCyclical" type="xs:boolean" />
+      <xs:element name="MaxSpeed" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="OverSpeedDuration" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="RegionID" type="xs:unsignedInt" />
+      <xs:element name="RegionProperty" type="tns:RegionProperty" />
+      <xs:element name="StartDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="VertexItems" nillable="true" type="tns:ArrayOfVertexItem">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PolygonRegionSettingData" nillable="true" type="tns:PolygonRegionSettingData" />
+  <xs:complexType name="ArrayOfVertexItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VertexItem" type="tns:VertexItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVertexItem" nillable="true" type="tns:ArrayOfVertexItem" />
+  <xs:complexType name="VertexItem">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Latitude" type="xs:double" />
+      <xs:element name="Longitude" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VertexItem" nillable="true" type="tns:VertexItem" />
+  <xs:complexType name="LineSettingData">
+    <xs:sequence>
+      <xs:element name="EndDateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="IsCyclical" type="xs:boolean" />
+      <xs:element name="LineID" type="xs:unsignedInt" />
+      <xs:element name="LineInflectionPointItems" nillable="true" type="tns:ArrayOfLineInflectionPointItem">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="LineProperty" type="tns:LineProperty">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="StartDateTime" nillable="true" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LineSettingData" nillable="true" type="tns:LineSettingData" />
+  <xs:complexType name="ArrayOfLineInflectionPointItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LineInflectionPointItem" nillable="true" type="tns:LineInflectionPointItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLineInflectionPointItem" nillable="true" type="tns:ArrayOfLineInflectionPointItem" />
+  <xs:complexType name="LineInflectionPointItem">
+    <xs:sequence>
+      <xs:element name="DrivingTooLackThresholding" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="DrivingTooLongThresholding" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="MaxSpeed" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="OverSpeedDuration" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="PointID" type="xs:unsignedInt" />
+      <xs:element name="PointLatitude" type="xs:double" />
+      <xs:element name="PointLongitude" type="xs:double" />
+      <xs:element name="RoadID" type="xs:unsignedInt" />
+      <xs:element name="RoadProperty" type="tns:RoadProperty">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="RoadWidth" type="xs:unsignedByte" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LineInflectionPointItem" nillable="true" type="tns:LineInflectionPointItem" />
+  <xs:simpleType name="RoadProperty">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="行驶时间">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="限速">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="南纬">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="西经">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="All">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="RoadProperty" nillable="true" type="tns:RoadProperty" />
+  <xs:simpleType name="LineProperty">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedShort" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="根据时间">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="进路线报警给驾驶员" />
+          <xs:enumeration value="进路线报警给平台" />
+          <xs:enumeration value="出路线报警给驾驶员" />
+          <xs:enumeration value="出路线报警给平台" />
+          <xs:enumeration value="All">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">61</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="LineProperty" nillable="true" type="tns:LineProperty" />
+</xs:schema>

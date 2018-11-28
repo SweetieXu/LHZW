@@ -1,0 +1,131 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  SearchDataWithPagedDatas<AreaSearchModel, AreaModel>
+
+@{
+    string updateTargetId = "Admin_Area_AreaInfo_divAreasGrid";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+
+    var areas = Model.PagedDatas;
+}
+
+
+@if (areas.Count == 0)
+{
+    <h1>@Asiatek.Resource.UIText.NoDatas</h1>
+}
+else
+{
+
+    using (Ajax.BeginForm("DeleteArea", "Area", new AjaxOptions()
+    {
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelArea" }))
+    {
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+                <th>@UIText.Operation</th>
+                <th>@Html.DisplayNameFor(m => m.AreaName)</th>
+                <th>@Html.DisplayNameFor(m => m.Description)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PagedDatas)
+            {
+                <tr>
+                    <td>
+                        @if (item.AreaName != "DefaultArea" && item.AreaName != "Admin")
+                        {
+                            <input type="checkbox" name="areaid" value="@item.ID" id="chkAID@(item.ID)"/>
+                        }
+                    </td>
+                    <td>
+                        @if (item.AreaName != "DefaultArea" && item.AreaName != "Admin")
+                        {
+                            <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        <label for="chkAID@(item.ID)">@item.AreaName</label></td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+
+
+    
+
+                     
+
+
+
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "Area",
+    ActionName = "GetAreaInfo",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+
+
+@*          <input type="button" value="@editText" onclick="edit(@item.ID)" class="btn btn-default"/>*@
+
+
+
+<script>
+    //删除完成后
+    var delCallBack = function (result)
+    {
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+
+    //刷新搜索表单
+    var refreshSearchForm = function ()
+    {
+        var _currentPage = '@Model.PagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchArea #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchArea").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+
+
+    var edit = function (id)
+    {
+        var _url = "@Url.Content("~/Admin/Area/EditAreaInfo")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='areaid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+</script>

@@ -1,0 +1,66 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<MapLinesSearchModel, MapLinesListModel>
+
+
+@using (Ajax.BeginForm("GetMapLines", "MapLines", new AjaxOptions()
+    {
+        UpdateTargetId = "TerminalSetting_MapLines_MapLinesSetting_divMapLines",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET"
+    }, new { id = "frmSearchMapLines" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>
+                <input type="search" name="LinesName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.LinesName)"/>
+            </td>
+            <td>
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddMapLines">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelMapLines">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+}
+
+
+<div id="TerminalSetting_MapLines_MapLinesSetting_divMapLines">
+    @Html.Partial("_MapLinesPagedGrid", Model)
+</div>
+
+
+<script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+<script src="http://webapi.amap.com/maps?v=1.3&key=865e5946e363e3889a01b89f8ba5d069"></script>
+<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+<script src="~/Scripts/gaodeMap/map.js?v=1.2"></script>
+<script>
+    $("#frmSearchMapLines").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnAddMapLines").on("click", function () {
+        var _url = "@Url.Content("~/TerminalSetting/MapLines/AddMapLines")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnDelMapLines").on("click", function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='mapLnid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#frmDelMapLines").submit();
+        });
+    });
+
+</script>

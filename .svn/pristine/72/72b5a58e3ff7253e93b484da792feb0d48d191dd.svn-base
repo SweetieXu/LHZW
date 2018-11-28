@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/STD808Core.Telephone" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/STD808Core.Telephone" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="TelphoneCallBackData">
+    <xs:sequence>
+      <xs:element name="IsMonitoring" type="xs:boolean" />
+      <xs:element name="PhoneNumber" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TelphoneCallBackData" nillable="true" type="tns:TelphoneCallBackData" />
+  <xs:complexType name="TelphoneBookSettingData">
+    <xs:sequence>
+      <xs:element name="ContactItems" nillable="true" type="tns:ArrayOfContactItem" />
+      <xs:element name="TelphoneBookSettingType" type="tns:TelphoneBookSettingType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TelphoneBookSettingData" nillable="true" type="tns:TelphoneBookSettingData" />
+  <xs:complexType name="ArrayOfContactItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContactItem" nillable="true" type="tns:ContactItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContactItem" nillable="true" type="tns:ArrayOfContactItem" />
+  <xs:complexType name="ContactItem">
+    <xs:sequence>
+      <xs:element name="Contact" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ContactItemFlag" type="tns:ContactItemFlag" />
+      <xs:element name="PhoneNumber" nillable="true" type="xs:string">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ContactItem" nillable="true" type="tns:ContactItem" />
+  <xs:simpleType name="ContactItemFlag">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="呼入">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="呼出">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="呼入与呼出">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ContactItemFlag" nillable="true" type="tns:ContactItemFlag" />
+  <xs:simpleType name="TelphoneBookSettingType">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="删除终端上所有存储的联系人" />
+      <xs:enumeration value="更新电话本" />
+      <xs:enumeration value="追加电话本" />
+      <xs:enumeration value="修改电话本" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TelphoneBookSettingType" nillable="true" type="tns:TelphoneBookSettingType" />
+</xs:schema>

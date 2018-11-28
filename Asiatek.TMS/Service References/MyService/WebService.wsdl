@@ -1,0 +1,1238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="LoginForm">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="no" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyAccount" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LoginFormResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoginFormResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSumStrucCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StrucCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetSumStrucCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetSumStrucCodeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarInfoSel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Struc_Code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VEHICLE_CODE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Sim_Code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Terminal_Code" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarInfoSelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarInfoSelResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarHistoryInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VEHICLE_CODE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fromtime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="totime" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="invTime" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="isFilterVelocity" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarHistoryInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarHistoryInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarExtremelyInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="STRUC_CODE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ExceptionName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="page" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="fromtime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="totime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VEHICLE_CODE" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="AVelocity" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarExtremelyInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarExtremelyInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarExteType">
+        <s:complexType />
+      </s:element>
+      <s:element name="CarExteTypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarExteTypeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarEvenInfos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Struc_Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="strCarNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarEvenInfosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarEvenInfosResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarMileage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="StartDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VEHICLE_CODE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Struc_Code" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="page" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarMileageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarMileageResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertJOURNALWeb">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VEHICLE_CODE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="STRUC_CODE" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="AMOUNT" type="s:float" />
+            <s:element minOccurs="1" maxOccurs="1" name="SHIPDATE" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="JOB_NUM" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertJOURNALWebResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertJOURNALWebResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SelJournalWeb">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Vehicle_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Startime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Endtime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserStruCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="page" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SelJournalWebResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelJournalWebResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SelVersion">
+        <s:complexType />
+      </s:element>
+      <s:element name="SelVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelVersionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SelVersionIOS">
+        <s:complexType />
+      </s:element>
+      <s:element name="SelVersionIOSResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelVersionIOSResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarOil">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="beginTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="endTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VEHICLE_CODE" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarOilResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarOilResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarFristSigins">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VEHICLE_CODE" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fromtime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="totime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Latitude" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Longitude" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarFristSiginsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarFristSiginsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="LoginFormSoapIn">
+    <wsdl:part name="parameters" element="tns:LoginForm" />
+  </wsdl:message>
+  <wsdl:message name="LoginFormSoapOut">
+    <wsdl:part name="parameters" element="tns:LoginFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetSumStrucCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetSumStrucCode" />
+  </wsdl:message>
+  <wsdl:message name="GetSumStrucCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetSumStrucCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarInfoSelSoapIn">
+    <wsdl:part name="parameters" element="tns:CarInfoSel" />
+  </wsdl:message>
+  <wsdl:message name="CarInfoSelSoapOut">
+    <wsdl:part name="parameters" element="tns:CarInfoSelResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarHistoryInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:CarHistoryInfo" />
+  </wsdl:message>
+  <wsdl:message name="CarHistoryInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:CarHistoryInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarExtremelyInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:CarExtremelyInfo" />
+  </wsdl:message>
+  <wsdl:message name="CarExtremelyInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:CarExtremelyInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarExteTypeSoapIn">
+    <wsdl:part name="parameters" element="tns:CarExteType" />
+  </wsdl:message>
+  <wsdl:message name="CarExteTypeSoapOut">
+    <wsdl:part name="parameters" element="tns:CarExteTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarEvenInfosSoapIn">
+    <wsdl:part name="parameters" element="tns:CarEvenInfos" />
+  </wsdl:message>
+  <wsdl:message name="CarEvenInfosSoapOut">
+    <wsdl:part name="parameters" element="tns:CarEvenInfosResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarMileageSoapIn">
+    <wsdl:part name="parameters" element="tns:CarMileage" />
+  </wsdl:message>
+  <wsdl:message name="CarMileageSoapOut">
+    <wsdl:part name="parameters" element="tns:CarMileageResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertJOURNALWebSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertJOURNALWeb" />
+  </wsdl:message>
+  <wsdl:message name="InsertJOURNALWebSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertJOURNALWebResponse" />
+  </wsdl:message>
+  <wsdl:message name="SelJournalWebSoapIn">
+    <wsdl:part name="parameters" element="tns:SelJournalWeb" />
+  </wsdl:message>
+  <wsdl:message name="SelJournalWebSoapOut">
+    <wsdl:part name="parameters" element="tns:SelJournalWebResponse" />
+  </wsdl:message>
+  <wsdl:message name="SelVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:SelVersion" />
+  </wsdl:message>
+  <wsdl:message name="SelVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:SelVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="SelVersionIOSSoapIn">
+    <wsdl:part name="parameters" element="tns:SelVersionIOS" />
+  </wsdl:message>
+  <wsdl:message name="SelVersionIOSSoapOut">
+    <wsdl:part name="parameters" element="tns:SelVersionIOSResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarOilSoapIn">
+    <wsdl:part name="parameters" element="tns:CarOil" />
+  </wsdl:message>
+  <wsdl:message name="CarOilSoapOut">
+    <wsdl:part name="parameters" element="tns:CarOilResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarFristSiginsSoapIn">
+    <wsdl:part name="parameters" element="tns:CarFristSigins" />
+  </wsdl:message>
+  <wsdl:message name="CarFristSiginsSoapOut">
+    <wsdl:part name="parameters" element="tns:CarFristSiginsResponse" />
+  </wsdl:message>
+  <wsdl:message name="LoginFormHttpGetIn">
+    <wsdl:part name="no" type="s:string" />
+    <wsdl:part name="pwd" type="s:string" />
+    <wsdl:part name="CompanyAccount" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="LoginFormHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSumStrucCodeHttpGetIn">
+    <wsdl:part name="StrucCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSumStrucCodeHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarInfoSelHttpGetIn">
+    <wsdl:part name="Struc_Code" type="s:string" />
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="Sim_Code" type="s:string" />
+    <wsdl:part name="Terminal_Code" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarInfoSelHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarHistoryInfoHttpGetIn">
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="fromtime" type="s:string" />
+    <wsdl:part name="totime" type="s:string" />
+    <wsdl:part name="invTime" type="s:string" />
+    <wsdl:part name="isFilterVelocity" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarHistoryInfoHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarExtremelyInfoHttpGetIn">
+    <wsdl:part name="STRUC_CODE" type="s:string" />
+    <wsdl:part name="ExceptionName" type="s:string" />
+    <wsdl:part name="page" type="s:string" />
+    <wsdl:part name="fromtime" type="s:string" />
+    <wsdl:part name="totime" type="s:string" />
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="AVelocity" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarExtremelyInfoHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarExteTypeHttpGetIn" />
+  <wsdl:message name="CarExteTypeHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarEvenInfosHttpGetIn">
+    <wsdl:part name="Struc_Name" type="s:string" />
+    <wsdl:part name="strCarNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarEvenInfosHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarMileageHttpGetIn">
+    <wsdl:part name="StartDate" type="s:string" />
+    <wsdl:part name="EndDate" type="s:string" />
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="Struc_Code" type="s:string" />
+    <wsdl:part name="page" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarMileageHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertJOURNALWebHttpGetIn">
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="STRUC_CODE" type="s:string" />
+    <wsdl:part name="AMOUNT" type="s:string" />
+    <wsdl:part name="SHIPDATE" type="s:string" />
+    <wsdl:part name="JOB_NUM" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertJOURNALWebHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SelJournalWebHttpGetIn">
+    <wsdl:part name="Vehicle_code" type="s:string" />
+    <wsdl:part name="Startime" type="s:string" />
+    <wsdl:part name="Endtime" type="s:string" />
+    <wsdl:part name="UserStruCode" type="s:string" />
+    <wsdl:part name="page" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SelJournalWebHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SelVersionHttpGetIn" />
+  <wsdl:message name="SelVersionHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SelVersionIOSHttpGetIn" />
+  <wsdl:message name="SelVersionIOSHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarOilHttpGetIn">
+    <wsdl:part name="beginTime" type="s:string" />
+    <wsdl:part name="endTime" type="s:string" />
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarOilHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarFristSiginsHttpGetIn">
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="fromtime" type="s:string" />
+    <wsdl:part name="totime" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarFristSiginsHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="LoginFormHttpPostIn">
+    <wsdl:part name="no" type="s:string" />
+    <wsdl:part name="pwd" type="s:string" />
+    <wsdl:part name="CompanyAccount" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="LoginFormHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSumStrucCodeHttpPostIn">
+    <wsdl:part name="StrucCode" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetSumStrucCodeHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarInfoSelHttpPostIn">
+    <wsdl:part name="Struc_Code" type="s:string" />
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="Sim_Code" type="s:string" />
+    <wsdl:part name="Terminal_Code" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarInfoSelHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarHistoryInfoHttpPostIn">
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="fromtime" type="s:string" />
+    <wsdl:part name="totime" type="s:string" />
+    <wsdl:part name="invTime" type="s:string" />
+    <wsdl:part name="isFilterVelocity" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarHistoryInfoHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarExtremelyInfoHttpPostIn">
+    <wsdl:part name="STRUC_CODE" type="s:string" />
+    <wsdl:part name="ExceptionName" type="s:string" />
+    <wsdl:part name="page" type="s:string" />
+    <wsdl:part name="fromtime" type="s:string" />
+    <wsdl:part name="totime" type="s:string" />
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="AVelocity" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarExtremelyInfoHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarExteTypeHttpPostIn" />
+  <wsdl:message name="CarExteTypeHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarEvenInfosHttpPostIn">
+    <wsdl:part name="Struc_Name" type="s:string" />
+    <wsdl:part name="strCarNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarEvenInfosHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarMileageHttpPostIn">
+    <wsdl:part name="StartDate" type="s:string" />
+    <wsdl:part name="EndDate" type="s:string" />
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="Struc_Code" type="s:string" />
+    <wsdl:part name="page" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarMileageHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertJOURNALWebHttpPostIn">
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="STRUC_CODE" type="s:string" />
+    <wsdl:part name="AMOUNT" type="s:string" />
+    <wsdl:part name="SHIPDATE" type="s:string" />
+    <wsdl:part name="JOB_NUM" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InsertJOURNALWebHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SelJournalWebHttpPostIn">
+    <wsdl:part name="Vehicle_code" type="s:string" />
+    <wsdl:part name="Startime" type="s:string" />
+    <wsdl:part name="Endtime" type="s:string" />
+    <wsdl:part name="UserStruCode" type="s:string" />
+    <wsdl:part name="page" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SelJournalWebHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SelVersionHttpPostIn" />
+  <wsdl:message name="SelVersionHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="SelVersionIOSHttpPostIn" />
+  <wsdl:message name="SelVersionIOSHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarOilHttpPostIn">
+    <wsdl:part name="beginTime" type="s:string" />
+    <wsdl:part name="endTime" type="s:string" />
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarOilHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarFristSiginsHttpPostIn">
+    <wsdl:part name="VEHICLE_CODE" type="s:string" />
+    <wsdl:part name="fromtime" type="s:string" />
+    <wsdl:part name="totime" type="s:string" />
+    <wsdl:part name="Latitude" type="s:string" />
+    <wsdl:part name="Longitude" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarFristSiginsHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="MyServiceSoap">
+    <wsdl:operation name="LoginForm">
+      <wsdl:input message="tns:LoginFormSoapIn" />
+      <wsdl:output message="tns:LoginFormSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSumStrucCode">
+      <wsdl:input message="tns:GetSumStrucCodeSoapIn" />
+      <wsdl:output message="tns:GetSumStrucCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarInfoSel">
+      <wsdl:input message="tns:CarInfoSelSoapIn" />
+      <wsdl:output message="tns:CarInfoSelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarHistoryInfo">
+      <wsdl:input message="tns:CarHistoryInfoSoapIn" />
+      <wsdl:output message="tns:CarHistoryInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarExtremelyInfo">
+      <wsdl:input message="tns:CarExtremelyInfoSoapIn" />
+      <wsdl:output message="tns:CarExtremelyInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarExteType">
+      <wsdl:input message="tns:CarExteTypeSoapIn" />
+      <wsdl:output message="tns:CarExteTypeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarEvenInfos">
+      <wsdl:input message="tns:CarEvenInfosSoapIn" />
+      <wsdl:output message="tns:CarEvenInfosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarMileage">
+      <wsdl:input message="tns:CarMileageSoapIn" />
+      <wsdl:output message="tns:CarMileageSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertJOURNALWeb">
+      <wsdl:input message="tns:InsertJOURNALWebSoapIn" />
+      <wsdl:output message="tns:InsertJOURNALWebSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelJournalWeb">
+      <wsdl:input message="tns:SelJournalWebSoapIn" />
+      <wsdl:output message="tns:SelJournalWebSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelVersion">
+      <wsdl:input message="tns:SelVersionSoapIn" />
+      <wsdl:output message="tns:SelVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelVersionIOS">
+      <wsdl:input message="tns:SelVersionIOSSoapIn" />
+      <wsdl:output message="tns:SelVersionIOSSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarOil">
+      <wsdl:input message="tns:CarOilSoapIn" />
+      <wsdl:output message="tns:CarOilSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarFristSigins">
+      <wsdl:input message="tns:CarFristSiginsSoapIn" />
+      <wsdl:output message="tns:CarFristSiginsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="MyServiceHttpGet">
+    <wsdl:operation name="LoginForm">
+      <wsdl:input message="tns:LoginFormHttpGetIn" />
+      <wsdl:output message="tns:LoginFormHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSumStrucCode">
+      <wsdl:input message="tns:GetSumStrucCodeHttpGetIn" />
+      <wsdl:output message="tns:GetSumStrucCodeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarInfoSel">
+      <wsdl:input message="tns:CarInfoSelHttpGetIn" />
+      <wsdl:output message="tns:CarInfoSelHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarHistoryInfo">
+      <wsdl:input message="tns:CarHistoryInfoHttpGetIn" />
+      <wsdl:output message="tns:CarHistoryInfoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarExtremelyInfo">
+      <wsdl:input message="tns:CarExtremelyInfoHttpGetIn" />
+      <wsdl:output message="tns:CarExtremelyInfoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarExteType">
+      <wsdl:input message="tns:CarExteTypeHttpGetIn" />
+      <wsdl:output message="tns:CarExteTypeHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarEvenInfos">
+      <wsdl:input message="tns:CarEvenInfosHttpGetIn" />
+      <wsdl:output message="tns:CarEvenInfosHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarMileage">
+      <wsdl:input message="tns:CarMileageHttpGetIn" />
+      <wsdl:output message="tns:CarMileageHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertJOURNALWeb">
+      <wsdl:input message="tns:InsertJOURNALWebHttpGetIn" />
+      <wsdl:output message="tns:InsertJOURNALWebHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelJournalWeb">
+      <wsdl:input message="tns:SelJournalWebHttpGetIn" />
+      <wsdl:output message="tns:SelJournalWebHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelVersion">
+      <wsdl:input message="tns:SelVersionHttpGetIn" />
+      <wsdl:output message="tns:SelVersionHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelVersionIOS">
+      <wsdl:input message="tns:SelVersionIOSHttpGetIn" />
+      <wsdl:output message="tns:SelVersionIOSHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarOil">
+      <wsdl:input message="tns:CarOilHttpGetIn" />
+      <wsdl:output message="tns:CarOilHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarFristSigins">
+      <wsdl:input message="tns:CarFristSiginsHttpGetIn" />
+      <wsdl:output message="tns:CarFristSiginsHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="MyServiceHttpPost">
+    <wsdl:operation name="LoginForm">
+      <wsdl:input message="tns:LoginFormHttpPostIn" />
+      <wsdl:output message="tns:LoginFormHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSumStrucCode">
+      <wsdl:input message="tns:GetSumStrucCodeHttpPostIn" />
+      <wsdl:output message="tns:GetSumStrucCodeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarInfoSel">
+      <wsdl:input message="tns:CarInfoSelHttpPostIn" />
+      <wsdl:output message="tns:CarInfoSelHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarHistoryInfo">
+      <wsdl:input message="tns:CarHistoryInfoHttpPostIn" />
+      <wsdl:output message="tns:CarHistoryInfoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarExtremelyInfo">
+      <wsdl:input message="tns:CarExtremelyInfoHttpPostIn" />
+      <wsdl:output message="tns:CarExtremelyInfoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarExteType">
+      <wsdl:input message="tns:CarExteTypeHttpPostIn" />
+      <wsdl:output message="tns:CarExteTypeHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarEvenInfos">
+      <wsdl:input message="tns:CarEvenInfosHttpPostIn" />
+      <wsdl:output message="tns:CarEvenInfosHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarMileage">
+      <wsdl:input message="tns:CarMileageHttpPostIn" />
+      <wsdl:output message="tns:CarMileageHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertJOURNALWeb">
+      <wsdl:input message="tns:InsertJOURNALWebHttpPostIn" />
+      <wsdl:output message="tns:InsertJOURNALWebHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelJournalWeb">
+      <wsdl:input message="tns:SelJournalWebHttpPostIn" />
+      <wsdl:output message="tns:SelJournalWebHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelVersion">
+      <wsdl:input message="tns:SelVersionHttpPostIn" />
+      <wsdl:output message="tns:SelVersionHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SelVersionIOS">
+      <wsdl:input message="tns:SelVersionIOSHttpPostIn" />
+      <wsdl:output message="tns:SelVersionIOSHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarOil">
+      <wsdl:input message="tns:CarOilHttpPostIn" />
+      <wsdl:output message="tns:CarOilHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarFristSigins">
+      <wsdl:input message="tns:CarFristSiginsHttpPostIn" />
+      <wsdl:output message="tns:CarFristSiginsHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MyServiceSoap" type="tns:MyServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LoginForm">
+      <soap:operation soapAction="http://tempuri.org/LoginForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSumStrucCode">
+      <soap:operation soapAction="http://tempuri.org/GetSumStrucCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarInfoSel">
+      <soap:operation soapAction="http://tempuri.org/CarInfoSel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarHistoryInfo">
+      <soap:operation soapAction="http://tempuri.org/CarHistoryInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarExtremelyInfo">
+      <soap:operation soapAction="http://tempuri.org/CarExtremelyInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarExteType">
+      <soap:operation soapAction="http://tempuri.org/CarExteType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarEvenInfos">
+      <soap:operation soapAction="http://tempuri.org/CarEvenInfos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarMileage">
+      <soap:operation soapAction="http://tempuri.org/CarMileage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertJOURNALWeb">
+      <soap:operation soapAction="http://tempuri.org/InsertJOURNALWeb" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelJournalWeb">
+      <soap:operation soapAction="http://tempuri.org/SelJournalWeb" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelVersion">
+      <soap:operation soapAction="http://tempuri.org/SelVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelVersionIOS">
+      <soap:operation soapAction="http://tempuri.org/SelVersionIOS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarOil">
+      <soap:operation soapAction="http://tempuri.org/CarOil" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarFristSigins">
+      <soap:operation soapAction="http://tempuri.org/CarFristSigins" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MyServiceSoap12" type="tns:MyServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LoginForm">
+      <soap12:operation soapAction="http://tempuri.org/LoginForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSumStrucCode">
+      <soap12:operation soapAction="http://tempuri.org/GetSumStrucCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarInfoSel">
+      <soap12:operation soapAction="http://tempuri.org/CarInfoSel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarHistoryInfo">
+      <soap12:operation soapAction="http://tempuri.org/CarHistoryInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarExtremelyInfo">
+      <soap12:operation soapAction="http://tempuri.org/CarExtremelyInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarExteType">
+      <soap12:operation soapAction="http://tempuri.org/CarExteType" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarEvenInfos">
+      <soap12:operation soapAction="http://tempuri.org/CarEvenInfos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarMileage">
+      <soap12:operation soapAction="http://tempuri.org/CarMileage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertJOURNALWeb">
+      <soap12:operation soapAction="http://tempuri.org/InsertJOURNALWeb" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelJournalWeb">
+      <soap12:operation soapAction="http://tempuri.org/SelJournalWeb" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelVersion">
+      <soap12:operation soapAction="http://tempuri.org/SelVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelVersionIOS">
+      <soap12:operation soapAction="http://tempuri.org/SelVersionIOS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarOil">
+      <soap12:operation soapAction="http://tempuri.org/CarOil" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarFristSigins">
+      <soap12:operation soapAction="http://tempuri.org/CarFristSigins" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MyServiceHttpGet" type="tns:MyServiceHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="LoginForm">
+      <http:operation location="/LoginForm" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSumStrucCode">
+      <http:operation location="/GetSumStrucCode" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarInfoSel">
+      <http:operation location="/CarInfoSel" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarHistoryInfo">
+      <http:operation location="/CarHistoryInfo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarExtremelyInfo">
+      <http:operation location="/CarExtremelyInfo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarExteType">
+      <http:operation location="/CarExteType" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarEvenInfos">
+      <http:operation location="/CarEvenInfos" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarMileage">
+      <http:operation location="/CarMileage" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertJOURNALWeb">
+      <http:operation location="/InsertJOURNALWeb" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelJournalWeb">
+      <http:operation location="/SelJournalWeb" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelVersion">
+      <http:operation location="/SelVersion" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelVersionIOS">
+      <http:operation location="/SelVersionIOS" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarOil">
+      <http:operation location="/CarOil" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarFristSigins">
+      <http:operation location="/CarFristSigins" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MyServiceHttpPost" type="tns:MyServiceHttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="LoginForm">
+      <http:operation location="/LoginForm" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSumStrucCode">
+      <http:operation location="/GetSumStrucCode" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarInfoSel">
+      <http:operation location="/CarInfoSel" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarHistoryInfo">
+      <http:operation location="/CarHistoryInfo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarExtremelyInfo">
+      <http:operation location="/CarExtremelyInfo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarExteType">
+      <http:operation location="/CarExteType" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarEvenInfos">
+      <http:operation location="/CarEvenInfos" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarMileage">
+      <http:operation location="/CarMileage" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertJOURNALWeb">
+      <http:operation location="/InsertJOURNALWeb" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelJournalWeb">
+      <http:operation location="/SelJournalWeb" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelVersion">
+      <http:operation location="/SelVersion" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SelVersionIOS">
+      <http:operation location="/SelVersionIOS" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarOil">
+      <http:operation location="/CarOil" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarFristSigins">
+      <http:operation location="/CarFristSigins" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MyService">
+    <wsdl:port name="MyServiceSoap" binding="tns:MyServiceSoap">
+      <soap:address location="http://61.155.7.114:20001/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MyServiceSoap12" binding="tns:MyServiceSoap12">
+      <soap12:address location="http://61.155.7.114:20001/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MyServiceHttpGet" binding="tns:MyServiceHttpGet">
+      <http:address location="http://61.155.7.114:20001/WebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MyServiceHttpPost" binding="tns:MyServiceHttpPost">
+      <http:address location="http://61.155.7.114:20001/WebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

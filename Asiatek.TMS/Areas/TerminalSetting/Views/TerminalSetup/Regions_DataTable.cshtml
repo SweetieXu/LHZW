@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "Regions_DataTable";
+}
+@using Asiatek.AjaxPager
+@using Asiatek.Model.TerminalSetting
+@model SearchDataWithPagedDatas<int, MapRegionSettingModel>
+
+
+<table id="regionVehicleTable" class="table table-bordered">
+    <thead>
+        <tr class="active">
+            <td>
+                <div class="check-box">
+                    @if (Model.PagedDatas.Count == 0)
+                    {
+                    <input type="checkbox" id="checkAll" disabled />
+                    }
+                    else
+                    {
+                    <input type="checkbox" id="checkAll" />
+                    }
+                </div>
+            </td>
+            <td>车号</td>
+            <td>区域号</td>
+            <td>区域名称</td>
+            <td>区域类型</td>
+            <td>区域属性</td>
+            <td>是否周期</td>
+            <td>时间起</td>
+            <td>时间迄</td>
+            <td>最高速度</td>
+            <td>超速持续时间</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var set in Model.PagedDatas)
+        {
+        <tr>
+            <td><div class="check-box"><input type="checkbox" name="checkPath" data-relationID="@set.Key" /></div></td>
+            <td>@set.PlateNum</td>
+            <td>@set.PathID</td>
+            <td>@set.PathName</td>
+            <td>区域类型</td>
+            <td><a href="javascript:void(0)">属性</a></td>
+            <td>@set.Periodic</td>
+            <td>@set.StartTime</td>
+            <td>@set.EndTime</td>
+            <td>@set.SpeedLimit</td>
+            <td>@set.OverSpeedDuration</td>
+        </tr>
+        }
+        @{
+            int NullRowCount = 5 - Model.PagedDatas.Count;
+        }
+
+        @for (int i = 1; i <= NullRowCount; i++)
+        {
+            <tr>
+                <td><div class="check-box"><input type="checkbox" disabled /></div></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(function () {
+        var checkboxAll = $('#checkAll');
+
+        $('#checkAll').click(function () {
+            if (checkboxAll.is(':checked')) {
+                $('input[name=checkPath]').attr("checked", true);
+                $('#delRegionSettings').removeAttr('disabled');
+            }
+            else {
+                $('input[name=checkPath]').attr("checked", false);
+                $('#delRegionSettings').attr('disabled', true);
+            }
+        });
+
+        $('#input[name=checkPath]').click(function () {
+            if ($('#input[name=checkPath]:checked').length != 0) {
+                $('#delRegionSettings').removeAttr('disabled');
+            }
+            else {
+                $('#delRegionSettings').attr('disabled', true);
+            }
+        });
+    });
+</script>
+

@@ -1,0 +1,108 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model List<Asiatek.Model.BusinessScopeModel>
+
+<div style="overflow-y: auto; margin-right: -10px; padding-right: 5px;" id="divBusinessScope">
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAllBS" />
+                </th>
+                <th>@Html.DisplayNameFor(m => m[0].Code)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Name)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="BSCode" value="@item.Code" id="chkBSCode@(item.Code)" />
+                    </td>
+                    <td>
+                        <label for="chkBSCode@(item.Code)">@item.Code</label>
+                    </td>
+                    <td>
+                        <label>@item.Name</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<table>
+    <tr>
+        <td>
+            <button class="btn btn-primary" title="@UIText.SaveButton" id="btnBusinessScope"><span class="glyphicon glyphicon-ok"></span></button>
+        </td>
+    </tr>
+</table>
+
+<input type="hidden" value="@ViewBag.StrucIDList" id="hidStrucID" />
+<script>
+    // 设置内层div的最大高度 超出高度后自动出现滚动条
+    $("#divBusinessScope").css("max-height", ($(window).height() * 0.65) + "px");
+
+    var _$chkAllObj = $("#chkAllBS");
+    var _$chkObjs = $("input[name='BSCode']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+    $("#btnBusinessScope").click(function () {
+        // 不需要必选 如果没有选择任何一项 就是取消分配经营范围
+       @* var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='BSCode']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }*@
+
+        var BSCodes = "";
+        $("input[name='BSCode']:checked").each(function () {
+            BSCodes += $(this).val() + ",";
+        });
+        $.showConfirmDialog("@UIText.ConfirmBusinessScope", '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $.ajax({
+                url: "@Url.Content("~/Admin/Structure/DistributionBusinessScope")",
+                data: {
+                    strucIDList: $("#hidStrucID").val(),
+                    codeList: BSCodes,
+                    __RequestVerificationToken: $('@Html.AntiForgeryToken()').val()
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function (result, status) {
+                    if ($.handleAjaxError(result)) {
+                        return;
+                    }
+                    if (!result.Success) {
+                        $.showPromptDialog(result.Message, '@UIText.InformationTitle', '@UIText.Close');
+                        return;
+                    }
+                    else {
+                        $.showPromptDialog(result.Message, '@UIText.InformationTitle', '@UIText.Close', function () {
+                            // 关闭弹框
+                            //var closeDialog = $(".ui-dialog").attr("aria-describedby");
+                            //if (closeDialog) {
+                            //    $("#" + closeDialog).dialog("close");
+                            //}
+                            $("#divAsiatekEditWin").dialog("close");
+                            // 刷新分页列表
+                            refreshSearchForm();
+                        });
+                    }
+                },
+                fail: function (err, status) {
+                    console.log(err)
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
+
+

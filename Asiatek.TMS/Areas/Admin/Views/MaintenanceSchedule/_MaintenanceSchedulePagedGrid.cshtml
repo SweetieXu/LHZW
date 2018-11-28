@@ -1,0 +1,166 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<MaintenanceScheduleSearchModel, MaintenanceScheduleListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+
+    string updateTargetId = "Admin_MaintenanceSchedule_MaintenanceScheduleSetting_divMaintenanceSchedule";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    using (Ajax.BeginForm("DeleteMaintenanceSchedule", "MaintenanceSchedule", new AjaxOptions()
+    {
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelMaintenanceSchedule" }))
+    {
+        @Html.AntiForgeryToken()
+        <!--保养方案记录显示-->
+        <table class="table table-striped table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="chkAll" />
+                    </th>
+                    <th>
+                        <label>@UIText.Operation</label>
+                    </th>
+                    <th>@Html.DisplayNameFor(m => m.ScheduleName)</th>
+                    <th>@Html.DisplayNameFor(m => m.RulesType)</th>
+                    <th>@Html.DisplayNameFor(m => m.BindVehicleNum)</th>
+                    <th>@Html.DisplayNameFor(m => m.StrucName)</th>
+                    <th>@Html.DisplayNameFor(m => m.CreateUser)</th>
+                    <th>@Html.DisplayNameFor(m => m.Remark)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in pagedDatas)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="pid" value="@item.ID" id="chkpid@(item.ID)" /></td>
+                        <td>
+                            <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </span>
+                            <span class="btn btn-primary" style="margin-left:10px;" onclick="bind(@item.ID,'@item.ScheduleName')" title="@UIText.BindVehicle">
+                                <span class="glyphicon glyphicon-ok-circle"></span>
+                            </span>
+                            <span class="btn btn-danger" onclick="unBind(@item.ID)" title="@UIText.UnBindVehicle">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                            </span>
+                        </td>
+                        <td>
+                                <label for="chkpid@(item.ID)">@item.ScheduleName</label>
+                        </td>
+                        <td>
+                            @if (item.RulesType == 1)           //里程周期
+                            {
+                                <label>@UIText.MileagePeriod</label>
+                            }
+                            @if (item.RulesType == 2)               //时间周期
+                            {
+                                <label>@UIText.TimePeriod</label>
+                            }
+                            @if (item.RulesType == 3)              //里程或时间周期
+                            {
+                                <label>@UIText.MileageAndTimePeriod</label>
+                            }
+                        </td>
+                        <td>
+                            <label>@item.BindVehicleNum</label>
+                        </td>
+                        <td>
+                            <label>@item.StrucName</label>
+                        </td>
+                        <td>
+                            <label>@item.CreateUser</label>
+                        </td>
+                        <td>
+                            <label>@item.Remark</label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "MaintenanceSchedule",
+    ActionName = "GetMaintenanceSchedule",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+
+<script>
+    //删除完成后
+    var delCallBack = function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchMaintenanceSchedule #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchMaintenanceSchedule").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+
+    //保养方案编辑
+    //对于已经绑定车辆的保养方案，不提供编辑的权限；
+    //因为目前没有记录最新的保养时间和保养里程，如果已经绑定车辆，即已经设定了车辆的初始保养时间和初始保养里程；
+    //再直接修改保养规则，那么对于对已经绑定的所有车辆，会导致当前保养规则的初始保养时间和初始保养里程所计算的保养预警时间存在误差。
+    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/MaintenanceSchedule/EditMaintenanceSchedule")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='pid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+
+    //绑定车辆
+    var bind = function (id, scheduleName) {
+        var _url = "@Url.Content("~/Admin/MaintenanceSchedule/VehicleMaintenanceSetting")";
+        var _data = { id: id, scheduleName: scheduleName };
+        var _title = "@UIText.BindVehicle";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    //解绑车辆
+    var unBind = function (id) {
+        var _url = "@Url.Content("~/Admin/MaintenanceSchedule/GetVehicleByScheduleID")";
+        var _data = { id: id };
+        var _title = "@UIText.UnBindVehicle";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+</script>

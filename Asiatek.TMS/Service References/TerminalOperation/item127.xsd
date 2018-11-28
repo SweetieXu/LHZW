@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/STDServiceCore" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/STDServiceCore" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/STD808Core.General" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd11" namespace="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" />
+  <xs:complexType name="OperationResultQueryTerminalParaRespData">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="OperationResult{0}" Namespace="http://schemas.datacontract.org/2004/07/STDServiceCore" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="QueryTerminalParaRespData" Namespace="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Code" type="tns:OperationResultCode" />
+      <xs:element name="Message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" name="ResultData" nillable="true" type="q1:QueryTerminalParaRespData" />
+      <xs:element name="State" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OperationResultQueryTerminalParaRespData" nillable="true" type="tns:OperationResultQueryTerminalParaRespData" />
+  <xs:simpleType name="OperationResultCode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="操作成功">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">100</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="终端号格式有误">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">101</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="终端号不存在">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">102</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="未知错误">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">199</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="终端离线">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">200</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="终端通讯异常">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">201</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="等待应答超时">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">202</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="OperationResultCode" nillable="true" type="tns:OperationResultCode" />
+  <xs:complexType name="OperationResultGeneralRep">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:OperationResultNullableOfTerminalGeneralRepDataWss2Y_Pri">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OperationResultGeneralRep" nillable="true" type="tns:OperationResultGeneralRep" />
+  <xs:complexType name="OperationResultNullableOfTerminalGeneralRepDataWss2Y_Pri">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="OperationResult{0}" Namespace="http://schemas.datacontract.org/2004/07/STDServiceCore" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="NullableOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/System">
+            <GenericParameter Name="TerminalGeneralRepData" Namespace="http://schemas.datacontract.org/2004/07/STD808Core.General" />
+          </GenericParameter>
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Code" type="tns:OperationResultCode" />
+      <xs:element name="Message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/STD808Core.General" name="ResultData" nillable="true" type="q2:TerminalGeneralRepData" />
+      <xs:element name="State" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OperationResultNullableOfTerminalGeneralRepDataWss2Y_Pri" nillable="true" type="tns:OperationResultNullableOfTerminalGeneralRepDataWss2Y_Pri" />
+  <xs:complexType name="OperationResultMultimediaDataRetrievalRespData">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="OperationResult{0}" Namespace="http://schemas.datacontract.org/2004/07/STDServiceCore" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="MultimediaDataRetrievalRespData" Namespace="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="Code" type="tns:OperationResultCode" />
+      <xs:element name="Message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" name="ResultData" nillable="true" type="q3:MultimediaDataRetrievalRespData" />
+      <xs:element name="State" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OperationResultMultimediaDataRetrievalRespData" nillable="true" type="tns:OperationResultMultimediaDataRetrievalRespData" />
+</xs:schema>

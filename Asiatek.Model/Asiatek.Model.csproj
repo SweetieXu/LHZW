@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1C4F665C-3425-4A37-A4E9-24E082D8670B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Asiatek.Model</RootNamespace>
+    <AssemblyName>Asiatek.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Asiatek.TMS\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbnormalRouteModel.cs" />
+    <Compile Include="ActionModels.cs" />
+    <Compile Include="AreaModels.cs" />
+    <Compile Include="BootstrapTreeViewModels.cs" />
+    <Compile Include="BusinessScopeModels.cs" />
+    <Compile Include="CLCS_ReturnOrderManageModels.cs" />
+    <Compile Include="CommunicationTypeModel.cs" />
+    <Compile Include="ControllerModels.cs" />
+    <Compile Include="ElectricFenceModel.cs" />
+    <Compile Include="ElectricFencePropertyModel.cs" />
+    <Compile Include="EmergencyAlarmModel.cs" />
+    <Compile Include="EmployeeInfoModels.cs" />
+    <Compile Include="EquipmentFailureModel.cs" />
+    <Compile Include="ExceptionModels.cs" />
+    <Compile Include="ExceptionTypeModels.cs" />
+    <Compile Include="FatigueDriveModel.cs" />
+    <Compile Include="FunctionModels.cs" />
+    <Compile Include="GateSentryRecordModels.cs" />
+    <Compile Include="HistoricalModels.cs" />
+    <Compile Include="InspectionModels.cs" />
+    <Compile Include="LogModels.cs" />
+    <Compile Include="LostReportModels.cs" />
+    <Compile Include="MaintenanceRecordModel.cs" />
+    <Compile Include="MaintenanceScheduleModel.cs" />
+    <Compile Include="MapLinesModels.cs" />
+    <Compile Include="MapRegionsModels.cs" />
+    <Compile Include="MGJH_TransportPointModel.cs" />
+    <Compile Include="MileageRportModel.cs" />
+    <Compile Include="NightBanModels.cs" />
+    <Compile Include="OperationResult.cs" />
+    <Compile Include="PlateColorModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReceiverMailInfoModels.cs" />
+    <Compile Include="RegionalAnomalyModel.cs" />
+    <Compile Include="RepairRecordModel.cs" />
+    <Compile Include="ReportModels.cs" />
+    <Compile Include="RiskEarlyWarn.cs" />
+    <Compile Include="RoleModels.cs" />
+    <Compile Include="SensorModels.cs" />
+    <Compile Include="ServerInfoModel.cs" />
+    <Compile Include="ServiceProviderModel.cs" />
+    <Compile Include="SignalModels.cs" />
+    <Compile Include="SimCodeModels.cs" />
+    <Compile Include="StructureModels.cs" />
+    <Compile Include="TemperatureAlarmRuleModels.cs" />
+    <Compile Include="TerminalManufacturerModels.cs" />
+    <Compile Include="TerminalModels.cs" />
+    <Compile Include="TerminalSetting\DeleteRegionVehicleRelationResultModel.cs" />
+    <Compile Include="TerminalSetting\MapLineSettingModel.cs" />
+    <Compile Include="TerminalSetting\MapRegionSettingModel.cs" />
+    <Compile Include="TerminalSetting\MapRegionSettingQueryModel.cs" />
+    <Compile Include="TerminalSetting\PhoneBookSettingModel.cs" />
+    <Compile Include="TerminalSetting\TerminalParameterSettingModel.cs" />
+    <Compile Include="TerminalSetting\TerminalSettingType.cs" />
+    <Compile Include="TerminalSetting\TerminalSettingsModel.cs" />
+    <Compile Include="TerminalSetting\TerminalSetupLogsModel.cs" />
+    <Compile Include="TerminalSetting\TextMessageModel.cs" />
+    <Compile Include="TerminalTypeModels.cs" />
+    <Compile Include="TransportIndustryModels.cs" />
+    <Compile Include="TransportManagementModels.cs" />
+    <Compile Include="UserModels.cs" />
+    <Compile Include="VehicleExceptionModels.cs" />
+    <Compile Include="VehicleMaintainModels.cs" />
+    <Compile Include="VehicleModels.cs" />
+    <Compile Include="VehicleSensorModels.cs" />
+    <Compile Include="TerminalSetting\StructVehiclesListModel.cs" />
+    <Compile Include="VehicleTypeModels.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Asiatek.AjaxPager\Asiatek.AjaxPager.csproj">
+      <Project>{b4bab1a3-1582-4d46-8a0c-5b0e5269b294}</Project>
+      <Name>Asiatek.AjaxPager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.Common\Asiatek.Common.csproj">
+      <Project>{15793015-85f1-4611-88b1-30124445daf4}</Project>
+      <Name>Asiatek.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.DataAnnotations\Asiatek.CustomDataAnnotations.csproj">
+      <Project>{77b3d227-7c8e-4663-a240-ec93157de34f}</Project>
+      <Name>Asiatek.CustomDataAnnotations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.Resources\Asiatek.Resource.csproj">
+      <Project>{c421e498-0042-4bd2-ab69-6fe8e46e9503}</Project>
+      <Name>Asiatek.Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\log4net.dll.refresh" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\log4net.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

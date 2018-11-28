@@ -1,0 +1,39 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model ActionSettingModel
+
+
+@using (Ajax.BeginForm("GetActionInfo", "Action", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Action_ActionSetting_divActionsGrid",
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.LabelFor(m => m.AreasSelectList)@:：@Html.DropDownList("areaID", Model.AreasSelectList, new { id = "ddlAllAreas" })
+    @Html.LabelFor(m => m.ControllersSelectList)@:：@Html.DropDownList("controllerID", Model.ControllersSelectList, new { id = "ddlAllControllers" })
+    <input type="text" name="actionName" value="" placeholder="@UIText.ActionNamePlaceHolder" />
+    <input type="submit" value="@UIText.SearchButton" accesskey="S" />
+}
+<div>
+    <div id="Admin_Action_ActionSetting_divActionsGrid">
+        @Html.Partial("_ActionPagedGrid", Model.PagedActions)
+    </div>
+</div>
+
+
+<script>
+    var $ddlAreas = $("#ddlAllAreas");
+    var $ddlControllers = $("#ddlAllControllers");
+    $ddlAreas.change(function ()
+    {
+        var _areaID = $.trim($ddlAreas.find("option:selected").val());
+        $.get("@Url.Content("~/Admin/Ctr/GetControllerDDLWithDefaultByAreaID")", { areaID: _areaID }, function (result)
+        {
+            $ddlControllers.empty();
+            $.each(result, function (i, item)
+            {
+                $ddlControllers.append($("<option></option>").text(item.ControllerName).val(item.ID));
+            });
+        });
+    });
+</script>

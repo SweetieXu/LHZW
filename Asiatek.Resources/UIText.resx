@@ -1,0 +1,945 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddButton" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="AddSubStruc" xml:space="preserve">
+    <value>添加子单位</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="AllotButton" xml:space="preserve">
+    <value>分配</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CancelSelect" xml:space="preserve">
+    <value>取消选择</value>
+  </data>
+  <data name="ChangeValidateCode" xml:space="preserve">
+    <value>点击更换验证码</value>
+  </data>
+  <data name="CheckAll" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="CheckedVehicles" xml:space="preserve">
+    <value>监控车辆</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="CloseAccessButton" xml:space="preserve">
+    <value>关闭接入</value>
+  </data>
+  <data name="CloseTransmitButton" xml:space="preserve">
+    <value>关闭转发</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="ConfirmAllot" xml:space="preserve">
+    <value>确定分配吗？</value>
+  </data>
+  <data name="ConfirmCloseAccess" xml:space="preserve">
+    <value>确认关闭接入吗？</value>
+  </data>
+  <data name="ConfirmCloseTransmit" xml:space="preserve">
+    <value>确认关闭转发吗？</value>
+  </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>确认删除吗？</value>
+  </data>
+  <data name="ConfirmDisableReceive" xml:space="preserve">
+    <value>确认禁用信号接收吗？</value>
+  </data>
+  <data name="ConfirmEnableReceive" xml:space="preserve">
+    <value>确认启用信号接收吗？</value>
+  </data>
+  <data name="ConfirmModify" xml:space="preserve">
+    <value>确认修改吗？</value>
+  </data>
+  <data name="ConfirmOpenAccess" xml:space="preserve">
+    <value>确认开启接入吗？</value>
+  </data>
+  <data name="ConfirmOpenTransmit" xml:space="preserve">
+    <value>确认开启转发吗？</value>
+  </data>
+  <data name="ConfirmReply" xml:space="preserve">
+    <value>确认回复吗？</value>
+  </data>
+  <data name="ConfirmResetPwd" xml:space="preserve">
+    <value>确认重置吗？</value>
+  </data>
+  <data name="ConfirmScrap" xml:space="preserve">
+    <value>确认报废吗？</value>
+  </data>
+  <data name="ConfirmSwitchUser" xml:space="preserve">
+    <value>确认切换为用户{0}吗？</value>
+  </data>
+  <data name="ControllerNamePlaceHolder" xml:space="preserve">
+    <value>请输入控制器名称</value>
+  </data>
+  <data name="Deal" xml:space="preserve">
+    <value>处理</value>
+  </data>
+  <data name="DealEmergencyAlarm" xml:space="preserve">
+    <value>处理紧急报警</value>
+  </data>
+  <data name="DefaultTitle" xml:space="preserve">
+    <value>汇鎏车辆动态管理系统</value>
+  </data>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="DisableButton" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="East" xml:space="preserve">
+    <value>东</value>
+  </data>
+  <data name="EditButton" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="EmergencyAlarmExtraInfo1" xml:space="preserve">
+    <value>*已处理，等待终端结果</value>
+  </data>
+  <data name="EmergencyAlarmExtraInfo2" xml:space="preserve">
+    <value>*处理超时，建议30秒后重试</value>
+  </data>
+  <data name="EmergencyAlarms" xml:space="preserve">
+    <value>紧急报警</value>
+  </data>
+  <data name="EmptyFunctionName" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="EnableButton" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="ErrorOccurred" xml:space="preserve">
+    <value>发生错误,请联系管理员！</value>
+  </data>
+  <data name="ExNoticeType" xml:space="preserve">
+    <value>异常提醒类型</value>
+  </data>
+  <data name="ExportExcel" xml:space="preserve">
+    <value>导出Excel</value>
+  </data>
+  <data name="ImportExcel" xml:space="preserve">
+    <value>导入Excel</value>
+  </data>
+  <data name="InformationTitle" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="Inspections" xml:space="preserve">
+    <value>查岗信息</value>
+  </data>
+  <data name="InspectType" xml:space="preserve">
+    <value>查岗提醒类型</value>
+  </data>
+  <data name="IntraScopeVehicles" xml:space="preserve">
+    <value>区域车辆</value>
+  </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>请上传png/jpg格式的图片</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>注销</value>
+  </data>
+  <data name="MapType" xml:space="preserve">
+    <value>地图类型</value>
+  </data>
+  <data name="ModifySpeedLimitButton" xml:space="preserve">
+    <value>修改限速值</value>
+  </data>
+  <data name="ModifyWarrantyDateButton" xml:space="preserve">
+    <value>修改保固期</value>
+  </data>
+  <data name="NewEmergencyAlarm" xml:space="preserve">
+    <value>新的紧急报警消息！</value>
+  </data>
+  <data name="NewInspectionInfo" xml:space="preserve">
+    <value>新的查岗消息！</value>
+  </data>
+  <data name="NickNamePlaceHolder" xml:space="preserve">
+    <value>请输入昵称</value>
+  </data>
+  <data name="NoDatas" xml:space="preserve">
+    <value>查无数据！</value>
+  </data>
+  <data name="NoPermission" xml:space="preserve">
+    <value>无权限!</value>
+  </data>
+  <data name="North" xml:space="preserve">
+    <value>北</value>
+  </data>
+  <data name="NorthEast" xml:space="preserve">
+    <value>东北</value>
+  </data>
+  <data name="NorthWest" xml:space="preserve">
+    <value>西北</value>
+  </data>
+  <data name="Noting" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="OfflineStatus" xml:space="preserve">
+    <value>掉线</value>
+  </data>
+  <data name="OpenAccessButton" xml:space="preserve">
+    <value>开启接入</value>
+  </data>
+  <data name="OpenTransmitButton" xml:space="preserve">
+    <value>开启转发</value>
+  </data>
+  <data name="Operation" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="PleaseChooseUserFirst" xml:space="preserve">
+    <value>请先选择用户！</value>
+  </data>
+  <data name="PleaseInput" xml:space="preserve">
+    <value>请输入</value>
+  </data>
+  <data name="PleaseInputVehicleNameAndPickOne" xml:space="preserve">
+    <value>请先输入车代号并选择一条记录！</value>
+  </data>
+  <data name="PleaseSelectItem" xml:space="preserve">
+    <value>请先选择项！</value>
+  </data>
+  <data name="RealTimeExceptions" xml:space="preserve">
+    <value>实时异常</value>
+  </data>
+  <data name="RealTimeMonitoringSearchResult" xml:space="preserve">
+    <value>未找到车代号为{0}的{1}车辆信息！</value>
+  </data>
+  <data name="Reply" xml:space="preserve">
+    <value>回复</value>
+  </data>
+  <data name="ReplyInspection" xml:space="preserve">
+    <value>回复查岗</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>重置密码</value>
+  </data>
+  <data name="Return" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="RunningStatus" xml:space="preserve">
+    <value>行驶</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="ScrapButton" xml:space="preserve">
+    <value>报废</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>查询</value>
+  </data>
+  <data name="SearchButton" xml:space="preserve">
+    <value>搜索(S)</value>
+  </data>
+  <data name="SelectButton" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="SelectUser" xml:space="preserve">
+    <value>选择用户</value>
+  </data>
+  <data name="SelectVehiclesToBeAllocated" xml:space="preserve">
+    <value>选择分配车辆</value>
+  </data>
+  <data name="South" xml:space="preserve">
+    <value>南</value>
+  </data>
+  <data name="SouthEast" xml:space="preserve">
+    <value>东南</value>
+  </data>
+  <data name="SouthWest" xml:space="preserve">
+    <value>西南</value>
+  </data>
+  <data name="StopStatus" xml:space="preserve">
+    <value>停车</value>
+  </data>
+  <data name="StrucDistribution" xml:space="preserve">
+    <value>单位分配</value>
+  </data>
+  <data name="SwitchToOriginalUser" xml:space="preserve">
+    <value>切回原用户</value>
+  </data>
+  <data name="SwitchUserButton" xml:space="preserve">
+    <value>切换用户</value>
+  </data>
+  <data name="UserNamePlaceHolder" xml:space="preserve">
+    <value>请输入用户名</value>
+  </data>
+  <data name="VehicleBasicInfo" xml:space="preserve">
+    <value>车辆基本信息</value>
+  </data>
+  <data name="VehicleDistribution" xml:space="preserve">
+    <value>车辆分配</value>
+  </data>
+  <data name="VehiclesDistributionListError" xml:space="preserve">
+    <value>车辆分配列表中已存在</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>欢迎您！</value>
+  </data>
+  <data name="WelcomePage" xml:space="preserve">
+    <value>欢迎页</value>
+  </data>
+  <data name="West" xml:space="preserve">
+    <value>西</value>
+  </data>
+  <data name="VehicleSensorInfo" xml:space="preserve">
+    <value>传感器信息</value>
+  </data>
+  <data name="VehicleExceptionInfo" xml:space="preserve">
+    <value>车辆异常信息</value>
+  </data>
+  <data name="Circle" xml:space="preserve">
+    <value>圆形</value>
+  </data>
+  <data name="Polygon" xml:space="preserve">
+    <value>多边形</value>
+  </data>
+  <data name="Rectangle" xml:space="preserve">
+    <value>矩形</value>
+  </data>
+  <data name="Rule" xml:space="preserve">
+    <value>测距</value>
+  </data>
+  <data name="ShowArea" xml:space="preserve">
+    <value>显示区域</value>
+  </data>
+  <data name="ShowMarker" xml:space="preserve">
+    <value>显示地标</value>
+  </data>
+  <data name="VehicleSearch" xml:space="preserve">
+    <value>车辆查询</value>
+  </data>
+  <data name="Draw" xml:space="preserve">
+    <value>绘制</value>
+  </data>
+  <data name="TerminalSetting_Update" xml:space="preserve">
+    <value>参数设定</value>
+  </data>
+  <data name="TerminalSetting_DifferenceOfFatigueDrivingTime" xml:space="preserve">
+    <value>疲劳驾驶预警差值（s）</value>
+  </data>
+  <data name="TerminalSetting_DifferenceOfOverspeedValues" xml:space="preserve">
+    <value>超速报警预警差值（km/h）</value>
+  </data>
+  <data name="TerminalSetting_HeartbeatInterval" xml:space="preserve">
+    <value>终端心跳发送间隔（s）</value>
+  </data>
+  <data name="TerminalSetting_LocationReportPolicy" xml:space="preserve">
+    <value>位置汇报策略</value>
+  </data>
+  <data name="TerminalSetting_LocationReportTrigger" xml:space="preserve">
+    <value>位置汇报方案</value>
+  </data>
+  <data name="TerminalSetting_MaximumDrivingTime" xml:space="preserve">
+    <value>连续驾驶时间门限（s）</value>
+  </data>
+  <data name="TerminalSetting_MaximumDrivingTimeToday" xml:space="preserve">
+    <value>当天累计驾驶时间门限（s）</value>
+  </data>
+  <data name="TerminalSetting_MaximumSpeed" xml:space="preserve">
+    <value>最高速度（km/h）</value>
+  </data>
+  <data name="TerminalSetting_MaximumStoppingTime" xml:space="preserve">
+    <value>最长停车时间（s）</value>
+  </data>
+  <data name="TerminalSetting_MinimumBreakTime" xml:space="preserve">
+    <value>最小休息时间（s）</value>
+  </data>
+  <data name="TerminalSetting_OverspeedCheckTime" xml:space="preserve">
+    <value>超速持续时间（s）</value>
+  </data>
+  <data name="TerminalSetting_QuerySetting" xml:space="preserve">
+    <value>读取设置</value>
+  </data>
+  <data name="TerminalSetting_StateRepotrInterval_General" xml:space="preserve">
+    <value>缺省时间汇报间隔（s）</value>
+  </data>
+  <data name="TerminalSetting_StateRepotrInterval_NotLoggedIn" xml:space="preserve">
+    <value>未登录汇报间隔（秒）</value>
+  </data>
+  <data name="TerminalSetting_StateRepotrInterval_Sleep" xml:space="preserve">
+    <value>休眠时汇报时间间隔（s）</value>
+  </data>
+  <data name="TerminalSetting_StateRepotrInterval_Urgent" xml:space="preserve">
+    <value>紧急报警时汇报时间间隔（s）</value>
+  </data>
+  <data name="TerminalSetting_TelphoneNO" xml:space="preserve">
+    <value>监听电话号码</value>
+  </data>
+  <data name="TerminalSetting_TotalODO" xml:space="preserve">
+    <value>车辆里程表读数（km）</value>
+  </data>
+  <data name="TerminalSetting_UpdateSetting" xml:space="preserve">
+    <value>下发设置</value>
+  </data>
+  <data name="TerminalSetting_Query" xml:space="preserve">
+    <value>参数查看</value>
+  </data>
+  <data name="TerminalSetting_CompanyName" xml:space="preserve">
+    <value>使用单位</value>
+  </data>
+  <data name="TerminalSetting_PlateNumber" xml:space="preserve">
+    <value>车牌号</value>
+  </data>
+  <data name="TerminalSetting_SettingType" xml:space="preserve">
+    <value>设置类型</value>
+  </data>
+  <data name="TerminalSetting_TerminalCode" xml:space="preserve">
+    <value>终端号</value>
+  </data>
+  <data name="TerminalSetting_Type_RegionSettings_Delete" xml:space="preserve">
+    <value>区域设置删除</value>
+  </data>
+  <data name="TerminalSetting_Type_TelephoneBook" xml:space="preserve">
+    <value>电话本设置</value>
+  </data>
+  <data name="TerminalSetting_Type_TerminalSetup_Query" xml:space="preserve">
+    <value>终端设置查询</value>
+  </data>
+  <data name="TerminalSetting_Type_TerminalSetup_Update" xml:space="preserve">
+    <value>终端设置下发</value>
+  </data>
+  <data name="TerminalSetting_Type_TextMessage" xml:space="preserve">
+    <value>文本消息</value>
+  </data>
+  <data name="TerminalSetting_StartTime" xml:space="preserve">
+    <value>起始时间</value>
+  </data>
+  <data name="TerminalSetting_EndTime" xml:space="preserve">
+    <value>结束时间</value>
+  </data>
+  <data name="TerminalSetting_AddContact" xml:space="preserve">
+    <value>新增联系人</value>
+  </data>
+  <data name="TerminalSetting_CallType" xml:space="preserve">
+    <value>呼叫类型</value>
+  </data>
+  <data name="TerminalSetting_CallTypeIn" xml:space="preserve">
+    <value>呼入</value>
+  </data>
+  <data name="TerminalSetting_CallTypeInAndOut" xml:space="preserve">
+    <value>呼入/呼出</value>
+  </data>
+  <data name="TerminalSetting_CallTypeOut" xml:space="preserve">
+    <value>呼出</value>
+  </data>
+  <data name="TerminalSetting_ClearAndAddContact" xml:space="preserve">
+    <value>清空并新增联系人</value>
+  </data>
+  <data name="TerminalSetting_Contact" xml:space="preserve">
+    <value>联系人</value>
+  </data>
+  <data name="TerminalSetting_DelAllContact" xml:space="preserve">
+    <value>删除所有联系人</value>
+  </data>
+  <data name="TerminalSetting_EditPhonebook" xml:space="preserve">
+    <value>修改电话本</value>
+  </data>
+  <data name="TerminalSetting_Tel" xml:space="preserve">
+    <value>电话号码</value>
+  </data>
+  <data name="TerminalSetting_KeyName" xml:space="preserve">
+    <value>设置字段</value>
+  </data>
+  <data name="TerminalSetting_ValueName" xml:space="preserve">
+    <value>字段值</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="Route" xml:space="preserve">
+    <value>路线</value>
+  </data>
+  <data name="AbnormalTrack" xml:space="preserve">
+    <value>异常轨迹</value>
+  </data>
+  <data name="OverSpeedTrack" xml:space="preserve">
+    <value>超速轨迹</value>
+  </data>
+  <data name="TerminalSetting_ShowPathOrRegion" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>或</value>
+  </data>
+  <data name="Choose" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>分钟</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>现在</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="TerminalSetting_Type_RegionSettings_Add" xml:space="preserve">
+    <value>区域设置追加</value>
+  </data>
+  <data name="TerminalSetting_Type_RegionSettings_Update" xml:space="preserve">
+    <value>区域设置更新</value>
+  </data>
+  <data name="TerminalSetting_Type_RouteSettings_Delete" xml:space="preserve">
+    <value>删除路径设置</value>
+  </data>
+  <data name="TerminalSetting_Type_RouteSettings_Add" xml:space="preserve">
+    <value>路径设置下发</value>
+  </data>
+  <data name="TerminalSetting_Type_None" xml:space="preserve">
+    <value>未知操作</value>
+  </data>
+  <data name="BackupServerIP" xml:space="preserve">
+    <value>备份服务器IP地址或域名</value>
+  </data>
+  <data name="LicensePlateColor" xml:space="preserve">
+    <value>车牌颜色</value>
+  </data>
+  <data name="MotorNumberPlate" xml:space="preserve">
+    <value>公安交通管理部门颁发的机动车号牌</value>
+  </data>
+  <data name="PrimaryServerIP" xml:space="preserve">
+    <value>主服务器IP地址或域名</value>
+  </data>
+  <data name="ServerTCPPort" xml:space="preserve">
+    <value>服务器TCP端口</value>
+  </data>
+  <data name="Detail" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>暂停</value>
+  </data>
+  <data name="Play" xml:space="preserve">
+    <value>播放</value>
+  </data>
+  <data name="AlsoDeleteBindVehicleInfo" xml:space="preserve">
+    <value>同时删除绑定的车辆信息！</value>
+  </data>
+  <data name="BindVehicle" xml:space="preserve">
+    <value>绑定车辆</value>
+  </data>
+  <data name="ConfirmAddVehicleToEF" xml:space="preserve">
+    <value>确认添加车辆到当前电子围栏吗？</value>
+  </data>
+  <data name="ConfirmUnBindVehicle" xml:space="preserve">
+    <value>确认解绑当前车辆吗？</value>
+  </data>
+  <data name="ForbidIn" xml:space="preserve">
+    <value>禁入</value>
+  </data>
+  <data name="ForbidOut" xml:space="preserve">
+    <value>禁出</value>
+  </data>
+  <data name="UnBindVehicle" xml:space="preserve">
+    <value>解绑车辆</value>
+  </data>
+  <data name="UnEnableButton" xml:space="preserve">
+    <value>未启用</value>
+  </data>
+  <data name="PleaseSelectAffiliatedunits" xml:space="preserve">
+    <value>请选择隶属单位</value>
+  </data>
+  <data name="Area" xml:space="preserve">
+    <value>区域</value>
+  </data>
+  <data name="DriveIn" xml:space="preserve">
+    <value>驶入</value>
+  </data>
+  <data name="DriveOut" xml:space="preserve">
+    <value>驶出</value>
+  </data>
+  <data name="ConfirmDeal" xml:space="preserve">
+    <value>确认处理吗？</value>
+  </data>
+  <data name="BeingProcessed" xml:space="preserve">
+    <value>下发中...</value>
+  </data>
+  <data name="Reading" xml:space="preserve">
+    <value>读取中...</value>
+  </data>
+  <data name="SearchLoding" xml:space="preserve">
+    <value>查询中...</value>
+  </data>
+  <data name="DistributionBusinessScope" xml:space="preserve">
+    <value>分配经营范围</value>
+  </data>
+  <data name="ConfirmBusinessScope" xml:space="preserve">
+    <value>确认分配经营范围吗?</value>
+  </data>
+  <data name="EmployeeType" xml:space="preserve">
+    <value>员工类型</value>
+  </data>
+  <data name="Driver" xml:space="preserve">
+    <value>驾驶员</value>
+  </data>
+  <data name="Escort" xml:space="preserve">
+    <value>押运员</value>
+  </data>
+  <data name="BusinessScopeError" xml:space="preserve">
+    <value>危险品车必须选择经营范围！</value>
+  </data>
+  <data name="CarrierError" xml:space="preserve">
+    <value>危险品车必须选择押运员！</value>
+  </data>
+  <data name="DriverError" xml:space="preserve">
+    <value>危险品车必须选择驾驶员！</value>
+  </data>
+  <data name="NoBusinessScope" xml:space="preserve">
+    <value>暂未分配经营范围</value>
+  </data>
+  <data name="SearchBusinessScope" xml:space="preserve">
+    <value>查看经营范围</value>
+  </data>
+  <data name="DefaultMode" xml:space="preserve">
+    <value>默认模式</value>
+  </data>
+  <data name="FreeMode" xml:space="preserve">
+    <value>自由模式</value>
+  </data>
+  <data name="HideAlarmInfo" xml:space="preserve">
+    <value>隐藏报警信息</value>
+  </data>
+  <data name="ShowAlarmInfo" xml:space="preserve">
+    <value>显示报警信息</value>
+  </data>
+  <data name="HideTemperTable" xml:space="preserve">
+    <value>隐藏温度曲线图</value>
+  </data>
+  <data name="ShowTemperTable" xml:space="preserve">
+    <value>显示温度曲线图</value>
+  </data>
+  <data name="DistributionTransportIndustry" xml:space="preserve">
+    <value>分配运输行业</value>
+  </data>
+  <data name="ConfirmTransportIndustry" xml:space="preserve">
+    <value>确认分配运输行业吗?</value>
+  </data>
+  <data name="SearchTransportIndustry" xml:space="preserve">
+    <value>查看运输行业</value>
+  </data>
+  <data name="NoTransportIndustry" xml:space="preserve">
+    <value>暂未分配运输行业</value>
+  </data>
+  <data name="CarToLandError" xml:space="preserve">
+    <value>危险品车必须输入车籍地！</value>
+  </data>
+  <data name="RoadransportNoError" xml:space="preserve">
+    <value>危险品车必须输入道路运输证号！</value>
+  </data>
+  <data name="TransportIndustryError" xml:space="preserve">
+    <value>危险品车必须选择运输行业！</value>
+  </data>
+  <data name="TransportManagement" xml:space="preserve">
+    <value>运管所</value>
+  </data>
+  <data name="TransportManagementError" xml:space="preserve">
+    <value>危险品车转发运管必须选择运管所！</value>
+  </data>
+  <data name="ConfigureAtLeastOneTemperatureSensor" xml:space="preserve">
+    <value>至少配置一个温度传感器!</value>
+  </data>
+  <data name="MustBeConfiguredInOrder" xml:space="preserve">
+    <value>必须按照顺序配置!</value>
+  </data>
+  <data name="ParameterConfigurationError" xml:space="preserve">
+    <value>参数配置有误!</value>
+  </data>
+  <data name="AreaOverSpeed" xml:space="preserve">
+    <value>区域超速</value>
+  </data>
+  <data name="DragChangeSize" xml:space="preserve">
+    <value>拖动下方横线可以调整信息列表高度！</value>
+  </data>
+  <data name="PickUpPoint" xml:space="preserve">
+    <value>提货点</value>
+  </data>
+  <data name="ReceivePoint" xml:space="preserve">
+    <value>收货点</value>
+  </data>
+  <data name="SynchroReceiveAddress" xml:space="preserve">
+    <value>同步收货地址</value>
+  </data>
+  <data name="IsSynchroed" xml:space="preserve">
+    <value>已同步</value>
+  </data>
+  <data name="NoSynchro" xml:space="preserve">
+    <value>未同步</value>
+  </data>
+  <data name="HideSignalsList" xml:space="preserve">
+    <value>隐藏信号列表</value>
+  </data>
+  <data name="ShowSignalsList" xml:space="preserve">
+    <value>显示信号列表</value>
+  </data>
+  <data name="NoUseCustomer" xml:space="preserve">
+    <value>不在用客户</value>
+  </data>
+  <data name="PotentialCustomer" xml:space="preserve">
+    <value>潜在客户</value>
+  </data>
+  <data name="UsingCustomer" xml:space="preserve">
+    <value>在用客户</value>
+  </data>
+  <data name="ShowEFMarker" xml:space="preserve">
+    <value>显示电子围栏</value>
+  </data>
+  <data name="Owners" xml:space="preserve">
+    <value>车主</value>
+  </data>
+  <data name="CloseNightban" xml:space="preserve">
+    <value>关闭夜间禁行分析</value>
+  </data>
+  <data name="OpenNightban" xml:space="preserve">
+    <value>启用夜间禁行分析</value>
+  </data>
+  <data name="ConfirmSend" xml:space="preserve">
+    <value>确认发送吗？</value>
+  </data>
+  <data name="ExceptionNoticeSound" xml:space="preserve">
+    <value>异常通知音</value>
+  </data>
+  <data name="Finished" xml:space="preserve">
+    <value>已结束</value>
+  </data>
+  <data name="KeepEnteredContent" xml:space="preserve">
+    <value>保留输入</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="PendingListOfExceptions" xml:space="preserve">
+    <value>待处理异常列表</value>
+  </data>
+  <data name="ProcessingResultDescription" xml:space="preserve">
+    <value>处理结果描述</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="UnFinished" xml:space="preserve">
+    <value>未结束</value>
+  </data>
+  <data name="VoiceMessage" xml:space="preserve">
+    <value>语音消息</value>
+  </data>
+  <data name="ExceptionEndAddress" xml:space="preserve">
+    <value>异常结束地址</value>
+  </data>
+  <data name="ExceptionEndDateTime" xml:space="preserve">
+    <value>异常结束时间</value>
+  </data>
+  <data name="YearsCheckAlarm" xml:space="preserve">
+    <value>年检预警</value>
+  </data>
+  <data name="Audite" xml:space="preserve">
+    <value>审核</value>
+  </data>
+  <data name="HasAudite" xml:space="preserve">
+    <value>已审核</value>
+  </data>
+  <data name="NotAudite" xml:space="preserve">
+    <value>未审核</value>
+  </data>
+  <data name="YearsCheckTimeSpan" xml:space="preserve">
+    <value>年检提示提前天数不能小于0！</value>
+  </data>
+  <data name="MileageAndTimePeriod" xml:space="preserve">
+    <value>里程或时间周期</value>
+  </data>
+  <data name="MileagePeriod" xml:space="preserve">
+    <value>里程周期</value>
+  </data>
+  <data name="TimePeriod" xml:space="preserve">
+    <value>时间周期</value>
+  </data>
+  <data name="ViewDetail" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="MaintenanceSchedule" xml:space="preserve">
+    <value>保养方案</value>
+  </data>
+  <data name="MaintenanceCheckAlarm" xml:space="preserve">
+    <value>保养预警</value>
+  </data>
+  <data name="MaintenanceRecord" xml:space="preserve">
+    <value>保养记录</value>
+  </data>
+  <data name="NGJH" xml:space="preserve">
+    <value>南钢嘉华</value>
+  </data>
+  <data name="Unbind" xml:space="preserve">
+    <value>解除终端绑定信息</value>
+  </data>
+  <data name="SendParameter" xml:space="preserve">
+    <value>发送配置</value>
+  </data>
+  <data name="ExportExcelWithenAuth" xml:space="preserve">
+    <value>导出权限内车辆列表</value>
+  </data>
+  <data name="PlateNumber" xml:space="preserve">
+    <value>车牌</value>
+  </data>
+  <data name="SIMCode" xml:space="preserve">
+    <value>SIM卡号</value>
+  </data>
+  <data name="Struct" xml:space="preserve">
+    <value>单位</value>
+  </data>
+  <data name="HidePressureTable" xml:space="preserve">
+    <value>隐藏卸料列表</value>
+  </data>
+  <data name="ShowPressureTable" xml:space="preserve">
+    <value>显示卸料列表</value>
+  </data>
+  <data name="Please Enter The Address Information" xml:space="preserve">
+    <value>请输入地址信息</value>
+  </data>
+  <data name="HideStopContentTable" xml:space="preserve">
+    <value>隐藏停车点列表</value>
+  </data>
+  <data name="ShowStopContentTable" xml:space="preserve">
+    <value>显示停车点列表</value>
+  </data>
+</root>

@@ -1,0 +1,385 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<VehicleSearchModel, VehicleListModel>
+
+<style>
+    .ui-autocomplete {
+        height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+</style>
+
+
+@using (Ajax.BeginForm("GetVehicleInfo", "Vehicle", new AjaxOptions()
+    {
+        UpdateTargetId = "Admin_Vehicle_VehicleSetting_divVehicles",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET"
+    }, new { id = "frmSearchVehicle" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.PlateNum)：</td>
+            <td>
+                <input type="search" name="PlateNum" value=""  placeholder="@(UIText.PleaseInput + DisplayText.PlateNum)"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.PrimarySIMCode)：</td>
+            <td>
+                <input type="search" name="PrimarySIMCode" value=""  placeholder="@(UIText.PleaseInput + DisplayText.PrimarySIMCode)"/>
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.PrimaryTerminalCode)：</td>
+            <td>
+                <input type="search" name="PrimaryTerminalCode" value=""  placeholder="@(UIText.PleaseInput + DisplayText.PrimaryTerminalCode)"/>
+            </td>
+
+            <td>@Html.LabelFor(m => m.SearchModel.PrimaryTerminalTypeID)：</td>
+            <td>
+                @Html.DropDownList("PrimaryTerminalTypeID", Model.SearchModel.PrimaryTerminalTypeSelectList)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => Model.SearchModel.SearchStrucID)：</td>
+            <td>
+                <input id="ddlStrucs" type="text" name="strucName" class="form-control" placeholder="@(UIText.PleaseInput + DisplayText.StrucName)" />
+                <input type="hidden" name="SearchStrucID" value="-1" id="SearchStrucID" />
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.OwnersName)：</td>
+            <td>
+                <input type="search" name="OwnersName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.OwnersName)"/></td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.VIN)：</td>
+            <td>
+                <input type="search" name="VIN" value=""  placeholder="@(UIText.PleaseInput + DisplayText.VIN)"/>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                @if (AsiatekUIHelper.CheckPremission("VehicleSetting", "Vehicle", "Admin"))
+                {
+                    <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                }
+@*<span class="btn btn-info" title="@UIText.AddButton" id="btnAddVehicle">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>*@
+@*  <span class="btn btn-info" title="@UIText.AddButton" id="btnAddVehicleNew">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>*@
+@*    <span class="btn btn-info" title="@UIText.AddButton" id="btnAddVehicle_New">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>*@
+                @if (AsiatekUIHelper.CheckPremission("NewAddVehicle", "Vehicle", "Admin"))
+                {
+                    <span class="btn btn-info" title="@UIText.AddButton" id="btnNewAddVehicle">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </span>
+                }
+                @if (AsiatekUIHelper.CheckPremission("DeleteVehicle", "Vehicle", "Admin"))
+                {
+                    <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelVehicle">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </span>
+                }
+                @if (AsiatekUIHelper.CheckPremission("ModifyWarrantyDate", "Vehicle", "Admin"))
+                {
+                    <span class="btn btn-info" title="@UIText.ModifyWarrantyDateButton" id="btnModifyWarrantyDate">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                }
+                @if (AsiatekUIHelper.CheckPremission("OpenAccess", "Vehicle", "Admin"))
+                {
+                    <span class="btn btn-info" title="@UIText.OpenAccessButton" id="btnOpenAccess">
+                        <span class="glyphicon glyphicon-record"></span>
+                    </span>
+                }
+                @if (AsiatekUIHelper.CheckPremission("CloseAccess", "Vehicle", "Admin"))
+                {
+                    <span class="btn btn-warning" title="@UIText.CloseAccessButton" id="btnCloseAccess">
+                        <span class="glyphicon glyphicon-record"></span>
+                    </span>
+                }
+@*      <span class="btn btn-info" title="@UIText.OpenTransmitButton" id="btnOpenTransmit">
+                    <span class="glyphicon glyphicon-transfer"></span>
+                </span>
+                <span class="btn btn-warning" title="@UIText.CloseTransmitButton" id="btnCloseTransmit">
+                    <span class="glyphicon glyphicon-transfer"></span>
+                </span>*@
+                @if (AsiatekUIHelper.CheckPremission("EnableReceive", "Vehicle", "Admin"))
+                {
+                    <span class="btn btn-info" title="@UIText.EnableButton" id="btnEnable">
+                        <span class="glyphicon glyphicon-off"></span>
+                    </span>
+                }
+                @if (AsiatekUIHelper.CheckPremission("DisableReceive", "Vehicle", "Admin"))
+                {
+                    <span class="btn btn-warning" title="@UIText.DisableButton" id="btnDisable">
+                        <span class="glyphicon glyphicon-off"></span>
+                    </span>
+                }
+                @if (AsiatekUIHelper.CheckPremission("ImportExcel", "Vehicle", "Admin"))
+                {
+                    <a href="javascript:void(0)" id="linkImportExcel" class="btn btn-primary ladda-button" data-style="expand-left">
+                        <span class="ladda-label glyphicon glyphicon-import" title="@UIText.ImportExcel"></span>
+                    </a>
+                    
+                    
+                }
+                @if (AsiatekUIHelper.CheckPremission("ExportExcel", "Vehicle", "Admin"))
+                {
+                    <button id="linkExportExcel" class="btn btn-primary ladda-button" data-style="zoom-in" title="@UIText.ExportExcelWithenAuth">
+                        <span class="ladda-label glyphicon glyphicon-export"></span>
+                    </button>
+                }
+            </td>
+            <td>
+                @if (AsiatekUIHelper.CheckPremission("ImportExcel", "Vehicle", "Admin"))
+                {
+                    <input type="file" name="excel" value="" id="fileExcel" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" />
+                }
+            </td>
+        </tr>
+    </table>
+}
+
+<div id="Admin_Vehicle_VehicleSetting_divVehicles">
+    @Html.Partial("_VehiclePagedGrid", Model)
+</div>
+
+
+<script>
+    $("#frmSearchVehicle").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnExport").click(function () {
+        console.log($("#frmSearchVehicle").serialize());
+        var _params = $("#frmSearchVehicle").serialize();
+        var _url = "@Url.Content("~/Admin/Vehicle/ExportToExcel")" + "?" + _params;
+        console.log(_url);
+        $('<form method="POST" action="' + _url + '"></form>').appendTo('body').submit().remove();
+    });
+
+
+    $("#ddlStrucs").bind("input propertychange", function () {
+        $("#SearchStrucID").val(-1);
+    })
+
+
+    var $ddlStrucs = $("#ddlStrucs");
+    $ddlStrucs.autocomplete({
+        delay: 500,
+        minLength: 1,
+        select: function (event, ui) {
+            $("#SearchStrucID").val(ui.item.ID);
+        },
+        source: function (request, response) {
+            $.get('@Url.Content("~/Admin/Vehicle/GetStrucAndSubStrucByName")', { name: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+
+        $("#btnAddVehicle").on("click", function () {
+            var _url = "@Url.Content("~/Admin/Vehicle/AddVehicle")";
+            var _data = {};
+            var _title = "@UIText.AddButton";
+            $.showEditDialog(_url, _data, _title, refreshSearchForm);
+        });
+
+        $("#btnAddVehicleNew").click(function () {
+            var _url = "@Url.Content("~/Admin/Vehicle/AddVehicleNew")";
+            var _data = {};
+            var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+        });
+
+    $("#btnAddVehicle_New").click(function () {
+        var _url = "@Url.Content("~/Admin/Vehicle/AddVehicle_New")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnNewAddVehicle").click(function () {
+        var _url = "@Url.Content("~/Admin/Vehicle/NewAddVehicle")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+
+    $("#btnDelVehicle").on("click", function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='vid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+             return;
+         }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#frmDelVehicle").submit();
+        });
+    });
+
+    $("#btnOpenAccess").on("click", function () {
+        commOperation('@UIText.ConfirmOpenAccess', '@Url.Content("~/Admin/Vehicle/OpenAccess")');
+     });
+
+
+     $("#btnCloseAccess").on("click", function () {
+         commOperation('@UIText.ConfirmCloseAccess', '@Url.Content("~/Admin/Vehicle/CloseAccess")');
+    });
+
+
+    $("#btnOpenTransmit").on("click", function () {
+        commOperation('@UIText.ConfirmOpenTransmit', '@Url.Content("~/Admin/Vehicle/OpenTransmit")');
+    });
+
+    $("#btnCloseTransmit").on("click", function () {
+        commOperation('@UIText.ConfirmCloseTransmit', '@Url.Content("~/Admin/Vehicle/CloseTransmit")');
+    });
+
+    $("#btnEnable").on("click", function () {
+        commOperation('@UIText.ConfirmEnableReceive', '@Url.Content("~/Admin/Vehicle/EnableReceive")');
+    });
+
+    $("#btnDisable").on("click", function () {
+        commOperation('@UIText.ConfirmDisableReceive', '@Url.Content("~/Admin/Vehicle/DisableReceive")');
+    });
+
+
+    $("#btnModifyWarrantyDate").on("click", function () {
+
+        var _chkvids = $("input[name='vid']:checked");
+        var _message = '@UIText.PleaseSelectItem';
+        if (_chkvids.length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        var _vids = "";
+        _chkvids.each(function (i, n) {
+            _vids += $(this).val() + "|";
+        });
+
+        var _url = "@Url.Content("~/Admin/Vehicle/ModifyWarrantyDate")";
+        var _data = { ids: JSON.stringify(_vids) };
+        var _title = "@UIText.EditButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+
+    var commOperation = function (message, url) {
+        var _chkvids = $("input[name='vid']:checked");
+        if (_chkvids.length == 0) {
+            $.showPromptDialog('@UIText.PleaseSelectItem', '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        $.showConfirmDialog(message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            var _vids = "";
+            _chkvids.each(function (i, n) {
+                _vids += $(this).val() + "|";
+            });
+            var _token = $('@Html.AntiForgeryToken()').val();
+            var data = { __RequestVerificationToken: _token, vids: _vids };
+            $.post(url, data, function (result) {
+                if ($.handleAjaxError(result)) {
+                    return;
+                }
+                $.showPromptDialog(result.Message);
+                refreshSearchForm();
+            });
+        });
+    }
+
+    $("#linkImportExcel").on("click", function () {
+        var _$fileExcel = $("#fileExcel");
+        if (_$fileExcel.val().trim() == '') {
+            $.showPromptDialog("@DataAnnotations.FileDoesNotExist", '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        var _files = _$fileExcel.prop('files');//获取到文件列表
+        var _fileName = _$fileExcel.val().trim();
+        if (!/\.(xls|xlsx|XLS|XLSX)$/.test(_fileName)) {
+            var _message = '@DataAnnotations.WrongFileType';
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+
+        var _ladda = Ladda.create(this);
+        //Ajax方式上传Excel文件
+        var _formData = new FormData();
+        console.log(_formData);
+        var _token = $('@Html.AntiForgeryToken()').val();
+        _formData.append("__RequestVerificationToken", _token);
+        _formData.append("excelFile", _files[0]);
+        $.ajax({
+            url: "@Url.Content("~/Admin/Vehicle/ImportExcel")",
+            type: 'POST',
+            data: _formData,
+            // 告诉jQuery不要去处理发送的数据
+            processData: false,
+            // 告诉jQuery不要去设置Content-Type请求头
+            contentType: false,
+            beforeSend: function () {
+                _ladda.start();
+                _$fileExcel.prop("disabled", true);
+            },
+            success: function (result) {
+                _ladda.stop();
+                _$fileExcel.prop("disabled", false);
+                showCommonEditResult(result);
+                refreshSearchForm();
+            }
+        });
+    });
+
+
+    
+    $("#linkExportExcel").click(function () {
+        Ladda.create(document.getElementById("linkExportExcel")).start();
+        download('@Url.Content("~/Admin/Vehicle/ExportExcel")', '@String.Format("{0}_{1}_{2}.xls", "车辆列表", DateTime.Now.ToString("yyyyMMddHHmmss"), base.User.Identity.Name.Split('|')[5])');
+    })
+
+    //ajax访问action进行下载
+    function download(url, downLoadFileRename) {
+        $("#linkExportExcel").attr('disabled', true);
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);        // 也可以使用POST方式，根据接口
+        xhr.responseType = "blob";    // 返回类型blob
+        // 定义请求完成的处理函数，请求前也可以增加加载框/禁用下载按钮逻辑
+        xhr.onload = function () {
+            // 请求完成
+            if (this.status === 200) {
+                // 返回200
+                var blob = this.response;
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);    // 转换为base64，可以直接放入a表情href
+                reader.onload = function (e) {
+                    // 转换完成，创建一个a标签用于下载
+                    var a = document.createElement('a');
+                    a.download = downLoadFileRename;
+                    a.href = e.target.result;
+                    $("body").append(a);    // 修复firefox中无法触发click
+                    a.click();
+                    $(a).remove();
+                }
+                Ladda.create(document.getElementById("linkExportExcel")).stop();
+            }
+        };
+        // 发送ajax请求
+        xhr.send()
+    }
+</script>
+
+
+
+
+

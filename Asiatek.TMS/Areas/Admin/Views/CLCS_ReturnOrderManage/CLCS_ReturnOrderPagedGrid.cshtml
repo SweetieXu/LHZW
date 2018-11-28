@@ -1,0 +1,98 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<CLCS_ReturnOrderSearchModel, CLCS_ReturnOrderListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+
+    string updateTargetId = "Admin_CLCS_ReturnOrderManage_CLCS_ReturnOrderSetting_divCLCS_ReturnOrder";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    <form id = "frmDelElectricFence">
+        @Html.AntiForgeryToken()
+        <table class="table table-striped table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.PlateNum)</th>
+                    <th>@Html.DisplayNameFor(m => m.StartTime)</th>
+                    <th>@Html.DisplayNameFor(m => m.EndTime)</th>
+                    <th>@Html.DisplayNameFor(m => m.ReturnMileage)</th>
+                    <th>@Html.DisplayNameFor(m => m.CreateTime)</th>
+                    <th>@Html.DisplayNameFor(m => m.Remark)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in pagedDatas)
+                {
+                    <tr>
+                        <td>
+                            <label>@item.PlateNum</label>
+                        </td>
+                        <td>
+                            <label>@item.StartTime</label>
+                        </td>
+                        <td>
+                            <label>@item.EndTime</label>
+                        </td>
+                        <td>
+                            <label>@item.ReturnMileage</label>
+                        </td>
+                        <td>
+                            <label>@item.CreateTime</label>
+                        </td>
+                        <td>
+                            <label onmouseover="this.title='@item.Remark'">
+                                @if (item.Remark == null)
+                                { 
+                                    @item.Remark
+                                }    
+                                else{
+                                    @(item.Remark.Length > 20 ? item.Remark.Substring(0, 20) + "..." : item.Remark)
+                                }
+                            </label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
+    
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "CLCS_ReturnOrderManage",
+    ActionName = "GetCLCS_ReturnOrder",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+
+<script>
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchCLCS_ReturnOrder #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchCLCS_ReturnOrder").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+</script>
+

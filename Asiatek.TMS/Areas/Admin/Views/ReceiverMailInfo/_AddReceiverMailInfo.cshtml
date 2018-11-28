@@ -1,0 +1,71 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model ReceiverMailInfoFormModel
+@using (Ajax.BeginForm("AddReceiverMailInfo", "ReceiverMailInfo", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddReceiverMailInfo" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.Email)：</td>
+                <td>@Html.EditorFor(m => m.Email)</td>
+               
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Email)</td>
+               
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Name)：</td>
+                <td>@Html.EditorFor(m => m.Name)</td>
+               
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Name)</td>
+                
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Status)：</td>
+                <td>@Html.EditorFor(m => m.Status)&nbsp<label for="Status">启用</label></td>
+              
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Status)</td>
+                
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td>@Html.TextAreaFor(m => m.Remark)</td>
+              
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Remark)</td>
+            
+            </tr>
+           
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <button class="btn btn-primary" title="@UIText.SaveButton" ><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+<script>
+    var $frmAddPlateColo = $("#frmAddReceiverMailInfo");
+    $frmAddPlateColo.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmAddPlateColo.fixUnobtrusiveValidation();
+
+
+</script>

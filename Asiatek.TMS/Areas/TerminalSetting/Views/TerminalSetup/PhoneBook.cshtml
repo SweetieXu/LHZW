@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "PhoneBook";
+}
+@using Asiatek.TMS.TerminalOperation
+@using Asiatek.Resource
+@using Asiatek.Model.TerminalSetting
+@model PhoneBookSettingModel
+
+<style>
+    tr {
+        
+    }
+
+        tr > td:nth-child(1) {
+            text-align: center;
+            width: 20%;
+        }
+
+        tr > td:nth-child(2) {
+            width: 80%;
+        }
+</style>
+
+<div class="panel panel-default" style="margin:10px 0">
+    <div class="panel-heading">@UIText.TerminalSetting_Update</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("UpdatePhoneBookSetting", "TerminalSetup", FormMethod.Post, new { @class = "", id = "bookSetting" }))
+        {
+        <table class="table">
+            <tbody>
+
+                <tr>
+                    <td>@UIText.TerminalSetting_SettingType</td>
+                    <td>
+                        <div class="radio">
+                            <label><input type="radio" id="delAll" name="settingType" value="@((byte)TelphoneBookSettingType.删除终端上所有存储的联系人)" />@UIText.TerminalSetting_DelAllContact</label><p></p>
+                            <label><input type="radio" id="" name="settingType" value="@((byte)TelphoneBookSettingType.更新电话本)" />@UIText.TerminalSetting_ClearAndAddContact</label><p></p>
+                            <label><input type="radio" id="" name="settingType" value="@((byte)TelphoneBookSettingType.追加电话本)" />@UIText.TerminalSetting_AddContact</label><p></p>
+                            <label><input type="radio" id="" name="settingType" value="@((byte)TelphoneBookSettingType.修改电话本)" />@UIText.TerminalSetting_EditPhonebook</label>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>@UIText.TerminalSetting_CallType</td>
+                    <td>
+                        <label class="radio-inline"><input type="radio" name="callType" value="@((byte)ContactItemFlag.呼入)" />@UIText.TerminalSetting_CallTypeIn</label>
+                        <label class="radio-inline"><input type="radio" name="callType" value="@((byte)ContactItemFlag.呼出)" />@UIText.TerminalSetting_CallTypeOut</label>
+                        <label class="radio-inline"><input type="radio" name="callType" value="@((byte)ContactItemFlag.呼入与呼出)" />@UIText.TerminalSetting_CallTypeInAndOut</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>@UIText.TerminalSetting_Tel</td>
+                    <td>
+                        <div class="form-group" style="margin:0;">
+                            <input class="form-control" name="tel" type="tel" id="tel" />
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>@UIText.TerminalSetting_Contact</td>
+                    <td>
+                        <div class="form-group" style="margin:0;">
+                            <input class="form-control" name="contact" type="text" />
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td><input type="submit" id="setupPhonebook" value="@UIText.TerminalSetting_UpdateSetting" class="btn btn-primary pull-right" onclick="return OnSetupPhonebook();" disabled /></td>
+                </tr>
+            </tbody>
+        </table>
+        }
+    </div>
+</div>
+
+<script>
+    var vehiclesChecked = undefined;
+    var antiForgeryToken = $('@Html.AntiForgeryToken()');
+
+    $(function () {
+        // 注册车辆选中回调函数
+        VehicleCheckedEventHandlers.push(_OnVehicleChecked);
+
+        $('input[name=settingType]').click(function () {
+            if ($('#delAll').is(':checked')) {
+                $('input[name=tel],input[name=contact],input[name=callType]').attr('disabled', true);
+            }
+            else {
+                $('input[name=tel],input[name=contact],input[name=callType]').removeAttr('disabled');
+            }
+        });
+    });
+
+    function OnSetupPhonebook() {
+        if (vehiclesChecked == undefined)
+            return false;
+
+        settings = {
+            SettingType: $('input[name=settingType]:checked').val(),
+            Tel: $('tel').val(),
+            Contact: $('contact').val(),
+            CallType: $('input[name=callType]:checked').val(),
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UpdatePhoneBookSetting")',
+                cache: false,
+                data: {
+                    __RequestVerificationToken: antiForgeryToken.val(),
+                    Vehicles: vehiclesChecked,
+                    Settings: JSON.stringify(settings)
+                },
+            //traditional: true,
+                success: function (data) {
+                    alert(data)
+                }
+        });
+        return false;
+    }
+
+    function _OnVehicleChecked(vehicles) {
+        if ($.isEmptyObject(vehicles)) {
+            // 当未选中任何车辆时禁用 下发消息 按钮
+            $('#setupPhonebook').attr('disabled', true);
+            vehiclesChecked = undefined;
+        }
+        else {
+            // 启用 下发消息 按钮
+            $('#setupPhonebook').removeAttr('disabled');
+            vehiclesChecked = new Array();
+            for (v in vehicles) {
+                vehiclesChecked.push(v + '#' + vehicles[v]);
+            }
+        }
+    };
+</script>

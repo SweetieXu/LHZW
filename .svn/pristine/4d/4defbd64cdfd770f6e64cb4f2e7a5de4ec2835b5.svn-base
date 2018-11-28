@@ -1,0 +1,1358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DF5F01C4-9F32-4D04-9A42-2BC9B016679F}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Asiatek.TMS</RootNamespace>
+    <AssemblyName>Asiatek.TMS</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=5.3.1.0, Culture=neutral, PublicKeyToken=9ec0ff091d04b091, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="GpsCommData, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\GpsCommData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="NPOI, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Asiatek.Common\dll\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Asiatek.Common\dll\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Asiatek.Common\dll\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Asiatek.Common\dll\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="RemoteClass, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\RemoteClass.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers">
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.2\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.3.0\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ActionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AreaController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CLCS_ReturnOrderManageController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CommunicationTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CtrController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ElectricFenceController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ElectricFencePropertyController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EmployeeInfoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ExceptionTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FunctionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MaintenanceRecordController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MaintenanceScheduleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MGJH_PickUpTransportPointController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MGJH_ReceiveTransportPointController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MGJH_SynchroReceivePointController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NightBanController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReceiverMailInfoController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RepairRecordController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SensorController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ServerManagerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ServiceProviderMaintainController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SimCodeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StructureController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StrucVehicleDistributionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TemperatureAlarmRuleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TerminalController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TerminalManufacturerController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TerminalTypeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TransportManagementController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VehicleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VehicleExceptionController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VehicleMaintainController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VehicleSensorController.cs" />
+    <Compile Include="Areas\Admin\Controllers\VehicleTypeController.cs" />
+    <Compile Include="Areas\HistoricalRoute\Controllers\HomeController.cs" />
+    <Compile Include="Areas\HistoricalRoute\HistoricalRouteAreaRegistration.cs" />
+    <Compile Include="Areas\PersonalSetting\Controllers\HomeController.cs" />
+    <Compile Include="Areas\PersonalSetting\Controllers\UserController.cs" />
+    <Compile Include="Areas\PersonalSetting\PersonalSettingAreaRegistration.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\AbnormalPowerSupplyController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\AbnormalRouteController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\AccumulativeDrivieTimeoutController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\EmergencyAlarmController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\EquipmentFailureController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\FatigueDriveController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\FatigueDriveWarnController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\HomeController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\LostController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\MileageReportController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\RegionalAnomalyController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\ReportsController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\RiskEarlyWarnController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\TimeoutParkController.cs" />
+    <Compile Include="Areas\ReportManage\Controllers\UnusuallyDetailSummaryController.cs" />
+    <Compile Include="Areas\ReportManage\ReportManageAreaRegistration.cs" />
+    <Compile Include="Areas\Reports\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Reports\ReportsAreaRegistration.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\HomeController.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\MapLinesController.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\MapRegionsController.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\RegionSetup.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\PhoneBook.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\PathSetup.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\TerminalFlags.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\TerminalFlagsViewer.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\TerminalsSettingController.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\TerminalSetupController.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\Logs.cs" />
+    <Compile Include="Areas\TerminalSetting\Controllers\TextMessage.cs" />
+    <Compile Include="Areas\TerminalSetting\TerminalSettingAreaRegistration.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\ErrorsController.cs" />
+    <Compile Include="Controllers\FunctionsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomeElectricFenceController.cs" />
+    <Compile Include="Controllers\LHZW_HistoricalRouteController.cs" />
+    <Compile Include="Filters\CustomFilters.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\AsiatekHelpers.cs" />
+    <Compile Include="ModelBinder\AsiatekModelBinder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\rdlcs\ReportDataSet.cs">
+      <DependentUpon>ReportDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\rdlcs\ReportDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\ExceptionHandleRpt.aspx.cs">
+      <DependentUpon>ExceptionHandleRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\ExceptionHandleRpt.aspx.designer.cs">
+      <DependentUpon>ExceptionHandleRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\LHZWGateExceptionRpt.aspx.cs">
+      <DependentUpon>LHZWGateExceptionRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\LHZWGateExceptionRpt.aspx.designer.cs">
+      <DependentUpon>LHZWGateExceptionRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\MGJHExpForIllegalDischarg.aspx.cs">
+      <DependentUpon>MGJHExpForIllegalDischarg.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\MGJHExpForIllegalDischarg.aspx.designer.cs">
+      <DependentUpon>MGJHExpForIllegalDischarg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\MGJHService.aspx.cs">
+      <DependentUpon>MGJHService.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\MGJHService.aspx.designer.cs">
+      <DependentUpon>MGJHService.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\NGAreaOverSpeedRpt.aspx.cs">
+      <DependentUpon>NGAreaOverSpeedRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\NGAreaOverSpeedRpt.aspx.designer.cs">
+      <DependentUpon>NGAreaOverSpeedRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\NightDrivingRpt.aspx.cs">
+      <DependentUpon>NightDrivingRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\NightDrivingRpt.aspx.designer.cs">
+      <DependentUpon>NightDrivingRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptBaseForm.aspx.cs">
+      <DependentUpon>RptBaseForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptBaseForm.aspx.designer.cs">
+      <DependentUpon>RptBaseForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm1.aspx.cs">
+      <DependentUpon>RptForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm1.aspx.designer.cs">
+      <DependentUpon>RptForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm2.aspx.cs">
+      <DependentUpon>RptForm2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm2.aspx.designer.cs">
+      <DependentUpon>RptForm2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm3.aspx.cs">
+      <DependentUpon>RptForm3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm3.aspx.designer.cs">
+      <DependentUpon>RptForm3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm4.aspx.cs">
+      <DependentUpon>RptForm4.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm4.aspx.designer.cs">
+      <DependentUpon>RptForm4.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm5.aspx.cs">
+      <DependentUpon>RptForm5.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\RptForm5.aspx.designer.cs">
+      <DependentUpon>RptForm5.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\TemperExceptionForm.aspx.cs">
+      <DependentUpon>TemperExceptionForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\TemperExceptionForm.aspx.designer.cs">
+      <DependentUpon>TemperExceptionForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\TemperForJSYY.aspx.cs">
+      <DependentUpon>TemperForJSYY.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\TemperForJSYY.aspx.designer.cs">
+      <DependentUpon>TemperForJSYY.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\TemperForm.aspx.cs">
+      <DependentUpon>TemperForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\TemperForm.aspx.designer.cs">
+      <DependentUpon>TemperForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReportFiles\reports\VehicleOffLineRpt.aspx.cs">
+      <DependentUpon>VehicleOffLineRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReportFiles\reports\VehicleOffLineRpt.aspx.designer.cs">
+      <DependentUpon>VehicleOffLineRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\HistoricalDataNS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\MyService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PlatformServicesNS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TerminalOperation\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\TerminalServicesNS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\AsiatekAjaxPagerStyles.css" />
+    <Content Include="Content\audio\异常信息通知V1.mp3" />
+    <Content Include="Content\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\expand.gif" />
+    <Content Include="Content\images\head\PersonalSetting.png" />
+    <Content Include="Content\images\head\HistoricalRoute.png" />
+    <Content Include="Content\images\head\RealTime.png" />
+    <Content Include="Content\images\head\Reports.png" />
+    <Content Include="Content\images\head\Logout.png" />
+    <Content Include="Content\images\head\Admin.png" />
+    <Content Include="Content\images\head\Administrator.png" />
+    <Content Include="Content\images\head\TerminalSetting.png" />
+    <Content Include="Content\images\head\ElectricFence.png" />
+    <Content Include="Content\images\login\short.png" />
+    <Content Include="Content\images\login\long.png" />
+    <Content Include="Content\images\login\Homepage.jpg" />
+    <Content Include="Content\images\login\AsiatekLOGO.png" />
+    <Content Include="Content\images\login\TMS2.0_Android_Ios_DownLoadApp.png" />
+    <Content Include="Content\images\mark_b1.png" />
+    <Content Include="Content\images\mark_b2.png" />
+    <Content Include="Content\images\pic\0.png" />
+    <Content Include="Content\images\pic\120.png" />
+    <Content Include="Content\images\pic\150.png" />
+    <Content Include="Content\images\pic\180.png" />
+    <Content Include="Content\images\pic\210.png" />
+    <Content Include="Content\images\pic\240.png" />
+    <Content Include="Content\images\pic\270.png" />
+    <Content Include="Content\images\pic\30.png" />
+    <Content Include="Content\images\pic\300.png" />
+    <Content Include="Content\images\pic\330.png" />
+    <Content Include="Content\images\pic\60.png" />
+    <Content Include="Content\images\pic\90.png" />
+    <Content Include="Content\images\pic\CN.bmp" />
+    <Content Include="Content\images\pic\Discharge.png" />
+    <Content Include="Content\images\pic\E.bmp" />
+    <Content Include="Content\images\pic\E.png" />
+    <Content Include="Content\images\pic\End1.png" />
+    <Content Include="Content\images\pic\loading.gif" />
+    <Content Include="Content\images\pic\mark.jpg" />
+    <Content Include="Content\images\pic\mark.png" />
+    <Content Include="Content\images\pic\N.bmp" />
+    <Content Include="Content\images\pic\N.png" />
+    <Content Include="Content\images\pic\NE.bmp" />
+    <Content Include="Content\images\pic\NE.png" />
+    <Content Include="Content\images\pic\NW.bmp" />
+    <Content Include="Content\images\pic\NW.png" />
+    <Content Include="Content\images\pic\page_excel.png" />
+    <Content Include="Content\images\pic\S.bmp" />
+    <Content Include="Content\images\pic\S.png" />
+    <Content Include="Content\images\pic\SE.bmp" />
+    <Content Include="Content\images\pic\SE.png" />
+    <Content Include="Content\images\pic\Start1.png" />
+    <Content Include="Content\images\pic\SW.bmp" />
+    <Content Include="Content\images\pic\SW.png" />
+    <Content Include="Content\images\pic\W.bmp" />
+    <Content Include="Content\images\pic\W.png" />
+    <Content Include="Content\images\realtimeDialog\Circle.png" />
+    <Content Include="Content\images\realtimeDialog\Circleselected.png" />
+    <Content Include="Content\images\realtimeDialog\Polygon.png" />
+    <Content Include="Content\images\realtimeDialog\Polygonselected.png" />
+    <Content Include="Content\images\realtimeDialog\ShowArea.png" />
+    <Content Include="Content\images\realtimeDialog\ShowAreaselected.png" />
+    <Content Include="Content\images\realtimeDialog\ShowMarker.png" />
+    <Content Include="Content\images\realtimeDialog\ShowMarkerselected.png" />
+    <Content Include="Content\images\realtimeDialog\Ruler.png" />
+    <Content Include="Content\images\realtimeDialog\Rulerselected.png" />
+    <Content Include="Content\images\realtimeDialog\Rect.png" />
+    <Content Include="Content\images\realtimeDialog\Rectselected.png" />
+    <Content Include="Content\images\realtimeDialog\VehicleSearch.png" />
+    <Content Include="Content\images\realtimeDialog\VehicleSearchselected.png" />
+    <Content Include="Content\images\realtimeMonitor\UpBtn.png" />
+    <Content Include="Content\images\realtimeMonitor\DownBtn.png" />
+    <Content Include="Content\images\realtimeMonitor\Stop.png" />
+    <Content Include="Content\images\realtimeMonitor\Stopselected.png" />
+    <Content Include="Content\images\realtimeMonitor\All.png" />
+    <Content Include="Content\images\realtimeMonitor\Allselected.png" />
+    <Content Include="Content\images\realtimeMonitor\Offline.png" />
+    <Content Include="Content\images\realtimeMonitor\Offlineselected.png" />
+    <Content Include="Content\images\realtimeMonitor\Search.png" />
+    <Content Include="Content\images\realtimeMonitor\Searchselected.png" />
+    <Content Include="Content\images\realtimeMonitor\Running.png" />
+    <Content Include="Content\images\realtimeMonitor\Runningselected.png" />
+    <Content Include="Content\images\shrank.gif" />
+    <Content Include="Content\images\treeloading.gif" />
+    <Content Include="Content\images\Welcome.png" />
+    <Content Include="Content\jqEditableSelect\jquery-editable-select.min.css" />
+    <Content Include="Content\jqPlot\jquery.jqplot.min.css" />
+    <Content Include="Content\jqueryGrid\ui.jqgrid-bootstrap.css" />
+    <Content Include="Content\jqueryPlay\barstyle.css" />
+    <Content Include="Content\jqueryPlay\barstyle.min.css" />
+    <Content Include="Content\jqueryui\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\jqueryui\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\jqueryui\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\jqueryui\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\jqueryui\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\jqueryui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jqueryui\jquery-ui.css" />
+    <Content Include="Content\jqueryui\jquery-ui.min.css" />
+    <Content Include="Content\jqueryui\jquery-ui.structure.css" />
+    <Content Include="Content\jqueryui\jquery-ui.structure.min.css" />
+    <Content Include="Content\jqueryui\jquery-ui.theme.css" />
+    <Content Include="Content\jqueryui\jquery-ui.theme.min.css" />
+    <Content Include="Content\ladda\ladda-themeless.min.css" />
+    <Content Include="Content\images\login\logo.png" />
+    <Content Include="Content\images\login\FirmID.png" />
+    <Content Include="Content\images\login\name.png" />
+    <Content Include="Content\images\login\pwd.png" />
+    <Content Include="Content\images\login\效果图.jpg" />
+    <Content Include="Content\images\login\效果图_spec.png" />
+    <Content Include="Content\images\login\UserName.png" />
+    <Content Include="Content\images\login\login.png" />
+    <Content Include="Content\images\login\选中.jpg" />
+    <Content Include="Content\images\login\VerifyCode.png" />
+    <Content Include="Content\images\login\Verify.png" />
+    <Content Include="Content\logos\foxconn.png" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\vehicleIcons\Arrow\Legend.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Offline0.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Stop0.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Stop135.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Stop180.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Stop225.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Stop270.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Stop315.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Stop45.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Stop90.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Offline135.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Offline180.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Offline225.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Offline270.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Offline315.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Offline45.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Offline90.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Running0.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Running135.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Running180.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Running225.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Running270.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Running315.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Running45.png" />
+    <Content Include="Content\vehicleIcons\Arrow\Running90.png" />
+    <Content Include="Content\vehicleIcons\Default\Stop270.png" />
+    <Content Include="Content\vehicleIcons\Default\Stop315.png" />
+    <Content Include="Content\vehicleIcons\Default\Stop0.png" />
+    <Content Include="Content\vehicleIcons\Default\Stop45.png" />
+    <Content Include="Content\vehicleIcons\Default\Stop90.png" />
+    <Content Include="Content\vehicleIcons\Default\Stop135.png" />
+    <Content Include="Content\vehicleIcons\Default\Stop180.png" />
+    <Content Include="Content\vehicleIcons\Default\Stop225.png" />
+    <Content Include="Content\vehicleIcons\Default\Legend.png" />
+    <Content Include="Content\vehicleIcons\Default\Offline270.png" />
+    <Content Include="Content\vehicleIcons\Default\Offline315.png" />
+    <Content Include="Content\vehicleIcons\Default\Offline0.png" />
+    <Content Include="Content\vehicleIcons\Default\Offline45.png" />
+    <Content Include="Content\vehicleIcons\Default\Offline90.png" />
+    <Content Include="Content\vehicleIcons\Default\Offline135.png" />
+    <Content Include="Content\vehicleIcons\Default\Offline180.png" />
+    <Content Include="Content\vehicleIcons\Default\Offline225.png" />
+    <Content Include="Content\vehicleIcons\Default\Running270.png" />
+    <Content Include="Content\vehicleIcons\Default\Running315.png" />
+    <Content Include="Content\vehicleIcons\Default\Running0.png" />
+    <Content Include="Content\vehicleIcons\Default\Running45.png" />
+    <Content Include="Content\vehicleIcons\Default\Running90.png" />
+    <Content Include="Content\vehicleIcons\Default\Running135.png" />
+    <Content Include="Content\vehicleIcons\Default\Running180.png" />
+    <Content Include="Content\vehicleIcons\Default\Running225.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Legend.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Running270.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Running315.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Running0.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Running45.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Running90.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Running135.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Running180.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Running225.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Stop270.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Stop315.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Stop0.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Stop45.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Stop90.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Stop135.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Stop180.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Stop225.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Offline270.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Offline315.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Offline0.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Offline45.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Offline90.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Offline135.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Offline180.png" />
+    <Content Include="Content\vehicleIcons\MixerTruck\Offline225.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Legend.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Running270.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Running315.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Running0.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Running45.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Running90.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Running135.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Running180.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Running225.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Stop270.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Stop315.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Stop0.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Stop45.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Stop90.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Stop135.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Stop180.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Stop225.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Offline270.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Offline315.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Offline0.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Offline45.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Offline90.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Offline135.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Offline180.png" />
+    <Content Include="Content\vehicleIcons\PumpTruck\Offline225.png" />
+    <Content Include="DLL\Aspose.Cells.dll" />
+    <Content Include="DLL\Aspose.Cells.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DLL\GpsCommData.dll" />
+    <Content Include="DLL\RemoteClass.dll" />
+    <Content Include="Global.asax" />
+    <Content Include="App_Code\AsiatekUIHelper.cshtml" />
+    <Content Include="Areas\Admin\Views\Action\_ActionPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Action\_ActionSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Action\_AddActionInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Action\_EditActionInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Action\OLD_ActionPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Action\OLD_ActionSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Area\_AddAreaInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Area\_AreaInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Area\_AreaPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Area\_EditAreaInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Area\NEW_AreaInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Area\NEW_AreaPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Area\OLD_AreaInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Area\OLD_AreaPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Ctr\_AddControllerInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Ctr\_ControllerInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Ctr\_ControllerPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Ctr\_EditControllerInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Ctr\NEW_ControllerInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Ctr\NEW_ControllerPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Ctr\OLD_ControllerInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Ctr\OLD_ControllerPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Function\_AddFunctionInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Function\_EditFunctionInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Function\_FunctionPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Function\_FunctionSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Function\NEW_AddFunctionInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Function\NEW_EditFunctionInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Function\OLD_FunctionPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Function\OLD_FunctionSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_AddRole.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_EditRole.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_RolePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\_RoleSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\OLD_RolePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Role\OLD_RoleSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Structure\_AddStructureInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Structure\_AddSubStructureInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Structure\_EditStructureInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Structure\_StructurePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Structure\_StructureSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Terminal\_AddTerminal.cshtml" />
+    <Content Include="Areas\Admin\Views\Terminal\_EditTerminal.cshtml" />
+    <Content Include="Areas\Admin\Views\Terminal\_TerminalPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Terminal\_TerminalSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\TerminalManufacturer\_AddTerminalManufacturer.cshtml" />
+    <Content Include="Areas\Admin\Views\TerminalManufacturer\_EditTerminalManufacturer.cshtml" />
+    <Content Include="Areas\Admin\Views\TerminalManufacturer\_TerminalManufacturerPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\TerminalManufacturer\_TerminalManufacturerSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\TerminalType\_AddTerminalType.cshtml" />
+    <Content Include="Areas\Admin\Views\TerminalType\_EditTerminalType.cshtml" />
+    <Content Include="Areas\Admin\Views\TerminalType\_TerminalTypePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\TerminalType\_TerminalTypeSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_AddUserInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_EditUserInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_UserPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\User\_UserSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_AddVehicle.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_EditVehicle.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_ModifySpeedLimit.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_ModifyWarrantyDate.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_VehiclePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_VehicleSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\OLD_AddVehicle.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\old_EditVehicle.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\OLD_VehiclePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\OLD_VehicleSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Web.config" />
+    <Content Include="Areas\HistoricalRoute\Views\Web.config" />
+    <Content Include="Areas\PersonalSetting\Views\Home\Index.cshtml" />
+    <Content Include="Areas\PersonalSetting\Views\User\_ModifyPassword.cshtml" />
+    <Content Include="Areas\PersonalSetting\Views\Web.config" />
+    <Content Include="Areas\ReportManage\Views\Home\Index.cshtml" />
+    <Content Include="Areas\ReportManage\Views\Lost\_LostConnectionReport.cshtml" />
+    <Content Include="Areas\ReportManage\Views\Lost\_LostConnectionReportDetail.cshtml" />
+    <Content Include="Areas\ReportManage\Views\Reports\_SpeedReportDetailGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\Reports\_SpeedReportGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\Web.config" />
+    <Content Include="ReportFiles\reports\ExceptionHandleRpt.aspx" />
+    <Content Include="ReportFiles\reports\LHZWGateExceptionRpt.aspx" />
+    <Content Include="ReportFiles\reports\MGJHExpForIllegalDischarg.aspx" />
+    <Content Include="ReportFiles\reports\MGJHService.aspx" />
+    <Content Include="ReportFiles\reports\NGAreaOverSpeedRpt.aspx" />
+    <Content Include="ReportFiles\reports\NightDrivingRpt.aspx" />
+    <Content Include="ReportFiles\reports\RptBaseForm.aspx" />
+    <Content Include="ReportFiles\reports\RptForm1.aspx" />
+    <Content Include="ReportFiles\reports\RptForm2.aspx" />
+    <Content Include="ReportFiles\reports\RptForm3.aspx" />
+    <Content Include="ReportFiles\reports\RptForm4.aspx" />
+    <Content Include="ReportFiles\reports\RptForm5.aspx" />
+    <Content Include="ReportFiles\reports\TemperExceptionForm.aspx" />
+    <Content Include="ReportFiles\reports\TemperForJSYY.aspx" />
+    <Content Include="ReportFiles\reports\TemperForm.aspx" />
+    <Content Include="ReportFiles\reports\VehicleOffLineRpt.aspx" />
+    <Content Include="Scripts\asiatekAjaxPager\AsiatekAjaxPagerJS.js" />
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Admin\Views\VehicleSensor\VehicleSensor.cshtml" />
+    <Content Include="Areas\Admin\Views\VehicleException\VehicleException.cshtml" />
+    <Content Include="Areas\Admin\Views\VehicleMaintain\_SelectPlateColors.cshtml" />
+    <Content Include="Areas\Admin\Views\VehicleMaintain\_PlateColorGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\VehicleMaintain\_AddPlateColorGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\VehicleType\_VehicleTypesGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\VehicleType\_SelectVehicleType.cshtml" />
+    <Content Include="Areas\Admin\Views\VehicleType\_AddVehicleTypeGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\VehicleType\_EditVehicleTypes.cshtml" />
+    <Content Include="Areas\Admin\Views\EmployeeInfo\_EmployeeInfoSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\EmployeeInfo\_EmployeeInfoPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\EmployeeInfo\_AddEmployeeInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\EmployeeInfo\_EditEmployeeInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\Sensor\_SeachSensorType.cshtml" />
+    <Content Include="Areas\Admin\Views\Sensor\_SensorPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Sensor\_EditSensorType.cshtml" />
+    <Content Include="Areas\Admin\Views\Sensor\_AddSensorType.cshtml" />
+    <Content Include="Areas\Admin\Views\ExceptionType\_ExceptionType.cshtml" />
+    <Content Include="Areas\Admin\Views\ExceptionType\_ExceptionTypePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\ExceptionType\_AddExceptionType.cshtml" />
+    <Content Include="Areas\Admin\Views\ExceptionType\_EditExceptionType.cshtml" />
+    <Content Include="Areas\Admin\Views\SimCode\_SearchSimCodeList.cshtml" />
+    <Content Include="Areas\Admin\Views\SimCode\_SimCodePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\SimCode\_AddSimCode.cshtml" />
+    <Content Include="Areas\Admin\Views\SimCode\_EditSimCode.cshtml" />
+    <Content Include="Areas\Admin\Views\ServiceProviderMaintain\_SeachServiceProviderType.cshtml" />
+    <Content Include="Areas\Admin\Views\ServiceProviderMaintain\_ServiceProviderGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\ServiceProviderMaintain\_AddServiceProvider.cshtml" />
+    <Content Include="Areas\Admin\Views\ServiceProviderMaintain\_EditServiceProvider.cshtml" />
+    <Content Include="Areas\Admin\Views\CommunicationType\_SeachCommunicationType.cshtml" />
+    <Content Include="Areas\Admin\Views\CommunicationType\_AddCommunicationType.cshtml" />
+    <Content Include="Areas\Admin\Views\CommunicationType\_EditCommunicationType.cshtml" />
+    <Content Include="Areas\Admin\Views\CommunicationType\_CommunicationTypeGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\MileageReport\_SeachCarMileage.cshtml" />
+    <Content Include="Areas\ReportManage\Views\MileageReport\_CarMileageGrid.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\Home\Index.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\MapRegions\_AddMapRegions.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\MapRegions\_EditMapRegions.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\MapRegions\_MapRegionsPagedGrid.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\MapRegions\_MapRegionsSetting.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\Main.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\TextMessages.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\PhoneBook.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\TerminalFlags.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\Regions.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\Paths.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\Logs.cshtml" />
+    <Content Include="Areas\ReportManage\Views\AbnormalPowerSupply\_AbnormalPowerSupplyGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\AbnormalPowerSupply\_SeachAbnormalPowerSupply.cshtml" />
+    <Content Include="Areas\ReportManage\Views\AbnormalRoute\_AbnormalRouteGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\AbnormalRoute\_SeachAbnormalRoute.cshtml" />
+    <Content Include="Areas\ReportManage\Views\AccumulativeDrivieTimeout\_AccumulativeDrivieTimeoutGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\AccumulativeDrivieTimeout\_SeachAccumulativeDrivieTimeout.cshtml" />
+    <Content Include="Areas\ReportManage\Views\EmergencyAlarm\_EmergencyAlarmGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\EmergencyAlarm\_SeachEmergencyAlarm.cshtml" />
+    <Content Include="Areas\ReportManage\Views\EquipmentFailure\_EquipmentFailureGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\EquipmentFailure\_SeachEquipmentFailure.cshtml" />
+    <Content Include="Areas\ReportManage\Views\FatigueDriveWarn\_FatigueDriveWarnGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\FatigueDriveWarn\_SeachFatigueDriveWarn.cshtml" />
+    <Content Include="Areas\ReportManage\Views\FatigueDrive\_FatigueDriveGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\FatigueDrive\_SeachFatigueDrive.cshtml" />
+    <Content Include="Areas\ReportManage\Views\RegionalAnomaly\_RegionalAnomalyGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\RegionalAnomaly\_SeachRegionalAnomaly.cshtml" />
+    <Content Include="Areas\ReportManage\Views\RiskEarlyWarn\_RiskEarlyWarnGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\RiskEarlyWarn\_SeachRiskEarlyWarn.cshtml" />
+    <Content Include="Areas\ReportManage\Views\TimeoutPark\_SeachTimeoutPark.cshtml" />
+    <Content Include="Areas\ReportManage\Views\TimeoutPark\_SeachTimeoutParkGrid.cshtml" />
+    <Content Include="Areas\ReportManage\Views\UnusuallyDetailSummary\_SeachUnusuallyDetailSummary.cshtml" />
+    <Content Include="Areas\ReportManage\Views\UnusuallyDetailSummary\_UnusuallyDetailSummaryGrid.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\MapLines\_MapLinesSetting.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\MapLines\_MapLinesPagedGrid.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\MapLines\_AddMapLines.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\MapLines\_EditMapLines.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\TerminalFlagsViewer.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\Logs_DataTable.cshtml" />
+    <Content Include="Areas\HistoricalRoute\Views\Home\_ExportAllExceptionSignal.cshtml" />
+    <Content Include="Areas\HistoricalRoute\Views\Home\_ExportAllSignal.cshtml" />
+    <Content Include="Areas\Reports\Views\Web.config" />
+    <Content Include="Areas\Reports\Views\Shared\ReportsLayout.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\OverSpeedRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\OfflineRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Shared\_ReportMenus.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\Regions_DataTable.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalSetup\Paths_DataTable.cshtml" />
+    <Content Include="ReportFiles\rdlcs\ReportDataSet.xsc">
+      <DependentUpon>ReportDataSet.xsd</DependentUpon>
+    </Content>
+    <Content Include="Areas\Reports\Views\Home\FatigueDrivingEarlyWarningRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\FatigueDrivingRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\AccumulatedDrivingOvertime.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\DangerWarningRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\EmergencyAlarmRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\EquipmentFailureRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\ExDetailsSummaryRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\MileageStatisticsRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\OvertimeParking.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\PowerAbnormalRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\RegionAbnormalRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\RouteAbnormalRpt.cshtml" />
+    <Content Include="Areas\Admin\Views\ServerManager\_ServerSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\ServerManager\_ServerPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\ServerManager\_AddServer.cshtml" />
+    <Content Include="Areas\Admin\Views\ServerManager\_EditServer.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalsSetting\PublicPage.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalsSetting\TextMessagesIssued.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalsSetting\TerminalSettingsIssued.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalsSetting\TerminalSettingsRead.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalsSetting\LogsSetting.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalsSetting\LogsPagedGrid.cshtml" />
+    <Content Include="Areas\TerminalSetting\Views\TerminalsSetting\LogsDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\_ElectricFencePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\_ElectricFenceSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\_AddElectricFence.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\_EditElectricFence.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\_ElectricFenceVehicleBindList.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\_ElectricFenceVehiclePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\_ElectricFenceVehicleSetting.cshtml" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Areas\Admin\Views\Structure\_BusinessScope.cshtml" />
+    <Content Include="Areas\Admin\Views\EmployeeInfo\_AddEmployeeInfoNew.cshtml" />
+    <Content Include="Areas\Admin\Views\EmployeeInfo\_EditEmployeeInfoNew.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_AddVehicleNew.cshtml" />
+    <Content Include="Areas\Admin\Views\StrucVehicledistribution\_AllotVehicles.cshtml" />
+    <Content Include="Areas\Admin\Views\StrucVehicledistribution\_DistributionSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_EditVehicleNew.cshtml" />
+    <Content Include="Areas\Admin\Views\Structure\_SearchBusinessScope.cshtml" />
+    <Content Include="Areas\HistoricalRoute\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NightBan\_NightBanSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\NightBan\_AddNightBan.cshtml" />
+    <Content Include="Areas\Admin\Views\NightBan\_EditNightBan.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFenceProperty\_ElectricFencePropertySetting.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFenceProperty\_ElectricFencePropertyPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFenceProperty\_AddElectricFenceProperty.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFenceProperty\_EditElectricFenceProperty.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_PickUpTransportPoint\_PickUpTransportPointSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_PickUpTransportPoint\_PickUpTransportPointPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_PickUpTransportPoint\_AddPickUpTransportPoint.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_PickUpTransportPoint\_EditPickUpTransportPoint.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_ReceiveTransportPoint\_ReceiveTransportPointSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_ReceiveTransportPoint\_ReceiveTransportPointPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_ReceiveTransportPoint\_AddReceiveTransportPoint.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_ReceiveTransportPoint\_EditReceiveTransportPoint.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_SynchroReceivePoint\_SynchroReceivePointSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_SynchroReceivePoint\_SynchroReceivePointPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\MGJH_SynchroReceivePoint\_EditSynchroReceivePoint.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\NGJH_AddElectricFence.cshtml" />
+    <Content Include="Areas\Admin\Views\ElectricFence\NGJH_EditElectricFence.cshtml" />
+    <Content Include="Areas\Admin\Views\NightBan\_NightBanPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\Structure\_TransportIndustry.cshtml" />
+    <Content Include="Areas\Admin\Views\Structure\_SearchSearchTransportIndustry.cshtml" />
+    <Content Include="Areas\Admin\Views\TransportManagement\_TransportManagementSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\TransportManagement\_TransportManagementPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\TemperatureAlarmRule\_TemperatureAlarmRuleSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\TemperatureAlarmRule\_TemperatureAlarmRulePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\TemperatureAlarmRule\_AddTemperatureAlarmRule.cshtml" />
+    <Content Include="Areas\Admin\Views\TemperatureAlarmRule\_EditTemperatureAlarmRuleEditCompletely.cshtml" />
+    <Content Include="Areas\Admin\Views\TemperatureAlarmRule\_EditTemperatureAlarmRuleEditPartially.cshtml" />
+    <Content Include="Areas\Admin\Views\TemperatureAlarmRule\_TemperatureAlarmRuleDistribution.cshtml" />
+    <Content Include="Areas\Admin\Views\TemperatureAlarmRule\_VehicleTemperatureAlarmRulesPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\TemperatureAlarmRule\_TemperatureAlarmRules.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\TemperRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\TemperExceptionRpt.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_AddVehicle_New.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_EditVehicle_New.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\ExceptionHandleRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\VehicleOffLineRpt.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_NewEditVehicle_SZYD.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_NewEditVehicle.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\NightDrivingRpt.cshtml" />
+    <Content Include="Areas\Admin\Views\Vehicle\_NewAddVehicle.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceSchedule\_MaintenanceScheduleSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceSchedule\_MaintenanceSchedulePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceSchedule\_AddMaintenanceSchedule.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceSchedule\_EditMaintenanceSchedule.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceSchedule\_BindVehicleList.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceSchedule\_BindVehiclePagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceSchedule\_BindVehicleSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceRecord\_MaintenanceRecordSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceRecord\_MaintenanceRecordPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceRecord\_AddMaintenanceRecord.cshtml" />
+    <Content Include="Areas\Admin\Views\MaintenanceRecord\_EditMaintenanceRecord.cshtml" />
+    <Content Include="Areas\Admin\Views\RepairRecord\_RepairRecordAdd.cshtml" />
+    <Content Include="Areas\Admin\Views\RepairRecord\_RepairRecordDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\RepairRecord\_RepairRecordEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\RepairRecord\_RepairRecordPageGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\RepairRecord\_RepairRecordReadOnly.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\NGAreaOverSpeedRpt.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\TemperForJSYY.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\MGJHExpForIllegalDischarg.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\MGJHService.cshtml" />
+    <Content Include="Areas\Admin\Views\CLCS_ReturnOrderManage\CLCS_ReturnOrderSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\CLCS_ReturnOrderManage\CLCS_ReturnOrderPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\CLCS_ReturnOrderManage\AddCLCS_ReturnOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\ReceiverMailInfo\_SearchReceiverMailInfoList.cshtml" />
+    <Content Include="Areas\Admin\Views\ReceiverMailInfo\_ReceiverMailInfoPagedGrid.cshtml" />
+    <Content Include="Areas\Admin\Views\ReceiverMailInfo\_AddReceiverMailInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\ReceiverMailInfo\_EditReceiverMailInfo.cshtml" />
+    <Content Include="Areas\Reports\Views\Home\LHZWGateExceptionRpt.cshtml" />
+    <None Include="Properties\PublishProfiles\Config.pubxml" />
+    <None Include="Properties\PublishProfiles\FJB.pubxml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\LHZW.pubxml" />
+    <None Include="Properties\PublishProfiles\LHZW_TMS.pubxml" />
+    <None Include="Properties\PublishProfiles\TMS2.0.pubxml" />
+    <None Include="Properties\PublishProfiles\TMS2.0Config.pubxml" />
+    <None Include="ReportFiles\rdlcs\ReportDataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ReportDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ReportFiles\rdlcs\ReportDataSet.xss">
+      <DependentUpon>ReportDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Scripts\asiatekExtend\AsiatekCommonJS.intellisense.js" />
+    <Content Include="Scripts\asiatekExtend\AsiatekCommonJS.js" />
+    <None Include="Scripts\asiatekExtend\AsiatekjQueryExtend.intellisense.js" />
+    <Content Include="Scripts\asiatekExtend\AsiatekjQueryExtend.js" />
+    <Content Include="Scripts\base64\Base64.js" />
+    <Content Include="Scripts\bootstraptreeview\bootstrap-treeview.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap\FixBootstrapConflict.js" />
+    <Content Include="Scripts\echarts\echarts.js" />
+    <Content Include="Scripts\echarts\echartsSetting.js" />
+    <Content Include="Scripts\gaodeMap\map.js" />
+    <Content Include="Scripts\gaodeMap\realTimeMap.js" />
+    <Content Include="Scripts\initplugin\InitPlugin.js" />
+    <Content Include="Scripts\jqPlot\jqplot.barRenderer.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.canvasAxisLabelRenderer.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.canvasAxisTickRenderer.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.canvasOverlay.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.canvasTextRenderer.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.categoryAxisRenderer.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.cursor.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.dateAxisRenderer.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.highlighter.min.js" />
+    <Content Include="Scripts\jqPlot\jqplot.pointLabels.min.js" />
+    <Content Include="Scripts\jqPlot\jqPlotUsage.js" />
+    <Content Include="Scripts\jqPlot\jquery.jqplot.min.js" />
+    <Content Include="Scripts\jqueryGrid\grid.locale-cn.js" />
+    <Content Include="Scripts\jqueryGrid\grid.locale-en.js" />
+    <Content Include="Scripts\jqueryGrid\jquery.jqGrid.js" />
+    <Content Include="Content\jqueryGrid\ui.jqgrid.css" />
+    <Content Include="Scripts\jqueryGrid\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\jqueryPlay\jquery-1.11.1.min.js" />
+    <Content Include="Scripts\jqueryPlay\jquery-PlayBar.js" />
+    <Content Include="Scripts\jqueryPlay\jquery-PlayBar.min.js" />
+    <Content Include="Scripts\jqueryForm\jquery.form.min.js.map" />
+    <Content Include="Scripts\jqueryPlay\jquery-PlayBar2.min.js" />
+    <Content Include="Scripts\jqueryuitimepicker\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\jqueryui\jquery-ui-1.12.0.min.js" />
+    <Content Include="Scripts\jqueryui\jquery-ui-1.12.0.min.js.map">
+      <DependentUpon>jquery-ui-1.12.0.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\bootstrap\bootstrap_3.3.0.min.js" />
+    <None Include="Scripts\jquery\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\jqueryEditableSelect\jquery-editable-select.js" />
+    <Content Include="Scripts\jqueryForm\jquery.form.js" />
+    <Content Include="Scripts\jqueryForm\jquery.form.min.js" />
+    <Content Include="Scripts\jqueryub\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jqueryub\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jqueryui\jquery-ui-1.12.0.js" />
+    <None Include="Scripts\jqueryval\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jqueryval\jquery.validate.js" />
+    <Content Include="Scripts\jqueryval\jquery.validate.min.js" />
+    <Content Include="Scripts\jqueryval\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jqueryval\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jqueryval\jquery.validateExtend-Asiatek.js" />
+    <Content Include="Scripts\jquery\jquery-2.2.3.js" />
+    <Content Include="Scripts\jquery\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\ladda\ladda.js" />
+    <Content Include="Scripts\ladda\ladda.min.js" />
+    <Content Include="Scripts\ladda\spin.js" />
+    <Content Include="Scripts\ladda\spin.min.js" />
+    <Content Include="Scripts\pageMethod\dateRelate.js" />
+    <Content Include="Scripts\pageMethod\historicalRoutePage.js" />
+    <Content Include="Scripts\pageMethod\pathSimplifier.js" />
+    <Content Include="Scripts\pageMethod\realtimeMonitorPage.js" />
+    <Content Include="Scripts\RepairRecord\RepairRecordAdd.js" />
+    <Content Include="Scripts\RepairRecord\RepairRecordEdit.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetAllExceptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetExceptionsAndDealInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetExceptionsForMainPowerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetExceptionsForMapLineResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetExceptionsForMapRegionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetExceptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetHistorySignalsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetVehicleDistanceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\HistoricalDataNS\Asiatek.TMS.HistoricalDataNS.GetVehicleExceptionsForEquipmenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\HistoricalDataNS\HistoricalData.disco" />
+    <None Include="Service References\HistoricalDataNS\configuration91.svcinfo" />
+    <None Include="Service References\HistoricalDataNS\configuration.svcinfo" />
+    <None Include="Service References\HistoricalDataNS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Service References\MyService\WebService.wsdl" />
+    <None Include="Service References\HistoricalDataNS\HistoricalData.wsdl" />
+    <Content Include="Service References\PlatformServicesNS\Asiatek.TMS.PlatformServicesNS.ReplyInspectionMessageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\PlatformServicesNS\PlatformServices.disco" />
+    <None Include="Service References\PlatformServicesNS\configuration91.svcinfo" />
+    <None Include="Service References\PlatformServicesNS\configuration.svcinfo" />
+    <None Include="Service References\PlatformServicesNS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Service References\TerminalOperation\Asiatek.TMS.TerminalOperation.OperationResultGeneralRep.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\TerminalOperation\Asiatek.TMS.TerminalOperation.OperationResultMultimediaDataRetrievalRespData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\TerminalOperation\Asiatek.TMS.TerminalOperation.OperationResultQueryTerminalParaRespData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\TerminalOperation\item12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item121.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item1210.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item1211.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item122.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item123.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item124.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item125.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item126.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item127.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item128.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\item129.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\TerminalOperation\TerminalOperation1.wsdl" />
+    <None Include="Service References\TerminalServicesNS\TerminalServices.disco" />
+    <None Include="Service References\TerminalServicesNS\configuration91.svcinfo" />
+    <None Include="Service References\TerminalServicesNS\configuration.svcinfo" />
+    <None Include="Service References\TerminalServicesNS\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Service References\MyService\WebService.disco" />
+    <Content Include="Service References\MyService\configuration91.svcinfo" />
+    <Content Include="Service References\MyService\configuration.svcinfo" />
+    <Content Include="Service References\MyService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Service References\TerminalOperation\configuration91.svcinfo" />
+    <None Include="Service References\TerminalOperation\configuration.svcinfo" />
+    <None Include="Service References\TerminalOperation\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\TerminalOperation\item1.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Scripts\jquery\jquery-2.2.3.min.map" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\UnAuth.cshtml" />
+    <Content Include="Views\Errors\NotFound.cshtml" />
+    <Content Include="Views\Errors\OtherError.cshtml" />
+    <Content Include="Views\Functions\_GetMenus.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Welcome.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Service References\PlatformServicesNS\PlatformServices.wsdl" />
+    <None Include="Service References\TerminalServicesNS\TerminalServices.wsdl" />
+    <Content Include="Views\HomeElectricFence\Index.cshtml" />
+    <Content Include="Views\Home\_NeedDealAlarmList.cshtml" />
+    <Content Include="Views\Home\_NeedDealAlarmPagedGrid.cshtml" />
+    <Content Include="Views\LHZW_HistoricalRoute\Index.cshtml" />
+    <Content Include="Views\LHZW_HistoricalRoute\_ExportAllSignal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\HistoricalRoute\Models\" />
+    <Folder Include="Areas\HistoricalRoute\Views\Shared\" />
+    <Folder Include="Areas\PersonalSetting\Models\" />
+    <Folder Include="Areas\PersonalSetting\Views\Shared\" />
+    <Folder Include="Areas\ReportManage\Models\" />
+    <Folder Include="Areas\ReportManage\Views\Shared\" />
+    <Folder Include="Areas\Reports\Models\" />
+    <Folder Include="Areas\TerminalSetting\Models\" />
+    <Folder Include="Areas\TerminalSetting\Views\Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Asiatek.AjaxPager\Asiatek.AjaxPager.csproj">
+      <Project>{b4bab1a3-1582-4d46-8a0c-5b0e5269b294}</Project>
+      <Name>Asiatek.AjaxPager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.BLL\Asiatek.BLL.csproj">
+      <Project>{a58f67a4-8bff-4c7c-92f2-3f1927d28cae}</Project>
+      <Name>Asiatek.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.Common\Asiatek.Common.csproj">
+      <Project>{15793015-85f1-4611-88b1-30124445daf4}</Project>
+      <Name>Asiatek.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.DataAnnotations\Asiatek.CustomDataAnnotations.csproj">
+      <Project>{77b3d227-7c8e-4663-a240-ec93157de34f}</Project>
+      <Name>Asiatek.CustomDataAnnotations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.DBUtility\Asiatek.DBUtility.csproj">
+      <Project>{4aaf2ff6-7f93-459d-a700-c6e2a0883ff0}</Project>
+      <Name>Asiatek.DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.IBLL\Asiatek.IBLL.csproj">
+      <Project>{9065d297-f82f-4d73-b74c-b8e77aac4940}</Project>
+      <Name>Asiatek.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.Model\Asiatek.Model.csproj">
+      <Project>{1c4f665c-3425-4a37-a4e9-24e082d8670b}</Project>
+      <Name>Asiatek.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.Resources\Asiatek.Resource.csproj">
+      <Project>{c421e498-0042-4bd2-ab69-6fe8e46e9503}</Project>
+      <Name>Asiatek.Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\HistoricalDataNS\" />
+    <WCFMetadataStorage Include="Service References\MyService\" />
+    <WCFMetadataStorage Include="Service References\PlatformServicesNS\" />
+    <WCFMetadataStorage Include="Service References\TerminalOperation\" />
+    <WCFMetadataStorage Include="Service References\TerminalServicesNS\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReportFiles\rdlcs\Rpt1.rdlc" />
+    <Content Include="ReportFiles\rdlcs\Rpt2.rdlc" />
+    <Content Include="ReportFiles\rdlcs\Rpt3.rdlc" />
+    <Content Include="ReportFiles\rdlcs\Rpt5.rdlc" />
+    <Content Include="ReportFiles\rdlcs\FatigueDriving.rdlc" />
+    <Content Include="ReportFiles\rdlcs\AccumulatedDrivingOvertime.rdlc" />
+    <Content Include="ReportFiles\rdlcs\OvertimeParking.rdlc" />
+    <Content Include="ReportFiles\rdlcs\EmergencyAlarmRpt.rdlc" />
+    <Content Include="ReportFiles\rdlcs\Rpt4.rdlc" />
+    <Content Include="ReportFiles\rdlcs\Mileage.rdlc" />
+    <Content Include="ReportFiles\rdlcs\OverSpeed.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportFiles\rdlcs\Rpt4.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReportFiles\rdlcs\Temper.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="ReportFiles\rdlcs\TemperException.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReportFiles\rdlcs\OffLineRate.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReportFiles\rdlcs\ExceptionHandle.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReportFiles\rdlcs\NightDriving.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReportFiles\rdlcs\NGAreaOverSpeed.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReportFiles\rdlcs\MGJHExpForIllegalDischarg.rdlc" />
+    <Content Include="ReportFiles\rdlcs\MGJHService.rdlc" />
+    <Content Include="ReportFiles\rdlcs\NGAreaAverageOverSpeed.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ReportFiles\rdlcs\LHZWGateException.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>40357</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:4670/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

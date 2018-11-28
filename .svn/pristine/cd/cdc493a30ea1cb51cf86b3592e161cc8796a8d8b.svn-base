@@ -1,0 +1,63 @@
+14:34:16：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+14:34:22：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+14:34:54：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+14:35:25：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+14:36:08：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+14:36:40：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+14:37:31：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+14:39:04：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+14:41:27：
+异常信息：对象必须实现 IConvertible。
+堆栈信息：   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

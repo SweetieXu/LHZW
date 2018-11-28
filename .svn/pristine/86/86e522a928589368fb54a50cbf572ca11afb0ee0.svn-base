@@ -1,0 +1,142 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<TerminalSearchModel, TerminalListModel>
+
+
+
+
+@using (Ajax.BeginForm("GetTerminalInfo", "Terminal", new AjaxOptions()
+    {
+        UpdateTargetId = "Admin_Terminal_TerminalSetting_divTerminals",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET"
+    }, new { id = "frmSearchTerminal" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.TerminalCode)：</td>
+            <td>
+                <input type="search" name="TerminalCode" value=""  placeholder="@(UIText.PleaseInput + DisplayText.TerminalCode)"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.SIMCode)：</td>
+            <td>
+                <input type="search" name="SIMCode" value=""  placeholder="@(UIText.PleaseInput + DisplayText.SIMCode)"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.VIN)：</td>
+            <td>
+                <input type="search" name="VIN" value=""  placeholder="@(UIText.PleaseInput + DisplayText.VIN)"/>
+            </td>
+
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.VehicleID)：</td>
+            <td>
+                <input type="search" name="VehicleID" value=""  placeholder="@(UIText.PleaseInput + DisplayText.VehicleID)"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.TerminalManufacturerID)：</td>
+            <td>
+                @Html.DropDownList("TerminalManufacturerID", Model.SearchModel.TerminalManufacturerSelectList, new { id = "ddlAllTM" })
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.TerminalTypeID)：</td>
+            <td>
+                @Html.DropDownList("TerminalTypeID", Model.SearchModel.TerminalTypeSelectList, new { id = "ddlAllTT" })
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddTerminal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                @*     <span class="btn btn-warning" title="@UIText.ScrapButton" id="btnScrapTerminal">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </span>*@
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelete">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+<div id="Admin_Terminal_TerminalSetting_divTerminals">
+    @Html.Partial("_TerminalPagedGrid", Model)
+</div>
+
+
+
+<script>
+    $("#frmSearchTerminal").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    var $ddlAllTM = $("#ddlAllTM");
+    var $ddlAllTT = $("#ddlAllTT");
+    $ddlAllTM.change(function () {
+        var _tmID = $.trim($ddlAllTM.find("option:selected").val());
+        $.get("@Url.Content("~/Admin/TerminalType/GetTerminalDDLWithDefaultByTMID")", { tmID: _tmID }, function (result) {
+            $ddlAllTT.empty();
+            $.each(result, function (i, item) {
+                $ddlAllTT.append($("<option></option>").text(item.TerminalName).val(item.ID));
+            });
+        });
+    });
+
+
+
+    $("#btnAddTerminal").on("click", function () {
+        var _url = "@Url.Content("~/Admin/Terminal/AddTerminal")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnScrapTerminal").on("click", function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='tid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmScrap';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#frmScrapTerminal").submit();
+        });
+    });
+
+    $("#btnDelete").on("click", function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='tid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            var _url = "@Url.Content("~/Admin/Terminal/DeleteTerminal")";
+            var antiForgeryToken = $('@Html.AntiForgeryToken()');
+            var chk_value = new Array();
+            $("input[name='tid']:checked").each(function () {
+                chk_value.push($(this).val());
+            });
+            $.ajax({
+                url: _url,
+                type: 'POST',
+                data: { idList: chk_value, __RequestVerificationToken: antiForgeryToken.val() },
+                dataType: 'json',
+                traditional: true,//必须加上
+                cache: false,
+                success: function (data) {
+                    scrapCallBack(data);
+                }
+            });
+        });
+    });
+
+</script>
+
+
+
+
+

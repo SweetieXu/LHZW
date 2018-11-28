@@ -1,0 +1,21 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  AsiatekPagedList<AreaModel>
+
+
+@using (Ajax.BeginForm("GetAreaInfoByAreaName", "Area", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Area_AreaInfo_divAreasGrid",
+    OnSuccess = "commonAjaxSuccess"
+}, new { id = "frmSearchArea" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="text" name="areaName" value="" placeholder="@UIText.AreaNamePlaceHolder" />
+    <input type="submit" value="@UIText.SearchButton" accesskey="S"/>
+}
+
+@Styles.Render("~/Content/pagerCss")
+<div id="Admin_Area_AreaInfo_divAreasGrid">
+    @Html.Partial("_AreaPagedGrid", Model)
+</div>

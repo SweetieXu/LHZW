@@ -1,0 +1,1422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ACCOFF_Frequency" xml:space="preserve">
+    <value>ACC OFF信号频率（秒）</value>
+  </data>
+  <data name="ACCON_Frequency" xml:space="preserve">
+    <value>ACC ON信号频率（秒）</value>
+  </data>
+  <data name="ActionName" xml:space="preserve">
+    <value>动作名称</value>
+  </data>
+  <data name="AreaName" xml:space="preserve">
+    <value>区域名称</value>
+  </data>
+  <data name="AuxiliaryTerminal" xml:space="preserve">
+    <value>辅助定位终端</value>
+  </data>
+  <data name="AuxiliaryTerminalCode" xml:space="preserve">
+    <value>辅助终端号</value>
+  </data>
+  <data name="CommunicationMode" xml:space="preserve">
+    <value>终端通信模式</value>
+  </data>
+  <data name="ContactAddress" xml:space="preserve">
+    <value>联系地址</value>
+  </data>
+  <data name="ContactNumber1" xml:space="preserve">
+    <value>联系电话1</value>
+  </data>
+  <data name="ContactNumber2" xml:space="preserve">
+    <value>联系电话2</value>
+  </data>
+  <data name="ControllerName" xml:space="preserve">
+    <value>控制器名称</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>描述</value>
+  </data>
+  <data name="DrivingTime" xml:space="preserve">
+    <value>疲劳驾驶时间（分钟）</value>
+  </data>
+  <data name="ExMobiles" xml:space="preserve">
+    <value>异常提醒手机号</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>过滤异常信号</value>
+  </data>
+  <data name="FunctionName" xml:space="preserve">
+    <value>功能名称</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>车辆图标</value>
+  </data>
+  <data name="InspectMobiles" xml:space="preserve">
+    <value>查岗提醒手机号</value>
+  </data>
+  <data name="IsAccess" xml:space="preserve">
+    <value>货运平台接入</value>
+  </data>
+  <data name="IsBackground" xml:space="preserve">
+    <value>是否是后台功能</value>
+  </data>
+  <data name="IsCascaded" xml:space="preserve">
+    <value>是否级联</value>
+  </data>
+  <data name="IsDangerous" xml:space="preserve">
+    <value>危险品车</value>
+  </data>
+  <data name="IsDefault" xml:space="preserve">
+    <value>是否是默认角色</value>
+  </data>
+  <data name="IsReceived" xml:space="preserve">
+    <value>平台信号接收</value>
+  </data>
+  <data name="IsTopFunction" xml:space="preserve">
+    <value>顶级功能</value>
+  </data>
+  <data name="IsTransmit" xml:space="preserve">
+    <value>转发运管</value>
+  </data>
+  <data name="LicenseNo" xml:space="preserve">
+    <value>业户经营许可证号</value>
+  </data>
+  <data name="LinkMan1" xml:space="preserve">
+    <value>联系人1</value>
+  </data>
+  <data name="LinkMan2" xml:space="preserve">
+    <value>联系人2</value>
+  </data>
+  <data name="LinkMan3" xml:space="preserve">
+    <value>联系人3</value>
+  </data>
+  <data name="LinkMobile1" xml:space="preserve">
+    <value>联系电话1</value>
+  </data>
+  <data name="LinkMobile2" xml:space="preserve">
+    <value>联系电话2</value>
+  </data>
+  <data name="LinkMobile3" xml:space="preserve">
+    <value>联系电话3</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>公司Logo</value>
+  </data>
+  <data name="LogoTypeError" xml:space="preserve">
+    <value>Logo类型只能是jpg或png！</value>
+  </data>
+  <data name="ManufacturerCode" xml:space="preserve">
+    <value>车载终端厂商编码</value>
+  </data>
+  <data name="ManufacturerName" xml:space="preserve">
+    <value>车载终端厂商名</value>
+  </data>
+  <data name="MapTypeBaiDu" xml:space="preserve">
+    <value>百度</value>
+  </data>
+  <data name="MapTypeGoogle" xml:space="preserve">
+    <value>谷歌</value>
+  </data>
+  <data name="MapTypeOffline" xml:space="preserve">
+    <value>离线</value>
+  </data>
+  <data name="ModifyLogo" xml:space="preserve">
+    <value>修改LOGO</value>
+  </data>
+  <data name="Nationality" xml:space="preserve">
+    <value>行政区划码</value>
+  </data>
+  <data name="NickName" xml:space="preserve">
+    <value>昵称</value>
+  </data>
+  <data name="NotificationTypeAny" xml:space="preserve">
+    <value>不限</value>
+  </data>
+  <data name="NotificationTypeGuanXin" xml:space="preserve">
+    <value>管信</value>
+  </data>
+  <data name="NotificationTypeMessage" xml:space="preserve">
+    <value>短信</value>
+  </data>
+  <data name="NotificationTypePlateform" xml:space="preserve">
+    <value>平台</value>
+  </data>
+  <data name="Ownership" xml:space="preserve">
+    <value>产权所属</value>
+  </data>
+  <data name="ParentFunction" xml:space="preserve">
+    <value>上级功能</value>
+  </data>
+  <data name="ParentStructure" xml:space="preserve">
+    <value>上级单位</value>
+  </data>
+  <data name="PlateColor" xml:space="preserve">
+    <value>车牌颜色</value>
+  </data>
+  <data name="PlateColors" xml:space="preserve">
+    <value>车牌颜色</value>
+  </data>
+  <data name="PlateNum" xml:space="preserve">
+    <value>车牌号</value>
+  </data>
+  <data name="PrimarySIMCode" xml:space="preserve">
+    <value>定位终端SIM卡号</value>
+  </data>
+  <data name="PrimaryTerminal" xml:space="preserve">
+    <value>定位终端</value>
+  </data>
+  <data name="PrimaryTerminalCode" xml:space="preserve">
+    <value>定位终端号</value>
+  </data>
+  <data name="PrimaryTerminalType" xml:space="preserve">
+    <value>定位终端类型</value>
+  </data>
+  <data name="RangeError" xml:space="preserve">
+    <value>{0}必须在{1}到{2}之间！</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="RoleID" xml:space="preserve">
+    <value>角色编号</value>
+  </data>
+  <data name="RoleLevel" xml:space="preserve">
+    <value>角色等级</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>角色名称</value>
+  </data>
+  <data name="SavePwd" xml:space="preserve">
+    <value>保存密码(7天)</value>
+  </data>
+  <data name="SIMCode" xml:space="preserve">
+    <value>SIM卡号</value>
+  </data>
+  <data name="SpeedLimit" xml:space="preserve">
+    <value>限速值（km/h）</value>
+  </data>
+  <data name="StrucAccount" xml:space="preserve">
+    <value>单位账号</value>
+  </data>
+  <data name="StrucAccountOrName" xml:space="preserve">
+    <value>单位账号/名称</value>
+  </data>
+  <data name="StrucCode" xml:space="preserve">
+    <value>单位编号</value>
+  </data>
+  <data name="StrucName" xml:space="preserve">
+    <value>单位名称</value>
+  </data>
+  <data name="StrucWhichUseVehicle" xml:space="preserve">
+    <value>使用单位</value>
+  </data>
+  <data name="SubordinateStrucName" xml:space="preserve">
+    <value>隶属单位</value>
+  </data>
+  <data name="TerminalCode" xml:space="preserve">
+    <value>终端号</value>
+  </data>
+  <data name="TerminalName" xml:space="preserve">
+    <value>终端名称</value>
+  </data>
+  <data name="TerminalType" xml:space="preserve">
+    <value>终端类型</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="UserPwd" xml:space="preserve">
+    <value>登录密码</value>
+  </data>
+  <data name="UserRole" xml:space="preserve">
+    <value>用户角色</value>
+  </data>
+  <data name="ValidateCode" xml:space="preserve">
+    <value>验证码</value>
+  </data>
+  <data name="VehicleCode" xml:space="preserve">
+    <value>初始车牌</value>
+  </data>
+  <data name="VehicleName" xml:space="preserve">
+    <value>车辆代号</value>
+  </data>
+  <data name="VehicleType" xml:space="preserve">
+    <value>车辆类型</value>
+  </data>
+  <data name="VehicleTypes" xml:space="preserve">
+    <value>车辆类型</value>
+  </data>
+  <data name="WarrantyDate" xml:space="preserve">
+    <value>保固日期</value>
+  </data>
+  <data name="SubordinateArea" xml:space="preserve">
+    <value>所属区域</value>
+  </data>
+  <data name="SubordinateController" xml:space="preserve">
+    <value>所属控制器</value>
+  </data>
+  <data name="AssociatedAction" xml:space="preserve">
+    <value>关联动作</value>
+  </data>
+  <data name="Manufacturer" xml:space="preserve">
+    <value>车载终端厂商</value>
+  </data>
+  <data name="IsMenu" xml:space="preserve">
+    <value>是否是菜单</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>确认密码</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>新密码</value>
+  </data>
+  <data name="OriginalPassword" xml:space="preserve">
+    <value>原密码</value>
+  </data>
+  <data name="CultureName" xml:space="preserve">
+    <value>系统语言</value>
+  </data>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>截止时间</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>起始时间</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>时长</value>
+  </data>
+  <data name="TimeInterval" xml:space="preserve">
+    <value>时间区间</value>
+  </data>
+  <data name="ActualName" xml:space="preserve">
+    <value>实际名称</value>
+  </data>
+  <data name="FunctionIsMenu" xml:space="preserve">
+    <value>菜单功能</value>
+  </data>
+  <data name="OrderIndex" xml:space="preserve">
+    <value>排序索引</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>地址</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="ExceptionAddress" xml:space="preserve">
+    <value>异常地点</value>
+  </data>
+  <data name="ExceptionStartDateTime" xml:space="preserve">
+    <value>开始时间</value>
+  </data>
+  <data name="ExceptionThreshold" xml:space="preserve">
+    <value>阈值</value>
+  </data>
+  <data name="ExceptionTypeName" xml:space="preserve">
+    <value>异常类型</value>
+  </data>
+  <data name="InspectionContent" xml:space="preserve">
+    <value>查岗内容</value>
+  </data>
+  <data name="InspectionDateTime" xml:space="preserve">
+    <value>查岗时间</value>
+  </data>
+  <data name="PlatformName" xml:space="preserve">
+    <value>上级平台</value>
+  </data>
+  <data name="SignalDateTime" xml:space="preserve">
+    <value>定位时间</value>
+  </data>
+  <data name="VehicleVelocity" xml:space="preserve">
+    <value>速度(KM/H)</value>
+  </data>
+  <data name="IsOnline" xml:space="preserve">
+    <value>是否在线</value>
+  </data>
+  <data name="AvgSpeed" xml:space="preserve">
+    <value>平均时速</value>
+  </data>
+  <data name="MapMileage" xml:space="preserve">
+    <value>地图里程</value>
+  </data>
+  <data name="MaxSpeed" xml:space="preserve">
+    <value>最高时速（km/h）</value>
+  </data>
+  <data name="Mileage" xml:space="preserve">
+    <value>里程（km）</value>
+  </data>
+  <data name="OilMass" xml:space="preserve">
+    <value>油量</value>
+  </data>
+  <data name="Speed" xml:space="preserve">
+    <value>速度</value>
+  </data>
+  <data name="Temperature" xml:space="preserve">
+    <value>温度</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Asiatek" xml:space="preserve">
+    <value>南京亚士德科技有限公司</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>版权所有</value>
+  </data>
+  <data name="VehicleID" xml:space="preserve">
+    <value>车辆标识</value>
+  </data>
+  <data name="SensorName" xml:space="preserve">
+    <value>传感器名称</value>
+  </data>
+  <data name="Value1" xml:space="preserve">
+    <value>值1</value>
+  </data>
+  <data name="Value2" xml:space="preserve">
+    <value>值2</value>
+  </data>
+  <data name="SensorType" xml:space="preserve">
+    <value>传感器类型</value>
+  </data>
+  <data name="PlateCode" xml:space="preserve">
+    <value>颜色编号</value>
+  </data>
+  <data name="HigheNumber" xml:space="preserve">
+    <value>上级编号</value>
+  </data>
+  <data name="VehicleTCode" xml:space="preserve">
+    <value>类型编号</value>
+  </data>
+  <data name="VehicleTName" xml:space="preserve">
+    <value>类型名称</value>
+  </data>
+  <data name="TypeID" xml:space="preserve">
+    <value>编号</value>
+  </data>
+  <data name="EmployeeID" xml:space="preserve">
+    <value>工号</value>
+  </data>
+  <data name="EmployeeName" xml:space="preserve">
+    <value>姓名</value>
+  </data>
+  <data name="BirthDate" xml:space="preserve">
+    <value>出生年月日</value>
+  </data>
+  <data name="CertificateCode" xml:space="preserve">
+    <value>证件号</value>
+  </data>
+  <data name="CertificateOffice" xml:space="preserve">
+    <value>发证机关</value>
+  </data>
+  <data name="CertificateType" xml:space="preserve">
+    <value>证件类型</value>
+  </data>
+  <data name="ContactPhone" xml:space="preserve">
+    <value>联系电话</value>
+  </data>
+  <data name="DriveCode" xml:space="preserve">
+    <value>驾驶证号</value>
+  </data>
+  <data name="DriveCodeValidTime" xml:space="preserve">
+    <value>驾驶证有效期</value>
+  </data>
+  <data name="DriveLicenseState" xml:space="preserve">
+    <value>驾照状态</value>
+  </data>
+  <data name="DriveType" xml:space="preserve">
+    <value>准驾车型</value>
+  </data>
+  <data name="EmergePhone" xml:space="preserve">
+    <value>紧急联系电话</value>
+  </data>
+  <data name="EmployeeGender" xml:space="preserve">
+    <value>性别</value>
+  </data>
+  <data name="IsCarrier" xml:space="preserve">
+    <value>是否为押运员</value>
+  </data>
+  <data name="IsDriver" xml:space="preserve">
+    <value>是否为驾驶员</value>
+  </data>
+  <data name="Man" xml:space="preserve">
+    <value>男</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>至</value>
+  </data>
+  <data name="ValidPeriod" xml:space="preserve">
+    <value>有效期</value>
+  </data>
+  <data name="Woman" xml:space="preserve">
+    <value>女</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="FValue" xml:space="preserve">
+    <value>参数二必填</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="TValue" xml:space="preserve">
+    <value>参数一必填</value>
+  </data>
+  <data name="ExName" xml:space="preserve">
+    <value>异常名称</value>
+  </data>
+  <data name="CommMode" xml:space="preserve">
+    <value>通信方式</value>
+  </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>过期日期</value>
+  </data>
+  <data name="OpeningDate" xml:space="preserve">
+    <value>开通日期</value>
+  </data>
+  <data name="OwnerStrucCode" xml:space="preserve">
+    <value>归属单位</value>
+  </data>
+  <data name="PurchaseDate" xml:space="preserve">
+    <value>购买日期</value>
+  </data>
+  <data name="ServiceProvider" xml:space="preserve">
+    <value>服务商</value>
+  </data>
+  <data name="UseStrucCode" xml:space="preserve">
+    <value>使用单位</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="EndTime" xml:space="preserve">
+    <value>结束时间</value>
+  </data>
+  <data name="IsPeriodic" xml:space="preserve">
+    <value>是否周期</value>
+  </data>
+  <data name="OverSpeedDuration" xml:space="preserve">
+    <value>超速持续时间(s)</value>
+  </data>
+  <data name="RegionsName" xml:space="preserve">
+    <value>区域名称</value>
+  </data>
+  <data name="RegionsType" xml:space="preserve">
+    <value>区域类型</value>
+  </data>
+  <data name="SpeedLimit1" xml:space="preserve">
+    <value>最高速度(km/h)</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>开始时间</value>
+  </data>
+  <data name="DealInfo" xml:space="preserve">
+    <value>处理信息</value>
+  </data>
+  <data name="DealTime" xml:space="preserve">
+    <value>处理时间</value>
+  </data>
+  <data name="DealUser" xml:space="preserve">
+    <value>处理人</value>
+  </data>
+  <data name="PathName" xml:space="preserve">
+    <value>路线名称</value>
+  </data>
+  <data name="IsCheckSpeed" xml:space="preserve">
+    <value>限速</value>
+  </data>
+  <data name="IsCheckTime" xml:space="preserve">
+    <value>判断行驶时间</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>纬度</value>
+  </data>
+  <data name="LinesName" xml:space="preserve">
+    <value>路线名称</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>经度</value>
+  </data>
+  <data name="MaxSecond" xml:space="preserve">
+    <value>路段行驶过长（s）</value>
+  </data>
+  <data name="MinSecond" xml:space="preserve">
+    <value>路段行驶不足（s）</value>
+  </data>
+  <data name="RoadWidth" xml:space="preserve">
+    <value>路宽（m）</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="CarrierCode" xml:space="preserve">
+    <value>押运员资格证</value>
+  </data>
+  <data name="GPSTime" xml:space="preserve">
+    <value>GPS时间</value>
+  </data>
+  <data name="HistroySignalTime" xml:space="preserve">
+    <value>轨迹时间</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>异常</value>
+  </data>
+  <data name="AverageSpeed" xml:space="preserve">
+    <value>平均时速（km/h）</value>
+  </data>
+  <data name="FilterZeroSpeed" xml:space="preserve">
+    <value>过滤零速</value>
+  </data>
+  <data name="InfoTrace" xml:space="preserve">
+    <value>信息跟踪</value>
+  </data>
+  <data name="IntervalTime" xml:space="preserve">
+    <value>间隔时长</value>
+  </data>
+  <data name="TrackPlay" xml:space="preserve">
+    <value>轨迹播放</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Now" xml:space="preserve">
+    <value>现在</value>
+  </data>
+  <data name="VehicleDriveTrackTable" xml:space="preserve">
+    <value>车辆行驶轨迹表</value>
+  </data>
+  <data name="OperationSucceeded" xml:space="preserve">
+    <value>操作成功完成。</value>
+  </data>
+  <data name="PositionInfo" xml:space="preserve">
+    <value>定位信息</value>
+  </data>
+  <data name="BaseInfo" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="ExceptionInfo" xml:space="preserve">
+    <value>异常信息</value>
+  </data>
+  <data name="VIN" xml:space="preserve">
+    <value>车架号</value>
+  </data>
+  <data name="IP" xml:space="preserve">
+    <value>服务器地址</value>
+  </data>
+  <data name="LinkedServerName" xml:space="preserve">
+    <value>链接服务器别名</value>
+  </data>
+  <data name="ServerCode" xml:space="preserve">
+    <value>服务器编码</value>
+  </data>
+  <data name="ServerName" xml:space="preserve">
+    <value>服务器名称</value>
+  </data>
+  <data name="WCFAddress" xml:space="preserve">
+    <value>WCF地址</value>
+  </data>
+  <data name="SetDTime" xml:space="preserve">
+    <value>操作时间</value>
+  </data>
+  <data name="SetUser" xml:space="preserve">
+    <value>操作人</value>
+  </data>
+  <data name="SetInfo" xml:space="preserve">
+    <value>设置信息</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>返回结果</value>
+  </data>
+  <data name="Succeeded" xml:space="preserve">
+    <value>是否成功</value>
+  </data>
+  <data name="WanIP" xml:space="preserve">
+    <value>外网IP</value>
+  </data>
+  <data name="ContinuousDrivingThreshold" xml:space="preserve">
+    <value>连续驾驶时间门限（s）</value>
+  </data>
+  <data name="DrivingTimeThreshold" xml:space="preserve">
+    <value>当天累计驾驶时间门限（s）</value>
+  </data>
+  <data name="MaximumParkingTime" xml:space="preserve">
+    <value>最长停车时间阈值（s）</value>
+  </data>
+  <data name="MinimumBreakTime" xml:space="preserve">
+    <value>最小休息时间（s）</value>
+  </data>
+  <data name="MinimumDuration" xml:space="preserve">
+    <value>引发超速报警所需的最小持续时间（s）</value>
+  </data>
+  <data name="OverspeedThreshold" xml:space="preserve">
+    <value>超速阈值（km/h）</value>
+  </data>
+  <data name="ACCState" xml:space="preserve">
+    <value>ACC状态</value>
+  </data>
+  <data name="Ex_CameraFailure" xml:space="preserve">
+    <value>摄像头故障</value>
+  </data>
+  <data name="Ex_EmergencyAlarm" xml:space="preserve">
+    <value>紧急报警</value>
+  </data>
+  <data name="Ex_FatigueDriving" xml:space="preserve">
+    <value>疲劳驾驶</value>
+  </data>
+  <data name="Ex_FatigueDrivingWarning" xml:space="preserve">
+    <value>疲劳驾驶预警</value>
+  </data>
+  <data name="Ex_GNSSAntennaShorted" xml:space="preserve">
+    <value>GNSS天线短路</value>
+  </data>
+  <data name="Ex_GNSSAntennasNotConnectedOrCut" xml:space="preserve">
+    <value>GNSS天线未接或被剪断</value>
+  </data>
+  <data name="Ex_GNSSModuleFailed" xml:space="preserve">
+    <value>GNSS模块发生故障</value>
+  </data>
+  <data name="Ex_OverSpeedAlarm" xml:space="preserve">
+    <value>超速报警</value>
+  </data>
+  <data name="Ex_OverSpeedWarning" xml:space="preserve">
+    <value>超速预警</value>
+  </data>
+  <data name="Ex_OvertimeParking" xml:space="preserve">
+    <value>超时停车</value>
+  </data>
+  <data name="Ex_RoadTransportICCardModuleFailure" xml:space="preserve">
+    <value>道路运输证IC卡模块故障</value>
+  </data>
+  <data name="Ex_SameDayDrivingOvertime" xml:space="preserve">
+    <value>当天累计驾驶超时</value>
+  </data>
+  <data name="Ex_TerminalLCDOrMonitorFailure" xml:space="preserve">
+    <value>终端LCD或显示器故障</value>
+  </data>
+  <data name="Ex_TerminalMainsPowerDown" xml:space="preserve">
+    <value>终端主电源掉电</value>
+  </data>
+  <data name="Ex_TerminalMainsPowerUndervoltage" xml:space="preserve">
+    <value>终端主电源欠压</value>
+  </data>
+  <data name="Ex_TTSModuleFailure" xml:space="preserve">
+    <value>TTS模块故障</value>
+  </data>
+  <data name="TurnOff" xml:space="preserve">
+    <value>熄火</value>
+  </data>
+  <data name="TurnOn" xml:space="preserve">
+    <value>点火</value>
+  </data>
+  <data name="HistoryRoute" xml:space="preserve">
+    <value>历史轨迹</value>
+  </data>
+  <data name="ClientName" xml:space="preserve">
+    <value>客户名称</value>
+  </data>
+  <data name="AlarmType" xml:space="preserve">
+    <value>报警类型</value>
+  </data>
+  <data name="CreateTime" xml:space="preserve">
+    <value>创建时间</value>
+  </data>
+  <data name="ExEndAddress" xml:space="preserve">
+    <value>异常结束时位置</value>
+  </data>
+  <data name="ExSignalEndTime" xml:space="preserve">
+    <value>异常结束时信号时间</value>
+  </data>
+  <data name="ExSignalStartTime" xml:space="preserve">
+    <value>异常开始时信号时间</value>
+  </data>
+  <data name="ExStartAddress" xml:space="preserve">
+    <value>异常开始时位置</value>
+  </data>
+  <data name="Fence" xml:space="preserve">
+    <value>围栏</value>
+  </data>
+  <data name="FenceName" xml:space="preserve">
+    <value>围栏名称</value>
+  </data>
+  <data name="FenceState" xml:space="preserve">
+    <value>是否启用</value>
+  </data>
+  <data name="FenceType" xml:space="preserve">
+    <value>围栏类型</value>
+  </data>
+  <data name="FenceTypeInfo" xml:space="preserve">
+    <value>围栏类型信息</value>
+  </data>
+  <data name="ValidEndTime" xml:space="preserve">
+    <value>有效期结束时间</value>
+  </data>
+  <data name="ValidStartTime" xml:space="preserve">
+    <value>有效期开始时间</value>
+  </data>
+  <data name="ActualDuration" xml:space="preserve">
+    <value>持续时间（s）</value>
+  </data>
+  <data name="EndAddress" xml:space="preserve">
+    <value>结束位置</value>
+  </data>
+  <data name="StartAddress" xml:space="preserve">
+    <value>开始位置</value>
+  </data>
+  <data name="ParkingTime" xml:space="preserve">
+    <value>停车时间</value>
+  </data>
+  <data name="SensorCode" xml:space="preserve">
+    <value>传感器编码</value>
+  </data>
+  <data name="AdvertisingScreen" xml:space="preserve">
+    <value>广告屏显示</value>
+  </data>
+  <data name="TerminalDisplay" xml:space="preserve">
+    <value>终端显示器显示</value>
+  </data>
+  <data name="TerminalTTSRead" xml:space="preserve">
+    <value>终端TTS播读</value>
+  </data>
+  <data name="Urgent" xml:space="preserve">
+    <value>紧急</value>
+  </data>
+  <data name="Licenseplatenumberorterminalnumber" xml:space="preserve">
+    <value>车牌号或终端号</value>
+  </data>
+  <data name="Useunits" xml:space="preserve">
+    <value>使用单位</value>
+  </data>
+  <data name="PleaseSelect" xml:space="preserve">
+    <value>请选择</value>
+  </data>
+  <data name="FrontRoller" xml:space="preserve">
+    <value>正转</value>
+  </data>
+  <data name="LngAndLat" xml:space="preserve">
+    <value>经纬度</value>
+  </data>
+  <data name="OilHeight" xml:space="preserve">
+    <value>油位</value>
+  </data>
+  <data name="PositionTime" xml:space="preserve">
+    <value>定位时间</value>
+  </data>
+  <data name="RollerState" xml:space="preserve">
+    <value>滚筒</value>
+  </data>
+  <data name="StopRoller" xml:space="preserve">
+    <value>停转</value>
+  </data>
+  <data name="UnFrontRoller" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="ElectricFenceName" xml:space="preserve">
+    <value>电子围栏名称</value>
+  </data>
+  <data name="BusinessScopeCode" xml:space="preserve">
+    <value>经营范围编号</value>
+  </data>
+  <data name="BusinessScopeName" xml:space="preserve">
+    <value>经营范围</value>
+  </data>
+  <data name="CarrieCodeValidTime" xml:space="preserve">
+    <value>押运员证有效期</value>
+  </data>
+  <data name="VehicleViewMode" xml:space="preserve">
+    <value>车辆查看模式</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>日期</value>
+  </data>
+  <data name="TemperTable" xml:space="preserve">
+    <value>温度曲线表</value>
+  </data>
+  <data name="Alarm" xml:space="preserve">
+    <value>报警</value>
+  </data>
+  <data name="BlindArea" xml:space="preserve">
+    <value>盲区</value>
+  </data>
+  <data name="FixedArea" xml:space="preserve">
+    <value>混合区域</value>
+  </data>
+  <data name="NormalSignal" xml:space="preserve">
+    <value>正常信号</value>
+  </data>
+  <data name="Number" xml:space="preserve">
+    <value>数量</value>
+  </data>
+  <data name="Point" xml:space="preserve">
+    <value>点</value>
+  </data>
+  <data name="EndPosition" xml:space="preserve">
+    <value>结束位置</value>
+  </data>
+  <data name="Fixed" xml:space="preserve">
+    <value>混合</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>图例</value>
+  </data>
+  <data name="Signal" xml:space="preserve">
+    <value>信号</value>
+  </data>
+  <data name="StartPosition" xml:space="preserve">
+    <value>开始位置</value>
+  </data>
+  <data name="NightBanAddress" xml:space="preserve">
+    <value>禁行地点</value>
+  </data>
+  <data name="TransportIndustryCode" xml:space="preserve">
+    <value>运输行业编码</value>
+  </data>
+  <data name="TransportIndustryName" xml:space="preserve">
+    <value>运输行业名称</value>
+  </data>
+  <data name="CarToLand" xml:space="preserve">
+    <value>车籍地</value>
+  </data>
+  <data name="RoadransportNo" xml:space="preserve">
+    <value>道路运输证号</value>
+  </data>
+  <data name="TransportIndustry" xml:space="preserve">
+    <value>运输行业</value>
+  </data>
+  <data name="TransportManagementCode" xml:space="preserve">
+    <value>运管所编码</value>
+  </data>
+  <data name="TransportManagementName" xml:space="preserve">
+    <value>运管所名称</value>
+  </data>
+  <data name="HardwareDate" xml:space="preserve">
+    <value>硬件服务到期日期</value>
+  </data>
+  <data name="SoftwareDate" xml:space="preserve">
+    <value>软件服务到期日期</value>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>创建人</value>
+  </data>
+  <data name="PropertyName" xml:space="preserve">
+    <value>配置名称</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>星期五</value>
+  </data>
+  <data name="IsSpeed" xml:space="preserve">
+    <value>是否限速</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>星期一</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>星期六</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>星期天</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>星期四</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>星期二</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>星期三</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>星期时间</value>
+  </data>
+  <data name="WeekInfo" xml:space="preserve">
+    <value>周期信息</value>
+  </data>
+  <data name="RuleName" xml:space="preserve">
+    <value>规则名称</value>
+  </data>
+  <data name="AlarmEnableEndTime" xml:space="preserve">
+    <value>报警启用结束时间</value>
+  </data>
+  <data name="AlarmEnableStartTime" xml:space="preserve">
+    <value>报警启用开始时间</value>
+  </data>
+  <data name="EnableAlarm" xml:space="preserve">
+    <value>启用报警</value>
+  </data>
+  <data name="HighestTemperature" xml:space="preserve">
+    <value>最高温度℃</value>
+  </data>
+  <data name="InstallationPosition" xml:space="preserve">
+    <value>安装位置</value>
+  </data>
+  <data name="LowestTemperature" xml:space="preserve">
+    <value>最低温度℃</value>
+  </data>
+  <data name="SensorTypeCode" xml:space="preserve">
+    <value>传感器总类型编码</value>
+  </data>
+  <data name="LimitValue" xml:space="preserve">
+    <value>报警极限温度℃</value>
+  </data>
+  <data name="showStopPoint" xml:space="preserve">
+    <value>显示停车点</value>
+  </data>
+  <data name="StopPoint" xml:space="preserve">
+    <value>停车点</value>
+  </data>
+  <data name="ActualDuration1" xml:space="preserve">
+    <value>持续时间</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>时</value>
+  </data>
+  <data name="Minute" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="Second" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="PressureUnloading" xml:space="preserve">
+    <value>气压卸料</value>
+  </data>
+  <data name="AddressName" xml:space="preserve">
+    <value>地址名称</value>
+  </data>
+  <data name="CustomerName" xml:space="preserve">
+    <value>客户名称</value>
+  </data>
+  <data name="SettingType" xml:space="preserve">
+    <value>设定类别</value>
+  </data>
+  <data name="IsUnloadPoint" xml:space="preserve">
+    <value>是否卸货点</value>
+  </data>
+  <data name="PickUpAddressCode" xml:space="preserve">
+    <value>提货地址编码</value>
+  </data>
+  <data name="PickUpAddressName" xml:space="preserve">
+    <value>提货地址名称</value>
+  </data>
+  <data name="ReceiveAddressArea" xml:space="preserve">
+    <value>收货地址所属区域</value>
+  </data>
+  <data name="ReceiveAddressCode" xml:space="preserve">
+    <value>收货地址编码</value>
+  </data>
+  <data name="ReceiveAddressName" xml:space="preserve">
+    <value>收货地址名称</value>
+  </data>
+  <data name="SuperiorAddressName" xml:space="preserve">
+    <value>上级收货地址</value>
+  </data>
+  <data name="UnloadTime" xml:space="preserve">
+    <value>预计卸货时长(分钟)</value>
+  </data>
+  <data name="UnloadTimeError" xml:space="preserve">
+    <value>误差(分钟)</value>
+  </data>
+  <data name="IsSynchro" xml:space="preserve">
+    <value>是否同步</value>
+  </data>
+  <data name="DriverName" xml:space="preserve">
+    <value>驾驶员姓名</value>
+  </data>
+  <data name="DriverPhone" xml:space="preserve">
+    <value>驾驶员联系方式</value>
+  </data>
+  <data name="EscortName" xml:space="preserve">
+    <value>押运员姓名</value>
+  </data>
+  <data name="EscortPhone" xml:space="preserve">
+    <value>押运员联系方式</value>
+  </data>
+  <data name="CustomEncoding" xml:space="preserve">
+    <value>自定义编码</value>
+  </data>
+  <data name="FenceCode" xml:space="preserve">
+    <value>围栏编码</value>
+  </data>
+  <data name="IsOwners" xml:space="preserve">
+    <value>车主</value>
+  </data>
+  <data name="OwnersName" xml:space="preserve">
+    <value>车主姓名</value>
+  </data>
+  <data name="OwnersPhone" xml:space="preserve">
+    <value>车主电话</value>
+  </data>
+  <data name="DoorOpen" xml:space="preserve">
+    <value>门开</value>
+  </data>
+  <data name="Nightban" xml:space="preserve">
+    <value>夜间禁行</value>
+  </data>
+  <data name="OfflineDays" xml:space="preserve">
+    <value>掉线天数</value>
+  </data>
+  <data name="OffLineRate" xml:space="preserve">
+    <value>掉线率</value>
+  </data>
+  <data name="OffLineVehicleNumber" xml:space="preserve">
+    <value>掉线车辆</value>
+  </data>
+  <data name="OnLineRate" xml:space="preserve">
+    <value>上线率</value>
+  </data>
+  <data name="OnLineVehicleNum" xml:space="preserve">
+    <value>上线车辆</value>
+  </data>
+  <data name="VehicleNumber" xml:space="preserve">
+    <value>车辆总数</value>
+  </data>
+  <data name="FeaturesCode" xml:space="preserve">
+    <value>功能编码</value>
+  </data>
+  <data name="IsAppFeatures" xml:space="preserve">
+    <value>是否是App功能</value>
+  </data>
+  <data name="IsAppHomeModule" xml:space="preserve">
+    <value>是否是App首页模块</value>
+  </data>
+  <data name="IsAppShortcutMenu" xml:space="preserve">
+    <value>是否是App快捷菜单</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关</value>
+  </data>
+  <data name="DoorSensorState" xml:space="preserve">
+    <value>门磁状态</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>开</value>
+  </data>
+  <data name="DoorSensor" xml:space="preserve">
+    <value>门磁</value>
+  </data>
+  <data name="AnnualInspectionTime" xml:space="preserve">
+    <value>年检时间1</value>
+  </data>
+  <data name="RemindTimeSpan" xml:space="preserve">
+    <value>提醒时间间隔1(单位:天)</value>
+  </data>
+  <data name="RepairStartTime" xml:space="preserve">
+    <value>维修开始日期</value>
+  </data>
+  <data name="RepairEndTime" xml:space="preserve">
+    <value>维修结束日期</value>
+  </data>
+  <data name="RepairType" xml:space="preserve">
+    <value>维修类型</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>总价格</value>
+  </data>
+  <data name="MaterialCost" xml:space="preserve">
+    <value>材料费</value>
+  </data>
+  <data name="PartsName" xml:space="preserve">
+    <value>配件名称</value>
+  </data>
+  <data name="PartsNum" xml:space="preserve">
+    <value>配件数量</value>
+  </data>
+  <data name="PartsVersion" xml:space="preserve">
+    <value>配件型号</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>单价</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>项目名称</value>
+  </data>
+  <data name="TimeFee" xml:space="preserve">
+    <value>工时费</value>
+  </data>
+  <data name="TotalCost" xml:space="preserve">
+    <value>项目总费用</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>单位</value>
+  </data>
+  <data name="AuditUserName" xml:space="preserve">
+    <value>审核人</value>
+  </data>
+  <data name="OperateUserName" xml:space="preserve">
+    <value>操作人</value>
+  </data>
+  <data name="BindVehicleNum" xml:space="preserve">
+    <value>绑定车辆数</value>
+  </data>
+  <data name="MaintenanceProject" xml:space="preserve">
+    <value>保养项目</value>
+  </data>
+  <data name="PartsBrand" xml:space="preserve">
+    <value>配件品牌</value>
+  </data>
+  <data name="RulesType" xml:space="preserve">
+    <value>到期规则</value>
+  </data>
+  <data name="ScheduleName" xml:space="preserve">
+    <value>方案名称</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>单价</value>
+  </data>
+  <data name="FirstMaintenanceMile" xml:space="preserve">
+    <value>初次保养里程</value>
+  </data>
+  <data name="FirstMaintenanceTime" xml:space="preserve">
+    <value>初次保养时间</value>
+  </data>
+  <data name="MaintenanceContent" xml:space="preserve">
+    <value>保养内容</value>
+  </data>
+  <data name="Advance" xml:space="preserve">
+    <value>提前</value>
+  </data>
+  <data name="Kilometre" xml:space="preserve">
+    <value>公里</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="MustInput" xml:space="preserve">
+    <value>必填</value>
+  </data>
+  <data name="Per" xml:space="preserve">
+    <value>每</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>进行预警</value>
+  </data>
+  <data name="MaintenanceTime" xml:space="preserve">
+    <value>到期保养</value>
+  </data>
+  <data name="And" xml:space="preserve">
+    <value>和</value>
+  </data>
+  <data name="MaintenanceDetail" xml:space="preserve">
+    <value>保养详情</value>
+  </data>
+  <data name="MaintenanceTime2" xml:space="preserve">
+    <value>保养时间</value>
+  </data>
+  <data name="Mileage2" xml:space="preserve">
+    <value>里程</value>
+  </data>
+  <data name="AnnualInspectionTime1" xml:space="preserve">
+    <value>年检时间2</value>
+  </data>
+  <data name="RemindTimeSpan1" xml:space="preserve">
+    <value>提醒时间间隔2(单位:天)</value>
+  </data>
+  <data name="MaxOverSpeed" xml:space="preserve">
+    <value>时速（km/h）</value>
+  </data>
+  <data name="OverSpeedArea" xml:space="preserve">
+    <value>超速厂区</value>
+  </data>
+  <data name="OverSpeedTimes" xml:space="preserve">
+    <value>次数</value>
+  </data>
+  <data name="Penalty" xml:space="preserve">
+    <value>罚款金额</value>
+  </data>
+  <data name="SignalDateTimeSpan" xml:space="preserve">
+    <value>信号的间隔时间(分钟)</value>
+  </data>
+  <data name="PoundSheetCode" xml:space="preserve">
+    <value>磅单号</value>
+  </data>
+  <data name="StayDuration" xml:space="preserve">
+    <value>停留时长(分钟)</value>
+  </data>
+  <data name="TransportDuration" xml:space="preserve">
+    <value>运送时长(分钟)</value>
+  </data>
+  <data name="LeaveDeliveryPointTime" xml:space="preserve">
+    <value>车辆出厂时间</value>
+  </data>
+  <data name="LeaveUploadPointTime" xml:space="preserve">
+    <value>离开卸货点时间</value>
+  </data>
+  <data name="ReachUploadPointTime" xml:space="preserve">
+    <value>到达卸货点时间</value>
+  </data>
+  <data name="RealShippingAddressArea" xml:space="preserve">
+    <value>卸货点区域</value>
+  </data>
+  <data name="RealShippingAddressName" xml:space="preserve">
+    <value>实际卸货点</value>
+  </data>
+  <data name="ShippingAddress" xml:space="preserve">
+    <value>收货地址</value>
+  </data>
+  <data name="OverSpeedPercent" xml:space="preserve">
+    <value>超速比例</value>
+  </data>
+  <data name="OverSpeed" xml:space="preserve">
+    <value>超速</value>
+  </data>
+  <data name="PerHourSpeed" xml:space="preserve">
+    <value>时速</value>
+  </data>
+  <data name="AverageOfOverSpeed" xml:space="preserve">
+    <value>超速平均值</value>
+  </data>
+  <data name="AverageOfOverSpeedKM" xml:space="preserve">
+    <value>超速平均值(km/h)</value>
+  </data>
+  <data name="RowNo" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="ViewMode" xml:space="preserve">
+    <value>查看模式</value>
+  </data>
+  <data name="PoundCreateTime" xml:space="preserve">
+    <value>磅单接收时间</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>暂停</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="StartNavg" xml:space="preserve">
+    <value>开始巡航</value>
+  </data>
+  <data name="StartStopVehicleTime" xml:space="preserve">
+    <value>开始停车时间</value>
+  </data>
+  <data name="StopVehicleDuration" xml:space="preserve">
+    <value>停车时长</value>
+  </data>
+  <data name="MailReceiverName" xml:space="preserve">
+    <value>姓名</value>
+  </data>
+  <data name="ReceiverMail" xml:space="preserve">
+    <value>邮箱</value>
+  </data>
+</root>

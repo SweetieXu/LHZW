@@ -1,0 +1,81 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model SensorAddModel
+
+
+
+@using (Ajax.BeginForm("AddSensorTypes", "Sensor", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddVehicleType" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.SensorName)：</td>
+                <td colspan="3">@Html.TextBoxFor(m => m.SensorName)</td>
+            </tr>
+            <tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.SensorName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.SensorCode)：</td>
+                <td colspan="3">@Html.TextBoxFor(m => m.SensorCode)</td>
+            </tr>
+            <tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.SensorCode)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.TypeCode)：</td>
+                <td colspan="3">@Html.TextBoxFor(m => m.TypeCode)</td>
+            </tr>
+            <tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.TypeCode)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.Value1)：</td>
+                <td>@Html.CheckBoxFor(m => m.Value1)</td>
+                <td style="float: right;">@Html.LabelForRequired(m => m.Value2)：</td>
+                <td>@Html.CheckBoxFor(m => m.Value2)</td>
+                @*<td>
+                    <input type="radio" name="TValue" value="" checked="checked" />
+                </td>*@
+            </tr>
+            @*<tr>
+                <td>
+                    <input type="radio" name="FValue" value="" checked="checked" /> 
+                </td>
+            </tr>*@
+            @*<tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.Value2)</td>
+            </tr>*@
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="3">@Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })</td>
+            </tr>
+            <tr>
+                <td colspan="4">@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+
+<script>
+    var $frmAddPlateColo = $("#frmAddVehicleType");
+    $frmAddPlateColo.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmAddPlateColo.fixUnobtrusiveValidation();
+</script>

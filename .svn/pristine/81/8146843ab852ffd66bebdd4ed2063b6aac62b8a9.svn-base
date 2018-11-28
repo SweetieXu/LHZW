@@ -1,0 +1,218 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model EditEmployeeInfoModel
+
+
+@using (Ajax.BeginForm("AddEmployeeInfoNew", "EmployeeInfo", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddEmployeeInfo" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.EmployeeName)：</td>
+                <td>@Html.TextBoxFor(m => m.EmployeeName)</td>
+                <td>@Html.LabelForRequired(m => m.EmployeeGender)：</td>
+                <td>
+                    @Html.RadioButtonFor(m => m.EmployeeGender, false, new { id = "rdoGender1" })
+                    <label for="rdoGender1">@DisplayText.Man</label>
+                    @Html.RadioButtonFor(m => m.EmployeeGender, true, new { id = "rdoGender2" })
+                    <label for="rdoGender2">@DisplayText.Woman</label>
+                </td>
+                <td>@Html.LabelForRequired(m => m.ContactPhone)：</td>
+                <td>@Html.TextBoxFor(m => m.ContactPhone)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.EmployeeName)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.EmployeeGender)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ContactPhone)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.CertificateTypeID)：</td>
+                <td>@Html.DropDownListFor(m => m.CertificateTypeID, Model.CertificateTypeSelectList)</td>
+
+                <td>@Html.LabelFor(m => m.CertificateCode)：</td>
+                <td>@Html.TextBoxFor(m => m.CertificateCode)</td>
+                <td>@Html.LabelForRequired(m => m.StrucID)：</td>
+                <td>
+                    @Html.TextBoxFor(m => m.StrucName)
+                    @Html.HiddenFor(m => m.StrucID)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.CertificateTypeID)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.CertificateCode)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.StrucID)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(@UIText.EmployeeType)：</td>
+                <td>
+                    @Html.CheckBoxFor(m => m.IsDriver)
+                    <label for="IsDriver">@UIText.Driver</label>
+                    @Html.CheckBoxFor(m => m.IsCarrier)
+                    <label for="IsCarrier">@UIText.Escort</label>
+                     @Html.CheckBoxFor(m => m.IsOwners)
+                    <label for="IsOwners">@UIText.Owners</label>
+                </td>
+                <td>@Html.LabelFor(m => m.DriveCode)：</td>
+                <td>@Html.TextBoxFor(m => m.DriveCode)</td>
+                <td>@Html.LabelFor(m => m.DriveCodeValidTime)：</td>
+                <td>@Html.TextBoxFor(m => m.DriveCodeValidTime, new { @class = "datepickerClass" })</td>
+            </tr>
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.EmergePhone)：</td>
+                <td>@Html.TextBoxFor(m => m.EmergePhone)</td>
+                <td>@Html.LabelFor(m => m.CarrierCode)：</td>
+                <td>@Html.TextBoxFor(m => m.CarrierCode)</td>
+                <td>@Html.LabelFor(m => m.CarrieCodeValidTime)：</td>
+                <td>@Html.TextBoxFor(m => m.CarrieCodeValidTime, new { @class = "datepickerClass" })</td>
+            </tr>
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.ContactAddress)：</td>
+                <td colspan="5">@Html.TextBoxFor(m => m.ContactAddress)</td>
+            </tr>
+            <tr>
+                <td colspan="6"></td>
+                @*<td colspan="5">@Html.ValidationMessageFor(m => m.ContactAddress)</td>*@
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="5">@Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+
+
+    var $frmAddEmployeeInfo = $("#frmAddEmployeeInfo");
+    $frmAddEmployeeInfo.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+
+    //提交时前台各种验证
+    $frmAddEmployeeInfo.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+
+    //文本框的值发生改变就清空值 并显示错误提示
+    $("#StrucName").bind("input propertychange", function () {
+        $("#StrucID").val('');
+        $("span[data-valmsg-for='StrucID']").show();
+    })
+
+    /*
+     appendTo:
+     必须指定该元素，否则对于jquery ui dialog中使用的该控件的弹出选择部分会因为层级原因会被dialog遮挡，
+     而且因为dialog的层级会动态调整即使设定了autocomplete的z-index也可能会失效，
+     所以必须设置ui-dialog的z-index，但是全局修改可能造成其他问题
+   */
+    $("#StrucName").autocomplete({
+        delay: 500,
+        minLength: 1,
+        appendTo: $frmAddEmployeeInfo,
+        select: function (event, ui) {
+            $("#StrucID").val(ui.item.ID);
+            $("span[data-valmsg-for='StrucID']").hide();
+        },
+        source: function (request, response) {
+            @* $.get('@Url.Content("~/Admin/Vehicle/GetStructuresByName")', { name: request.term }, function (data, status, xhr) {*@
+            $.get('@Url.Content("~/Common/GetStructuresByName")', { name: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+
+        $(".datepickerClass").datepicker({
+            changeMonth: true,
+            changeYear: true,
+        });
+
+        //结束时间不得早于开始时间
+        $("#ValidStartTime").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            onClose: function (selectedDate) {
+                $("#ValidEndTime").datepicker("option", "minDate", selectedDate);
+                $("span[data-valmsg-for='ValidStartTime']").hide();
+            }
+        });
+        $("#ValidEndTime").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            onClose: function (selectedDate) {
+                $("#ValidStartTime").datepicker("option", "maxDate", selectedDate);
+                $("span[data-valmsg-for='ValidEndTime']").hide();
+            }
+        });
+
+        // 表单验证
+        var checkForm = function () {
+            if ($("#frmAddEmployeeInfo input[type='checkbox']:checked").length == 0) {
+                $.showPromptDialog('@DataAnnotations.EmployeeTypeError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+
+            //员工类型为驾驶员 必须填写驾驶证号和驾驶证有效期 为押运员 必须填写押运员资格证和押运员有效期
+            if ($("#IsDriver").prop("checked")) {
+                //驾驶证号
+                if (!$("#DriveCode").val()) {
+                    $.showPromptDialog('@DataAnnotations.NeedDriveCode', '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+                //驾驶证有效期
+                if (!$("#DriveCodeValidTime").val()) {
+                    $.showPromptDialog('@DataAnnotations.NeedDriveCodeValidTime', '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+            }
+            //是押运员时验证
+            if ($("#IsCarrier").prop("checked")) {
+                //押运员资格证
+                if (!$("#CarrierCode").val()) {
+                    $.showPromptDialog('@DataAnnotations.NeedCarrierCode', '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+                //押运员资格证
+                if (!$("#CarrieCodeValidTime").val()) {
+                    $.showPromptDialog('@DataAnnotations.NeedCarrieCodeValidTime', '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+            }
+            return true;
+        }
+</script>

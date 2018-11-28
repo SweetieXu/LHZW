@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+<configuration>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5"/>
+    </startup>
+  <connectionStrings>
+    <!--<add name="DefaultConnection" providerName="System.Data.SqlClient" connectionString="Data Source=(LocalDb)\v11.0;Initial Catalog=aspnet-MvcApplication1-20180619135834;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\aspnet-MvcApplication1-20180619135834.mdf" />-->
+    <add name="SqlConnStr" providerName="System.Data.SqlClient" connectionString="Data Source=.;Initial Catalog=TMS2016;User ID=sa;Pwd=asiatek;Connection Timeout=300;pooling=true;min pool size=20;max pool size=32767;"/>
+    <!--<add name="SqlConnStr" providerName="System.Data.SqlClient" connectionString="Data Source=.;Initial Catalog=LHZW;User ID=sa;Pwd=123456;Connection Timeout=300;pooling=true;min pool size=20;max pool size=32767;"/>-->
+  </connectionStrings>
+    <appSettings>
+      <!--每隔一分钟执行调用接口方法-->
+      <add key="TimeIntervalFlag" value="1"/>
+      <!--判断门岗异常和电子围栏异常匹配的误差时间  设置十分钟-->
+      <add key="InOrOutTimeFlag" value="10"/>
+      <!--定时执行时间  时-->
+      <add key="IHour" value="00"/>
+      <!--定时执行时间  分钟-->
+      <add key="IMinute" value="00"/>
+    </appSettings>
+</configuration>

@@ -1,0 +1,100 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model HistorySignalAllInfoModels
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    var Datas = Model.Datas;
+}
+@if (Datas.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+    <table class="table table-striped">
+    @if (ViewBag.ExportFlag != null)
+    {
+        <tfoot>
+            <tr>
+                <th>@DisplayText.VehicleDriveTrackTable</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(m => m.VehicleName):</th>
+                <td>@Model.VehicleName（@ViewBag.StrucName）</td>
+            </tr>
+            <tr>
+                <th>@DisplayText.HistroySignalTime:</th>
+                <td>@Model.StartTime ~ @Model.EndTime</td>
+            </tr>
+        </tfoot>
+    }
+    <thead>
+        <tr>
+            <th>@DisplayText.GPSTime</th>
+            <th>@DisplayText.Speed</th>
+            <th>@DisplayText.Direction</th>
+            @*<th>@DisplayText.Exception</th>*@
+            <th>@DisplayText.Mileage</th>
+            <th>@DisplayText.MapMileage</th>
+            <th>@DisplayText.Address</th>
+            <th>@DisplayText.Longitude</th>
+            <th>@DisplayText.Latitude</th>
+            <th>@DisplayText.ACCState</th>
+            <th>@DisplayText.ExName</th>
+        </tr>
+    </thead>
+    <tbody>
+         @for (int i = 0; i < Datas.Count; i++)
+            {
+                var currentObj = Datas[i];
+                string styleStr = i % 2 == 0 ? "background-color:white;" : "background-color:#F8F8F8;";
+                <tr>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Time</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Speed</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Angle</label>
+                    </td>
+                    @*<td  style="@styleStr">
+                        <label>@currentObj.ExName</label>
+                    </td>*@
+                    <td  style="@styleStr">
+                        <label>@currentObj.Mileage</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.MapMileage</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Address</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Longitude</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Latitude</label>
+                    </td>
+                    <td  style="@styleStr">
+                        @if(@currentObj.ACCState==true)
+                        {
+                            <label>@DisplayText.TurnOn</label>
+                        }     
+                        else{
+                            <label>@DisplayText.TurnOff</label>
+                        }
+                        
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.ExName</label>
+                    </td>
+                </tr>
+            }
+    </tbody>
+</table>
+}

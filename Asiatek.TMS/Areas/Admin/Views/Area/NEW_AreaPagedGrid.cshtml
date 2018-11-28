@@ -1,0 +1,177 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  AreaSettingModel
+
+@{
+    string updateTargetId = "Admin_Area_AreaInfo_divAreasGrid";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+
+    var areas = Model.PagedDatas;
+}
+
+
+<button id="btnAddAreaInfo">@UIText.AddAreaInfo</button>
+
+
+@if (areas.Count == 0)
+{
+    <h1>@Asiatek.Resource.UIText.NoDatas</h1>
+}
+else
+{
+
+    using (Ajax.BeginForm("DeleteArea", "Area", new AjaxOptions()
+    {
+        OnBegin = "beginDelete",
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelArea" }))
+    {
+    @Html.AntiForgeryToken()
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.PagedDatas.First().AreaName)</th>
+                <th>@Html.DisplayNameFor(m => m.PagedDatas.First().Description)</th>
+                <th>@editText</th>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PagedDatas)
+            {
+                <tr>
+                    <td>@item.AreaName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <input type="button" value="@editText" onclick="edit(@item.ID)"/>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="areaid" value="@item.ID" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="button" value="@delText" onclick="beginDelete()"/>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    }
+
+    
+
+    @Ajax.AsiatekAjaxPager(new AsiatekAjaxPagerOptions2("AreaPagedGrid", "Area", "Admin", "commonAjaxSuccess", updateTargetId, "SearchPage"), areas);
+
+
+    
+    @Scripts.Render("~/asiatek/pagerJS")
+
+}
+
+
+
+
+@*       @Ajax.AsiatekAjaxPager(areas, cp =>
+    {
+        return new AjaxOptions()
+        {
+            UpdateTargetId = updateTargetId,
+            OnSuccess = "commonAjaxSuccess",
+            Url = Url.Action("AreaPagedGrid", "Area", new { currentPage = cp, areaName = ViewBag.AreaName })
+        };
+    })*@
+
+
+
+@*@Ajax.AsiatekAjaxPager(areas, new AsiatekAjaxPagerOptions3()
+{
+    AreaName = "Admin",
+    ControllerName = "Area",
+    ActionName = "AreaPagedGrid",
+    SearchPageFieldName = "SearchPage",
+    SearchDatasObj = Model,
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});*@
+
+
+<script>
+    //删除完成后
+    var delCallBack=function(result){
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+
+    //刷新搜索表单
+    var refreshSearchForm=function(){
+        var _currentPage='@Model.PagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage=$("#frmSearchArea>#hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchArea").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+
+    var beginDelete = function ()
+    {
+        var _message='@UIText.PleaseSelectItem';
+        if ($(":checkbox:checked").length == 0)
+        {
+            $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+            return;
+        }
+        _message='@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message,'@informationTitle','@UIText.Confirm','@UIText.Cancel',function(){
+            $("#frmDelArea").submit();
+        });
+    }
+
+
+    var edit = function (id)
+    {
+        var _url="@Url.Content("~/Admin/Area/EditAreaInfo")";
+        var _data={id:id};
+        var _title="@editText";
+        $.showEditDialog(_url,_data,_title,refreshSearchForm);
+    }
+
+    var setAddBtn=function(){
+        $("#btnAddAreaInfo").on("click",function(){
+            var _url="@Url.Content("~/Admin/Area/AddAreaInfo")";
+            var _data={};
+            var _title="@editText";
+            $.showEditDialog(_url,_data,_title,refreshSearchForm);
+        });
+    }
+
+
+    $(function ()
+    {
+        var _$chkAllObj = $("#chkAll");
+        var _$chkObjs = $("input[name='areaid']");
+        $.setCheckBox(_$chkAllObj,_$chkObjs);
+        setAddBtn();
+    });
+</script>
+
+
+
+
+

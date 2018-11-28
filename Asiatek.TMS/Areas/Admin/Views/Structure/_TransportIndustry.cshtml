@@ -1,0 +1,102 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model List<TransportIndustryModel>
+
+<div style="overflow-y: auto; margin-right: -10px; padding-right: 5px;" id="divTransportIndustry">
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAllTI" />
+                </th>
+                <th>@Html.DisplayNameFor(m => m[0].Code)</th>
+                <th>@Html.DisplayNameFor(m => m[0].Name)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="TICode" value="@item.Code" id="chkTICode@(item.Code)" />
+                    </td>
+                    <td>
+                        <label for="chkTICode@(item.Code)">@item.Code</label>
+                    </td>
+                    <td>
+                        <label>@item.Name</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<table>
+    <tr>
+        <td>
+            <button class="btn btn-primary" title="@UIText.SaveButton" id="btnTransportIndustry"><span class="glyphicon glyphicon-ok"></span></button>
+        </td>
+    </tr>
+</table>
+
+<input type="hidden" value="@ViewBag.StrucIDList" id="hidStrucID" />
+<script>
+    // 设置内层div的最大高度 超出高度后自动出现滚动条
+    $("#divTransportIndustry").css("max-height", ($(window).height() * 0.65) + "px");
+
+    var _$chkAllObj = $("#chkAllTI");
+    var _$chkObjs = $("input[name='TICode']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+    $("#btnTransportIndustry").click(function () {
+        var TICodes = "";
+        $("input[name='TICode']:checked").each(function () {
+            TICodes += $(this).val() + ",";
+        });
+        $.showConfirmDialog("@UIText.ConfirmTransportIndustry", '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $.ajax({
+                url: "@Url.Content("~/Admin/Structure/DistributionTransportIndustry")",
+                data: {
+                    strucIDList: $("#hidStrucID").val(),
+                    codeList: TICodes,
+                    __RequestVerificationToken: $('@Html.AntiForgeryToken()').val()
+                },
+                type: 'POST',
+                dataType: 'json',
+                cache: false,
+                success: function (result, status) {
+                    if ($.handleAjaxError(result)) {
+                        return;
+                    }
+                    if (!result.Success) {
+                        $.showPromptDialog(result.Message, '@UIText.InformationTitle', '@UIText.Close');
+                        return;
+                    }
+                    else {
+                        $.showPromptDialog(result.Message, '@UIText.InformationTitle', '@UIText.Close', function () {
+                            //// 关闭弹框
+                            //var closeDialog = $(".ui-dialog").attr("aria-describedby");
+                            //if (closeDialog) {
+                            //    $("#" + closeDialog).dialog("close");
+                            //}
+                            $("#divAsiatekEditWin").dialog("close");
+
+                            // 刷新分页列表
+                            refreshSearchForm();
+                        });
+                    }
+                },
+                fail: function (err, status) {
+                    console.log(err)
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
+
+

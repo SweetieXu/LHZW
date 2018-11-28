@@ -1,0 +1,100 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model AddCLCS_ReturnOrderModel
+
+
+@using (Ajax.BeginForm("AddCLCS_ReturnOrder", "CLCS_ReturnOrderManage", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddCLCS_ReturnOrder" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.PlateNum)：</td>
+                <td>@Html.TextBoxFor(m => m.PlateNum)</td>
+
+                <td>@Html.LabelForRequired(m => m.ReturnMileage)：</td>
+                <td>@Html.TextBoxFor(m => m.ReturnMileage)</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.PlateNum)</td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.ReturnMileage)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.StartTime)：</td>
+                <td>@Html.TextBoxFor(m => m.StartTime, new { autocomplete="off"})</td>
+
+                <td>@Html.LabelForRequired(m => m.EndTime)：</td>
+                <td>@Html.TextBoxFor(m => m.EndTime,new { autocomplete="off"})</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.StartTime)</td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.EndTime)</td>
+            </tr>
+            
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="3">@Html.TextAreaFor(m => m.Remark) </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmAddCLCS_ReturnOrder = $("#frmAddCLCS_ReturnOrder");
+    $frmAddCLCS_ReturnOrder.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    //$frmAddCLCS_ReturnOrder.fixUnobtrusiveValidation();
+
+    //有效期时间控件
+    $("#StartTime,#EndTime").datetimepicker({
+        changeMonth: true,
+        changeYear: true,
+        timeText: '@UIText.Time',
+        hourText: '@UIText.Hour',
+        minuteText: '@UIText.Minute',
+        currentText: '@UIText.Now',
+        closeText: '@UIText.Complete',
+        showSecond: true, //显示秒  
+        timeFormat: 'HH:mm:ss' //格式化时间  
+    });
+
+
+    //提交时前台各种验证
+    $frmAddCLCS_ReturnOrder.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+    var checkForm = function () {
+        //开始时间 结束时间验证
+        var startTime = new Date($("#StartTime").val());
+        var endTime = new Date($("#EndTime").val());
+        if (startTime >= endTime) {
+            $.showPromptDialog('@DataAnnotations.StartTimeMoreThanEndTimeError', '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        return true;
+    }
+</script>

@@ -1,0 +1,89 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model EquipmentFailureSearchModel
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+    <table class="table table-striped">
+        @if (ViewBag.ExportFlag != null)
+        {
+            <tfoot>
+                <tr>
+                    <td>@Html.LabelFor(m => m.VehicleName):</td>
+                    <td>@Model.VehicleName</td>
+                    <td>@Html.LabelFor(m => m.TypeName):</td>
+                    <td>@Model.TypeName</td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>时间区间：</label></td>
+                    <td>@Model.GPSStartTime</td>
+                    <td>---</td>
+                    <td>@Model.GPSEndTime</td>
+                </tr>
+            </tfoot>
+        }
+        <thead>
+            <tr>
+                <th>@DisplayText.StrucName</th>
+                <th>@DisplayText.VehicleName</th>
+                <th>@DisplayText.ExceptionTypeName</th>
+                <th>@DisplayText.StartDate</th>
+                <th>@DisplayText.ExpirationDate</th>
+                <th>@DisplayText.Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < pagedDatas.Count; i++)
+            {
+                var currentObj = pagedDatas[i];
+                string styleStr = i % 2 == 0 ? "background-color:white;" : "background-color:#F8F8F8;";
+                <tr>
+                    <td  style="@styleStr">
+                        <label>@currentObj.StrucName</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.VehicleName</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.ExceptionTypeName</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.GPSStartTime</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.GPSEndTime</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Time</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>    
+            if (ViewBag.ExportFlag == null)
+            {
+    @Ajax.AsiatekAjaxPagerBootstrap(pagedDatas, new AjaxPagerOptions()
+                            {
+                                AreaName = "ReportManage",
+                                ControllerName = "UnusuallyDetailSummary",
+                                ActionName = "GetUnusuallyDetailSummaryInfo",
+                                UpdateTargetId = "ReportManage_UnusuallyDetailSummary_UnusuallyDetailSummaryGrid_divUnusuallyDetailSummary",
+                                OnSuccess = "commonAjaxSuccess",
+
+                            });
+            }
+}
+
+

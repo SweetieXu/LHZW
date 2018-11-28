@@ -1,0 +1,164 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model FunctionSettingModel
+
+
+@{
+    string updateTargetId = "Admin_Function_FunctionSetting_divFunctionsGrid";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    var pagedDatas = Model.PagedDatas;
+
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+
+    var firstObj = pagedDatas.First();
+    using (Ajax.BeginForm("DeleteFunction", "Function", new AjaxOptions()
+    {
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelFunction" }))
+    {
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+                <th>@UIText.Operation</th>
+                <th>@Html.DisplayNameFor(m => firstObj.FunctionName)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.IsBackground)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.ParentFunctionName)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.ActionName)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.ControllerName)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.AreaName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="funid" value="@item.ID" id="chkFID@(item.ID)" />
+                    </td>
+                    <td>
+                        <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>
+                    </td>
+
+                    <td class="tdFunctionName">
+                        <label  for="chkFID@(item.ID)">@item.FunctionName</label>
+                    </td>
+                    <td><span style="display: none">@item.LevelID</span>@Html.CheckBoxFor(m => item.IsBackground, new { disabled = "disabled" })</td>
+                    <td class="tdParentFunctionName">@item.ParentFunctionName</td>
+                    <td>@item.ActionName</td>
+                    <td>@item.ControllerName</td>
+                    <td>@item.AreaName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+    
+    
+            
+    @Ajax.AsiatekAjaxPagerBootstrap(pagedDatas, new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "Function",
+    ActionName = "GetFunctionInfo",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+<script>
+
+    //删除完成后
+    var delCallBack = function (result)
+    {
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+
+    //刷新搜索表单
+    var refreshSearchForm = function ()
+    {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchFunction #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchFunction").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+
+    var edit = function (id)
+    {
+        var _url = "@Url.Content("~/Admin/Function/EditFunctionInfo")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+
+
+
+    //设置具有层级关系的功能名前根据层级等级填充空格
+    var setLevelSpace = function ()
+    {
+        $(".tdFunctionName").each(function ()
+        {
+            var _$obj = $(this);
+            var _val = _$obj.text();
+            var _levelID = _$obj.next("td").find("span").text();//获取层级ID
+            var _spaceCount = _levelID.length / 10;//根据层级ID计算需要多少个空格
+            var _spaceContent = "";
+            for (var i = 0; i < _spaceCount; i++)
+            {
+                _spaceContent += "&nbsp;";
+            }
+            _val = _val.trim();//当前功能名称
+            //所有父节点是当前功能名称的功能节点的功能名称前补全空格
+            $(".tdParentFunctionName:contains(" + _val + ")").siblings(".tdFunctionName").each(function ()
+            {
+                $(this).find("label").html(_spaceContent + $(this).text());
+            });
+        });
+    }
+
+
+    var $chkAllObj = $("#chkAll");
+    var $chkObjs = $("input[name='funid']");
+    $.setCheckBox($chkAllObj, $chkObjs);
+    setLevelSpace();
+</script>

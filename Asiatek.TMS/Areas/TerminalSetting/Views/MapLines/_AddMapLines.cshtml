@@ -1,0 +1,346 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model MapLinesAddModel
+
+<style>
+    .button-group {
+	    position: absolute;
+	    bottom: 30px;
+	    right: 130px;
+	    font-size: 12px;
+	    padding: 10px;
+    }
+    .tbInputClass
+    {
+        width:100px;
+    }
+
+    #lnDrawBtn {
+        z-index:3;
+        position:absolute;
+        height: 28px;
+        width:60px;
+	    background-color: #0D9BF2;
+	    color: #FFF;
+	    border: 0;
+	    outline: none;
+	    border-radius: 3px;
+	    margin-bottom: 4px;
+	    cursor: pointer;
+    }
+    #lnConfirmBtn {
+        z-index:3;
+        position:absolute;
+        height: 28px;
+        width:60px;
+	    background-color: #0D9BF2;
+	    color: #FFF;
+	    border: 0;
+	    outline: none;
+	    border-radius: 3px;
+	    margin-bottom: 4px;
+	    cursor: pointer;
+        margin-left:70px;
+    }
+</style>
+
+
+@using (Ajax.BeginForm("AddMapLines", "MapLines", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddMapLines" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.LinesName)：</td>
+                <td>@Html.TextBoxFor(m => m.LinesName)</td>
+                <td>@Html.LabelForRequired(m => m.StartTime)</td>
+                <td>@Html.TextBoxFor(m => m.StartTime, new { @id="startTimeDatepicker",@class="datepickerClass" })</td>
+                <td>@Html.LabelForRequired(m => m.EndTime)</td>
+                <td>@Html.TextBoxFor(m => m.EndTime, new { @id="endTimeDatepicker",@class="datepickerClass" })</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.LinesName)</td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.StartTime)</td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.EndTime)</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <div id="container" style="height:350px;width:950px;">
+                        <div class="button-group">
+                            <input id="lnDrawBtn" onclick="mapLinesDraw()" class="button" value="@UIText.Draw" type="button"/>
+                            <input id="lnConfirmBtn" onclick="mapLinesConfirm()" class="button" value="@UIText.Confirm" type="button"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <div id="divBottomInfo">
+                        <table class="table table-condensed" id="tbMapLinesPoints">
+                            <thead>
+                                <tr style="height:28px;">
+                                    <th>@Asiatek.Resource.DisplayText.SerialNumber</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].Latitude)</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].Longitude)</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].RoadWidth)</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].IsCheckTime)</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].MaxSecond)</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].MinSecond)</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].IsCheckSpeed)</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].SpeedLimit)</th>
+                                    <th>@Html.LabelFor(m => m.MapLinesDetails[0].OverSpeedDuration)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmAddMapLines = $("#frmAddMapLines");
+    $frmAddMapLines.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    $frmAddMapLines.fixUnobtrusiveValidation();
+
+    //结束时间不得早于开始时间
+    $("#startTimeDatepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        onClose: function (selectedDate) {
+            $("#endTimeDatepicker").datepicker("option", "minDate", selectedDate);
+        }
+    }); 
+    $("#endTimeDatepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        onClose: function (selectedDate) {
+            $("#startTimeDatepicker").datepicker("option", "maxDate", selectedDate);
+        }
+    });
+
+    //定义map对象
+    var mapObj = initMap('container', true, 12, null);
+    //添加标尺、比例尺
+    addControl(true, true, false, false, false, mapObj);
+    var clickListener;
+    //点坐标和编号对象集合
+    var pointsObj;
+    //点坐标集合
+    var pointsList;
+    //点坐标marker和编号对象集合
+    var markersObj;
+    //点在集合中的序号
+    var pointNum;
+    //是否停止添加marker
+    var IsContinue;
+    //绘制后是否确认
+    var IsConfirm;
+    //添加点的table
+    var $tbMapLinesPoints = $("#tbMapLinesPoints");
+
+    function mapLinesDraw() {
+        mapObj.clearMap();
+        clearBtmPointsInfo();
+        IsContinue = true;
+        IsConfirm = false;
+        pointsObj = new Array();
+        pointsList = new Array();
+        markersObj = new Array();
+        pointNum = 0;
+
+        remove(); //防止重复绑定
+        //为地图注册click事件获取鼠标点击出的经纬度坐标
+        clickListener = AMap.event.addListener(mapObj, "click", function (e) {
+            var lnglat = new AMap.LngLat(e.lnglat.getLng(), e.lnglat.getLat());
+            if (IsContinue) {
+                var marker = new AMap.Marker({
+                    position: lnglat
+                    //draggable: true,
+                    //cursor: 'move'
+                    //raiseOnDrag: true
+                });
+                marker.setMap(mapObj);
+                var markerObj = { num: pointNum, marker: marker };
+                markersObj.push(markerObj);
+                var pointObj = { num: pointNum, lnglat: lnglat };
+                pointsObj.push(pointObj);
+                pointsList[pointNum] = lnglat;
+                ////图标拖拽
+                //markerObj.marker.on('dragend', function (e) {
+                //    var newLnglat = new AMap.LngLat(e.lnglat.getLng(), e.lnglat.getLat());
+                //    pointsObj[markerObj.num].lnglat = newLnglat;
+                //    pointsList[markerObj.num] = newLnglat;
+                //    drawPolyline(pointsList);
+                //});
+                ////点击图标
+                //markerObj.marker.on('click', function (e) {
+                    
+                //});
+                pointNum++;
+                drawPolyline(pointsList);
+            }
+        });
+    }
+
+    var remove = function () {
+        if (clickListener) {
+            AMap.event.removeListener(clickListener);//移除事件，以绑定时返回的对象作为参数
+        }
+    };
+
+
+    //添加点标记 result为点标记对象集合
+    function addMarker(result) {
+        for (var i = 0; i < result.length; i++) {
+            var lnglat = result[i].lnglat;
+            var marker = new AMap.Marker({
+                position: lnglat,
+                draggable: true,
+                cursor: 'move'
+                //raiseOnDrag: true
+            });
+            marker.setMap(mapObj);
+        }
+    }
+
+    // 绘制轨迹 result为点集合
+    function drawPolyline(result) {
+        var polyline = new AMap.Polyline({
+            map: mapObj,
+            path: result,
+            strokeColor: "#0D9BF2",  //线颜色
+            strokeOpacity: 1,     //线透明度
+            strokeWeight: 3,      //线宽
+            strokeStyle: "solid"  //线样式
+        });
+    }
+
+    function mapLinesConfirm() {
+        IsContinue = false;
+        IsConfirm = true;
+        clearBtmPointsInfo();
+        addMapLinesPoints(pointsList);
+    }
+
+    var addMapLinesPoints = function (result) {
+        for (var i = 0; i < result.length; i++) {
+            var _$tbody = $tbMapLinesPoints.find("tbody");
+            var _$tr = $("<tr></tr>");
+            _$tr.append($("<td></td>").text(i + 1));
+            _$tr.append($("<td><input name='MapLinesDetails[" + i + "].Latitude' class='tbInputClass'  type='text' id='latitude_" + i + "' readonly='readonly' value='" + result[i].getLat() + "' /></td>"));
+            _$tr.append($("<td><input name='MapLinesDetails[" + i + "].Longitude' class='tbInputClass'  type='text' id='longitude_" + i + "' readonly='readonly' value='" + result[i].getLng() + "' /></td>"));
+            _$tr.append($("<td><input name='MapLinesDetails[" + i + "].RoadWidth' class='tbInputClass' type='text' id='roadWidth_" + i + "' /></td>"));
+            _$tr.append($("<td style='text-align:center;'><input type='checkbox' id='isCheckTime_" + i + "' value='" + i + "' onclick='changeCkTime(this)' /> <input type='text' name='MapLinesDetails[" + i + "].IsCheckTime' hidden='hidden' id='isCheckTimeText_" + i + "' /></td>"));
+            _$tr.append($("<td><input name='MapLinesDetails[" + i + "].MaxSecond' class='tbInputClass' type='text' id='maxSecond_" + i + "' /></td>"));
+            _$tr.append($("<td><input name='MapLinesDetails[" + i + "].MinSecond' class='tbInputClass' type='text' id='minSecond_" + i + "' /></td>"));
+            _$tr.append($("<td><input type='checkbox' id='isCheckSpeed_" + i + "'  value='" + i + "'  onclick='changeCkSpeed(this)' /> <input type='text' name='MapLinesDetails[" + i + "].IsCheckSpeed' hidden='hidden' id='isCheckSpeedText_" + i + "' /></td>"));
+            _$tr.append($("<td><input name='MapLinesDetails[" + i + "].SpeedLimit' class='tbInputClass' type='text' id='speedLimit_" + i + "' /></td>"));
+            _$tr.append($("<td><input name='MapLinesDetails[" + i + "].OverSpeedDuration' class='tbInputClass' type='text' id='overSpeedDuration_" + i + "' /></td>"));
+            _$tbody.append(_$tr);
+            $tbMapLinesPoints.find("span").text("(" + $tbMapLinesPoints.find("tbody>tr").length + ")");
+        }
+        
+    }
+
+    //清理下方点信息
+    function clearBtmPointsInfo() {
+        var _$tbody = $tbMapLinesPoints.find("tbody");
+        _$tbody.empty();
+        $tbMapLinesPoints.find("span").text("");
+    }
+
+    //行驶时间选中，限速、最高速度、超速持续时间不可用
+    function changeCkTime(e) {
+        var id = e.id;
+        var i = e.value;
+        if ($("#" + id + "").prop("checked")) {
+            $("#isCheckTimeText_" + i).val(true);
+            $("#isCheckSpeed_" + i).attr('disabled', 'true');
+            $("#speedLimit_" + i).attr('disabled', 'true');
+            $("#overSpeedDuration_" + i).attr('disabled', 'true');
+        }
+        else {
+            $("#isCheckTimeText_" + i).val(false);
+            $("#isCheckSpeed_" + i).removeAttr('disabled');
+            $("#speedLimit_" + i).removeAttr('disabled');
+            $("#overSpeedDuration_" + i).removeAttr('disabled');
+        }
+    }
+
+    //限速选中，判断行驶时间、路段行驶过长、路段行驶不足不可用
+    function changeCkSpeed(e) {
+        var id = e.id;
+        var i = e.value;
+        if ($("#" + id + "").prop("checked")) {
+            $("#isCheckSpeedText_" + i).val(true);
+            $("#isCheckTime_" + i).attr('disabled', 'true');
+            $("#maxSecond_" + i).attr('disabled', 'true');
+            $("#minSecond_" + i).attr('disabled', 'true');
+        }
+        else {
+            $("#isCheckSpeedText_" + i).val(false);
+            $("#isCheckTime_" + i).removeAttr('disabled');
+            $("#maxSecond_" + i).removeAttr('disabled');
+            $("#minSecond_" + i).removeAttr('disabled');
+        }
+    }
+
+    $frmAddMapLines.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+
+    var checkForm = function () {
+        if (pointsObj == null || pointsObj.length < 2) {
+            var _message = '@DataAnnotations.NeedDrawLineError';
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        if (IsConfirm != true) {
+            var _message = '@DataAnnotations.NeedDrawLineError';
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        if (pointsObj != null) {
+            //验证判断行驶时间选中，路段行驶过长、路段行驶不足必填
+            //验证限速选中，最高速度、超速持续时间必填
+            for (var i = 0; i < pointsObj.length; i++) {
+                if ($("#isCheckTime_" + i).prop("checked") && !($("#maxSecond_" + i).val() != "" && $("#minSecond_" + i).val() != "")) {
+                    var _message = '@DataAnnotations.IsCheckTimeMustInput';
+                    $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+                if ($("#isCheckSpeed_" + i).prop("checked") && !($("#speedLimit_" + i).val() != "" && $("#overSpeedDuration_" + i).val() != "")) {
+                    var _message = '@DataAnnotations.IsCheckSpeedMustInput';
+                    $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+</script>

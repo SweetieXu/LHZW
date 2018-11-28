@@ -1,0 +1,197 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model AsiatekPagedList<FunctionListModel>
+
+
+@{
+    string updateTargetId = "Admin_Function_FunctionSetting_divFunctionsGrid";
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    int currentPage = Model.CurrentPageIndex;
+    string functionName = ViewBag.FunctionName;
+    int controllerID = ViewBag.ControllerID;
+    int areaID = ViewBag.AreaID;
+    int parentFunctionID = ViewBag.ParentFunctionID;
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+}
+
+
+
+
+
+
+
+
+
+<button id="btnAddFunctionInfo">@UIText.AddFunctionInfo</button>
+@if (Model.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+
+    using (Ajax.BeginForm("DeleteFunction", "Function", new AjaxOptions()
+    {
+        UpdateTargetId = updateTargetId,
+        OnSuccess = "commonAjaxSuccess"
+    }))
+    {
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="currentPage" value="@currentPage" />
+    <input type="hidden" name="functionName" value="@functionName" />
+    <input type="hidden" name="areaID" value="@areaID" />
+    <input type="hidden" name="controllerID" value="@controllerID" />
+    <input type="hidden" name="parentFunctionID" value="@parentFunctionID" />
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.FunctionName)</th>
+                <th>@Html.DisplayNameFor(m => m.IsBackground)</th>
+                <th>@Html.DisplayNameFor(m => m.ParentFunctionName)</th>
+                <th>@Html.DisplayNameFor(m => m.ActionName)</th>
+                <th>@Html.DisplayNameFor(m => m.ControllerName)</th>
+                <th>@Html.DisplayNameFor(m => m.AreaName)</th>
+                <th>@Html.DisplayNameFor(m => m.Description)</th>
+                <th>@editText</th>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="tdFunctionName">
+                        @item.FunctionName
+                    </td>
+                    <td><span style="display: none">@item.LevelID</span>@Html.CheckBoxFor(m => item.IsBackground, new { disabled = "disabled" })</td>
+                    <td class="tdParentFunctionName">@item.ParentFunctionName</td>
+                    <td>@item.ActionName</td>
+                    <td>@item.ControllerName</td>
+                    <td>@item.AreaName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <input type="button" value="@editText" onclick="edit(@item.ID)"/>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="funid" value="@item.ID" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="button" value="@delText" onclick="beginDelete()"/>
+                    <input type="submit" id="subDeleteArea" value="" style="display: none;" />
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    }
+
+
+    @Ajax.AsiatekAjaxPager(Model, cp =>
+{
+    return new AjaxOptions()
+    {
+        UpdateTargetId = updateTargetId,
+        OnSuccess = "commonAjaxSuccess",
+        Url = Url.Action("FunctionPagedGrid", "Function", new { currentPage = cp, functionName = functionName, controllerID = controllerID, areaID = areaID, parentFunctionID = parentFunctionID })
+    };
+})
+    @Scripts.Render("~/asiatek/pagerJS")
+}
+
+
+
+
+
+
+
+
+
+<script>
+    var beginDelete = function ()
+    {
+        var _message='@UIText.PleaseSelectItem';
+        if ($("input[name='funid']:checked").length == 0)
+        {
+            $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+            return;
+        }
+        _message='@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message,'@informationTitle','@UIText.Confirm','@UIText.Cancel',function(){
+            $("#subDeleteArea").trigger("click");
+        });
+    }
+
+
+    var edit = function (id)
+    {
+        var _url="@Url.Content("~/Admin/Function/EditFunctionInfo")";
+        var _data={id:id};
+        var _title="@editText";
+        $.showEditDialog(_url,_data,_title,editCallBack);
+    }
+
+
+    var setAddBtn=function(){
+        $("#btnAddFunctionInfo").on("click",function(){
+            var _url="@Url.Content("~/Admin/Function/AddFunctionInfo")";
+            var _data={};
+            var _title="@editText";
+            $.showEditDialog(_url,_data,_title,editCallBack);
+        });
+    }
+
+
+
+
+    var editCallBack=function(){
+        $.get("@Url.Action("FunctionPagedGrid", "Function")", { currentPage :'@currentPage', functionName: '@functionName',controllerID:'@controllerID', areaID: '@areaID',parentFunctionID:'@parentFunctionID' }, function (result)
+        {
+            if ($.handleAjaxError(result)) {
+                return;
+            }
+            $("#@updateTargetId").html(result);
+        });
+    }
+
+    var showMessage=function(){
+        var _message = "@ViewBag.Message";
+        $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+    }
+
+    //设置具有层级关系的功能名前根据层级等级填充空格
+    var setLevelSpace=function(){
+        $(".tdFunctionName").each(function(){
+            var _$obj=$(this);
+            var _val=_$obj.text();
+            var _levelID=_$obj.next("td").find("span").text();//获取层级ID
+            var _spaceCount=_levelID.length/10;//根据层级ID计算需要多少个空格
+            var _spaceContent="";
+            for (var i = 0; i < _spaceCount; i++) {
+                _spaceContent+="&nbsp;";
+            }
+            _val=_val.trim();//当前功能名称
+            //所有父节点是当前功能名称的功能节点的功能名称前补全空格
+            $(".tdParentFunctionName:contains("+_val+")").siblings(".tdFunctionName").each(function(){
+                $(this).html(_spaceContent+$(this).text());
+            });
+        });
+    }
+
+
+    var $chkAllObj = $("#chkAll");
+    var $chkObjs = $("input[name='funid']");
+    $.setCheckBox($chkAllObj,$chkObjs);
+    setAddBtn();
+    showMessage();
+    setLevelSpace();
+
+</script>

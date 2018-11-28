@@ -1,0 +1,219 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model StructureAddSubModel
+
+
+@using (Html.BeginForm("AddSubStrucToCurrentStruc", "Structure",
+    FormMethod.Post,
+    new
+    {
+        id = "frmAddSubStructure",
+        enctype = "multipart/form-data",
+    })
+ )
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.StrucAccount)：</td>
+                <td>@Html.TextBoxFor(m => m.StrucAccount)</td>
+                <td>@Html.LabelForRequired(m => m.StrucName)：</td>
+                <td>@Html.TextBoxFor(m => m.StrucName)</td>
+                <td>@Html.LabelForRequired(m => m.ParentID)：</td>
+                <td>
+                    @Html.HiddenFor(m => m.ParentID)
+                    @Html.TextBoxFor(m => m.ParentStrucName, new { @readonly = "readonly" })
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.StrucAccount)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.StrucName)</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.InspectMobiles)：</td>
+                <td colspan="3">
+                    @Html.TextBoxFor(m => m.InspectMobiles)
+                </td>
+                <td>
+                    <label>@UIText.InspectType</label>：
+                </td>
+                <td>
+                    @Html.CheckBoxFor(m => m.InspectType1, new { id = "chkAddStrucInspectType1" })<label for="chkAddStrucInspectType1">@DisplayText.NotificationTypePlateform</label>
+                    @Html.CheckBoxFor(m => m.InspectType2, new { id = "chkAddStrucInspectType2" })<label for="chkAddStrucInspectType2">@DisplayText.NotificationTypeMessage</label>
+                    @Html.CheckBoxFor(m => m.InspectType3, new { id = "chkAddStrucInspectType3" })<label for="chkAddStrucInspectType3">@DisplayText.NotificationTypeGuanXin</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.InspectMobiles)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.ExMobiles)：</td>
+                <td colspan="3">
+                    @Html.TextBoxFor(m => m.ExMobiles)
+                </td>
+                <td>
+                    <label>@UIText.ExNoticeType</label>：
+                </td>
+                <td>
+                    @Html.CheckBoxFor(m => m.ExNoticeType1, new { id = "chkAddStrucExNoticeType1" })<label for="chkAddStrucExNoticeType1">@DisplayText.NotificationTypePlateform</label>
+                    @Html.CheckBoxFor(m => m.ExNoticeType3, new { id = "chkAddStrucExNoticeType3" })<label for="chkAddStrucExNoticeType3">@DisplayText.NotificationTypeGuanXin</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ExMobiles)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LinkMan1)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMan1)</td>
+                <td>@Html.LabelFor(m => m.LinkMan2)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMan2)</td>
+                <td>@Html.LabelFor(m => m.LinkMan3)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMan3)</td>
+            </tr>
+            <tr>
+                <td colspan="6"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LinkMobile1)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMobile1)</td>
+                <td>@Html.LabelFor(m => m.LinkMobile2)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMobile2)</td>
+                <td>@Html.LabelFor(m => m.LinkMobile3)：</td>
+                <td>@Html.TextBoxFor(m => m.LinkMobile3)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LinkMobile1)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LinkMobile2)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LinkMobile3)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.LicenseNo)：</td>
+                <td>@Html.TextBoxFor(m => m.LicenseNo)</td>
+                <td>@Html.LabelFor(m => m.LogoFile)：</td>
+                <td>
+                    <input type="file" name="logoFile" accept="image/jpeg,image/jpg,image/png" id="fileLogo" />
+                    <label>@UIText.Logo</label>
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.LicenseNo)</td>
+                <td colspan="2">
+                    @Html.ValidationMessageFor(m => m.LogoFile)
+                </td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(UIText.MapType)：</td>
+                <td id="tdMapType">
+                    @Html.CheckBoxFor(m => m.MapType1, new { id = "chkAddStrucMapType1" })<label for="chkAddStrucMapType1">@DisplayText.MapTypeGoogle</label>
+                    @Html.CheckBoxFor(m => m.MapType2, new { id = "chkAddStrucMapType2" })<label for="chkAddStrucMapType2">@DisplayText.MapTypeOffline</label>
+                    @Html.CheckBoxFor(m => m.MapType3, new { id = "chkAddStrucMapType3" })<label for="chkAddStrucMapType3">@DisplayText.MapTypeBaiDu</label>
+                </td>
+                <td>@Html.LabelFor(m => m.CustomEncoding)：</td>
+                <td>@Html.TextBoxFor(m => m.CustomEncoding)</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @*暂时先用这个属性做为验证提示*@
+                    @Html.ValidationMessageFor(m => m.MapType1)
+                </td>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.CustomEncoding)</td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td colspan="5">
+                    @Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+<script>
+
+    var $frmAddSubStructure = $("#frmAddSubStructure");
+
+    $frmAddSubStructure.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+
+
+    $frmAddSubStructure.fixUnobtrusiveValidation(function (form)
+    {
+        if (checkForm())
+        {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form)
+                {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+
+
+
+
+    var checkForm = function ()
+    {
+        //验证地图
+        if ($("#tdMapType>input:checkbox:checked").length === 0)
+        {
+            var _message = '@DataAnnotations.StructureMustSelectMapType';
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+
+        var _$fileLogo = $("#fileLogo");
+        //验证logo文件格式
+        var _logo = _$fileLogo.val().trim();
+        if (_logo != '') {
+            if (!/\.(png|PNG|jpg|JPG|jpeg|jpeg)$/.test(_logo)) {
+                var _message = '@DataAnnotations.LogoTypeError';
+                $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+
+            //验证logo大小
+            var file_size = _$fileLogo.get(0).files[0].size;
+            var size = file_size / 1024;
+            if (size > 1024) {
+                $.showPromptDialog('@DataAnnotations.LogoSizeError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+        }
+        return true;
+    }
+</script>

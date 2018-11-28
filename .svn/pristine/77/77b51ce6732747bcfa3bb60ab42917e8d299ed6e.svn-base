@@ -1,0 +1,25 @@
+﻿<?xml version="1.0"?>
+<configuration>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5"/>
+    </startup>
+  <connectionStrings>
+    <!--<add name="DefaultConnection" providerName="System.Data.SqlClient" connectionString="Data Source=(LocalDb)\v11.0;Initial Catalog=aspnet-MvcApplication1-20180619135834;Integrated Security=SSPI;AttachDBFilename=|DataDirectory|\aspnet-MvcApplication1-20180619135834.mdf" />-->
+    <add name="SqlConnStr" providerName="System.Data.SqlClient" connectionString="Data Source=.;Initial Catalog=TMS2016;User ID=sa;Pwd=asiatek;Connection Timeout=300;pooling=true;min pool size=20;max pool size=32767;"/>
+    <!--<add name="SqlConnStr" providerName="System.Data.SqlClient" connectionString="Data Source=.;Initial Catalog=LHZW;User ID=sa;Pwd=123456;Connection Timeout=300;pooling=true;min pool size=20;max pool size=32767;"/>-->
+  </connectionStrings>
+  <appSettings>
+    <!--每隔十分钟执行调用接口方法，暂时为了测试，用了一分钟-->
+    <add key="TimeIntervalFlag" value="10"/>
+  </appSettings>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="Service1Soap" maxBufferPoolSize="2147483647" maxReceivedMessageSize="2147483647"/>
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://safe.foxconn.com:443/TemporaryVisitCheck/Service1.asmx" binding="basicHttpBinding" bindingConfiguration="Service1Soap" contract="LongHua.Service1Soap" name="Service1Soap"/>
+        </client>
+    </system.serviceModel>
+</configuration>

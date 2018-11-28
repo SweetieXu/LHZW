@@ -1,0 +1,253 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<VehicleSearchModel, VehicleListModel>
+
+
+
+
+@using (Ajax.BeginForm("GetVehicleInfo", "Vehicle", new AjaxOptions()
+    {
+        UpdateTargetId = "Admin_Vehicle_VehicleSetting_divVehicles",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET"
+    }, new { id = "frmSearchVehicle" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.PlateNum)：</td>
+            <td>
+                <input type="search" name="PlateNum" value=""  placeholder="@UIText.PlateNumPlaceHolder"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.SIMCode)：</td>
+            <td>
+                <input type="search" name="SIMCode" value=""  placeholder="@UIText.SIMCodePlaceHolder"/>
+            </td>
+
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.TerminalCode)：</td>
+            <td>
+                <input type="search" name="TerminalCode" value=""  placeholder="@UIText.TerminalCodePlaceHolder"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.VehicleCode)：</td>
+            <td>
+                <input type="search" name="VehicleCode" value=""  placeholder="@UIText.VehicleCodePlaceHolder"/>
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.TerminalTypeSelectList)：</td>
+            <td>
+                @Html.DropDownList("TerminalTypeID", Model.SearchModel.TerminalTypeSelectList)
+            </td>
+            <td>@Html.LabelFor(m => Model.SearchModel.SubordinateStrucSelectList)：</td>
+            <td>
+                @*                @Html.DropDownList("ddlStrucID", Model.SearchModel.SubordinateStrucSelectList, new { id = "ddlStrucs" })
+                @Html.Hidden("StrucID", Model.SearchModel.SubordinateStrucSelectList.First().Value, new { id = "hidStrucID" })*@
+                <select id="ddlStrucs">
+                    <option value="-1" selected="selected">@UIText.All</option>
+                </select>
+                <input type="hidden" name="StrucID" value="-1" id="hidStrucID" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <input type="submit" value="@UIText.SearchButton" accesskey="S" class="btn btn-primary"/>
+                <input type="button" value="@UIText.AddButton"  id="btnAddVehicle" class="btn btn-info"/>
+                <input type="button" value="测试" id="btn" class="btn btn-info" />
+                <input type="button" value="@UIText.DeleteButton"  id="btnDelVehicle"   class="btn btn-danger"/>
+                <input type="button" value="@UIText.ModifyWarrantyDateButton" id="btnModifyWarrantyDate" class="btn btn-info" />
+                <input type="button" value="@UIText.ModifySpeedLimitButton" id="btnModifySpeedLimit" class="btn btn-info" />
+                <input type="button" value="@UIText.OpenAccessButton" id="btnOpenAccess" class="btn btn-info" />
+                <input type="button" value="@UIText.CloseAccessButton" id="btnCloseAccess" class="btn btn-warning" />
+                <input type="button" value="@UIText.OpenTransmitButton" id="btnOpenTransmit" class="btn btn-info" />
+                <input type="button" value="@UIText.CloseTransmitButton" id="btnCloseTransmit" class="btn btn-warning" />
+                <input type="button" value="@UIText.EnableButton" id="btnEnable" class="btn btn-info" />
+                <input type="button" value="@UIText.DisableButton" id="btnDisable" class="btn btn-warning" />
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+<div id="Admin_Vehicle_VehicleSetting_divVehicles">
+    @Html.Partial("_VehiclePagedGrid", Model)
+</div>
+
+
+
+<script>
+    $("#frmSearchVehicle").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    var $ddlStrucs = $("#ddlStrucs");
+    var $hidStrucID = $("#hidStrucID");
+    $.get("@Url.Content("~/Admin/Structure/GetStructures")", {}, function (result)
+    {
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        var _html = "";
+        for (var i = 0; i < result.length; i++)
+        {
+            var obj = result[i];
+            _html += "<option value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+        }
+        $ddlStrucs.html($ddlStrucs.html() + _html);
+        $ddlStrucs.editableSelect({ effects: 'fade' })
+        .on('select.editable-select', function (e, li)
+        {
+            $hidStrucID.val(li.val());
+        });
+    });
+
+    $("#btnAddVehicle").on("click", function ()
+    {
+        var _url = "@Url.Content("~/Admin/Vehicle/AddVehicle")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btn").on("click", function ()
+    {
+        var _url = "@Url.Content("~/Admin/Vehicle/NewAddVehicle")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+
+    $("#btnDelVehicle").on("click", function ()
+    {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='vid']:checked").length == 0)
+        {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function ()
+        {
+            $("#frmDelVehicle").submit();
+        });
+    });
+
+    $("#btnOpenAccess").on("click", function ()
+    {
+        commOperation('@UIText.ConfirmOpenAccess', '@Url.Content("~/Admin/Vehicle/OpenAccess")');
+    });
+
+
+    $("#btnCloseAccess").on("click", function ()
+    {
+        commOperation('@UIText.ConfirmCloseAccess', '@Url.Content("~/Admin/Vehicle/CloseAccess")');
+    });
+
+
+    $("#btnOpenTransmit").on("click", function ()
+    {
+        commOperation('@UIText.ConfirmOpenTransmit', '@Url.Content("~/Admin/Vehicle/OpenTransmit")');
+    });
+
+    $("#btnCloseTransmit").on("click", function ()
+    {
+        commOperation('@UIText.ConfirmCloseTransmit', '@Url.Content("~/Admin/Vehicle/CloseTransmit")');
+    });
+
+    $("#btnEnable").on("click", function ()
+    {
+        commOperation('@UIText.ConfirmEnableReceive', '@Url.Content("~/Admin/Vehicle/EnableReceive")');
+    });
+
+    $("#btnDisable").on("click", function ()
+    {
+        commOperation('@UIText.ConfirmDisableReceive', '@Url.Content("~/Admin/Vehicle/DisableReceive")');
+    });
+
+
+    $("#btnModifyWarrantyDate").on("click", function ()
+    {
+
+        var _chkvids = $("input[name='vid']:checked");
+        var _message = '请先选择要修改保固期的车辆';
+        if (_chkvids.length == 0)
+        {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        var _vids = "";
+        _chkvids.each(function (i, n)
+        {
+            _vids += $(this).val() + "|";
+        });
+
+        var _url = "@Url.Content("~/Admin/Vehicle/ModifyWarrantyDate")";
+        var _data = { ids: JSON.stringify(_vids) };
+        var _title = "修改保固期";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+
+    $("#btnModifySpeedLimit").on("click", function ()
+    {
+
+        var _chkvids = $("input[name='vid']:checked");
+        var _message = '请先选择要修改限速值的车辆';
+        if (_chkvids.length == 0)
+        {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        var _vids = "";
+        _chkvids.each(function (i, n)
+        {
+            _vids += $(this).val() + "|";
+        });
+
+        var _url = "@Url.Content("~/Admin/Vehicle/ModifySpeedLimit")";
+        var _data = { ids: JSON.stringify(_vids) };
+        var _title = "修改限速值";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+
+
+
+    var commOperation = function (message, url)
+    {
+        var _chkvids = $("input[name='vid']:checked");
+        if (_chkvids.length == 0)
+        {
+            $.showPromptDialog('@UIText.PleaseSelectItem', '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        $.showConfirmDialog(message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function ()
+        {
+            var _vids = "";
+            _chkvids.each(function (i, n)
+            {
+                _vids += $(this).val() + "|";
+            });
+            var _token = $('@Html.AntiForgeryToken()').val();
+            var data = { __RequestVerificationToken: _token, vids: _vids };
+            $.post(url, data, function (result)
+            {
+                if ($.handleAjaxError(result))
+                {
+                    return;
+                }
+                $.showPromptDialog(result.Message);
+                refreshSearchForm();
+            });
+        });
+    }
+</script>
+
+
+
+
+

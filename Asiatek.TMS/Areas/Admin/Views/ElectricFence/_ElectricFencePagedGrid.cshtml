@@ -1,0 +1,239 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<ElectricFenceSearchModel, ElectricFenceListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+
+    string updateTargetId = "Admin_ElectricFence_ElectricFenceSetting_divElectricFence";
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    using (Ajax.BeginForm("DeleteElectricFence", "ElectricFence", new AjaxOptions()
+    {
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelElectricFence" }))
+    {
+        @Html.AntiForgeryToken()
+        <table class="table table-striped table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="chkAll" />
+                    </th>
+                    <th>
+                        <label>@UIText.Operation</label>
+                    </th>
+                    <th>@Html.DisplayNameFor(m => m.FenceName)</th>
+                    <th>@Html.DisplayNameFor(m => m.FenceType)</th>
+                    <th>@Html.DisplayNameFor(m => m.CreateTime)</th>
+                    <th>@Html.DisplayNameFor(m => m.NickName)</th>
+                    <th>@Html.DisplayNameFor(m => m.StrucName)</th>
+                    @* 如果配置了南钢嘉华添加电子围栏权限，则信息列表显示客户状态 *@
+                    @*@if (AsiatekUIHelper.CheckPremission("NGJH_EditElectricFence", "ElectricFence", "Admin"))
+                    {
+                        <th>@Html.DisplayNameFor(m => m.CustomerStatus)</th>
+                    }*@
+                    @* 如果配置了普通添加电子围栏权限，则信息列表显示电子围栏属性设定相关信息 *@
+                    @*@if (AsiatekUIHelper.CheckPremission("EditElectricFence", "ElectricFence", "Admin"))
+                    {
+                        <th>@Html.DisplayNameFor(m => m.FenceCode)</th>
+                        <th>@Html.DisplayNameFor(m => m.PropertyName)</th>
+                        <th>@Html.DisplayNameFor(m => m.FenceState)</th>
+                        <th>@Html.DisplayNameFor(m => m.ValidStartTime)</th>
+                        <th>@Html.DisplayNameFor(m => m.ValidEndTime)</th>
+                    }*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in pagedDatas)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="Fnid" value="@item.ID" id="chkFnid@(item.ID)" /></td>
+                        <td>
+                            @* 南钢嘉华权限不用绑定车辆，和普通电子围栏调用不同的编辑页面 *@
+                            @if (AsiatekUIHelper.CheckPremission("NGJH_EditElectricFence", "ElectricFence", "Admin"))
+                            {
+                                 if (item.PropertyID == null)
+                                {
+                                    <span class="btn btn-default" onclick="NGJH_edit(@item.ID)" title="@editText">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </span>
+                                }
+                            }
+                            @if (AsiatekUIHelper.CheckPremission("EditElectricFence", "ElectricFence", "Admin"))
+                            {
+                                if (item.PropertyID != null)
+                                {
+                                    <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </span>
+                                }
+                                <span class="btn btn-primary" style="margin-left:10px;" onclick="bind(@item.ID,'@item.FenceName')" title="@UIText.BindVehicle">
+                                    <span class="glyphicon glyphicon-ok-circle"></span>
+                                </span>
+                                <span class="btn btn-danger" onclick="unBind(@item.ID)" title="@UIText.UnBindVehicle">
+                                    <span class="glyphicon glyphicon-remove-circle"></span>
+                                </span>
+                            }
+                        </td>
+                        <td>
+                                <label for="chkFnid@(item.ID)">@item.FenceName</label>
+                        </td>
+                        <td>
+                            @if (item.FenceType == 1)
+                            {
+                                <label>@UIText.Circle</label>
+                            }
+                            @if (item.FenceType == 2)
+                            {
+                                <label>@UIText.Rectangle</label>
+                            }
+                            @if (item.FenceType == 3)
+                            {
+                                <label>@UIText.Polygon</label>
+                            }
+                        </td>
+                        <td>
+                            <label>@item.CreateTime</label>
+                        </td>
+                        <td>
+                            <label>@item.NickName</label>
+                        </td>
+                        <td>
+                            <label>@item.StrucName</label>
+                        </td>
+                      @*  @if (AsiatekUIHelper.CheckPremission("NGJH_EditElectricFence", "ElectricFence", "Admin"))
+                        {
+                            <td>
+                                @if (item.CustomerStatus == 1)
+                                {
+                                <label>@UIText.UsingCustomer</label>
+                                }
+                                @if (item.CustomerStatus == 2)
+                                {
+                                    <label>@UIText.PotentialCustomer</label>
+                                }
+                                @if (item.CustomerStatus == 3)
+                                {
+                                    <label>@UIText.NoUseCustomer</label>
+                                }
+                            </td>
+                        }
+                        @if (AsiatekUIHelper.CheckPremission("EditElectricFence", "ElectricFence", "Admin"))
+                        {
+                            <td><label>@item.FenceCode</label></td> 
+                            if (item.PropertyID == null)               //用户配置了所有电子围栏权限， 电子围栏属性为空时列表不显示信息
+                            {
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td> <label>@item.PropertyName</label> </td>
+                                <td>
+                                    @if (item.FenceState == true)
+                                    {
+                                        <label>@UIText.EnableButton</label>
+                                    }
+                                    else
+                                    {
+                                        <label>@UIText.UnEnableButton</label>
+                                    }
+                                </td>
+                                <td><label>@item.ValidStartTime</label></td>
+                                <td><label>@item.ValidEndTime</label></td> 
+                            }
+                        }*@
+                       
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+{
+
+    AreaName = "Admin",
+    ControllerName = "ElectricFence",
+    ActionName = "GetElectricFence",
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+}
+
+
+<script>
+    //删除完成后
+    var delCallBack = function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchElectricFence #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchElectricFence").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+
+    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/ElectricFence/EditElectricFence")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    //南钢嘉华编辑
+    var NGJH_edit = function (id) {
+        var _url = "@Url.Content("~/Admin/ElectricFence/NGJH_EditElectricFence")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    //绑定车辆
+    var bind = function (id, fenceName) {
+        var _url = "@Url.Content("~/Admin/ElectricFence/VehicleElectricFenceSetting")";
+        var _data = { id: id, fenceName: fenceName };
+        var _title = "@UIText.BindVehicle";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    //解绑车辆
+    var unBind = function (id) {
+        var _url = "@Url.Content("~/Admin/ElectricFence/GetVehicleByFenceID")";
+        var _data = { id: id };
+        var _title = "@UIText.UnBindVehicle";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    var _$chkAllObj = $("#chkAll");
+    var _$chkObjs = $("input[name='Fnid']");
+    $.setCheckBox(_$chkAllObj, _$chkObjs);
+
+</script>

@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="TerminalOperation" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="ITerminalOperation_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/STDServiceCore" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/STD808Core.General" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/STD808Core" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/STD808Core.LocationAlarm" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/STD808Core.Information" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/STD808Core.Telephone" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd10" namespace="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" />
+      <xsd:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd11" namespace="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITerminalOperation_QuerySpecifiedTerminalParas_InputMessage">
+    <wsdl:part name="parameters" element="tns:QuerySpecifiedTerminalParas" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_QuerySpecifiedTerminalParas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:QuerySpecifiedTerminalParasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_TerminalControl_InputMessage">
+    <wsdl:part name="parameters" element="tns:TerminalControl" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_TerminalControl_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TerminalControlResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetTerminalParas_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetTerminalParas" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetTerminalParas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetTerminalParasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_ConfirmAlarm_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmAlarm" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_ConfirmAlarm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConfirmAlarmResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SendTextInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendTextInfo" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SendTextInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendTextInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetEvent" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SendQuestion_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendQuestion" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SendQuestion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendQuestionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SendTelCallBack_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendTelCallBack" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SendTelCallBack_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendTelCallBackResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetTelphone_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetTelphone" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetTelphone_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetTelphoneResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetCircularRegion_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetCircularRegion" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetCircularRegion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetCircularRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_DeleteCircularRegion_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCircularRegion" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_DeleteCircularRegion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCircularRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetRectangularRegion_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetRectangularRegion" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetRectangularRegion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetRectangularRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_DeleteRectangularRegion_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRectangularRegion" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_DeleteRectangularRegion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteRectangularRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetPolygonRegion_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetPolygonRegion" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetPolygonRegion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetPolygonRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_DeletePolygonRegion_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePolygonRegion" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_DeletePolygonRegion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePolygonRegionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetLine_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetLine" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_SetLine_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetLineResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_DeleteLine_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLine" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_DeleteLine_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteLineResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_StartShooting_InputMessage">
+    <wsdl:part name="parameters" element="tns:StartShooting" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_StartShooting_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StartShootingResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_RetrieveStoredMultimediaDatas_InputMessage">
+    <wsdl:part name="parameters" element="tns:RetrieveStoredMultimediaDatas" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_RetrieveStoredMultimediaDatas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RetrieveStoredMultimediaDatasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_UploadStoredMultimediaDatas_InputMessage">
+    <wsdl:part name="parameters" element="tns:UploadStoredMultimediaDatas" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_UploadStoredMultimediaDatas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UploadStoredMultimediaDatasResponse" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_UploadSingleStoredMultimediaData_InputMessage">
+    <wsdl:part name="parameters" element="tns:UploadSingleStoredMultimediaData" />
+  </wsdl:message>
+  <wsdl:message name="ITerminalOperation_UploadSingleStoredMultimediaData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UploadSingleStoredMultimediaDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ITerminalOperation">
+    <wsdl:operation name="QuerySpecifiedTerminalParas">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/QuerySpecifiedTerminalParas" message="tns:ITerminalOperation_QuerySpecifiedTerminalParas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/QuerySpecifiedTerminalParasResponse" message="tns:ITerminalOperation_QuerySpecifiedTerminalParas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="TerminalControl">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/TerminalControl" message="tns:ITerminalOperation_TerminalControl_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/TerminalControlResponse" message="tns:ITerminalOperation_TerminalControl_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetTerminalParas">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SetTerminalParas" message="tns:ITerminalOperation_SetTerminalParas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SetTerminalParasResponse" message="tns:ITerminalOperation_SetTerminalParas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmAlarm">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/ConfirmAlarm" message="tns:ITerminalOperation_ConfirmAlarm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/ConfirmAlarmResponse" message="tns:ITerminalOperation_ConfirmAlarm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendTextInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SendTextInfo" message="tns:ITerminalOperation_SendTextInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SendTextInfoResponse" message="tns:ITerminalOperation_SendTextInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SetEvent" message="tns:ITerminalOperation_SetEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SetEventResponse" message="tns:ITerminalOperation_SetEvent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendQuestion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SendQuestion" message="tns:ITerminalOperation_SendQuestion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SendQuestionResponse" message="tns:ITerminalOperation_SendQuestion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendTelCallBack">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SendTelCallBack" message="tns:ITerminalOperation_SendTelCallBack_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SendTelCallBackResponse" message="tns:ITerminalOperation_SendTelCallBack_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetTelphone">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SetTelphone" message="tns:ITerminalOperation_SetTelphone_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SetTelphoneResponse" message="tns:ITerminalOperation_SetTelphone_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetCircularRegion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SetCircularRegion" message="tns:ITerminalOperation_SetCircularRegion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SetCircularRegionResponse" message="tns:ITerminalOperation_SetCircularRegion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCircularRegion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/DeleteCircularRegion" message="tns:ITerminalOperation_DeleteCircularRegion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/DeleteCircularRegionResponse" message="tns:ITerminalOperation_DeleteCircularRegion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetRectangularRegion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SetRectangularRegion" message="tns:ITerminalOperation_SetRectangularRegion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SetRectangularRegionResponse" message="tns:ITerminalOperation_SetRectangularRegion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRectangularRegion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/DeleteRectangularRegion" message="tns:ITerminalOperation_DeleteRectangularRegion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/DeleteRectangularRegionResponse" message="tns:ITerminalOperation_DeleteRectangularRegion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetPolygonRegion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SetPolygonRegion" message="tns:ITerminalOperation_SetPolygonRegion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SetPolygonRegionResponse" message="tns:ITerminalOperation_SetPolygonRegion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePolygonRegion">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/DeletePolygonRegion" message="tns:ITerminalOperation_DeletePolygonRegion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/DeletePolygonRegionResponse" message="tns:ITerminalOperation_DeletePolygonRegion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetLine">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/SetLine" message="tns:ITerminalOperation_SetLine_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/SetLineResponse" message="tns:ITerminalOperation_SetLine_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLine">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/DeleteLine" message="tns:ITerminalOperation_DeleteLine_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/DeleteLineResponse" message="tns:ITerminalOperation_DeleteLine_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StartShooting">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/StartShooting" message="tns:ITerminalOperation_StartShooting_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/StartShootingResponse" message="tns:ITerminalOperation_StartShooting_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveStoredMultimediaDatas">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/RetrieveStoredMultimediaDatas" message="tns:ITerminalOperation_RetrieveStoredMultimediaDatas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/RetrieveStoredMultimediaDatasResponse" message="tns:ITerminalOperation_RetrieveStoredMultimediaDatas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadStoredMultimediaDatas">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/UploadStoredMultimediaDatas" message="tns:ITerminalOperation_UploadStoredMultimediaDatas_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/UploadStoredMultimediaDatasResponse" message="tns:ITerminalOperation_UploadStoredMultimediaDatas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadSingleStoredMultimediaData">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITerminalOperation/UploadSingleStoredMultimediaData" message="tns:ITerminalOperation_UploadSingleStoredMultimediaData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITerminalOperation/UploadSingleStoredMultimediaDataResponse" message="tns:ITerminalOperation_UploadSingleStoredMultimediaData_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ITerminalOperation" type="tns:ITerminalOperation">
+    <wsp:PolicyReference URI="#ITerminalOperation_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="QuerySpecifiedTerminalParas">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/QuerySpecifiedTerminalParas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TerminalControl">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/TerminalControl" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetTerminalParas">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SetTerminalParas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmAlarm">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/ConfirmAlarm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendTextInfo">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SendTextInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetEvent">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SetEvent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendQuestion">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SendQuestion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendTelCallBack">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SendTelCallBack" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetTelphone">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SetTelphone" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetCircularRegion">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SetCircularRegion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCircularRegion">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/DeleteCircularRegion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetRectangularRegion">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SetRectangularRegion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteRectangularRegion">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/DeleteRectangularRegion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetPolygonRegion">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SetPolygonRegion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePolygonRegion">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/DeletePolygonRegion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetLine">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/SetLine" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteLine">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/DeleteLine" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StartShooting">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/StartShooting" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveStoredMultimediaDatas">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/RetrieveStoredMultimediaDatas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadStoredMultimediaDatas">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/UploadStoredMultimediaDatas" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadSingleStoredMultimediaData">
+      <soap12:operation soapAction="http://tempuri.org/ITerminalOperation/UploadSingleStoredMultimediaData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TerminalOperation">
+    <wsdl:port name="ITerminalOperation" binding="tns:ITerminalOperation">
+      <soap12:address location="http://172.16.3.73:10009/ITerminalOperation" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://172.16.3.73:10009/ITerminalOperation</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

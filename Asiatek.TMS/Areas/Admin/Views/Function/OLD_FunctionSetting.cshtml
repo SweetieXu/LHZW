@@ -1,0 +1,66 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model FunctionSettingModel
+
+
+@using (Ajax.BeginForm("GetFunctionInfo", "Function", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Function_FunctionSetting_divFunctionsGrid",
+    OnSuccess = "commonAjaxSuccess"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.LabelFor(m => m.AreasSelectList)@:：@Html.DropDownList("areaID", Model.AreasSelectList, new { id = "ddlAllAreas" })
+    @Html.LabelFor(m => m.ControllersSelectList)@:：@Html.DropDownList("controllerID", Model.ControllersSelectList, new { id = "ddlAllControllers" })
+    @Html.LabelFor(m => m.ParentFunctionsSelectList)@:：@Html.DropDownList("parentFunctionID", Model.ParentFunctionsSelectList, new { id = "ddlAllFunctions" })
+    <input type="text" name="functionName" value="" placeholder="@UIText.FunctionNamePlaceHolder" />
+    <input type="submit" value="@UIText.SearchButton" accesskey="S" />
+}
+
+
+
+<div>
+    <div id="Admin_Function_FunctionSetting_divFunctionsGrid">
+        @Html.Partial("_FunctionPagedGrid", Model.PagedFunctions)
+    </div>
+</div>
+
+<script>
+    var $ddlAreas, $ddlControllers, $ddlFunctions;
+    $(function ()
+    {
+        $ddlAreas = $("#ddlAllAreas");
+        $ddlControllers = $("#ddlAllControllers");
+        $ddlFunctions = $("#ddlAllFunctions");
+        $ddlAreas.change(function ()
+        {
+            var _areaID = $.trim($ddlAreas.find("option:selected").val());
+            $.get("@Url.Content("~/Admin/Ctr/GetControllerDDLWithDefaultByAreaID")", { areaID: _areaID }, function (result)
+            {
+                $ddlControllers.empty();
+                $.each(result, function (i, item)
+                {
+                    $ddlControllers.append($("<option></option>").text(item.ControllerName).val(item.ID));
+                });
+            });
+        });
+    });
+
+    var changeFunctions = function ()
+    {
+        var _areaID = $.trim($ddlAreas.find("option:selected").val());
+        var _controllerID = $.trim($ddlControllers.find("option:selected").val());
+        $.get("@Url.Content("~/Admin/Function/GetFunctionDDLWithDefault")", { controllerID: _controllerID, areaID: _areaID }, function (result)
+        {
+            $ddlFunctions.empty();
+            $.each(result, function (i, item)
+            {
+                $ddlFunctions.append($("<option></option>").text(item.FunctionName).val(item.ID));
+            });
+        });
+    }
+
+
+
+</script>
+

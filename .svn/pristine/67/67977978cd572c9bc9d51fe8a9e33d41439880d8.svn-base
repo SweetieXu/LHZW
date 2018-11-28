@@ -1,0 +1,162 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model  ControllerSettingModel
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+
+    string updateTargetId = "Admin_Ctr_ControllerInfo_divControllersGrid";
+    string controllerName = Model.ControllerName;
+    int areaID = Model.AreaID;
+    var pagedDatas = Model.PagedDatas;
+}
+
+
+<button id="btnAddControllerInfo">@UIText.AddControllerInfo</button>
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    var firstObj = pagedDatas.First();
+
+    using (Ajax.BeginForm("DeleteCtr", "Ctr", new AjaxOptions()
+    {
+        OnBegin = "beginDelete",
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelCtr" }))
+    {
+    @Html.AntiForgeryToken()
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => firstObj.ID)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.ControllerName)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.AreaName)</th>
+                <th>@Html.DisplayNameFor(m => firstObj.Description)</th>
+                <th>@editText</th>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.ControllerName</td>
+                    <td>@item.AreaName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        <input type="button" value="@editText" onclick="edit(@item.ID)"/>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="ctrid" value="@item.ID" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <input type="button" value="@delText" onclick="beginDelete()"/>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    }
+
+
+    @Ajax.AsiatekAjaxPager(pagedDatas, new AsiatekAjaxPagerOptions3()
+{
+    AreaName = "Admin",
+    ControllerName = "Ctr",
+    ActionName = "ControllerPagedGrid",
+    SearchPageFieldName = "SearchPage",
+    SearchDatasObj = Model,
+    UpdateTargetId = updateTargetId,
+    OnSuccess = "commonAjaxSuccess",
+});
+
+
+
+    @Scripts.Render("~/asiatek/pagerJS")
+}
+
+
+
+<script>
+    
+
+
+    var beginDelete = function ()
+    {
+        var _message='@UIText.PleaseSelectItem';
+        if ($(":checkbox:checked").length == 0)
+        {
+            $.showPromptDialog(_message,'@informationTitle','@closeBtnText');
+            return;
+        }
+        _message='@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message,'@informationTitle','@UIText.Confirm','@UIText.Cancel',function(){
+            $("#frmDelCtr").submit();
+        });
+    }
+
+    //删除完成后
+    var delCallBack=function(result){
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+
+    //刷新搜索表单
+    var refreshSearchForm=function(){
+        var _currentPage='@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage=$("#frmSearchController>#hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchController").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+
+    var edit = function (id)
+    {
+        var _url="@Url.Content("~/Admin/Ctr/EditControllerInfo")";
+        var _data={id:id};
+        var _title="@editText";
+        $.showEditDialog(_url,_data,_title,refreshSearchForm);
+    }
+
+
+    var setAddBtn=function(){
+        $("#btnAddControllerInfo").on("click",function(){
+            var _url="@Url.Content("~/Admin/Ctr/AddControllerInfo")";
+            var _data={};
+            var _title="@editText";
+            $.showEditDialog(_url,_data,_title,refreshSearchForm);
+        });
+    }
+
+
+    $(function ()
+    {
+        var _$chkAllObj = $("#chkAll");
+        var _$chkObjs = $("input[name='ctrid']");
+        $.setCheckBox(_$chkAllObj,_$chkObjs);
+        setAddBtn();
+    });
+</script>

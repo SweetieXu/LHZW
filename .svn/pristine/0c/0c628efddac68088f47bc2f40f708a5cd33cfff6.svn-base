@@ -1,0 +1,63 @@
+10:23:13：
+异常信息：值对于 Int32 太大或太小。
+堆栈信息：   在 System.Convert.ToInt32(Int64 value)
+   在 System.Int64.System.IConvertible.ToInt32(IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+----------------------------------------------------------------------------------------------------
+10:23:17：
+异常信息：值对于 Int32 太大或太小。
+堆栈信息：   在 System.Convert.ToInt32(Int64 value)
+   在 System.Int64.System.IConvertible.ToInt32(IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+----------------------------------------------------------------------------------------------------
+10:23:31：
+异常信息：值对于 Int32 太大或太小。
+堆栈信息：   在 System.Convert.ToInt32(Int64 value)
+   在 System.Int64.System.IConvertible.ToInt32(IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+----------------------------------------------------------------------------------------------------
+10:24:07：
+异常信息：值对于 Int32 太大或太小。
+堆栈信息：   在 System.Convert.ToInt32(Int64 value)
+   在 System.Int64.System.IConvertible.ToInt32(IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+----------------------------------------------------------------------------------------------------
+10:25:26：
+异常信息：值对于 Int32 太大或太小。
+堆栈信息：   在 System.Convert.ToInt32(Int64 value)
+   在 System.Int64.System.IConvertible.ToInt32(IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+----------------------------------------------------------------------------------------------------
+10:26:20：
+异常信息：值对于 Int32 太大或太小。
+堆栈信息：   在 System.Convert.ToInt32(Int64 value)
+   在 System.Int64.System.IConvertible.ToInt32(IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+----------------------------------------------------------------------------------------------------
+10:38:15：
+异常信息：值对于 Int32 太大或太小。
+堆栈信息：   在 System.Convert.ToInt32(Int64 value)
+   在 System.Int64.System.IConvertible.ToInt32(IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   在 System.Convert.ChangeType(Object value, Type conversionType)
+   在 Asiatek.DBUtility.ConvertToList`1.SetPropValue(DataRow dr, Object t) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 288
+   在 Asiatek.DBUtility.ConvertToList`1.Convert(DataTable dt) 位置 e:\SVNCode\TMS2.0\Asiatek.DBUtility\ConvertToList.cs:行号 155
+----------------------------------------------------------------------------------------------------

@@ -1,0 +1,61 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model HistoricalModels
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    var pagedDatas = Model.PagedDatas;
+}
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@UIText.NoDatas</h3>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@DisplayText.VehicleName</th>
+                <th>@DisplayText.StartDate</th>
+                <th>@DisplayText.ExpirationDate</th>
+                <th>@DisplayText.Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < pagedDatas.Count; i++)
+            {
+                var currentObj = pagedDatas[i];
+                string styleStr = i % 2 == 0 ? "background-color:gray;" : "background-color:orange;";
+                <tr>
+                    <td  style="@styleStr">
+                        <label>@currentObj.VehicleName</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Time</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Longitude</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Latitude</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Speed</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Angle</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.Mileage</label>
+                    </td>
+                    <td  style="@styleStr">
+                        <label>@currentObj.MapMileage</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

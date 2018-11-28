@@ -1,0 +1,89 @@
+﻿@using Asiatek.Resource
+@using Asiatek.TMS.Helpers
+@using Asiatek.AjaxPager
+@using Asiatek.Common
+@using Asiatek.Model.TerminalSetting
+
+@model SearchDataWithPagedDatas<TerminalSettingLogSearchModel, TerminalSettingLogListModel>
+@using (Ajax.BeginForm("QueryLogs", "TerminalsSetting", new AjaxOptions()
+        {
+            HttpMethod = "GET",
+            UpdateTargetId = "dataTable",
+            OnSuccess = "commonAjaxSuccess",
+        }, new { id = "frmSearchTerminalLog" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.StrucName)：</td>
+            <td>
+                <input type="search" name="StrucName" value=""  placeholder="@(UIText.PleaseInput + UIText.TerminalSetting_CompanyName)"/>
+            </td>
+            <td>
+                @Html.LabelFor(m => m.SearchModel.PlateNum)：
+            </td>
+            <td>
+                <input type="search" name="PlateNum" value=""  placeholder="@(UIText.PleaseInput + UIText.TerminalSetting_PlateNumber)" />
+            </td>
+            <td>
+                @Html.LabelFor(m => m.SearchModel.TerminalCode)：
+            </td>
+            <td>
+                <input type="search" name="TerminalCode" value=""  placeholder="@(UIText.PleaseInput + UIText.TerminalSetting_TerminalCode)" />
+            </td>
+        </tr>
+        <tr>
+             <td>
+                 @Html.LabelFor(m => m.SearchModel.SettingType)：
+            </td>
+            <td>
+                <select class="search" name="SettingType">
+                        <option></option>
+                        @foreach (TerminalSettingTypeEnum value in Enum.GetValues(typeof(TerminalSettingTypeEnum)))
+                        {
+                            <option value="@((byte)value)">@EnumDescriptionAttribute.GetDescriptionValue(value.GetType(), value)</option>
+                        }
+                    </select>
+            </td>
+             <td>
+                @Html.LabelFor(m => m.SearchModel.StartTime)：
+            </td>
+            <td>
+                <input type="search" name="StartTime" value="" id="StartTime"  placeholder="@(UIText.PleaseInput + UIText.TerminalSetting_StartTime)" />
+            </td>
+             <td>
+                @Html.LabelFor(m => m.SearchModel.EndTime)：
+            </td>
+            <td>
+                <input type="search" name="EndTime" value="" id="EndTime"  placeholder="@(UIText.PleaseInput + UIText.TerminalSetting_EndTime)" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                 @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+            </td>
+        </tr>
+    </table>
+}
+<div id="dataTable">
+    @Html.Partial("LogsPagedGrid")
+</div>
+
+<script>
+    $("#frmSearchTerminalLog").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+    //时间控件 结束时间不得早于开始时间
+    $("#StartTime").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        onClose: function (selectedDate) {
+            $("#EndTime").datepicker("option", "minDate", selectedDate);
+        }
+    });
+    $("#EndTime").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        onClose: function (selectedDate) {
+            $("#StartTime").datepicker("option", "maxDate", selectedDate);
+        }
+    });
+</script>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A58F67A4-8BFF-4C7C-92F2-3F1927D28CAE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Asiatek.BLL</RootNamespace>
+    <AssemblyName>Asiatek.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Asiatek.Components.GIS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Asiatek.Components.GIS.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Asiatek.TMS\bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="NetDecry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\NetDecry.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BLLFactory.cs" />
+    <Compile Include="MSSQL\ActionBLL.cs" />
+    <Compile Include="MSSQL\AreaBLL.cs" />
+    <Compile Include="MSSQL\CLCS_ReturnOrderManageBLL.cs" />
+    <Compile Include="MSSQL\CommonBLL.cs" />
+    <Compile Include="MSSQL\CommunicationTypeBLL.cs" />
+    <Compile Include="MSSQL\ControllerBLL.cs" />
+    <Compile Include="MSSQL\ElectricFenceBLL.cs" />
+    <Compile Include="MSSQL\ElectricFencePropertyBLL.cs" />
+    <Compile Include="MSSQL\EmployeeInfoBLL.cs" />
+    <Compile Include="MSSQL\ExceptionBLL.cs" />
+    <Compile Include="MSSQL\ExceptionTypeBLL.cs" />
+    <Compile Include="MSSQL\FunctionBLL.cs" />
+    <Compile Include="MSSQL\HistoricalBLL.cs" />
+    <Compile Include="MSSQL\InspectionBLL.cs" />
+    <Compile Include="MSSQL\LogBLL.cs" />
+    <Compile Include="MSSQL\MaintenanceRecordBLL.cs" />
+    <Compile Include="MSSQL\MaintenanceScheduleBLL.cs" />
+    <Compile Include="MSSQL\MapLinesBLL.cs" />
+    <Compile Include="MSSQL\MapRegionsBLL.cs" />
+    <Compile Include="MSSQL\MGJH_TransportPointBLL.cs" />
+    <Compile Include="MSSQL\NightBanBLL.cs" />
+    <Compile Include="MSSQL\PlateColorBLL.cs" />
+    <Compile Include="MSSQL\ReceiverMailInfoBLL.cs" />
+    <Compile Include="MSSQL\RepairRecordBLL.cs" />
+    <Compile Include="MSSQL\ServerManagerBLL.cs" />
+    <Compile Include="MSSQL\ServiceProviderTypeBLL.cs" />
+    <Compile Include="MSSQL\ReportBLL.cs" />
+    <Compile Include="MSSQL\RoleBLL.cs" />
+    <Compile Include="MSSQL\SensorBLL.cs" />
+    <Compile Include="MSSQL\SignalBLL.cs" />
+    <Compile Include="MSSQL\SimCodeBLL.cs" />
+    <Compile Include="MSSQL\StrucVehicleDistributionBLL.cs" />
+    <Compile Include="MSSQL\TemperatureAlarmRuleBLL.cs" />
+    <Compile Include="MSSQL\TerminalBLL.cs" />
+    <Compile Include="MSSQL\TerminalManufacturerBLL.cs" />
+    <Compile Include="MSSQL\TerminalSettingsBLL.cs" />
+    <Compile Include="MSSQL\TerminalTypeBLL.cs" />
+    <Compile Include="MSSQL\TransportManagementBLL.cs" />
+    <Compile Include="MSSQL\UserBLL.cs" />
+    <Compile Include="MSSQL\VehicleBLL.cs" />
+    <Compile Include="MSSQL\VehicleMaintainBLL.cs" />
+    <Compile Include="MSSQL\VehicleSensorBLL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MSSQL\StructureBLL.cs" />
+    <Compile Include="MSSQL\VehicleTypeBLL.cs" />
+    <Compile Include="MSSQL\VehicleExceptionBLL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Asiatek.AjaxPager\Asiatek.AjaxPager.csproj">
+      <Project>{b4bab1a3-1582-4d46-8a0c-5b0e5269b294}</Project>
+      <Name>Asiatek.AjaxPager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.Common\Asiatek.Common.csproj">
+      <Project>{15793015-85f1-4611-88b1-30124445daf4}</Project>
+      <Name>Asiatek.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.DBUtility\Asiatek.DBUtility.csproj">
+      <Project>{4aaf2ff6-7f93-459d-a700-c6e2a0883ff0}</Project>
+      <Name>Asiatek.DBUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.IBLL\Asiatek.IBLL.csproj">
+      <Project>{9065d297-f82f-4d73-b74c-b8e77aac4940}</Project>
+      <Name>Asiatek.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.Model\Asiatek.Model.csproj">
+      <Project>{1c4f665c-3425-4a37-a4e9-24e082d8670b}</Project>
+      <Name>Asiatek.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Asiatek.Resources\Asiatek.Resource.csproj">
+      <Project>{c421e498-0042-4bd2-ab69-6fe8e46e9503}</Project>
+      <Name>Asiatek.Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DLL\Asiatek.Components.GIS.dll" />
+    <Content Include="DLL\NetDecry.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

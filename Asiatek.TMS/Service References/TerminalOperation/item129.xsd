@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/STDServiceCore" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd7" namespace="http://schemas.datacontract.org/2004/07/STD808Core.LocationAlarm" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd8" namespace="http://schemas.datacontract.org/2004/07/STD808Core.Information" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd9" namespace="http://schemas.datacontract.org/2004/07/STD808Core.Telephone" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd10" namespace="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd11" namespace="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" />
+  <xs:element name="QuerySpecifiedTerminalParas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" minOccurs="0" name="data" nillable="true" type="q1:QuerySpecifiedTerminalParasData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="QuerySpecifiedTerminalParasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="QuerySpecifiedTerminalParasResult" nillable="true" type="q2:OperationResultQueryTerminalParaRespData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TerminalControl">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" minOccurs="0" name="data" nillable="true" type="q3:TerminalControlData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TerminalControlResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="TerminalControlResult" nillable="true" type="q4:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetTerminalParas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" minOccurs="0" name="data" nillable="true" type="q5:TerminalParasSettingData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetTerminalParasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SetTerminalParasResult" nillable="true" type="q6:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmAlarm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/STD808Core.LocationAlarm" minOccurs="0" name="data" nillable="true" type="q7:ManualConfirmAlarmData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConfirmAlarmResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="ConfirmAlarmResult" nillable="true" type="q8:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendTextInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/STD808Core.Information" minOccurs="0" name="data" nillable="true" type="q9:TextInformationData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendTextInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SendTextInfoResult" nillable="true" type="q10:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetEvent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/STD808Core.Information" minOccurs="0" name="data" nillable="true" type="q11:EventSettingData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetEventResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SetEventResult" nillable="true" type="q12:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendQuestion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/STD808Core.Information" minOccurs="0" name="data" nillable="true" type="q13:QuestionSendingData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendQuestionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SendQuestionResult" nillable="true" type="q14:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendTelCallBack">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/STD808Core.Telephone" minOccurs="0" name="data" nillable="true" type="q15:TelphoneCallBackData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendTelCallBackResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SendTelCallBackResult" nillable="true" type="q16:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetTelphone">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/STD808Core.Telephone" minOccurs="0" name="data" nillable="true" type="q17:TelphoneBookSettingData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetTelphoneResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SetTelphoneResult" nillable="true" type="q18:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetCircularRegion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" minOccurs="0" name="data" nillable="true" type="q19:CircularRegionSettingData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetCircularRegionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SetCircularRegionResult" nillable="true" type="q20:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteCircularRegion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" minOccurs="0" name="data" nillable="true" type="q21:RegionLineDeletionData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteCircularRegionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="DeleteCircularRegionResult" nillable="true" type="q22:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetRectangularRegion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q23="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" minOccurs="0" name="data" nillable="true" type="q23:RectangularRegionSettingData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetRectangularRegionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q24="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SetRectangularRegionResult" nillable="true" type="q24:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteRectangularRegion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q25="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" minOccurs="0" name="data" nillable="true" type="q25:RegionLineDeletionData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteRectangularRegionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q26="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="DeleteRectangularRegionResult" nillable="true" type="q26:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetPolygonRegion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q27="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" minOccurs="0" name="data" nillable="true" type="q27:PolygonRegionSettingData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetPolygonRegionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q28="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SetPolygonRegionResult" nillable="true" type="q28:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeletePolygonRegion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" minOccurs="0" name="data" nillable="true" type="q29:RegionLineDeletionData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeletePolygonRegionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="DeletePolygonRegionResult" nillable="true" type="q30:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetLine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q31="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" minOccurs="0" name="data" nillable="true" type="q31:LineSettingData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetLineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q32="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="SetLineResult" nillable="true" type="q32:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLine">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q33="http://schemas.datacontract.org/2004/07/STD808Core.VehicleManagement" minOccurs="0" name="data" nillable="true" type="q33:RegionLineDeletionData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q34="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="DeleteLineResult" nillable="true" type="q34:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartShooting">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q35="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" minOccurs="0" name="data" nillable="true" type="q35:CameraShotImmediatelyCMDData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartShootingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q36="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="StartShootingResult" nillable="true" type="q36:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrieveStoredMultimediaDatas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q37="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" minOccurs="0" name="data" nillable="true" type="q37:MultimediaDataRetrievalData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RetrieveStoredMultimediaDatasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q38="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="RetrieveStoredMultimediaDatasResult" nillable="true" type="q38:OperationResultMultimediaDataRetrievalRespData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadStoredMultimediaDatas">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q39="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" minOccurs="0" name="data" nillable="true" type="q39:MultimediaDataUploadCMDData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadStoredMultimediaDatasResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q40="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="UploadStoredMultimediaDatasResult" nillable="true" type="q40:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadSingleStoredMultimediaData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="terminalCode" nillable="true" type="xs:string" />
+        <xs:element xmlns:q41="http://schemas.datacontract.org/2004/07/STD808Core.Multimedia" minOccurs="0" name="data" nillable="true" type="q41:MultimediaDataSingleUploadCMDData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UploadSingleStoredMultimediaDataResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q42="http://schemas.datacontract.org/2004/07/STDServiceCore" minOccurs="0" name="UploadSingleStoredMultimediaDataResult" nillable="true" type="q42:OperationResultGeneralRep" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

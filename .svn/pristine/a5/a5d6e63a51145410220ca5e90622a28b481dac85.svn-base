@@ -1,0 +1,146 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model RepairRecordModel
+@using (Ajax.BeginForm("EditRecord", "RepairRecord", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditRepairRecord" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.PlateNum)：</td>
+                <td>@Html.TextBoxFor(m => m.PlateNum, new { @class = "form-control" })
+                    @*<input  class="form-control"  name="PlateNum" value="@Model.PlateNum" id="PlateNum"/>*@
+                          @Html.HiddenFor(m => m.LinkedVehicleID, new { id = "hidAddVehicleID" })
+                 @*   <input type="hidden" id="hidAddVehicleID" value="@Model.LinkedVehicleID"  name="LinkedVehicleID">*@
+                    <input type="hidden" id="hidid" value="@Model.ID" name="id">
+                </td>
+                <td>@Html.LabelFor(m => m.DriverName)：</td>
+                <td><input  class="form-control"  name="DriverName" value="@Model.DriverName" id="DriverName"/></td>
+            </tr>
+             <tr>
+             <td></td>
+                <td>@Html.ValidationMessageFor(m => m.LinkedVehicleID)</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.DriverPhone)：</td>
+                <td><input  class="form-control"  name="DriverPhone" value="@Model.DriverPhone" id="DriverPhone"/></td>
+                <td>@Html.LabelFor(m => m.RepairType)：</td>
+                <td><input  class="form-control"  name="RepairType" value="@Model.RepairType" id="RepairType"/></td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.RepairStartTime)：</td>
+                <td>@Html.TextBoxFor(m => m.RepairStartTime, new { @class = "form-control",@readonly=true,style="background-color:white" })
+                    @*<input  class="form-control"  name="RepairStartTime" value="@Model.RepairStartTime" id="RepairStartTime" readonly="true" style="background-color:white"/>*@</td>
+                <td>@Html.LabelForRequired(m => m.RepairEndTime)：</td>
+                <td>@Html.TextBoxFor(m => m.RepairEndTime, new { @class = "form-control" ,@readonly=true,style="background-color:white"})
+                    @*<input  class="form-control"  name="RepairEndTime" value="@Model.RepairEndTime" id="RepairEndTime" readonly="true" style="background-color:white"/>*@</td>
+            </tr>
+                <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.RepairStartTime)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.RepairEndTime)</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <table class="table table-striped table-condensed table-hover" id="RepairRecordDetail">
+                        <tr>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].ProjectName)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].PartsName)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].PartsVersion)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].PartsNum)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].Price)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].Unit)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].MaterialCost)</td>
+                            <td style="text-align: center">@Html.LabelFor(m => m.RepairRecordDetail[0].TimeFee)</td>
+                            <td style="text-align: center">
+                                <input type="button" class="btn btn-primary" value="@UIText.AddButton" id="btnaddProject"></td>
+                        </tr>
+                        @for (int i = 0; i < Model.RepairRecordDetail.Count; i++)
+                            {
+                                var item = Model.RepairRecordDetail[i];
+                            <tr id="tr_@i">
+                                <td><input  class="form-control"  name="RepairRecordDetail[@i].ProjectName" value="@item.ProjectName"/></td>
+                                 <td><input  class="form-control" name="RepairRecordDetail[@i].PartsName" value="@item.PartsName"/></td>
+                                  <td><input  class="form-control"  name="RepairRecordDetail[@i].PartsVersion" value="@item.PartsVersion"/></td>
+                                <td><input  type="number" class="form-control" name="RepairRecordDetail[@i].PartsNum" value="@item.PartsNum" onblur="getmaterialcost(0)" id="PartsNum_@i" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
+                                <td><input  type="number" class="form-control"  name="RepairRecordDetail[@i].Price" value="@item.Price" onblur="getmaterialcost(@i)" id="Price_0" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
+                               <td><input  class="form-control"  name="RepairRecordDetail[@i].Unit" value="@item.Unit"/></td>
+                                <td><input type="number" class="form-control" name="RepairRecordDetail[@i].MaterialCost" value="@item.MaterialCost" id="MaterialCost_@i" onblur="getMaterialCost(@i)" onfocus="changeMaterialCost(@i)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
+                                <td><input type="number" class="form-control"  name="RepairRecordDetail[@i].TimeFee" value="@item.TimeFee" onblur="getTimefee(@i)" id="TimeFee_@i" onfocus="changeTimefee(@i)" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^0-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}"/></td>
+                                <td><input type="button" value="@UIText.DeleteButton" name="del[@i]" onclick="delRows(@i,this)" class="btn btn-primary form-control"></td>
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+                <tr>
+                <td colspan="4"></td>
+            </tr>
+             <tr>
+                  <td>@DisplayText.TotalPrice:</td>
+                  <td>
+                           @Html.TextBoxFor(m => m.TotalPrice, new { @class="form-control",@readonly=true})</td>
+                  <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+             <tr>
+                   <td>@Html.LabelFor(m=>m.Remark)</td>
+                     <td colspan="3">
+                         @Html.TextAreaFor(m => m.Remark, new { @class="form-control"})
+                   </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                      @*   <input type="button" class="btn btn-primary form-control" name="sumbitInfo" value="@UIText.SaveButton" onclick="Editinformintion(@Model.ID)" style="width:10%"/>*@
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+<script src="~/Scripts/RepairRecord/RepairRecordEdit.js"></script>
+<script>
+    var $frmAddPlateColo = $("#frmAddRepairRecord");
+    $frmAddPlateColo.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmAddPlateColo.fixUnobtrusiveValidation();
+
+    function delRows(rows,Obj) {
+        //var sub=$("#RepairRecordDetail tr").index($(sub).parents()[1]);
+     var  sub=$("#RepairRecordDetail tr").index($(Obj).parents()[1]);
+        //var temp=[];  本来用于保存上移动tr中的td属性值  后来发现会自动匹配数据 所以隐藏了
+        var tempRow = $("#RepairRecordDetail tr").size();//获取表格的行数
+        //只有1行的时候不能删除
+        if (tempRow > 2) {
+            _message = '@UIText.ConfirmDelete';
+            $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+                $("#TotalPrice").val(parseFloat($("#TotalPrice").val()) - parseFloat($("#MaterialCost_" + rows).val()) - parseFloat($("#TimeFee_" + rows).val()));
+                $("#tr_" + rows).remove();  //删除tr
+                var totalRow = $("#RepairRecordDetail tr").size();//获取表格的行数
+                for (var i = sub; i < totalRow; i++) {
+                    var Recorddetail = {};
+                    for (var j = 0; j < 8; j++) {
+                        var name = $("#RepairRecordDetail tr:eq(" + i + ") td:eq(" + j + ") input").attr("name");
+                        var newname="RepairRecordDetail[" + (i - 1) + "]." + name.split(".")[1];
+                        $("#RepairRecordDetail tr:eq(" + i + ") td:eq(" + j + ") input").attr("name", newname);
+                    }
+                }
+            });
+        }
+    }
+</script>
+

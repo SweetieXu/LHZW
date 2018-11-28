@@ -1,0 +1,277 @@
+﻿using Asiatek.AjaxPager;
+using Asiatek.DBUtility;
+using Asiatek.Model;
+using Asiatek.Resource;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+
+namespace Asiatek.BLL.MSSQL
+{
+    public class ServiceProviderTypeBLL
+    {
+        #region   查询
+        public static AsiatekPagedList<ServiceProviderListModel> GetPagedServiceProviderType(ServiceProviderSeachModel model, int searchPage, int pageSize)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@tableName","ServiceProvider s"),
+                new SqlParameter("@pageSize",pageSize),
+                new SqlParameter("@currentPage",searchPage),
+                new SqlParameter("@orderBy","s.ID"),
+                new SqlParameter("@showColumns",@"s.ID ,
+        s.Name,
+        s.Remark,
+        s.Status"),
+            };
+
+            string conditionStr = " Status<>9 ";//不查询删除和报废的
+            if (!string.IsNullOrWhiteSpace(model.Name))
+            {
+                conditionStr += " AND s.Name LIKE '%" + model.Name + "%'";
+            }
+
+            if (!string.IsNullOrWhiteSpace(conditionStr))
+            {
+                paras.Add(new SqlParameter("@conditionStr", conditionStr));
+            }
+
+            paras.Add(new SqlParameter()
+            {
+                ParameterName = "@totalItemCount",
+                Direction = ParameterDirection.Output,
+                SqlDbType = SqlDbType.Int
+            });
+            paras.Add(new SqlParameter()
+            {
+                ParameterName = "@newCurrentPage",
+                Direction = ParameterDirection.Output,
+                SqlDbType = SqlDbType.Int
+            });
+            List<ServiceProviderListModel> list = ConvertToList<ServiceProviderListModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.StoredProcedure, "Proc_GetPagedDatas", paras.ToArray()));
+            int totalItemCount = Convert.ToInt32(paras[paras.Count - 2].Value);
+            int newCurrentPage = Convert.ToInt32(paras[paras.Count - 1].Value);
+            return list.ToPagedList(newCurrentPage, pageSize, totalItemCount);
+        }
+        #endregion
+
+
+        #region   新增
+        public static OperationResult AddServiceProvider(AddServiceProviderModel model,int CreateUserID)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@Name",SqlDbType.NVarChar,30),
+                new SqlParameter("@Remark",SqlDbType.NVarChar,50),
+                 new SqlParameter("@CreateUserID",SqlDbType.Int)
+            };
+
+            paras[0].Value = model.Name.Trim();
+
+            if (string.IsNullOrWhiteSpace(model.Remark))
+            {
+                paras[1].Value = DBNull.Value;
+            }
+            else
+            {
+                paras[1].Value = model.Remark.Trim();
+            }
+            paras[2].Value = CreateUserID;
+            string sql = @"INSERT INTO dbo.ServiceProvider(Name,Remark,CreateUserID) VALUES (@Name,@Remark,@CreateUserID)";
+
+            bool result = MSSQLHelper.ExecuteNonQuery(CommandType.Text, sql, paras.ToArray()) > 0;
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.OperationSuccess : PromptInformation.DBError
+            };
+        }
+
+        /// <summary>
+        /// 检查服务商名称是否重复
+        /// </summary>
+        /// <param name="spName"></param>
+        /// <returns></returns>
+        public static bool CheckSPNameExists(string spName)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@spName",SqlDbType.NVarChar,30),
+            };
+            paras[0].Value = spName.Trim();
+            string sql = "SELECT COUNT(0) FROM dbo.ServiceProvider WHERE Name=@spName";
+            var result = MSSQLHelper.ExecuteScalar(CommandType.Text, sql, paras.ToArray());
+            if (result == null)//如果发生错误，防止添加进非法数据，所以发生错误当作存在
+            {
+                return true;
+            }
+            return Convert.ToInt32(result) > 0;
+        }
+
+        #endregion
+
+
+        #region   编辑
+        public static SelectResult<EditServiceProviderModel> GetServiceProviderByID(int id)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@id",SqlDbType.Int),
+            };
+            paras[0].Value = id;
+            string sql = @"SELECT Name,Remark FROM dbo.ServiceProvider WHERE Status<>9 AND ID=@id";
+            List<EditServiceProviderModel> list = ConvertToList<EditServiceProviderModel>.Convert(MSSQLHelper.ExecuteDataTable(CommandType.Text, sql, paras.ToArray()));
+
+            EditServiceProviderModel data = null;
+            string msg = string.Empty;
+
+            if (list == null)
+            {
+                msg = PromptInformation.DBError;
+            }
+            else if (list.Count == 0)
+            {
+                msg = PromptInformation.NotExists;
+            }
+            else
+            {
+                data = list[0];
+            }
+            return new SelectResult<EditServiceProviderModel>()
+            {
+                DataResult = data,
+                Message = msg
+            };
+        }
+
+
+        public static OperationResult EditServiceProvider(EditServiceProviderModel model,int EditUserID)
+        {
+
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@ID",SqlDbType.Int),
+                new SqlParameter("@Name",SqlDbType.NVarChar,30),
+                new SqlParameter("@Remark",SqlDbType.NVarChar,50),
+                new SqlParameter("@EditUserID",SqlDbType.Int),
+                new SqlParameter("@EditTime",SqlDbType.DateTime),
+            };
+
+            paras[0].Value = model.ID;
+            paras[1].Value = model.Name.Trim();
+
+
+            if (string.IsNullOrWhiteSpace(model.Remark))
+            {
+                paras[2].Value = DBNull.Value;
+            }
+            else
+            {
+                paras[2].Value = model.Remark.Trim();
+            }
+            paras[3].Value = EditUserID;
+            paras[4].Value = DateTime.Now;
+            #region  SQL
+            string sql;
+
+            sql = @"UPDATE  dbo.ServiceProvider
+SET     Name=@Name,Remark=@Remark,EditTime=@EditTime,EditUserID=@EditUserID
+WHERE   ID = @ID";
+            #endregion
+
+
+            int result = MSSQLHelper.ExecuteNonQuery(CommandType.Text, sql, paras.ToArray());
+            string msg = string.Empty;
+            switch (result)
+            {
+                case 1:
+                    msg = PromptInformation.OperationSuccess;
+                    break;
+                case 0:
+                    msg = PromptInformation.NotExists;
+                    break;
+                case -1:
+                    msg = PromptInformation.DBError;
+                    break;
+            }
+            return new OperationResult()
+            {
+                Success = result > 0,
+                Message = msg
+            };
+        }
+
+        public static bool CheckSPNameExists(string spName, int id)
+        {
+            List<SqlParameter> paras = new List<SqlParameter>()
+            {
+                new SqlParameter("@spName",SqlDbType.NVarChar,30),
+                new SqlParameter("@ID",SqlDbType.Int),
+            };
+            paras[0].Value = spName.Trim();
+            paras[1].Value = id;
+            string sql = "SELECT COUNT(0) FROM dbo.ServiceProvider WHERE Name=@spName AND ID<>@ID";
+            var result = MSSQLHelper.ExecuteScalar(CommandType.Text, sql, paras.ToArray());
+            if (result == null)//如果发生错误，防止添加进非法数据，所以发生错误当作存在
+            {
+                return true;
+            }
+            return Convert.ToInt32(result) > 0;
+        }
+        #endregion
+
+
+        #region   删除
+        /// <summary>
+        /// 删除（逻辑删除）
+        /// </summary>
+        public static OperationResult DeleteServiceProvider(string[] ids)
+        {
+            string[] sqls = new string[ids.Length];
+            SqlParameter[][] paras = new SqlParameter[ids.Length][];
+            for (int i = 0; i < ids.Length; i++)
+            {
+                sqls[i] = @"UPDATE dbo.ServiceProvider SET [Status]=9 WHERE ID=@ID";
+                paras[i] = new SqlParameter[1];
+                SqlParameter temp = new SqlParameter("@ID", SqlDbType.Int);
+                temp.Value = ids[i];
+                paras[i][0] = temp;
+            }
+            bool result = MSSQLHelper.ExecuteTransaction(CommandType.Text, sqls, paras);
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.DeleteSuccess : PromptInformation.DeleteFailure
+            };
+        }
+        #endregion
+
+        #region   删除
+        /// <summary>
+        /// 删除（物理删除）
+        /// </summary>
+        public static OperationResult DeleteServiceProviderPhysical(string[] ids)
+        {
+            string[] sqls = new string[ids.Length];
+            SqlParameter[][] paras = new SqlParameter[ids.Length][];
+            for (int i = 0; i < ids.Length; i++)
+            {
+                sqls[i] = @"DELETE FROM dbo.ServiceProvider WHERE ID=@ID";
+                paras[i] = new SqlParameter[1];
+                SqlParameter temp = new SqlParameter("@ID", SqlDbType.Int);
+                temp.Value = ids[i];
+                paras[i][0] = temp;
+            }
+            bool result = MSSQLHelper.ExecuteTransaction(CommandType.Text, sqls, paras);
+            return new OperationResult()
+            {
+                Success = result,
+                Message = result ? PromptInformation.DeleteSuccess : PromptInformation.DeleteFailure
+            };
+        }
+        #endregion 
+    }
+}

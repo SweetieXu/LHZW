@@ -1,0 +1,151 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<SimCodeSearchModels, SimCodeListModels>
+  <style>
+  .ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    /* 防止水平滚动条 */
+    overflow-x: hidden;
+  }
+  </style>
+@using (Ajax.BeginForm("GetSimCodeInfo", "SimCode", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_SimCode_SearchSimCode_SimCode",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchSimCode" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.SimCode)：</td>
+            <td>
+                <input type="search" name="SimCode" value=""  placeholder="@(UIText.PleaseInput + DisplayText.SIMCode)"/>
+            </td>
+            <td>@Html.LabelFor(m => Model.SearchModel.OwnerStrucID)：</td>
+            <td>
+                 <input id="ddlAddOwnerStrucs" type="text" name="OwnerStrucs" class="form-control"  placeholder="@(UIText.PleaseInput + DisplayText.OwnerStrucCode)"/>
+                <input type="hidden" name="OwnerStrucID" value="-1" id="hidAddOwnerStrucIDs" />
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.CommMode)：</td>
+            <td>
+                @Html.DropDownList("CommMode", Model.SearchModel.CommModeSelectList)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(m => Model.SearchModel.UseStrucID)：</td>
+            <td>
+                <input id="ddlAddUseStrucs" type="text" name="UserStruc" class="form-control"  placeholder="@(UIText.PleaseInput + DisplayText.UseStrucCode)"/>
+                <input type="hidden" name="UseStrucID" value="-1" id="hidAddUseStrucIDs" />
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.ServiceProviderID)：</td>
+            <td>
+                @Html.DropDownList("ServiceProviderID", Model.SearchModel.ServiceProviderSelectList)
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddSimCode">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelSimCode">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+<div id="Admin_SimCode_SearchSimCode_SimCode">
+    @Html.Partial("_SimCodePagedGrid", Model)
+</div>
+
+<script>
+    $("#frmSearchSimCode").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnAddSimCode").on("click", function () {
+        var _url = "@Url.Content("~/Admin/SimCode/AddSimCode")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnDelSimCode").on("click", function () {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='tid']:checked").length == 0) {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $("#frmDelSimCode").submit();
+        });
+    });
+    $("#ddlAddOwnerStrucs").bind("input propertychange", function () {
+        $("#hidAddOwnerStrucIDs").val(-1);
+    })
+    $("#ddlAddOwnerStrucs").autocomplete({
+        delay: 500,
+        minLength: 1,
+        select: function (event, ui) {
+            $("#hidAddOwnerStrucIDs").val(ui.item.ID);
+        },
+        source: function (request, response) {
+            $.get('@Url.Content("~/Admin/Structure/GetStructuresByStructureName")', { structuresName: request.term }, function (data, status, xhr) {
+                    if ($.handleAjaxError(data)) {
+                        return;
+                    }
+                    response(data);
+                });
+            }
+    });
+    $("#ddlAddUseStrucs").bind("input propertychange", function () {
+        $("#hidAddUseStrucIDs").val(-1);
+    })
+    $("#ddlAddUseStrucs").autocomplete({
+                delay: 500,
+                minLength: 1,
+                select: function (event, ui) {
+                    $("#hidAddUseStrucIDs").val(ui.item.ID);
+                },
+                source: function (request, response) {
+                    $.get('@Url.Content("~/Admin/Structure/GetStructuresByStructureName")', { structuresName: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+    @*    var $ddlAddVehicleStrucss = $("#ddlAddOwnerStrucs");
+    var $hidAddVehicleStrucIDs = $("#hidAddOwnerStrucIDs");
+    var $ddlAddVehicleOwnershipss = $("#ddlAddUseStrucs");
+    var $hidAddVehicleOwnerships = $("#hidAddUseStrucIDs");
+    $.get("@Url.Content("~/Admin/SimCode/GetStructures")", {}, function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        var _html = "";
+        for (var i = 0; i < result.length; i++) {
+            var obj = result[i];
+            _html += "<option value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+        }
+        $ddlAddVehicleStrucss.html(_html);
+        $ddlAddVehicleStrucss.editableSelect({ effects: 'fade' }).on('select.editable-select', function (e, li) {
+            $hidAddVehicleStrucIDs.val(li.val());
+        });
+        $ddlAddVehicleOwnershipss.html(_html);
+        $ddlAddVehicleOwnershipss.editableSelect({ effects: 'fade' }).on('select.editable-select', function (e, li) {
+            $hidAddVehicleOwnerships.val(li.val());
+        });
+    });*@
+
+</script>

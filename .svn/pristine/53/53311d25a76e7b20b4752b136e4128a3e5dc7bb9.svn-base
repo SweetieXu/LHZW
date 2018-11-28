@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="ReplyInspectionMessage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="msgID" type="s:unsignedInt" />
+            <s:element minOccurs="0" maxOccurs="1" name="replyContent" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReplyInspectionMessageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ReplyInspectionMessageResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ReplyInspectionMessageSoapIn">
+    <wsdl:part name="parameters" element="tns:ReplyInspectionMessage" />
+  </wsdl:message>
+  <wsdl:message name="ReplyInspectionMessageSoapOut">
+    <wsdl:part name="parameters" element="tns:ReplyInspectionMessageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="PlatformServicesSoap">
+    <wsdl:operation name="ReplyInspectionMessage">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">回复查岗信息</wsdl:documentation>
+      <wsdl:input message="tns:ReplyInspectionMessageSoapIn" />
+      <wsdl:output message="tns:ReplyInspectionMessageSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PlatformServicesSoap" type="tns:PlatformServicesSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ReplyInspectionMessage">
+      <soap:operation soapAction="http://tempuri.org/ReplyInspectionMessage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="PlatformServicesSoap12" type="tns:PlatformServicesSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ReplyInspectionMessage">
+      <soap12:operation soapAction="http://tempuri.org/ReplyInspectionMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PlatformServices">
+    <wsdl:port name="PlatformServicesSoap" binding="tns:PlatformServicesSoap">
+      <soap:address location="http://localhost:2566/PlatformServices.asmx" />
+    </wsdl:port>
+    <wsdl:port name="PlatformServicesSoap12" binding="tns:PlatformServicesSoap12">
+      <soap12:address location="http://localhost:2566/PlatformServices.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

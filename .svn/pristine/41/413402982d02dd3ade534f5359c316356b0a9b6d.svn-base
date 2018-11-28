@@ -1,0 +1,246 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model Asiatek.Model.FunctionAddModel
+
+
+
+@using (Ajax.BeginForm("AddFunctionInfo", "Function", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResultNotClose",
+}, new { id = "frmAddFunctionInfo" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.AreasSelectList)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(m => m.AreaID, Model.AreasSelectList, new { id = "ddlEditAreas" })
+    </div>
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.ControllersSelectList)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(m => m.ControllerID, Model.ControllersSelectList, new { id = "ddlEditControllers" })
+    </div>
+    
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.ActionsSelectList)
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(m => m.ActionID, Model.ActionsSelectList, new { id = "ddlEditActions" })
+
+    </div>
+    @Html.ValidationMessageFor(model => model.ActionID)
+    
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.ParentFunctionsSelectList)
+        <input type="text" value="" id="txtParentFunctionAutoComplete" />
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(m => m.ParentID, Model.ParentFunctionsSelectList, new { id = "ddlEditParentFunction" })
+        @Html.CheckBoxFor(m => m.IsTopFunction)
+        @Html.LabelFor(model => model.IsTopFunction)
+    </div>
+    
+    
+    <div class="editor-label">
+        @Html.LabelFor(model => model.FunctionName)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.FunctionName)
+        @Html.ValidationMessageFor(model => model.FunctionName)
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.IsBackground)
+    </div>
+    <div class="editor-field">
+        @Html.CheckBoxFor(m => m.IsBackground)
+    </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Description)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Description)
+        @Html.ValidationMessageFor(model => model.Description)
+    </div>
+    <p>
+        <input type="submit" value="@UIText.SaveButton" id="btnSubmit"/>
+    </p>
+   
+}
+
+
+
+
+<script>
+    $("#frmAddFunctionInfo").fixUnobtrusiveValidation();
+
+
+
+    var $ddlEditAreas = $("#ddlEditAreas");//区域下拉
+    var $ddlEditControllers = $("#ddlEditControllers");//控制器下拉
+    var $ddlEditParentFunction = $("#ddlEditParentFunction");//上级功能下拉
+    var $ddlEditActions = $("#ddlEditActions");//动作方法下拉
+    var $txtParentFunction = $("#txtParentFunctionAutoComplete");//自动完成文本框
+    var $chkIsTopFunction = $("#IsTopFunction");//是否是最顶级功能复选框
+    var selectmenuWidth = 200;//jqueryUI 下拉列表宽度
+    var frmID = "#frmAddFunctionInfo";
+
+    //设置页面元素为jqueryui元素
+    var setElementToJqueryUI = function ()
+    {
+        //设置按钮
+        $("#btnSubmit").button();
+
+        //设置复选框
+        $("#IsBackground").button();
+        $("#IsTopFunction").button();
+
+
+
+
+        //设置下拉菜单
+        $ddlEditAreas.selectmenu({
+            width: selectmenuWidth,
+            appendTo: frmID,
+            change: function (event, ui)
+            {
+                //级联控制器信息
+                var _areaID = ui.item.value;
+                $.get("@Url.Content("~/Admin/Ctr/GetControllerDDLByAreaID")", { areaID: _areaID }, function (result)
+                {
+                    if ($.handleAjaxError(result))
+                    {
+                        return;
+                    }
+                    $ddlEditControllers.empty();
+                    $.each(result, function (i, item)
+                    {
+                        $ddlEditControllers.append($("<option></option>").text(item.ControllerName).val(item.ID));
+                    });
+                    //refresh功能只有当select元素包含option元素时才有效果，所以当查询不出内容时，不会刷新成空，而是保留之前的内容
+                    // 因此当无选项时自行添加一个空白选项
+                    if (result.length == 0)
+                    {
+                        $ddlEditControllers.append($("<option></option>").text("").val(''));
+                    }
+                    $ddlEditControllers.selectmenu("refresh");
+                    //级联动作方法信息
+                    changeActions($ddlEditControllers.find("option:selected").val());
+
+                });
+            }
+        });
+
+        $ddlEditControllers.selectmenu({
+            width: selectmenuWidth,
+            appendTo: frmID,
+            change: function (event, ui)
+            {
+                //级联动作方法信息
+                changeActions(ui.item.value);
+            }
+        });
+
+
+        $ddlEditActions.selectmenu({
+            width: selectmenuWidth,
+            appendTo: frmID,
+        });
+
+        $ddlEditParentFunction.selectmenu({
+            width: selectmenuWidth,
+            appendTo: frmID,
+        });
+
+        //设置自动补全
+        $txtParentFunction.autocomplete({
+            delay: 500,//输入完毕500毫秒后才进行查询
+            minLength: 2,//至少输入2个字符才开始查询
+            appendTo: frmID,
+            source: function (request, response)
+            {
+                $.getJSON('@Url.Content("~/Admin/Function/GetParentFunctionByName")', { functionName: request.term }, function (data)
+                {
+                    if ($.handleAjaxError(data))
+                    {
+                        return;
+                    }
+                    response(data);
+                });
+            },
+            select: function (event, ui)
+            {
+                // 这里的this指向当前输入框的DOM元素
+                // event参数是事件对象
+                // ui对象只有一个item属性，对应数据源中被选中的对象
+                $ddlEditParentFunction.val(ui.item.value);//设置上级功能下拉选中项
+                $ddlEditParentFunction.selectmenu("refresh");
+                $(this).val("");//清空文本框
+                // 必须阻止事件的默认行为，否则autocomplete默认会把ui.item.value设为输入框的value值
+                event.preventDefault();
+            },
+            focus: function (event, ui)
+            {
+                $(this).val(ui.item.label);
+                event.preventDefault();
+            }
+        });
+    }
+        var changeActions = function (controllerID)
+        {
+            controllerID = $.trim(controllerID);
+            if (!controllerID)
+            {
+                return;
+            }
+            $.get("@Url.Content("~/Admin/Action/GetActionDDLByControllerID")", { controllerID: controllerID }, function (result)
+            {
+                if ($.handleAjaxError(result))
+                {
+                    return;
+                }
+                $ddlEditActions.empty();
+                $.each(result, function (i, item)
+                {
+                    $ddlEditActions.append($("<option></option>").text(item.ActionName).val(item.ID));
+                });
+                //refresh功能只有当select元素包含option元素时才有效果，所以当查询不出内容时，不会刷新成空，而是保留之前的内容
+                // 因此当无选项时自行添加一个空白选项
+
+                if (result.length == 0)
+                {
+                    $ddlEditActions.append($("<option></option>").text("").val(''));
+                }
+
+                $ddlEditActions.selectmenu("refresh");
+            });
+        }
+
+        var setParentFunctionElementStatus = function ()
+        {
+            var _checked = $chkIsTopFunction.prop("checked");
+            $ddlEditParentFunction.selectmenu(_checked ? "disable" : "enable");
+            $txtParentFunction.prop("disabled", _checked);
+        }
+        setElementToJqueryUI();
+        setParentFunctionElementStatus();
+
+
+
+        $chkIsTopFunction.on("click", function ()
+        {
+            setParentFunctionElementStatus();
+        });
+
+
+
+
+
+</script>

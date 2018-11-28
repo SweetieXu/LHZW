@@ -1,0 +1,144 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model FunctionSettingModel
+
+
+@using (Ajax.BeginForm("GetFunctionInfo", "Function", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Function_FunctionSetting_divFunctionsGrid",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchFunction" }))
+{
+    <table class="table table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.AreaID)：</td>
+            <td>@Html.DropDownListFor(m => m.AreaID, Model.AreasSelectList, new { id = "ddlAllAreas" })</td>
+            <td>@Html.LabelFor(m => m.ControllerID)：</td>
+            <td>@Html.DropDownListFor(m => m.ControllerID, Model.ControllersSelectList, new { id = "ddlAllControllers" })</td>
+            <td>@Html.LabelFor(m => m.ParentFunctionID)：</td>
+            <td>
+                @Html.DropDownList("ddlParentFunctions", Model.ParentFunctionsSelectList, new { id = "ddlAllFunctions" })
+                <input type="hidden" name="ParentFunctionID"  id="hidParentFunctionID" value="@Model.ParentFunctionsSelectList.First().Value" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(m => m.FunctionName)：
+            </td>
+            <td>
+                <input type="search" name="functionName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.FunctionName)"/>
+            </td>
+            <td>
+                <label for="chkIsMenu">@DisplayText.IsMenu</label>：
+                @Html.CheckBoxFor(m => m.IsMenu, new { id = "chkIsMenu" })
+                <label for="chkIsTopFunction">@DisplayText.IsTopFunction</label>：
+                @Html.CheckBoxFor(m => m.IsTopFunction, new { id = "chkIsTopFunction" })
+                   <label for="IsAppFeatures">@DisplayText.IsAppFeatures</label>：
+                @Html.CheckBoxFor(m => m.IsAppFeatures)
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+            </td>
+            <td colspan="4">
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddFunction">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelFunction">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+<div id="Admin_Function_FunctionSetting_divFunctionsGrid">
+    @Html.Partial("_FunctionPagedGrid", Model)
+</div>
+
+
+<script>
+    var $ddlAreas, $ddlControllers, $ddlFunctions;
+
+    $ddlAreas = $("#ddlAllAreas");
+    $ddlControllers = $("#ddlAllControllers");
+    $ddlFunctions = $("#ddlAllFunctions");
+    $ddlAreas.change(function ()
+    {
+        var _areaID = $.trim($ddlAreas.find("option:selected").val());
+        $.get("@Url.Content("~/Admin/Ctr/GetControllerDDLWithDefaultByAreaID")", { areaID: _areaID }, function (result)
+        {
+            $ddlControllers.empty();
+            $.each(result, function (i, item)
+            {
+                $ddlControllers.append($("<option></option>").text(item.ControllerName).val(item.ID));
+            });
+        });
+    });
+
+
+    $ddlFunctions.editableSelect({ effects: 'fade' })
+    .on('select.editable-select', function (e, li)
+    {
+        $("#hidParentFunctionID").val(li.val());
+    });
+
+
+    var changeFunctions = function ()
+    {
+        var _areaID = $.trim($ddlAreas.find("option:selected").val());
+        var _controllerID = $.trim($ddlControllers.find("option:selected").val());
+        $.get("@Url.Content("~/Admin/Function/GetFunctionDDLWithDefault")", { controllerID: _controllerID, areaID: _areaID }, function (result)
+        {
+            $ddlFunctions.empty();
+            $.each(result, function (i, item)
+            {
+                $ddlFunctions.append($("<option></option>").text(item.FunctionName).val(item.ID));
+            });
+        });
+    }
+
+
+    $("#frmSearchFunction").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnAddFunction").on("click", function ()
+    {
+        var _url = "@Url.Content("~/Admin/Function/AddFunctionInfo")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnDelFunction").on("click", function ()
+    {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='funid']:checked").length == 0)
+        {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function ()
+        {
+            $("#frmDelFunction").submit();
+        });
+    });
+
+    $("#chkIsMenu").change(function ()
+    {
+        //如果是菜单，那么从属区域与从属控制器是无效的
+        var _checked = $(this).prop("checked");
+        $ddlAreas.prop("disabled", _checked);
+        $ddlControllers.prop("disabled", _checked);
+    });
+
+    $("#chkIsTopFunction").change(function ()
+    {
+        //如果是顶级功能，那么上级功能无效
+        var _checked = $(this).prop("checked");
+        $("#ddlAllFunctions").prop("disabled", _checked);
+    });
+
+</script>
+

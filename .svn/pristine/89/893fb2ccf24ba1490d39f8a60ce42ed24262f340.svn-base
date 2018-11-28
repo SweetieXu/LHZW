@@ -1,0 +1,188 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<UserSearchModel, UserListModel>
+
+  <style>
+  .ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    /* 防止水平滚动条 */
+    overflow-x: hidden;
+  }
+  </style>
+
+
+@using (Ajax.BeginForm("GetUserInfo", "User", new AjaxOptions()
+    {
+        UpdateTargetId = "Admin_User_UserSetting_divUsers",
+        OnSuccess = "commonAjaxSuccess",
+        HttpMethod = "GET"
+    }, new { id = "frmSearchUser" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>@Html.LabelFor(m => m.SearchModel.UserName)：</td>
+            <td>
+                <input type="search" name="UserName" value="" placeholder="@(UIText.PleaseInput + DisplayText.UserName)"/>
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.NickName)：</td>
+            <td>
+                <input type="search" name="NickName" value="" placeholder="@(UIText.PleaseInput + DisplayText.NickName)"/>
+            </td>
+            <td>@Html.LabelFor(m => Model.SearchModel.StrucID)：</td>
+            <td>
+                @*                @Html.DropDownList("ddlStrucID", Model.SearchModel.SubordinateStrucSelectList, new { id = "ddlStrucs" })
+                @Html.Hidden("StrucID", Model.SearchModel.SubordinateStrucSelectList.First().Value, new { id = "hidUserSettingStrucID" })*@
+            @*    <select id="ddlStrucs">
+                    <option value="-1" selected="selected">@UIText.All</option>
+                </select>*@
+
+                  <input id="ddlStrucs" type="text" name="UserStruc" class="form-control" />
+                <input type="hidden" name="StrucID" value="-1" id="hidStrucID" />
+            </td>
+            <td>@Html.LabelFor(m => m.SearchModel.VehicleViewMode)：</td>
+            <td>
+                 @Html.DropDownList("VehicleViewMode", new List<SelectListItem> 
+                                 { new SelectListItem { Text = @DisplayText.PleaseSelect, Value = "-1"},
+                                   new SelectListItem { Text = @UIText.DefaultMode, Value = "1"},
+                                   new SelectListItem { Text = @UIText.FreeMode, Value = "0"}
+                                 })
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddUser">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelUser">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+
+
+                <span class="btn btn-warning" title="@UIText.ResetPassword" id="btnResetUserPwd">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+<div id="Admin_User_UserSetting_divUsers">
+    @Html.Partial("_UserPagedGrid", Model)
+</div>
+
+
+
+<script>
+
+    $("#frmSearchUser").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+
+ @*   var $ddlStrucs = $("#ddlStrucs");
+    var $hidStrucID = $("#hidStrucID");
+
+
+
+    $.get("@Url.Content("~/Admin/Structure/GetStructures")", {}, function (result)
+    {
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        var _html = "";
+        for (var i = 0; i < result.length; i++)
+        {
+            var obj = result[i];
+            _html += "<option value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+        }
+        $ddlStrucs.html($ddlStrucs.html() + _html);
+        $ddlStrucs.editableSelect({ effects: 'fade' })
+        .on('select.editable-select', function (e, li)
+        {
+            $hidStrucID.val(li.val());
+        });
+    });*@
+    $("#ddlStrucs").bind("input propertychange", function () {
+        $("#hidStrucID").val(-1);
+    })
+    $("#ddlStrucs").autocomplete({
+        delay: 500,
+        minLength: 1,
+        select: function (event, ui) {
+            $("#hidStrucID").val(ui.item.ID);
+        },
+        source: function (request, response) {
+            $.get('@Url.Content("~/Admin/Structure/GetStructuresByStructureName")', { structuresName: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+        });
+
+    $("#btnAddUser").on("click", function ()
+    {
+        var _url = "@Url.Content("~/Admin/User/AddUserInfo")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm, 800);
+    });
+
+    $("#btnDelUser").on("click", function ()
+    {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='userid']:checked").length == 0)
+        {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function ()
+        {
+            $("#frmDelUser").submit();
+        });
+    });
+
+    $("#btnResetUserPwd").on("click", function ()
+    {
+        var _message = '@UIText.PleaseSelectItem';
+        var _temp = $("input[name='userid']:checked");
+        if (_temp.length == 0)
+        {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmResetPwd';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function ()
+        {
+            var _token = $('@Html.AntiForgeryToken()').val();
+            var _userids = "";
+            _temp.each(function ()
+            {
+                _userids += $(this).val() + ",";
+            })
+            var data = { __RequestVerificationToken: _token, userids: _userids };
+            $.post("@Url.Content("~/Admin/User/ResetUserPassword")", data, function (result)
+            {
+                if ($.handleAjaxError(result))
+                {
+                    return;
+                }
+                $.showPromptDialog(result.Message);
+                refreshSearchForm();
+            });
+        });
+    });
+</script>
+
+
+
+
+

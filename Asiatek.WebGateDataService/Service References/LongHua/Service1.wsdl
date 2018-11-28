@@ -1,0 +1,962 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="HelloWorld">
+        <s:complexType />
+      </s:element>
+      <s:element name="HelloWorldResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HelloWorldResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CompanyCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CompanyCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CompanyCheckResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VisiterCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idno" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="idno1" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="cardtype" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="EnterDate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VisiterCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VisiterCheckResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CarCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarCheckResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNameByEmpNo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeNO" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetNameByEmpNoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetNameByEmpNoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddTemporaryCustomer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CompanyID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="BGID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Branch" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Department" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="IntoDoor" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="PurposeType" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="IntoReason" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LeadNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LeadMen" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LeadTel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReceiverNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Receiver" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReceiverTel" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="AreaRegionID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="HouseID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="FloorID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Location" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddTemporaryCustomerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddTemporaryCustomerResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddTemporaryPeople">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CustomerName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="PapersType" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="PapersNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PassportNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Sex" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TemporaryCustomerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Tel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Work" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CarCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CarType1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CarColor" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddTemporaryPeopleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddTemporaryPeopleResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SignRightCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EmployeeNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SignRightCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SignRightCheckResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVehicleRecord">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CarNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="StartTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EndTime" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetVehicleRecordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetVehicleRecordResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InorOutRegister">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="TemporaryMenID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InorOutRegisterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InorOutRegisterResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+      <s:element name="int" type="s:int" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="HelloWorldSoapIn">
+    <wsdl:part name="parameters" element="tns:HelloWorld" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldSoapOut">
+    <wsdl:part name="parameters" element="tns:HelloWorldResponse" />
+  </wsdl:message>
+  <wsdl:message name="CompanyCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:CompanyCheck" />
+  </wsdl:message>
+  <wsdl:message name="CompanyCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:CompanyCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="VisiterCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:VisiterCheck" />
+  </wsdl:message>
+  <wsdl:message name="VisiterCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:VisiterCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="CarCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:CarCheck" />
+  </wsdl:message>
+  <wsdl:message name="CarCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:CarCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetNameByEmpNoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetNameByEmpNo" />
+  </wsdl:message>
+  <wsdl:message name="GetNameByEmpNoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetNameByEmpNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryCustomerSoapIn">
+    <wsdl:part name="parameters" element="tns:AddTemporaryCustomer" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryCustomerSoapOut">
+    <wsdl:part name="parameters" element="tns:AddTemporaryCustomerResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryPeopleSoapIn">
+    <wsdl:part name="parameters" element="tns:AddTemporaryPeople" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryPeopleSoapOut">
+    <wsdl:part name="parameters" element="tns:AddTemporaryPeopleResponse" />
+  </wsdl:message>
+  <wsdl:message name="SignRightCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:SignRightCheck" />
+  </wsdl:message>
+  <wsdl:message name="SignRightCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:SignRightCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleRecordSoapIn">
+    <wsdl:part name="parameters" element="tns:GetVehicleRecord" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleRecordSoapOut">
+    <wsdl:part name="parameters" element="tns:GetVehicleRecordResponse" />
+  </wsdl:message>
+  <wsdl:message name="InorOutRegisterSoapIn">
+    <wsdl:part name="parameters" element="tns:InorOutRegister" />
+  </wsdl:message>
+  <wsdl:message name="InorOutRegisterSoapOut">
+    <wsdl:part name="parameters" element="tns:InorOutRegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpGetIn" />
+  <wsdl:message name="HelloWorldHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CompanyCheckHttpGetIn">
+    <wsdl:part name="CompanyName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CompanyCheckHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="VisiterCheckHttpGetIn">
+    <wsdl:part name="idno" type="s:string" />
+    <wsdl:part name="idno1" type="s:string" />
+    <wsdl:part name="cardtype" type="s:string" />
+    <wsdl:part name="EnterDate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="VisiterCheckHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarCheckHttpGetIn">
+    <wsdl:part name="CarNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarCheckHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetNameByEmpNoHttpGetIn">
+    <wsdl:part name="EmployeeNO" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetNameByEmpNoHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryCustomerHttpGetIn">
+    <wsdl:part name="CompanyID" type="s:string" />
+    <wsdl:part name="BGID" type="s:string" />
+    <wsdl:part name="Branch" type="s:string" />
+    <wsdl:part name="Department" type="s:string" />
+    <wsdl:part name="IntoDoor" type="s:string" />
+    <wsdl:part name="PurposeType" type="s:string" />
+    <wsdl:part name="IntoReason" type="s:string" />
+    <wsdl:part name="LeadNo" type="s:string" />
+    <wsdl:part name="LeadMen" type="s:string" />
+    <wsdl:part name="LeadTel" type="s:string" />
+    <wsdl:part name="ReceiverNo" type="s:string" />
+    <wsdl:part name="Receiver" type="s:string" />
+    <wsdl:part name="ReceiverTel" type="s:string" />
+    <wsdl:part name="AreaRegionID" type="s:string" />
+    <wsdl:part name="HouseID" type="s:string" />
+    <wsdl:part name="FloorID" type="s:string" />
+    <wsdl:part name="Location" type="s:string" />
+    <wsdl:part name="StartTime" type="s:string" />
+    <wsdl:part name="EndTime" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryCustomerHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryPeopleHttpGetIn">
+    <wsdl:part name="CustomerName" type="s:string" />
+    <wsdl:part name="PapersType" type="s:string" />
+    <wsdl:part name="PapersNumber" type="s:string" />
+    <wsdl:part name="PassportNumber" type="s:string" />
+    <wsdl:part name="Sex" type="s:string" />
+    <wsdl:part name="TemporaryCustomerID" type="s:string" />
+    <wsdl:part name="Tel" type="s:string" />
+    <wsdl:part name="Work" type="s:string" />
+    <wsdl:part name="CarCode" type="s:string" />
+    <wsdl:part name="CarType1" type="s:string" />
+    <wsdl:part name="CarColor" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryPeopleHttpGetOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="SignRightCheckHttpGetIn">
+    <wsdl:part name="EmployeeNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SignRightCheckHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleRecordHttpGetIn">
+    <wsdl:part name="CarNumber" type="s:string" />
+    <wsdl:part name="StartTime" type="s:string" />
+    <wsdl:part name="EndTime" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleRecordHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="InorOutRegisterHttpGetIn">
+    <wsdl:part name="TemporaryMenID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InorOutRegisterHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="HelloWorldHttpPostIn" />
+  <wsdl:message name="HelloWorldHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CompanyCheckHttpPostIn">
+    <wsdl:part name="CompanyName" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CompanyCheckHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="VisiterCheckHttpPostIn">
+    <wsdl:part name="idno" type="s:string" />
+    <wsdl:part name="idno1" type="s:string" />
+    <wsdl:part name="cardtype" type="s:string" />
+    <wsdl:part name="EnterDate" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="VisiterCheckHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="CarCheckHttpPostIn">
+    <wsdl:part name="CarNumber" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="CarCheckHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetNameByEmpNoHttpPostIn">
+    <wsdl:part name="EmployeeNO" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetNameByEmpNoHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryCustomerHttpPostIn">
+    <wsdl:part name="CompanyID" type="s:string" />
+    <wsdl:part name="BGID" type="s:string" />
+    <wsdl:part name="Branch" type="s:string" />
+    <wsdl:part name="Department" type="s:string" />
+    <wsdl:part name="IntoDoor" type="s:string" />
+    <wsdl:part name="PurposeType" type="s:string" />
+    <wsdl:part name="IntoReason" type="s:string" />
+    <wsdl:part name="LeadNo" type="s:string" />
+    <wsdl:part name="LeadMen" type="s:string" />
+    <wsdl:part name="LeadTel" type="s:string" />
+    <wsdl:part name="ReceiverNo" type="s:string" />
+    <wsdl:part name="Receiver" type="s:string" />
+    <wsdl:part name="ReceiverTel" type="s:string" />
+    <wsdl:part name="AreaRegionID" type="s:string" />
+    <wsdl:part name="HouseID" type="s:string" />
+    <wsdl:part name="FloorID" type="s:string" />
+    <wsdl:part name="Location" type="s:string" />
+    <wsdl:part name="StartTime" type="s:string" />
+    <wsdl:part name="EndTime" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryCustomerHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryPeopleHttpPostIn">
+    <wsdl:part name="CustomerName" type="s:string" />
+    <wsdl:part name="PapersType" type="s:string" />
+    <wsdl:part name="PapersNumber" type="s:string" />
+    <wsdl:part name="PassportNumber" type="s:string" />
+    <wsdl:part name="Sex" type="s:string" />
+    <wsdl:part name="TemporaryCustomerID" type="s:string" />
+    <wsdl:part name="Tel" type="s:string" />
+    <wsdl:part name="Work" type="s:string" />
+    <wsdl:part name="CarCode" type="s:string" />
+    <wsdl:part name="CarType1" type="s:string" />
+    <wsdl:part name="CarColor" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="AddTemporaryPeopleHttpPostOut">
+    <wsdl:part name="Body" element="tns:int" />
+  </wsdl:message>
+  <wsdl:message name="SignRightCheckHttpPostIn">
+    <wsdl:part name="EmployeeNo" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="SignRightCheckHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleRecordHttpPostIn">
+    <wsdl:part name="CarNumber" type="s:string" />
+    <wsdl:part name="StartTime" type="s:string" />
+    <wsdl:part name="EndTime" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="GetVehicleRecordHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:message name="InorOutRegisterHttpPostIn">
+    <wsdl:part name="TemporaryMenID" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="InorOutRegisterHttpPostOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="Service1Soap">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">HelloWorld</wsdl:documentation>
+      <wsdl:input message="tns:HelloWorldSoapIn" />
+      <wsdl:output message="tns:HelloWorldSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CompanyCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證公司信息</wsdl:documentation>
+      <wsdl:input message="tns:CompanyCheckSoapIn" />
+      <wsdl:output message="tns:CompanyCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VisiterCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證人員信息</wsdl:documentation>
+      <wsdl:input message="tns:VisiterCheckSoapIn" />
+      <wsdl:output message="tns:VisiterCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證車輛信息</wsdl:documentation>
+      <wsdl:input message="tns:CarCheckSoapIn" />
+      <wsdl:output message="tns:CarCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNameByEmpNo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據員工工號查詢姓名</wsdl:documentation>
+      <wsdl:input message="tns:GetNameByEmpNoSoapIn" />
+      <wsdl:output message="tns:GetNameByEmpNoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryCustomer">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">插入表單信息并返回表單ID</wsdl:documentation>
+      <wsdl:input message="tns:AddTemporaryCustomerSoapIn" />
+      <wsdl:output message="tns:AddTemporaryCustomerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryPeople">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據表單ID插入訪客及車輛信息</wsdl:documentation>
+      <wsdl:input message="tns:AddTemporaryPeopleSoapIn" />
+      <wsdl:output message="tns:AddTemporaryPeopleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SignRightCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證簽核主管是否具有洽工權限</wsdl:documentation>
+      <wsdl:input message="tns:SignRightCheckSoapIn" />
+      <wsdl:output message="tns:SignRightCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleRecord">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據車牌號以及時間段獲取車輛出入記錄</wsdl:documentation>
+      <wsdl:input message="tns:GetVehicleRecordSoapIn" />
+      <wsdl:output message="tns:GetVehicleRecordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InorOutRegister">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據TemporaryMenID進行入廠和出廠登記</wsdl:documentation>
+      <wsdl:input message="tns:InorOutRegisterSoapIn" />
+      <wsdl:output message="tns:InorOutRegisterSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Service1HttpGet">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">HelloWorld</wsdl:documentation>
+      <wsdl:input message="tns:HelloWorldHttpGetIn" />
+      <wsdl:output message="tns:HelloWorldHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CompanyCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證公司信息</wsdl:documentation>
+      <wsdl:input message="tns:CompanyCheckHttpGetIn" />
+      <wsdl:output message="tns:CompanyCheckHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VisiterCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證人員信息</wsdl:documentation>
+      <wsdl:input message="tns:VisiterCheckHttpGetIn" />
+      <wsdl:output message="tns:VisiterCheckHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證車輛信息</wsdl:documentation>
+      <wsdl:input message="tns:CarCheckHttpGetIn" />
+      <wsdl:output message="tns:CarCheckHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNameByEmpNo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據員工工號查詢姓名</wsdl:documentation>
+      <wsdl:input message="tns:GetNameByEmpNoHttpGetIn" />
+      <wsdl:output message="tns:GetNameByEmpNoHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryCustomer">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">插入表單信息并返回表單ID</wsdl:documentation>
+      <wsdl:input message="tns:AddTemporaryCustomerHttpGetIn" />
+      <wsdl:output message="tns:AddTemporaryCustomerHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryPeople">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據表單ID插入訪客及車輛信息</wsdl:documentation>
+      <wsdl:input message="tns:AddTemporaryPeopleHttpGetIn" />
+      <wsdl:output message="tns:AddTemporaryPeopleHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SignRightCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證簽核主管是否具有洽工權限</wsdl:documentation>
+      <wsdl:input message="tns:SignRightCheckHttpGetIn" />
+      <wsdl:output message="tns:SignRightCheckHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleRecord">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據車牌號以及時間段獲取車輛出入記錄</wsdl:documentation>
+      <wsdl:input message="tns:GetVehicleRecordHttpGetIn" />
+      <wsdl:output message="tns:GetVehicleRecordHttpGetOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InorOutRegister">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據TemporaryMenID進行入廠和出廠登記</wsdl:documentation>
+      <wsdl:input message="tns:InorOutRegisterHttpGetIn" />
+      <wsdl:output message="tns:InorOutRegisterHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Service1HttpPost">
+    <wsdl:operation name="HelloWorld">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">HelloWorld</wsdl:documentation>
+      <wsdl:input message="tns:HelloWorldHttpPostIn" />
+      <wsdl:output message="tns:HelloWorldHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CompanyCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證公司信息</wsdl:documentation>
+      <wsdl:input message="tns:CompanyCheckHttpPostIn" />
+      <wsdl:output message="tns:CompanyCheckHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VisiterCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證人員信息</wsdl:documentation>
+      <wsdl:input message="tns:VisiterCheckHttpPostIn" />
+      <wsdl:output message="tns:VisiterCheckHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CarCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證車輛信息</wsdl:documentation>
+      <wsdl:input message="tns:CarCheckHttpPostIn" />
+      <wsdl:output message="tns:CarCheckHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNameByEmpNo">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據員工工號查詢姓名</wsdl:documentation>
+      <wsdl:input message="tns:GetNameByEmpNoHttpPostIn" />
+      <wsdl:output message="tns:GetNameByEmpNoHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryCustomer">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">插入表單信息并返回表單ID</wsdl:documentation>
+      <wsdl:input message="tns:AddTemporaryCustomerHttpPostIn" />
+      <wsdl:output message="tns:AddTemporaryCustomerHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryPeople">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據表單ID插入訪客及車輛信息</wsdl:documentation>
+      <wsdl:input message="tns:AddTemporaryPeopleHttpPostIn" />
+      <wsdl:output message="tns:AddTemporaryPeopleHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SignRightCheck">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">驗證簽核主管是否具有洽工權限</wsdl:documentation>
+      <wsdl:input message="tns:SignRightCheckHttpPostIn" />
+      <wsdl:output message="tns:SignRightCheckHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleRecord">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據車牌號以及時間段獲取車輛出入記錄</wsdl:documentation>
+      <wsdl:input message="tns:GetVehicleRecordHttpPostIn" />
+      <wsdl:output message="tns:GetVehicleRecordHttpPostOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InorOutRegister">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">根據TemporaryMenID進行入廠和出廠登記</wsdl:documentation>
+      <wsdl:input message="tns:InorOutRegisterHttpPostIn" />
+      <wsdl:output message="tns:InorOutRegisterHttpPostOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Service1Soap" type="tns:Service1Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CompanyCheck">
+      <soap:operation soapAction="http://tempuri.org/CompanyCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VisiterCheck">
+      <soap:operation soapAction="http://tempuri.org/VisiterCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarCheck">
+      <soap:operation soapAction="http://tempuri.org/CarCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNameByEmpNo">
+      <soap:operation soapAction="http://tempuri.org/GetNameByEmpNo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryCustomer">
+      <soap:operation soapAction="http://tempuri.org/AddTemporaryCustomer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryPeople">
+      <soap:operation soapAction="http://tempuri.org/AddTemporaryPeople" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SignRightCheck">
+      <soap:operation soapAction="http://tempuri.org/SignRightCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleRecord">
+      <soap:operation soapAction="http://tempuri.org/GetVehicleRecord" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InorOutRegister">
+      <soap:operation soapAction="http://tempuri.org/InorOutRegister" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1Soap12" type="tns:Service1Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="HelloWorld">
+      <soap12:operation soapAction="http://tempuri.org/HelloWorld" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CompanyCheck">
+      <soap12:operation soapAction="http://tempuri.org/CompanyCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VisiterCheck">
+      <soap12:operation soapAction="http://tempuri.org/VisiterCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarCheck">
+      <soap12:operation soapAction="http://tempuri.org/CarCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNameByEmpNo">
+      <soap12:operation soapAction="http://tempuri.org/GetNameByEmpNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryCustomer">
+      <soap12:operation soapAction="http://tempuri.org/AddTemporaryCustomer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryPeople">
+      <soap12:operation soapAction="http://tempuri.org/AddTemporaryPeople" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SignRightCheck">
+      <soap12:operation soapAction="http://tempuri.org/SignRightCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleRecord">
+      <soap12:operation soapAction="http://tempuri.org/GetVehicleRecord" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InorOutRegister">
+      <soap12:operation soapAction="http://tempuri.org/InorOutRegister" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1HttpGet" type="tns:Service1HttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CompanyCheck">
+      <http:operation location="/CompanyCheck" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VisiterCheck">
+      <http:operation location="/VisiterCheck" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarCheck">
+      <http:operation location="/CarCheck" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNameByEmpNo">
+      <http:operation location="/GetNameByEmpNo" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryCustomer">
+      <http:operation location="/AddTemporaryCustomer" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryPeople">
+      <http:operation location="/AddTemporaryPeople" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SignRightCheck">
+      <http:operation location="/SignRightCheck" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleRecord">
+      <http:operation location="/GetVehicleRecord" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InorOutRegister">
+      <http:operation location="/InorOutRegister" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Service1HttpPost" type="tns:Service1HttpPost">
+    <http:binding verb="POST" />
+    <wsdl:operation name="HelloWorld">
+      <http:operation location="/HelloWorld" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CompanyCheck">
+      <http:operation location="/CompanyCheck" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VisiterCheck">
+      <http:operation location="/VisiterCheck" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CarCheck">
+      <http:operation location="/CarCheck" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNameByEmpNo">
+      <http:operation location="/GetNameByEmpNo" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryCustomer">
+      <http:operation location="/AddTemporaryCustomer" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTemporaryPeople">
+      <http:operation location="/AddTemporaryPeople" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SignRightCheck">
+      <http:operation location="/SignRightCheck" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetVehicleRecord">
+      <http:operation location="/GetVehicleRecord" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InorOutRegister">
+      <http:operation location="/InorOutRegister" />
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="Service1Soap" binding="tns:Service1Soap">
+      <soap:address location="http://safe.foxconn.com:443/TemporaryVisitCheck/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1Soap12" binding="tns:Service1Soap12">
+      <soap12:address location="http://safe.foxconn.com:443/TemporaryVisitCheck/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1HttpGet" binding="tns:Service1HttpGet">
+      <http:address location="http://safe.foxconn.com:443/TemporaryVisitCheck/Service1.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Service1HttpPost" binding="tns:Service1HttpPost">
+      <http:address location="http://safe.foxconn.com:443/TemporaryVisitCheck/Service1.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

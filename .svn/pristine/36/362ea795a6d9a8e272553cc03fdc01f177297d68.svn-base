@@ -1,0 +1,1094 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/STD808Core.TerminalManagement" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/STD808Core.General" />
+  <xs:import schemaLocation="http://172.16.3.73:10009/?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="QuerySpecifiedTerminalParasData">
+    <xs:sequence>
+      <xs:element name="TerminalParaIDs" nillable="true" type="tns:ArrayOfTerminalParaID">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QuerySpecifiedTerminalParasData" nillable="true" type="tns:QuerySpecifiedTerminalParasData" />
+  <xs:complexType name="ArrayOfTerminalParaID">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TerminalParaID" type="tns:TerminalParaID" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTerminalParaID" nillable="true" type="tns:ArrayOfTerminalParaID" />
+  <xs:simpleType name="TerminalParaID">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedInt" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="终端心跳发送间隔" />
+      <xs:enumeration value="TCP消息应答超时时间" />
+      <xs:enumeration value="TCP消息重传次数" />
+      <xs:enumeration value="UDP消息应答超时时间" />
+      <xs:enumeration value="UDP消息重传次数" />
+      <xs:enumeration value="SMS消息应答超时时间" />
+      <xs:enumeration value="SMS消息重传次数" />
+      <xs:enumeration value="主服务器APN或PPP拨号号码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="主服务器无线通信拨号用户名">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">17</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="主服务器无线通信拨号密码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">18</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="主服务器IP地址或域名">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">19</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="备份服务器APN">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">20</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="备份服务器无线通信拨号用户名">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">21</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="备份服务器无线通信拨号密码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">22</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="备份服务器IP地址或域名">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">23</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="服务器TCP端口">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">24</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="服务器UDP端口">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">25</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="道路运输证IC卡认证主服务器IP地址或域名">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">26</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="道路运输证IC卡认证主服务器TCP端口">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">27</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="道路运输证IC卡认证主服务器UDP端口">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">28</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="道路运输证IC卡认证备份服务器IP地址或域名">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">29</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="位置汇报策略">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">32</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="位置汇报方案">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">33</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="驾驶员未登录汇报时间间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">34</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="休眠时汇报时间间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">39</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="紧急报警时汇报时间间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">40</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="缺省时间汇报间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">41</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="缺省距离汇报间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">44</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="驾驶员未登录汇报距离间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">45</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="休眠时汇报距离间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">46</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="紧急报警时汇报距离间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">47</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="拐点补传角度">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">48</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="电子围栏半径">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">49</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="监控平台电话号码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">64</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="复位电话号码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">65</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="恢复出厂设置电话号码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">66</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="监控平台SMS电话号码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">67</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="接收终端SMS文本报警号码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">68</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="终端电话接听策略">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">69</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="每次最长通话时间">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">70</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="当月最长通话时间">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">71</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="监听电话号码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">72</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="监管平台特权短信号码">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">73</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="报警屏蔽字">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">80</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="报警发送文本SMS开关">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">81</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="报警拍摄开关">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">82</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="报警拍摄存储标志">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">83</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="关键标志">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">84</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="最高速度">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">85</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="超速持续时间">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">86</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="连续驾驶时间门限">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">87</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="当天累计驾驶时间门限">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">88</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="最小休息时间">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">89</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="最长停车时间">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">90</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="超速报警预警差值">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">91</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="疲劳驾驶预警差值">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">92</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="碰撞报警参数设置">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">93</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="侧翻报警参数设置">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">94</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="定时拍照控制">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">100</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="定距拍照控制">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">101</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="图像或视频质量">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">112</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="亮度">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">113</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="对比度">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">114</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="饱和度">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">115</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="色度">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">116</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="车辆里程表读数">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">128</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="车辆所在的省域ID">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">129</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="车辆所在的市域ID">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">130</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="公安交通管理部门颁发的机动车号牌">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">131</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="车牌颜色">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">132</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GNSS定位模式">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">144</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GNSS波特率">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">145</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GNSS模块详细定位数据输出频率">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">146</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GNSS模块详细定位数据采集频率">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">147</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GNSS模块详细定位数据上传方式">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">148</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="GNSS模块详细定位数据上传设置">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">149</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CAN总线通道1采集时间间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">256</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CAN总线通道1上传时间间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">257</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CAN总线通道2采集时间间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">258</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CAN总线通道2上传时间间隔">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">259</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CAN总线ID单独采集设置">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">272</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TerminalParaID" nillable="true" type="tns:TerminalParaID" />
+  <xs:complexType name="QueryTerminalParaRespData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ParaItems" nillable="true" type="tns:TerminalParasData" />
+      <xs:element minOccurs="0" name="ParasCount" type="xs:unsignedByte" />
+      <xs:element minOccurs="0" name="SerialNumber" type="xs:unsignedShort" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="QueryTerminalParaRespData" nillable="true" type="tns:QueryTerminalParaRespData" />
+  <xs:complexType name="TerminalParasData">
+    <xs:sequence>
+      <xs:element name="CAN总线通道1上传时间间隔" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="CAN总线通道1采集时间间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="CAN总线通道2上传时间间隔" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="CAN总线通道2采集时间间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="GNSS定位模式" nillable="true" type="tns:GNSSPositioningMode" />
+      <xs:element name="GNSS模块详细定位数据上传方式" nillable="true" type="tns:GNSSUploadWay" />
+      <xs:element name="GNSS模块详细定位数据上传设置" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="GNSS模块详细定位数据输出频率" nillable="true" type="tns:GNSSOutputFrequency" />
+      <xs:element name="GNSS模块详细定位数据采集频率" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="GNSS波特率" nillable="true" type="tns:GNSSBaudRate" />
+      <xs:element name="SMS消息应答超时时间" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="SMS消息重传次数" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="TCP消息应答超时时间" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="TCP消息重传次数" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="UDP消息应答超时时间" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="UDP消息重传次数" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="主服务器APN或PPP拨号号码" nillable="true" type="xs:string" />
+      <xs:element name="主服务器IP地址或域名" nillable="true" type="xs:string" />
+      <xs:element name="主服务器无线通信拨号密码" nillable="true" type="xs:string" />
+      <xs:element name="主服务器无线通信拨号用户名" nillable="true" type="xs:string" />
+      <xs:element name="亮度" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="休眠时汇报时间间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="休眠时汇报距离间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="位置汇报方案" nillable="true" type="tns:LocationReportingProgram" />
+      <xs:element name="位置汇报策略" nillable="true" type="tns:LocationReportingStrategy" />
+      <xs:element name="侧翻报警参数设置" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="公安交通管理部门颁发的机动车号牌" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/STD808Core.General" name="关键标志" nillable="true" type="q1:AlarmFlag" />
+      <xs:element name="图像或视频质量" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="备份服务器APN" nillable="true" type="xs:string" />
+      <xs:element name="备份服务器IP地址或域名" nillable="true" type="xs:string" />
+      <xs:element name="备份服务器无线通信拨号密码" nillable="true" type="xs:string" />
+      <xs:element name="备份服务器无线通信拨号用户名" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="复位电话号码" nillable="true" type="q2:ArrayOfstring" />
+      <xs:element name="定时拍照控制" nillable="true" type="tns:TimedTakingPictureControl" />
+      <xs:element name="定时时间间隔" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="定距拍照控制" nillable="true" type="tns:DependOnDistanceTakingPictureControl" />
+      <xs:element name="定距距离间隔" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="对比度" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="当天累计驾驶时间门限" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="当月最长通话时间" nillable="true" type="xs:unsignedInt" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="恢复出厂设置电话号码" nillable="true" type="q3:ArrayOfstring" />
+      <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/STD808Core.General" name="报警发送文本SMS开关" nillable="true" type="q4:AlarmFlag" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/STD808Core.General" name="报警屏蔽字" nillable="true" type="q5:AlarmFlag" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/STD808Core.General" name="报警拍摄存储标志" nillable="true" type="q6:AlarmFlag" />
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/STD808Core.General" name="报警拍摄开关" nillable="true" type="q7:AlarmFlag" />
+      <xs:element name="拐点补传角度" nillable="true" type="xs:unsignedInt" />
+      <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="接收终端SMS文本报警号码" nillable="true" type="q8:ArrayOfstring" />
+      <xs:element name="最小休息时间" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="最长停车时间" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="最高速度" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="服务器TCP端口" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="服务器UDP端口" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="每次最长通话时间" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="电子围栏半径" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="疲劳驾驶预警差值" nillable="true" type="xs:unsignedShort" />
+      <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="监听电话号码" nillable="true" type="q9:ArrayOfstring" />
+      <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="监控平台SMS电话号码" nillable="true" type="q10:ArrayOfstring" />
+      <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="监控平台电话号码" nillable="true" type="q11:ArrayOfstring" />
+      <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" name="监管平台特权短信号码" nillable="true" type="q12:ArrayOfstring" />
+      <xs:element name="碰撞报警参数设置" nillable="true" type="tns:CollisionAlarmPara" />
+      <xs:element name="紧急报警时汇报时间间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="紧急报警时汇报距离间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="终端心跳发送间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="终端电话接听策略" nillable="true" type="tns:TerminalPhoneAnsweringStrategy" />
+      <xs:element name="缺省时间汇报间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="缺省距离汇报间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="色度" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="超速报警预警差值" nillable="true" type="xs:double" />
+      <xs:element name="超速持续时间" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="车牌颜色" nillable="true" type="tns:PlateColor" />
+      <xs:element name="车辆所在的市域ID" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="车辆所在的省域ID" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="车辆里程表读数" nillable="true" type="xs:double" />
+      <xs:element name="连续驾驶时间门限" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="道路运输证IC卡认证主服务器IP地址或域名" nillable="true" type="xs:string" />
+      <xs:element name="道路运输证IC卡认证主服务器TCP端口" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="道路运输证IC卡认证主服务器UDP端口" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="道路运输证IC卡认证备份服务器IP地址或域名" nillable="true" type="xs:string" />
+      <xs:element name="饱和度" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="驾驶员未登录汇报时间间隔" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="驾驶员未登录汇报距离间隔" nillable="true" type="xs:unsignedInt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TerminalParasData" nillable="true" type="tns:TerminalParasData" />
+  <xs:simpleType name="GNSSPositioningMode">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="启用GPS定位" />
+          <xs:enumeration value="启用北斗定位" />
+          <xs:enumeration value="启用GLONASS定位" />
+          <xs:enumeration value="启用Galileo定位" />
+          <xs:enumeration value="All">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="GNSSPositioningMode" nillable="true" type="tns:GNSSPositioningMode" />
+  <xs:simpleType name="GNSSUploadWay">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="本地存储不上传" />
+      <xs:enumeration value="按时间间隔上传" />
+      <xs:enumeration value="按距离间隔上传" />
+      <xs:enumeration value="按累计时间上传">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="按累计距离上传">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="按累计条数上传">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">13</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="GNSSUploadWay" nillable="true" type="tns:GNSSUploadWay" />
+  <xs:simpleType name="GNSSOutputFrequency">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OF500MS" />
+      <xs:enumeration value="OF1000MS" />
+      <xs:enumeration value="OF2000MS" />
+      <xs:enumeration value="OF3000MS" />
+      <xs:enumeration value="OF4000MS" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="GNSSOutputFrequency" nillable="true" type="tns:GNSSOutputFrequency" />
+  <xs:simpleType name="GNSSBaudRate">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BR4800" />
+      <xs:enumeration value="BR9600" />
+      <xs:enumeration value="BR19200" />
+      <xs:enumeration value="BR38400" />
+      <xs:enumeration value="BR57600" />
+      <xs:enumeration value="BR115200" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="GNSSBaudRate" nillable="true" type="tns:GNSSBaudRate" />
+  <xs:simpleType name="LocationReportingProgram">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedInt" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="根据ACC状态" />
+      <xs:enumeration value="根据登录状态和ACC状态" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LocationReportingProgram" nillable="true" type="tns:LocationReportingProgram" />
+  <xs:simpleType name="LocationReportingStrategy">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedInt" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="定时汇报" />
+      <xs:enumeration value="定距汇报" />
+      <xs:enumeration value="定时和定距汇报" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LocationReportingStrategy" nillable="true" type="tns:LocationReportingStrategy" />
+  <xs:simpleType name="TimedTakingPictureControl">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedInt" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道1定时拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道2定时拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道3定时拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道4定时拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道5定时拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道1定时拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">256</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道2定时拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">512</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道3定时拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1024</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道4定时拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2048</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道5定时拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4096</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="定时时间单位为分">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">65536</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="All">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">73503</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="TimedTakingPictureControl" nillable="true" type="tns:TimedTakingPictureControl" />
+  <xs:simpleType name="DependOnDistanceTakingPictureControl">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedInt" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:list>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="None">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道1定距拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道2定距拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道3定距拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道4定距拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="允许摄像通道5定距拍照">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道1定距拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">256</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道2定距拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">512</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道3定距拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1024</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道4定距拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2048</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="上传摄像通道5定距拍照数据">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4096</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="定距距离单位为公里">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">65536</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="All">
+            <xs:annotation>
+              <xs:appinfo>
+                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">73503</EnumerationValue>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:list>
+  </xs:simpleType>
+  <xs:element name="DependOnDistanceTakingPictureControl" nillable="true" type="tns:DependOnDistanceTakingPictureControl" />
+  <xs:complexType name="CollisionAlarmPara">
+    <xs:annotation>
+      <xs:appinfo>
+        <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="CollisionAcceleration" type="xs:double" />
+      <xs:element name="CollisionTime" type="xs:unsignedShort" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CollisionAlarmPara" nillable="true" type="tns:CollisionAlarmPara" />
+  <xs:simpleType name="TerminalPhoneAnsweringStrategy">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedInt" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="自动接听" />
+      <xs:enumeration value="ACCON时自动接听OFF时手动接听" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TerminalPhoneAnsweringStrategy" nillable="true" type="tns:TerminalPhoneAnsweringStrategy" />
+  <xs:simpleType name="PlateColor">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="未上牌" />
+      <xs:enumeration value="蓝色" />
+      <xs:enumeration value="黄色" />
+      <xs:enumeration value="黑色" />
+      <xs:enumeration value="白色" />
+      <xs:enumeration value="绿色" />
+      <xs:enumeration value="黄绿" />
+      <xs:enumeration value="农黄">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="其他">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="PlateColor" nillable="true" type="tns:PlateColor" />
+  <xs:complexType name="TerminalControlData">
+    <xs:sequence>
+      <xs:element name="CMD" type="tns:TerminalControlCMD">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="ConnectToSpecifiedServerData" nillable="true" type="tns:ConnectToSpecifiedServerData" />
+      <xs:element name="WirelessUpgradeData" nillable="true" type="tns:WirelessUpgradeData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TerminalControlData" nillable="true" type="tns:TerminalControlData" />
+  <xs:simpleType name="TerminalControlCMD">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="None" />
+      <xs:enumeration value="无线升级" />
+      <xs:enumeration value="控制终端连接指定服务器" />
+      <xs:enumeration value="终端关机" />
+      <xs:enumeration value="终端复位" />
+      <xs:enumeration value="终端恢复出厂设置" />
+      <xs:enumeration value="关闭数据通信" />
+      <xs:enumeration value="关闭所有无线通信" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TerminalControlCMD" nillable="true" type="tns:TerminalControlCMD" />
+  <xs:complexType name="ConnectToSpecifiedServerData">
+    <xs:sequence>
+      <xs:element name="Address" nillable="true" type="xs:string" />
+      <xs:element name="AuthCode" nillable="true" type="xs:string" />
+      <xs:element name="ConnectControl" type="xs:unsignedByte" />
+      <xs:element name="DialupPassword" nillable="true" type="xs:string" />
+      <xs:element name="DialupPointName" nillable="true" type="xs:string" />
+      <xs:element name="DialupUserName" nillable="true" type="xs:string" />
+      <xs:element name="TCPPort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="TimeLimit" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="UDPPort" nillable="true" type="xs:unsignedShort" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ConnectToSpecifiedServerData" nillable="true" type="tns:ConnectToSpecifiedServerData" />
+  <xs:complexType name="WirelessUpgradeData">
+    <xs:sequence>
+      <xs:element name="Address" nillable="true" type="xs:string" />
+      <xs:element name="DialupPassword" nillable="true" type="xs:string" />
+      <xs:element name="DialupPointName" nillable="true" type="xs:string" />
+      <xs:element name="DialupUserName" nillable="true" type="xs:string" />
+      <xs:element name="FirmwareVersion" nillable="true" type="xs:string" />
+      <xs:element name="HardwareVersion" nillable="true" type="xs:string" />
+      <xs:element name="ManufacturerID" nillable="true" type="xs:string" />
+      <xs:element name="TCPPort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="TimeLimit" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="UDPPort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="URL" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WirelessUpgradeData" nillable="true" type="tns:WirelessUpgradeData" />
+  <xs:complexType name="TerminalParasSettingData">
+    <xs:sequence>
+      <xs:element name="ParaItems" nillable="true" type="tns:TerminalParasData">
+        <xs:annotation>
+          <xs:appinfo>
+            <DefaultValue EmitDefaultValue="false" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TerminalParasSettingData" nillable="true" type="tns:TerminalParasSettingData" />
+</xs:schema>

@@ -1,0 +1,51 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model VehicleModifyWarrantyDateModel
+
+
+
+
+@using (Ajax.BeginForm("ModifyWarrantyDate", "Vehicle", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmModifyWarrantyDate" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelFor(m => m.WarrantyDate)：</td>
+                <td>@Html.TextBoxFor(m => m.WarrantyDate, new { id = "txtWarrantyDate" })</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.WarrantyDate)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    @Html.HiddenFor(m => m.VehicleIDs)
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+
+
+<script>
+
+    var $frmModifyWarrantyDate = $("#frmModifyWarrantyDate");
+    $frmModifyWarrantyDate.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmModifyWarrantyDate.fixUnobtrusiveValidation();
+    $("#txtWarrantyDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        minDate: new Date('@DateTime.Now.ToString("yyyy-MM-dd")')
+    });
+</script>

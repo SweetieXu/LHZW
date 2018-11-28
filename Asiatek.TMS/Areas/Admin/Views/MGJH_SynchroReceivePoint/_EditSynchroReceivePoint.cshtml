@@ -1,0 +1,288 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model EditSynchroReceivePointModel
+
+<style>
+    .button-group {
+	    position: absolute;
+	    bottom: 30px;
+	    right: 65px;
+	    font-size: 12px;
+	    padding: 10px;
+    }
+
+    #drawBtn {
+        z-index:3;
+        position:absolute;
+        height: 28px;
+        width:60px;
+	    background-color: #0D9BF2;
+	    color: #FFF;
+	    border: 0;
+	    outline: none;
+	    border-radius: 3px;
+	    margin-bottom: 4px;
+	    cursor: pointer;
+    }
+</style>
+
+
+@using (Ajax.BeginForm("EditSynchroReceivePoint", "MGJH_SynchroReceivePoint", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditReceiveTransportPoint" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m=>m.ID)
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.AddressName)：</td>
+                <td>@Html.TextBoxFor(m => m.AddressName)</td>
+                <td>@Html.LabelForRequired(m => m.AddressCode)：</td>
+                <td>@Html.TextBoxFor(m => m.AddressCode)</td>
+                <td>@Html.LabelForRequired(m => m.CustomerName)：</td>
+                <td>@Html.TextBoxFor(m => m.CustomerName)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.AddressName)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.AddressCode)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.CustomerName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.AddressArea)：</td>
+                <td>@Html.TextBoxFor(m => m.AddressArea)</td>
+                <td>@Html.LabelForRequired(m => m.SuperiorAddressID)：</td>
+                <td>@Html.DropDownListFor(m => m.SuperiorAddressID, Model.SuperiorAddressSelectList)</td>
+                <td>@Html.LabelForRequired(m => m.IsUnloadPoint)：</td>
+                <td>@Html.CheckBoxFor(m => m.IsUnloadPoint)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.AddressArea)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.SuperiorAddressID)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.IsUnloadPoint)</td>
+            </tr>
+             <tr class="hideInfo">
+                <td>@Html.LabelFor(m => m.EFType)：</td>
+                <td>
+                    @Html.RadioButtonFor(m => m.EFType, 1, new { id = "FenceType1", @checked=true }) <label for="FenceType1">@UIText.Circle</label>
+                    @Html.RadioButtonFor(m => m.EFType, 2, new { id = "FenceType2" }) <label for="FenceType2">@UIText.Rectangle</label>
+                    @Html.RadioButtonFor(m => m.EFType, 3, new { id = "FenceType3" }) <label for="FenceType3">@UIText.Polygon</label>
+                </td>
+                <td>@Html.LabelFor(m => m.UnloadTime)：</td>
+                <td>@Html.TextBoxFor(m => m.UnloadTime)</td>
+                <td>@Html.LabelFor(m => m.UnloadTimeError)：</td>
+                <td>@Html.TextBoxFor(m => m.UnloadTimeError)</td>
+            </tr>
+            <tr class="hideInfo">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.UnloadTime)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.UnloadTimeError)</td>
+            </tr>
+            <tr class="hideInfo">
+                <td colspan="6">
+                    <div id="container" style="width:1000px;height:500px;">
+                        <div class="button-group">
+                            <input id="drawBtn" onclick="mapDraw()" class="button" value="@UIText.Draw" type="button"/>
+                        </div>
+                    </div>
+                    <div style="display:none;">
+                        @Html.TextBoxFor(m => m.EFInfo)
+                    </div>
+                </td>
+            </tr>
+            <tr class="hideInfo">
+                <td colspan="6"></td>
+            </tr>
+           
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="6">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmEditReceiveTransportPoint = $("#frmEditReceiveTransportPoint");
+    $frmEditReceiveTransportPoint.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    //$frmEditReceiveTransportPoint.fixUnobtrusiveValidation();
+    //解决多次点击绘制按钮，绘制颜色加重的问题
+    var mousetoolCircle;
+    var mousetoolRect;
+    var mousetoolPolygon;
+
+    //定义map对象
+    var mapObjEdit = initMap('container', true, 12, null);
+    //添加标尺、比例尺
+    addControl(true, true, false, false, false, mapObjEdit);
+
+    //地图加载
+    $(function () {
+        //防止关闭修改窗口后再次打开无法绘制的问题
+        mousetoolCircle = null;
+        mousetoolRect = null;
+        mousetoolPolygon = null;
+
+        //下方地图数据隐藏
+        $(".hideInfo").hide();
+        
+    });
+
+
+    //选中卸货点，修改下方地图数据显示
+    $("#IsUnloadPoint").change(function () {    
+        if ($('#IsUnloadPoint').is(':checked')) {
+            $(".hideInfo").show();
+        }
+        else {
+            $(".hideInfo").hide();
+        }
+    });
+
+
+    //区域绘制
+    function mapDraw() {
+        var fenceType = $("input[name='EFType']:checked").val();
+        //圆形
+        if (fenceType == 1) {
+            mapObjEdit.clearMap();
+            $("#EFInfo").val("");
+            mapObjEdit.plugin(["AMap.MouseTool"], function () {
+                if (mousetoolCircle == null) {
+                    mousetoolCircle = new AMap.MouseTool(mapObjEdit);
+                }
+                mousetoolCircle.circle();
+                AMap.event.addListener(mousetoolCircle, "draw", function (e) {
+                    var radius = e.obj.getRadius();
+                    var center = e.obj.getCenter();
+                    mousetoolCircle.close(false);
+                    //圆形中心点加半径
+                    $("#EFInfo").val(center + ";" + radius);
+                });
+            });
+        }
+        //矩形
+        if (fenceType == 2) {
+            mapObjEdit.clearMap();
+            $("#EFInfo").val("");
+            mapObjEdit.plugin(["AMap.MouseTool"], function () {
+                if (mousetoolRect == null) {
+                    mousetoolRect = new AMap.MouseTool(mapObjEdit);
+                }
+                mousetoolRect.rectangle();
+                AMap.event.addListener(mousetoolRect, "draw", function (e) {
+                    var point = e.obj.getPath();//array
+                    mousetoolRect.close(false);
+
+                    var rs = "";
+                    for (var i = 0; i < point.length; i++) {
+                        if (i == 0)
+                        { rs = rs + point[i]; }
+                        else
+                        { rs = rs + ";" + point[i]; }
+                    }
+                    $("#EFInfo").val(rs);
+                });
+            });
+        }
+        if (fenceType == 3) {//多边形
+            mapObjEdit.clearMap();
+            $("#EFInfo").val("");
+            mapObjEdit.plugin(["AMap.MouseTool"], function () {
+                if (mousetoolPolygon == null) {
+                    mousetoolPolygon = new AMap.MouseTool(mapObjEdit);
+                }
+                mousetoolPolygon.polygon();
+                AMap.event.addListener(mousetoolPolygon, "draw", function (e) {
+                    var pointPolygon = e.obj.getPath();//array
+                    mousetoolPolygon.close(false);
+
+                    var rs = "";
+                    for (var i = 0; i < pointPolygon.length; i++) {
+                        if (i == 0)
+                        { rs = rs + pointPolygon[i]; }
+                        else
+                        { rs = rs + ";" + pointPolygon[i]; }
+                    }
+                    $("#EFInfo").val(rs);
+                });
+            });
+        }
+    }
+
+    //区域类型重新选择后，需要重新绘制；同时关闭未选中的鼠标工具，使其无法绘制图形
+    //防止在选中某一围栏类型时候，点击绘制，没有画图，然后更换围栏类型，不点击绘制直接绘图
+    //不关闭则会出现选中的类型为切换后的，而地图上绘制的类型为切换前的围栏类型，两者不符的情况
+    $("#FenceType1").click(function () {
+        mapObjEdit.clearMap();
+        $("#EFInfo").val("");
+        if (mousetoolRect != null) {
+            mousetoolRect.close(false);
+        }
+        if (mousetoolPolygon != null) {
+            mousetoolPolygon.close(false);
+        }
+    });
+    $("#FenceType2").click(function () {
+        mapObjEdit.clearMap();
+        $("#EFInfo").val("");
+        if (mousetoolCircle != null) {
+            mousetoolCircle.close(false);
+        }
+        if (mousetoolPolygon != null) {
+            mousetoolPolygon.close(false);
+        }
+    });
+    $("#FenceType3").click(function () {
+        mapObjEdit.clearMap();
+        $("#EFInfo").val("");
+        if (mousetoolCircle != null) {
+            mousetoolCircle.close(false);
+        }
+        if (mousetoolRect != null) {
+            mousetoolRect.close(false);
+        }
+    });
+
+    //提交时前台各种验证
+    $frmEditReceiveTransportPoint.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+    var checkForm = function () {
+        //是卸货点时，必须绘制电子围栏
+        if ($('#IsUnloadPoint').is(':checked') && $("#EFInfo").val() == "") {
+            $.showPromptDialog('@DataAnnotations.PleaseDrawElectricFenceFirst', '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        //是卸货点时，必须输入预计卸货时长
+        if ($('#IsUnloadPoint').is(':checked') && $("#UnloadTime").val() == "") {
+            $.showPromptDialog('@DataAnnotations.PleaseInputUnLoadTimeFirst', '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        return true;
+    }
+
+</script>

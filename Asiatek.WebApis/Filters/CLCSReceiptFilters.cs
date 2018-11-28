@@ -1,0 +1,233 @@
+﻿using Asiatek.WebApis.Helpers;
+using Asiatek.WebApis.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web;
+using System.Web.Configuration;
+using System.Web.Http.Controllers;
+using System.Web.Http.Filters;
+
+namespace Asiatek.WebApis.Filters
+{
+    #region 动作过滤器
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+    public class CLCSReceiptActionFilterAttribute : ActionFilterAttribute
+    {
+        #region 其他
+        /// <summary>
+        /// 存储api的key
+        /// </summary>
+        static Dictionary<string, string> m_keys = new Dictionary<string, string>();
+
+        static CLCSReceiptActionFilterAttribute()
+        {
+            //暂时采用配置文件的方式存取 apikey
+            var apiKeysStr = WebConfigurationManager.AppSettings["apiKeys"];
+            var apiKeys = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiKeysModel>(apiKeysStr);
+            foreach (var item in apiKeys.Keys)
+            {
+                m_keys.Add(item.AccessKey.Trim(), item.SecretKey.Trim());
+            }
+        }
+        #endregion
+
+
+        #region Action执行前执行（验证签名、时间等）
+        public override void OnActionExecuting(System.Web.Http.Controllers.HttpActionContext actionContext)
+        {
+            #region 请求数据验证
+            if (!actionContext.ModelState.IsValid)
+            {
+                this.SetBadRequestResp(actionContext, ResponseCode.请求参数有误);
+                return;
+            }
+            #endregion
+
+            //看api是否可以访问，跳过了验证等
+            if (actionContext.Request.RequestUri.ToString().ToLower().Contains("healthcheck"))
+            {
+                return;
+            }
+
+            #region 获取数据
+            HttpRequest request = HttpContext.Current.Request;//当前请求对象
+            string accessKey = request.Headers["accessKey"];//接入key 通过key获取secretkey
+            string sign = request.Headers["sign"];//签名MD5(请求信息+secretkey+timeStamp)
+            string time = request.Headers["time"];//时间
+            string contentType = request.Headers["content-type"];//null或application/json或application/x-www-form-urlencoded 
+            #endregion
+
+            #region 参数非空验证
+            if (string.IsNullOrWhiteSpace(accessKey))
+            {
+                this.SetBadRequestResp(actionContext, ResponseCode.缺失接入码);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(sign))
+            {
+                this.SetBadRequestResp(actionContext, ResponseCode.缺失签名);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(time))
+            {
+                this.SetBadRequestResp(actionContext, ResponseCode.缺失时间);
+                return;
+            }
+            #endregion
+
+            #region 参数合法性验证
+
+            #region time验证
+            DateTime tempTime;
+            if (!DateTime.TryParse(time, out tempTime))
+            {
+                this.SetBadRequestResp(actionContext, ResponseCode.时间格式错误);
+                return;
+            }
+            var minutes = (DateTime.Now - tempTime).TotalMinutes;
+            if (minutes > 10)//时间误差大于10分钟，无效，不考虑时间比服务器时间更快的情况
+            {
+                this.SetBadRequestResp(actionContext, ResponseCode.请求过期);
+                return;
+            }
+            #endregion
+
+            #region accessKey验证
+            if (!m_keys.ContainsKey(accessKey))
+            {
+                this.SetBadRequestResp(actionContext, ResponseCode.接入码不存在);
+                return;
+            }
+            #endregion
+
+            #endregion
+
+            #region 获取POST与Get请求的参数信息
+            var paramDic = new SortedDictionary<string, string>(new OrdinalComparer());//将key按照字典顺序排序
+            switch (request.HttpMethod.ToUpper())
+            {
+                case "GET":
+                    var queryVals = actionContext.Request.GetQueryNameValuePairs();
+                    foreach (var item in queryVals)
+                    {
+                        //paramDic.Add(item.Key.Trim(), item.Value.Trim());
+                        paramDic.Add(item.Key, item.Value);
+                    }
+                    break;
+                case "POST":
+                    if (contentType.Trim().ToLower() == "application/x-www-form-urlencoded")
+                    {
+                        foreach (var key in request.Form.AllKeys)
+                        {
+                            //paramDic.Add(key.Trim(), request.Form[key].Trim());
+                            paramDic.Add(key, request.Form[key]);
+                        }
+                    }
+                    break;
+            }
+            #endregion
+
+            #region 签名验证
+            string temp = string.Empty;
+            foreach (var item in paramDic.Values)
+            {
+                temp += item;
+            }
+            temp += m_keys[accessKey];//根据接入Key获取加密key
+            temp += time;
+            string tempSign = MD5Helper.GetLen16LowerCaseMD5Str(temp);
+
+
+            LogHelper.DoTestLog("生成sign之前：" + temp);
+            LogHelper.DoTestLog("生成的sign：" + tempSign);
+            LogHelper.DoTestLog("接收到的sign：" + sign);
+
+            if (tempSign.ToUpper() != sign.ToUpper())
+            {
+                this.SetBadRequestResp(actionContext, ResponseCode.签名无效);
+                return;
+            }
+            #endregion
+
+
+            base.OnActionExecuting(actionContext);
+        }
+        #endregion
+
+
+        #region 其他方法
+        /// <summary>
+        /// 设置返回400应答
+        /// </summary>
+        private void SetBadRequestResp(HttpActionContext actionContext, ResponseData resp)
+        {
+            actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.BadRequest, resp);
+        }
+
+        /// <summary>
+        /// 设置返回400应答
+        /// </summary>
+        private void SetBadRequestResp(HttpActionContext actionContext, ResponseCode code, string message)
+        {
+            SetBadRequestResp(actionContext, new ResponseData()
+            {
+                Code = code,
+                Message = message
+            });
+        }
+
+
+        /// <summary>
+        /// 设置返回400应答
+        /// </summary>
+        private void SetBadRequestResp(HttpActionContext actionContext, ResponseCode code)
+        {
+            SetBadRequestResp(actionContext, new ResponseData()
+            {
+                Code = code,
+                Message = code.ToString()
+            });
+        }
+
+        #endregion
+    } 
+    #endregion
+
+
+    #region 异常过滤器
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+    public class CLCSReceiptExceptionHandlingAttribute : ExceptionFilterAttribute
+    {
+        public override void OnException(HttpActionExecutedContext actionExecutedContext)
+        {
+            var ex = actionExecutedContext.Exception;
+            //记录日志
+            string msg = string.Format("Message：{0}{1}StackTrace：{2}", ex.Message, Environment.NewLine, ex.StackTrace);
+            LogHelper.DoErrorLog(msg);
+            //发生未捕获的错误，均返回500内部错误
+            actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(HttpStatusCode.InternalServerError, new ResponseData()
+            {
+                Code = ResponseCode.未知错误,
+                Message = "unknown error",
+            });
+            base.OnException(actionExecutedContext);
+        }
+    }
+    #endregion
+
+    /// <summary>
+    /// 按照字典顺序比较字符串
+    /// </summary>
+    public class OrdinalComparer : System.Collections.Generic.IComparer<String>
+    {
+        public int Compare(String x, String y)
+        {
+            return string.CompareOrdinal(x, y);
+        }
+    }
+}

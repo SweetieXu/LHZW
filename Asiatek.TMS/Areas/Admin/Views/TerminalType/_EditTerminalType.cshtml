@@ -1,0 +1,89 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model TerminalTypeEditModel
+
+
+
+@using (Ajax.BeginForm("EditTerminalType", "TerminalTypeController", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditTerminalType" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ID)
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.TerminalName)：</td>
+                <td>@Html.TextBoxFor(m => m.TerminalName)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.TerminalName)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.TerminalManufacturerID)：</td>
+                <td>@Html.DropDownListFor(m => m.TerminalManufacturerID, Model.TerminalManufacturerSelectList)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ACCON_Frequency)：</td>
+                <td>@Html.EditorFor(m => m.ACCON_Frequency)</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.ACCON_Frequency)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ACCOFF_Frequency)：</td>
+                <td>@Html.EditorFor(m => m.ACCOFF_Frequency)</td>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.ValidationMessageFor(m => m.ACCOFF_Frequency)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.Filter)：</td>
+                <td>@Html.EditorFor(m => m.Filter)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.CommunicationMode)：</td>
+                <td>@Html.TextBoxFor(m => m.CommunicationMode)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.CommunicationMode)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Remark)：</td>
+                <td>@Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.Remark)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmEditTerminalType = $("#frmEditTerminalType");
+    $frmEditTerminalType.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmEditTerminalType.fixUnobtrusiveValidation();
+</script>
+
+

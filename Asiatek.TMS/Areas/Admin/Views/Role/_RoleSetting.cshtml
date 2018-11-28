@@ -1,0 +1,64 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@model RoleSettingModel
+
+@using (Ajax.BeginForm("GetRoleInfo", "Role", new AjaxOptions()
+{
+    UpdateTargetId = "Admin_Role_RoleSetting_divRolesGrid",
+    OnSuccess = "commonAjaxSuccess",
+    HttpMethod = "GET"
+}, new { id = "frmSearchRole" }))
+{
+    <table class="table table-striped table-condensed table-hover">
+        <tr>
+            <td>
+                <input type="search" name="roleName" value=""  placeholder="@(UIText.PleaseInput + DisplayText.RoleName)"/>
+            </td>
+            <td>
+                @Html.HiddenFor(m => m.SearchPage, new { id = "hidSearchPage" })
+
+
+                <button class="btn btn-primary" title="@UIText.Search"><span class="glyphicon glyphicon-search"></span></button>
+                <span class="btn btn-info" title="@UIText.AddButton" id="btnAddRole">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+                <span class="btn btn-danger" title="@UIText.DeleteButton" id="btnDelRole">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </span>
+            </td>
+        </tr>
+    </table>
+    
+    
+}
+<div id="Admin_Role_RoleSetting_divRolesGrid">
+    @Html.Partial("_RolePagedGrid", Model)
+</div>
+
+
+<script>
+    $("#frmSearchRole").find("input:not(:submit,:checkbox,:button),textarea,select").addClass("form-control");
+
+    $("#btnAddRole").on("click", function ()
+    {
+        var _url = "@Url.Content("~/Admin/Role/AddRole")";
+        var _data = {};
+        var _title = "@UIText.AddButton";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    });
+
+    $("#btnDelRole").on("click", function ()
+    {
+        var _message = '@UIText.PleaseSelectItem';
+        if ($("input[name='roleid']:checked").length == 0)
+        {
+            $.showPromptDialog(_message, '@UIText.InformationTitle', '@UIText.Close');
+            return;
+        }
+        _message = '@UIText.ConfirmDelete';
+        $.showConfirmDialog(_message, '@UIText.InformationTitle', '@UIText.Confirm', '@UIText.Cancel', function ()
+        {
+            $("#frmDelRole").submit();
+        });
+    });
+</script>

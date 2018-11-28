@@ -1,0 +1,1981 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model HistorySignalAllInfoModels
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <style>
+        .ui-autocomplete {
+            height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .indexDefault {
+            background-color: #2a363f!important;
+            color: lightgray!important;
+        }
+
+        .hundredPercentWidth {
+            width: 100%;
+        }
+
+        .hundredPercentHeight {
+            height: 100%;
+        }
+
+        #tdLeftInfo {
+            width: 300px;
+        }
+
+        #tdToggleLeftInfo, #tdToggleBottomInfo {
+            cursor: pointer;
+        }
+
+        #btnGroup {
+            z-index: 4;
+            position: absolute;
+            top: 20px;
+            right: 10px;
+            background-color: #ffffff;
+            width: 60px;
+            height: 34px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .mapDialogImg {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 6px;
+            margin-top: 6px;
+        }
+
+        #btnGroupBottom {
+            z-index: 4;
+            position: absolute;
+            top: 54px;
+            right: 10px;
+            width: 60px;
+            height: 5px;
+            background-color: #0198fe;
+        }
+
+        #searchAddressTop {
+            position: absolute;
+            top: 70px;
+            right: 10px;
+            font-family: "Microsoft Yahei";
+            font-size: 14px;
+            background: none 0px 0px repeat scroll rgb(255, 255, 255);
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgb(204, 204, 204);
+            border-image: initial;
+            padding: 6px;
+        }
+        /*修改main1119.css中#container position:absolute样式，该样式的地图覆盖了左边栏*/
+        #container {
+            position: relative !important;
+        }
+            /*温度表显示在地图上*/
+            /*#container{position:relative}*/
+            #container #topChart {
+                width: 600px;
+                height: 360px;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                z-index: 10001;
+                background-color: white;
+                /*padding-right: 10px;*/
+            }
+        /*div显示table样式*/
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .table {
+            border-collapse: collapse;
+            border: 0px solid #ccc;
+            height: 100px;
+            overflow-y: scroll;
+        }
+
+        .table-caption {
+            display: table-caption;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        .table-row-group {
+            display: table-row-group;
+        }
+
+        .table-row {
+            display: table-row;
+            height: 28px;
+        }
+
+        .table-row-group .table-row:hover, .table-footer-group .table-row:hover {
+            background: #C86F70;
+        }
+
+        .table-cell1 {
+            display: table-cell;
+            padding: 0 5px;
+            border-bottom: 1px solid #ccc;
+            width: 15%;
+        }
+
+        .table-cell2 {
+            display: table-cell;
+            padding: 0 5px;
+            border-bottom: 1px solid #ccc;
+            width: 20%;
+        }
+
+        .table-cell3 {
+            display: table-cell;
+            padding: 0 5px;
+            border-bottom: 1px solid #ccc;
+            width: 50%;
+        }
+
+        .table-header-group {
+            display: table-header-group;
+            font-weight: bold;
+            color: lightgray!important;
+        }
+
+        .table-footer-group {
+            display: table-footer-group;
+        }
+        /**巡航器样式*/
+        #panel {
+            padding-left: 10px;
+            right: 0;
+            width: 250px;
+            z-index: 999;
+        }
+
+        #loadingTip {
+            z-index: 9999;
+            left: 0;
+            padding: 3px 10px;
+            background: red;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .route-item {
+            margin-bottom: 10px;
+        }
+
+            .route-item pre {
+                margin: 0;
+            }
+
+            .route-item h3 {
+                margin: 5px 0;
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+        .hide {
+            display: none;
+        }
+
+        .speedBox {
+            padding: 5px 0;
+        }
+
+        .speedRange {
+            vertical-align: middle;
+            margin: 0;
+            padding: 0;
+            width: 100px;
+        }
+
+        .markerInfo {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            white-space: nowrap;
+        }
+        /*右下方可拉动样式*/
+        #expander,#pressureExpander,#signalsexpander,#stopContentExpander {
+            width: 100%;
+            height: 5px;
+            background-color: lightgray!important;
+        }
+
+            #expander,#pressureExpander,#signalsexpander,#stopContentExpander:hover {
+                cursor: n-resize;
+            }
+ 
+        /*重写simpleMarker iconLabel样式*/
+        /*调整停车点上文字的样式*/
+        .amap-simple-marker-label {
+            font-size: 1em !important;
+            vertical-align: middle !important;
+            /*top: 20px !important;*/
+        }
+
+        /*-201805081152-*/
+        /*增加右键菜单样式[start]*/
+        .context_menu {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            box-shadow: 0 3px 14px rgba(0,0,100,0.6);
+            background: none repeat scroll 0 0 white;
+            border-radius: 2px;
+            padding: 1px;
+            text-align: left;
+            border: #c0c0c0 solid 1px;
+        }
+
+            .context_menu li {
+                cursor: pointer;
+                height: 35px;
+                line-height: 35px;
+                word-break: break-all;
+                padding: 0 10px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+                .context_menu li.split_line {
+                    border-bottom-color: rgb(204, 204, 204);
+                    border-bottom-style: solid;
+                    border-bottom-width: 1px;
+                }
+
+        .context_menu {
+            box-shadow: 0 3px 14px rgba(0,0,100,0.6);
+            background: none repeat scroll 0 0 white;
+            border-radius: 2px;
+            padding: 1px;
+            text-align: left;
+            border: #c0c0c0 solid 1px;
+        }
+
+            .context_menu:hover {
+                box-shadow: 0 3px 14px rgba(0,0,0,0.75);
+            }
+
+        .context_menu {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        ul.context_menu li {
+            cursor: pointer;
+            height: 35px;
+            line-height: 35px;
+            word-break: break-all;
+            padding: 0 10px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .context_menu li a {
+            text-decoration: none;
+            font-size: 13px;
+            margin: 0 5px;
+            color: #000;
+            padding: 5px 5px;
+        }
+
+        .context_menu li:hover {
+            background-color: #f3f3ee;
+        }
+        /*增加右键菜单样式[end]*/
+    </style>
+}
+
+<div class="row">
+    <table class="hundredPercentWidth">
+        <tbody class="hundredPercentWidth">
+            <tr class="hundredPercentWidth">
+                <!--左侧边栏-->
+                <td class="indexDefault" id="tdLeftInfo">
+                    <div id="tdLeftDivInfo" style="overflow: auto;">
+                        <!--搜索行-->
+                        <table class="hundredPercentHeight" style="height: 200px;">
+                            <tbody>
+                                <tr style="height: 10px;"></tr>
+                                <tr style="height: 40px;">
+                                    <td colspan="2" style="width: 80px; text-align: center;">@Html.LabelForRequired(m => m.VehicleName) :</td>
+                                    <td colspan="3" style="width: 120px;">
+                                        @Html.TextBoxFor(m => m.VehicleName, new { id = "txtVehicleName", placeholder = (UIText.PleaseInput + DisplayText.VehicleName), @class = "form-control", @style = "width:179px;" })
+                                        <input type="hidden" name="hidVehicleName" id="hidVehicleName" value="" />
+                                        <input type="hidden" name="hidVehicleID" id="hidVehicleID" value="" />
+                                        <input type="hidden" name="hidStrucName" id="hidStrucName" value="" />
+                                        <input type="hidden" name="hidVIN" id="hidVIN" value="" />
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px;">
+                                    <td colspan="2" style="width: 80px; text-align: center;">@Html.LabelForRequired(m => m.StartTime) :</td>
+                                    <td colspan="3" style="width: 120px;">
+                                        @Html.TextBoxFor(m => m.StartTime, new { id = "StartTime", @class = "form-control", placeholder = (UIText.PleaseInput + DisplayText.StartDate), @style = "width:179px;" })
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px;">
+                                    <td colspan="2" style="width: 80px; text-align: center;">@Html.LabelForRequired(m => m.EndTime) :</td>
+                                    <td colspan="3" style="width: 120px;">
+                                        @Html.TextBoxFor(m => m.EndTime, new { id = "EndTime", @class = "form-control", placeholder = (UIText.PleaseInput + DisplayText.ExpirationDate), @style = "width:179px;" })
+                                    </td>
+                                </tr>
+                                <tr style="height: 40px;">
+                                    <td colspan="2" style="width: 80px; text-align: center;">@DisplayText.IntervalTime :</td>
+                                    <td colspan="3" style="width: 120px;">
+                                        <div style="width: 170px;">
+                                            <div style="width: 90px; float: left;">
+                                                <select id="txtDate" class="form-control">
+                                                    <option value="15">15 @UIText.Second</option>
+                                                    <option value="60">1 @UIText.Minute</option>
+                                                    <option value="180" selected="selected">3 @UIText.Minute</option>
+                                                    <option value="600">10 @UIText.Minute</option>
+                                                    <option value="1800">30 @UIText.Minute</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>
+                                        <div style="float: left; margin-top: 5px;">
+                                            <div style="float: left;">
+                                                <input id="chkIsSpeeds" type="checkbox" />
+                                            </div>
+                                            <div style="float: left;">
+                                                <label for="chkIsSpeeds" style="width: 60px; float: left;">@DisplayText.FilterZeroSpeed</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td colspan="2">
+                                        <div style="float: left; margin-top: 5px;">
+                                            <div style="float: left;">
+                                                @if (AsiatekUIHelper.CheckPremission("ShowStopContentList", "Temp"))
+                                                {
+                                                    <input id="chkShowStopPoint" type="checkbox" checked="checked" />
+                                                }
+                                                else
+                                                {
+                                                    <input id="chkShowStopPoint" type="checkbox" />
+                                                }
+                                            </div>
+                                            <div style="float: left;">
+                                                <label for="chkShowStopPoint" style="width: 60px; float: left;">@DisplayText.StopPoint</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--状态按钮行-->
+                        <table class="hundredPercentHeight" style="height: 160px; width: 300px;">
+                            <tbody>
+                                <tr style="height: 10px;"></tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnSearch" style="height: 30px; margin-left: 10px;">
+                                            @UIText.Search<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnSearchLoding" style="height: 30px; margin-left: 10px; display: none;">
+                                            @UIText.SearchLoding<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnOutExcel" style="height: 30px; margin-left: 10px;">
+                                            @UIText.Export<br />
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnSpeedTrack" style="height: 30px; margin-left: 10px;">
+                                            @UIText.OverSpeedTrack<br />
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnShowAlarmInfo" style="height: 30px; margin-left: 10px; display: none;">
+                                            @UIText.ShowAlarmInfo<br />
+                                        </button>
+                                        <button class="btn btn-primary" id="btnHideAlarmInfo" style="height: 30px; margin-left: 10px; display: none;">
+                                            @UIText.HideAlarmInfo<br />
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnShowTemper" style="height: 30px; margin-left: 10px; display: none;">
+                                            @UIText.ShowTemperTable<br />
+                                        </button>
+                                        @*<button class="btn btn-primary" id="btnHideTemper" style="height: 30px; margin-left: 10px; display: none;">
+                                            @UIText.HideTemperTable<br />
+                                        </button>*@
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    @if (AsiatekUIHelper.CheckPremission("ShowAllSignal", "Temp"))
+                                    {   
+                                        <td>
+                                            <button class="btn btn-primary" id="btnShowSignalsList" style="height: 30px; margin-left: 10px; display: none;">
+                                                @UIText.ShowSignalsList<br />
+                                            </button>
+                                            <button class="btn btn-primary" id="btnSearchLoding1" style="height: 30px; margin-left: 10px; display: none;">
+                                                @UIText.SearchLoding<br />
+                                            </button>
+                                            <button class="btn btn-primary" id="btnHideSignalsList" style="height: 30px; margin-left: 10px; display: none;">
+                                                @UIText.HideSignalsList<br />
+                                            </button>
+                                        </td> 
+                                    }
+                                    @if (AsiatekUIHelper.CheckPremission("ShowPressureList", "Temp"))
+                                    {  
+                                        <td>
+                                            <button class="btn btn-primary" id="btnShowPressureList" style="height: 30px; margin-left: 10px; display: none;">
+                                                @UIText.ShowPressureTable<br />
+                                            </button>
+                                            <button class="btn btn-primary" id="btnHidePressureList" style="height: 30px; margin-left: 10px; display: none;">
+                                                @UIText.HidePressureTable<br />
+                                            </button>
+                                        </td>
+                                    }
+                                </tr>
+                                <tr>
+                                    @if (AsiatekUIHelper.CheckPremission("ShowStopContentList", "Temp"))
+                                    {  
+                                        <td>
+                                            <button class="btn btn-primary" id="btnShowStopContentList" style="height: 30px; margin-left: 10px; display: none;">
+                                                @UIText.ShowStopContentTable<br />
+                                            </button>
+                                            <button class="btn btn-primary" id="btnHideStopContentList" style="height: 30px; margin-left: 10px; display: none;">
+                                                @UIText.HideStopContentTable<br />
+                                            </button>
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--播放轨迹行、信息-->
+                        <table id="tbShowResult" class="hundredPercentHeight" style="margin-top: 5px; height: 330px; display: none;">
+                            <tbody>
+                                <tr style="height: 10px;"></tr>
+                                <tr style="height: 20px;">
+                                    <td>
+                                        <div id="showMileageInfoDIV" style="display:none;">里程：<label id="mileageLbl"></label> <br /> 地图里程：<label id="mapMileageLbl"></label></div>
+                                    </td>
+                                </tr>
+                                <!--高德地图自带的轨迹播放功能-->
+                                <tr style="height: 100px;">
+                                    <td colspan="6" style="vertical-align: top;">
+                                        <div style="width: 300px;">
+                                            <table style="width: 100%;">
+                                                <tr style="width: 100%; background-color: #333030;">
+                                                    <td colspan="6" style="text-align: center;">
+                                                        <h4>@DisplayText.TrackPlay</h4>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 10px;"></tr>
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <div id="panel">
+                                                            <div id="routes-container">
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!--图例-->@*          "#3366cc", "#109618", "#000000", "#ff0000", "#cc00ff"*@
+                                <tr style="height: 100px;">
+                                    <td colspan="6" style="vertical-align: top;">
+                                        <div style="width: 300px;">
+                                            <table style="width: 100%;">
+                                                <tr style="width: 100%; background-color: #333030;">
+                                                    <td colspan="6" style="text-align: center;">
+                                                        <h4>@DisplayText.Legend</h4>
+                                                    </td>
+                                                </tr>
+                                                <tr style="height: 10px;"></tr>
+                                                <tr>
+                                                    <td>
+                                                        @DisplayText.NormalSignal
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <div style="width: 150px; height: 5px; background-color: #109618; border: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @DisplayText.BlindArea@DisplayText.Signal
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <div style="width: 150px; height: 5px; background-color: #000000; border: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @DisplayText.Alarm@DisplayText.Signal
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <div style="width: 150px; height: 5px; background-color: #ff0000; border: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @DisplayText.Fixed (@DisplayText.BlindArea+@DisplayText.Alarm)  
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <div style="width: 150px; height: 5px; background-color: #cc00ff; border: none;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">
+                                                        @DisplayText.StartPosition
+                                                        <div style="display: inline-block; width: 13px; height: 13px; background-color: blue;"></div>
+                                                    </td>
+                                                    <td colspan="3">
+                                                        @DisplayText.EndPosition
+                                                        <div style="display: inline-block; width: 13px; height: 13px; background-color: red;"></div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <!--收缩栏-->
+                <td onmouseover="style.backgroundColor='#C86F70'" onmouseout="style.backgroundColor='#0198fe'" style="background-color: #0198fe;" id="tdToggleLeftInfo">
+                    <div style="width: 6px;"></div>
+                </td>
+                <!--右侧内容：包括地图-->
+                <td id="tdRightContent" class="hundredPercentWidth" style="vertical-align: top;">
+                    <table class="hundredPercentWidth hundredPercentHeight">
+                        <tbody>
+                            <!--地图-->
+                            <tr class="hundredPercentHeight">
+                                <td style="background-color: darkgray;">
+                                    <div id="btnGroup">
+                                        <img id="btnGroupCircleImg" name="btnGroupImg" class="mapDialogImg electricFence" onclick="javascript: mouseCircle()" onmouseover="this.title='@UIText.Circle'" src="~/Content/images/realtimeDialog/Circle.png" style="display:none;"/>
+                                        <img id="btnGroupCircleSelImg" name="btnGroupSelImg" class="mapDialogImg electricFence" onclick="javascript: mouseCircle()" onmouseover="this.title='@UIText.Circle'" src="~/Content/images/realtimeDialog/Circleselected.png" style="display:none;" />
+                                        <img id="btnGroupRectImg" name="btnGroupImg" class="mapDialogImg electricFence" onclick="javascript: mouseRect()" onmouseover="this.title='@UIText.Rectangle'" src="~/Content/images/realtimeDialog/Rect.png" style="display:none;"/>
+                                        <img id="btnGroupRectSelImg" name="btnGroupSelImg" class="mapDialogImg electricFence" onclick="javascript: mouseRect()" onmouseover="this.title='@UIText.Rectangle'" src="~/Content/images/realtimeDialog/Rectselected.png" style="display:none;" />
+                                        <img id="btnGroupPolygonImg" name="btnGroupImg" class="mapDialogImg electricFence" onclick="javascript: mousePolygon()" onmouseover="this.title='@UIText.Polygon'" src="~/Content/images/realtimeDialog/Polygon.png" style="display:none;" />
+                                        <img id="btnGroupPolygonSelImg" name="btnGroupSelImg" class="mapDialogImg electricFence" onclick="javascript: mousePolygon()" onmouseover="this.title='@UIText.Polygon'" src="~/Content/images/realtimeDialog/Polygonselected.png" style="display:none;" />
+
+                                        <img id="btnGroupMarkerImg" name="btnGroupImg" class="mapDialogImg" onclick="javascript: ShowEFMarker()" onmouseover="this.title='@UIText.ShowEFMarker'" src="~/Content/images/realtimeDialog/ShowMarker.png" />
+                                        <img id="btnGroupMarkerSelImg" name="btnGroupSelImg" class="mapDialogImg" onclick="javascript: ShowEFMarker()" onmouseover="this.title='@UIText.ShowEFMarker'" src="~/Content/images/realtimeDialog/ShowMarkerselected.png" style="display:none;" />
+                                    </div>
+                                    <div id="btnGroupBottom">
+                                    </div>
+                                    <div id="container">
+                                        @*添加两个div是为了控制左侧边距*@
+                                        <div id="topChart" style="display: none;" title="@DisplayText.TemperTable">
+                                            <div id="dsMoveDiv" style="width: 2px; height: 25px; border: 1px black solid; position: absolute; margin-top: 4%; z-index: 9999; display: none;"></div>
+                                            <div id="DoorSensorChart" style="height: 60px; width: 720px; margin-top: 5px;"></div>
+                                            <div id="TemperatureChart" style="height: 340px; width: 720px;"></div>
+                                        </div>
+                                    </div>
+                                    <!--输入地址信息后搜索-->
+                                    <div id="searchAddressTop">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <label>@UIText.Please_Enter_The_Address_Information:</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input id="tipinput" style="width: 185px" />
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--地图-->
+                            <!--下方收缩栏-->
+                            <tr onmouseover="style.backgroundColor='#C86F70'" onmouseout="style.backgroundColor='#0198fe'" style="height: 6px; font-size: xx-small; background-color: #0198fe; text-align: center;">
+                                <td id="tdToggleBottomInfo"></td>
+                                @* <td id="tdToggleBottomSignalsInfo"></td>*@
+                            </tr>
+                            <!--下方收缩栏-->
+                            <!--下方内容显示-->
+                            <tr class="indexDefault">
+                                @* 显示报警信息 *@
+                                <td id="tdBottomInfo">
+                                    <div id="expander"></div>
+                                    <div id="divBottomInfo" class="table">
+                                        <div id="tbCheckedSignals" class="table-header-group">
+                                            <ul class="table-row">
+                                                <li class="table-cell2">@DisplayText.Time</li>
+                                                <li class="table-cell1">@DisplayText.Speed ( km/h )</li>
+                                                <li class="table-cell1">@DisplayText.Mileage</li>
+                                                <li class="table-cell1">@DisplayText.ACCState</li>
+                                                <li class="table-cell1">@DisplayText.Temperature ( ℃ )</li>
+                                                <li class="table-cell2">@DisplayText.ExceptionInfo</li>
+                                                @* 标题多设置一个li，divData添加的内容会填满整行 *@
+                                                <li class="table-cell1"></li>
+                                            </ul>
+                                        </div>
+                                        <div id="divData" class="table-row-group">
+                                        </div>
+                                    </div>
+                                </td>
+                                @* 显示信号列表 *@
+                                <td id="tdBottomSignalsInfo">
+                                    <div id="signalsexpander"></div>
+                                    <div id="divBottomSignalsInfo" class="table">
+                                        <div id="tbCheckedSignalsList" class="table-header-group">
+                                            <ul class="table-row">
+                                                <li class="table-cell2">@DisplayText.Time</li>
+                                                <li class="table-cell1">@DisplayText.Speed ( km/h )</li>
+                                                <li class="table-cell1">@DisplayText.Mileage</li>
+                                                <li class="table-cell1">@DisplayText.ACCState</li>
+                                                <li class="table-cell1">@DisplayText.Temperature ( ℃ )</li>
+                                                <li class="table-cell2">@DisplayText.Address</li>
+                                                @* 标题多设置一个li，divData1添加的内容会填满整行 *@
+                                                <li class="table-cell1"></li>
+                                            </ul>
+                                        </div>
+                                        <div id="divData1" class="table-row-group">
+                                        </div>
+                                    </div>
+                                </td>
+                                @* 显示卸料列表 *@
+                                <td id="tdBottomPressureInfo">
+                                    <div id="pressureExpander"></div>
+                                    <div id="divBottomPressureInfo" class="table">
+                                        <div id="tbCheckedPressureList" class="table-header-group">
+                                            <ul class="table-row">
+                                                <li class="table-cell2">@DisplayText.Time</li>
+                                                <li class="table-cell2">@DisplayText.Speed ( km/h )</li>
+                                                <li class="table-cell2">@DisplayText.Mileage</li>
+                                                <li class="table-cell2">@DisplayText.ACCState</li>
+                                                <li class="table-cell2"></li>
+                                                @* 标题多设置一个li，divPressureData添加的内容会填满整行 *@
+                                                <li class="table-cell1"></li>
+                                            </ul>
+                                        </div>
+                                        <div id="divPressureData" class="table-row-group">
+                                        </div>
+                                    </div>
+                                </td>
+                                 @* 显示停车点列表 *@
+                                <td id="tdBottomStopContentInfo">
+                                    <div id="stopContentExpander"></div>
+                                    <div id="divBottomStopContentInfo" class="table">
+                                        <div id="tbCheckedStopContentList" class="table-header-group">
+                                            <ul class="table-row">
+                                                <li class="table-cell3">@DisplayText.StartStopVehicleTime</li>
+                                                <li class="table-cell3">@DisplayText.StopVehicleDuration</li>
+                                                @* 标题多设置一个li，divStopContentData添加的内容会填满整行 *@
+                                                <li class="table-cell1"></li>
+                                            </ul>
+                                        </div>
+                                        <div id="divStopContentData" class="table-row-group">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--下方内容显示-->
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<input type="hidden" name="FenceTypeInfo" id="FenceTypeInfo" value="0" />
+<div id="hiddenMenu" style="display:none">
+    <div>
+        <ul class='context_menu'>
+            @if (AsiatekUIHelper.CheckPremission("AddElectricFence", "ElectricFence", "Admin"))
+            {
+                <li class='split_line' onclick='menu.selectMenu(0)'>新增电子围栏</li>
+            }
+            @if (AsiatekUIHelper.CheckPremission("NGJH_AddElectricFence", "ElectricFence", "Admin"))
+            {
+                <li class='split_line' onclick='menu.selectMenu(1)'>新增南钢嘉华电子围栏</li>
+            }
+            @if (AsiatekUIHelper.CheckPremission("AddElectricFence", "ElectricFence", "Admin") || AsiatekUIHelper.CheckPremission("NGJH_AddElectricFence", "ElectricFence", "Admin"))
+            {
+                <li onclick='menu.selectMenu(2)'>确定绘制</li>
+            }
+        </ul>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=865e5946e363e3889a01b89f8ba5d069&plugin=AMap.Autocomplete,AMap.PlaceSearch,AMap.MouseTool"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <!-- UI组件库 1.0 -->
+    <script type="text/javascript" src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <link href="~/Content/jqueryPlay/barstyle.css" rel="stylesheet" />
+    @*<script src="~/Scripts/jqueryPlay/jquery-PlayBar.min.js"></script>*@
+    <script src="~/Scripts/jqueryPlay/jquery-PlayBar2.min.js"></script>
+    @* 自定义js文件 *@
+    <script src="~/Scripts/gaodeMap/map.js?v=1.2"></script>
+    <script src="~/Scripts/pageMethod/pathSimplifier.js?v=1.1"></script>
+    <script src="~/Scripts/pageMethod/dateRelate.js?v=1.0"></script>
+    <script src="~/Scripts/pageMethod/historicalRoutePage.js?v=1.2"></script>
+    @*echarts引用*@
+    <script src="~/Scripts/echarts/echarts.js"></script>
+    <script src="~/Scripts/echarts/echartsSetting.js?v=1.0"></script>
+
+    <script>
+        var map;
+        var signalList; //轨迹列表
+        var marker; //点的marker
+        var searchResult;   //记录查询出来的所有结果
+        var exportType = 0;   //导出类型 1-导出查询结果；2-导出异常结果；3-导出超速轨迹。
+        var showTopChart = false; //温度曲线对话框是否打开
+        var stopPoints; //停车点
+        var stopContent;//停车信息
+        var markerList;//停车点地图应用
+        var showEFMarkerBtnFlag = 0;    //标识查询电子围栏按钮
+        var markList = new Object();//存储Mark对象(map.js中new Mark(....)) 对应vid
+        var mousetool;     //鼠标工具，用于在地图上绘制图形
+        //标识地图上圆形区域查车按钮 0关闭 1开启
+        var circleBtnFlag = 0;
+        //标识地图上矩形区域查车按钮 0关闭 1开启
+        var rectBtnFlag = 0;
+        //标识地图上圆形区域查车按钮 0关闭 1开启
+        var polygonBtnFlag = 0;
+        var mousetoolRect//矩形编辑器
+        var mousetoolCircle//圆形编辑器
+        var mousetoolPolygon//多边形编辑器
+        var electricFenceType = 0;//区分普通电子围栏还是南钢电子围栏
+        var hasDrawFlag = 0;
+        var IsAddExpand = false;
+
+        var $hidVehicleName = $("#hidVehicleName");
+        var $hidVehicleID = $("#hidVehicleID");
+        var $hidVIN = $("#hidVIN");
+        var $hidStrucName = $("#hidStrucName");
+        var $txtVehicleName = $("#txtVehicleName");
+        var $tbShowResult = $("#tbShowResult");      //左侧轨迹播放信息
+        var $topChart = $("#topChart");        //温度曲线表div
+
+        var $btnShowTemper = $("#btnShowTemper");//显示温度表按钮
+        var $btnShowAlarmInfo = $("#btnShowAlarmInfo");//显示警报信息按钮
+        var $btnHideAlarmInfo = $("#btnHideAlarmInfo");//隐藏警报信息表按钮
+        var $btnShowSignalsList = $("#btnShowSignalsList");//显示信号列表按钮
+        var $btnHideSignalsList = $("#btnHideSignalsList");//隐藏信号列表按钮
+        var $btnShowPressureList = $("#btnShowPressureList");//显示气压卸料列表按钮
+        var $btnHidePressureList = $("#btnHidePressureList");//隐藏气压卸料列表按钮
+        var $btnShowStopContentList = $("#btnShowStopContentList");//显示停车点列表
+        var $btnHideStopContentList = $("#btnHideStopContentList");//隐藏停车点列表
+
+        var $btnSearchLoding1 = $("#btnSearchLoding1");
+        var $tdLeftInfo = $("#tdLeftInfo");//左侧信息单元格
+        var $tdToggleLeftInfo = $("#tdToggleLeftInfo");//左侧收缩栏单元格
+        var $tdToggleBottomInfo = $("#tdToggleBottomInfo");//下方收缩栏
+        var $tdBottomInfo = $("#tdBottomInfo");//下方报警信息
+        var $tdBottomSignalsInfo = $("#tdBottomSignalsInfo");//下方信号列表信息
+        var $tdBottomPressureInfo = $("#tdBottomPressureInfo");   //下方气压卸料列表信息
+        var $tdBottomStopContentInfo = $("#tdBottomStopContentInfo"); //下方停车点列表信息
+
+        var IsAlarmShowOrSignalsList = false;       //显示信号列表
+        var IsShowPressureList = false;     //显示气压卸料信号列表
+        var IsShowStopContentList = false;      //显示停车点列表
+        var ln = 10;
+        var listhight = 100;
+        var buildContentTextArray = ['@DisplayText.TurnOff', '@DisplayText.TurnOn'];      //右下方显示列表时用到传给js的参数
+
+        //定义map对象
+        var map = initMap('container', true, 12, null);
+        //添加标尺、鹰眼、比例尺
+        addControl(true, true, false, true, false, map);
+        //图层切换控件
+        showLayerSwitcher(true, map);
+
+        $(function () {
+            initVehicleNameAutoComplete();   //左侧车辆树
+            tdBottomHide();      //右下方展示信息设置隐藏
+            divBottomMousemove();      //右下方divBottomInfo拖动功能
+
+            var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+            var nScrollTop = 0;  //滚动到的当前位置
+            //下方的信号列表滑动加载
+            $("#divBottomSignalsInfo").scroll(function () {
+                nScrollHight = $(this)[0].scrollHeight;
+                nScrollTop = $(this)[0].scrollTop;
+                //已经加载的信号信息数量
+                var count = $("#divData1 ul").length;
+                if (nScrollTop + listhight >= nScrollHight) {
+                    //判断最后加载的数据条数
+                    if (count - 1 <= searchResult.length && ln + count - 1 >= searchResult.length) {
+                        buildSearchResultSignalsContentWithDiv(count, searchResult.length, searchResult, buildContentTextArray);
+                    }
+                    else {
+                        buildSearchResultSignalsContentWithDiv(count, ln + count, searchResult, buildContentTextArray);
+                    }
+                }
+            });
+        });
+
+        window.onload = function () { setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList); };
+        window.onresize = function () { setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList); };
+        //调整页面窗口的大小，引用historicalRoutePage.js中方法
+        setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+
+        //左侧车辆树加载
+        function initVehicleNameAutoComplete() {
+            $txtVehicleName.autocomplete({
+                delay: 500,
+                minLength: 1,
+                select: function (event, ui) {
+                    $hidVehicleName.val(ui.item.value);
+                    $hidVehicleID.val(ui.item.VID);
+                    $hidStrucName.val(ui.item.strucName);
+                    $hidVIN.val(ui.item.VIN);
+                },
+                source: function (request, response) {
+                    // 提取到公共控制器
+                    $.get('@Url.Content("~/Common/GetUserVehiclesByVehicleName")', { vehicleName: request.term }, function (data, status, xhr) {
+                        if ($.handleAjaxError(data)) {
+                            return;
+                        }
+                        response(data);
+                    });
+                }
+            });
+            }
+            //车辆搜索文本框的值发生改变就清空值
+            $txtVehicleName.bind("input propertychange", function () {
+                $hidVehicleName.val('');
+            })
+
+            //右下方div可拖动调整高度的功能，报警列表、信号列表、卸料列表都作了相应的设置
+            function divBottomMousemove() {
+                var src_posi_Y = 0, dest_posi_Y = 0, move_Y = 0, is_mouse_down = false, destHeight = 100;
+                $("#expander,#pressureExpander,#stopContentExpander").mousedown(function (e) {
+                    src_posi_Y = e.pageY;
+                    is_mouse_down = true;
+                });
+                $("#signalsexpander").mousedown(function (e) {
+                    src_posi_Y = e.pageY;
+                    is_mouse_down = true;
+                    listhight = 0;
+                    listhight = src_posi_Y;
+                });
+                $(document).bind("click mouseup", function (e) {
+                    if (is_mouse_down) {
+                        is_mouse_down = false;
+                    }
+                }).mousemove(function (e) {
+                    dest_posi_Y = e.pageY;
+                    move_Y = src_posi_Y - dest_posi_Y;
+                    src_posi_Y = dest_posi_Y;
+
+                    if (IsAlarmShowOrSignalsList == true) {
+                        destHeight = $("#divBottomSignalsInfo").height() + move_Y;
+                    } else if (IsShowPressureList == true) {
+                        destHeight = $("#divBottomPressureInfo").height() + move_Y;
+                    } else if (IsShowStopContentList == true) {
+                        destHeight = $("#divBottomStopContentInfo").height() + move_Y;
+                    } else {
+                        destHeight = $("#divBottomInfo").height() + move_Y;
+                    }
+                    if (is_mouse_down) {
+                        if (IsAlarmShowOrSignalsList == true) {            //右下方显示的是信号列表
+                            $("#divBottomSignalsInfo").css("height", destHeight > 100 ? destHeight : 100);       //高度等于100时，不可以再向下拖动（右下方最小高度为100px）
+                            $("#divBottomSignalsInfo").css("height", destHeight > 650 ? 650 : destHeight);
+                            listhight = $("#divBottomSignalsInfo").height();
+                            if (listhight > 470 && listhight < 650 && IsAddExpand == true) { setthings(); }
+                        } else if (IsShowPressureList == true) {
+                            $("#divBottomPressureInfo").css("height", destHeight > 100 ? destHeight : 100);       //高度等于100时，不可以再向下拖动（右下方最小高度为100px）
+                            $("#divBottomPressureInfo").css("height", destHeight > 650 ? 650 : destHeight);
+                        } else if (IsShowStopContentList == true) {
+                            $("#divBottomStopContentInfo").css("height", destHeight > 100 ? destHeight : 100);       //高度等于100时，不可以再向下拖动（右下方最小高度为100px）
+                            $("#divBottomStopContentInfo").css("height", destHeight > 650 ? 650 : destHeight);
+                        } else {
+                            $("#divBottomInfo").css("height", destHeight > 100 ? destHeight : 100);       //高度等于100时，不可以再向下拖动（右下方最小高度为100px）
+                            $("#divBottomInfo").css("height", destHeight > 650 ? 650 : destHeight);
+                        }
+                        setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);                 //调整页面布局
+                    }
+                });
+            }
+
+            function setthings() {
+                var count = $("#divData1 ul").length;
+                //console.log("数量_"+count);
+                if (count - 1 <= searchResult.length && ln + count - 1 >= searchResult.length) {
+                    buildSearchResultSignalsContentWithDiv(count, searchResult.length, searchResult, buildContentTextArray);
+                }
+                else {
+                    buildSearchResultSignalsContentWithDiv(count, ln + count, searchResult, buildContentTextArray);
+                }
+            }
+
+            //清除右下方数据，窗口隐藏，整体窗口布局重新设置
+            function tdBottomHide() {
+                //清除右下方数据
+                $("#divData").empty();
+                $("#divData1").empty();
+                $("#divPressureData").empty();
+                $("#divStopContentData").empty();
+                //右下侧信息隐藏
+                $tdBottomInfo.hide();
+                $tdBottomSignalsInfo.hide();
+                $tdBottomPressureInfo.hide();
+                $tdBottomStopContentInfo.hide();
+                setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            }
+
+            //点击收缩栏事件
+            $tdToggleLeftInfo.on("click", function () {
+                $tdLeftInfo.toggle();
+                setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            });
+            $tdToggleBottomInfo.on("click", function () {
+                if (IsAlarmShowOrSignalsList == true) {
+                    $tdBottomSignalsInfo.toggle();
+                } else if (IsShowPressureList == true) {
+                    $tdBottomPressureInfo.toggle();
+                } else if (IsShowStopContentList == true) {
+                    $tdBottomStopContentInfo.toggle();
+                } else {
+                    $tdBottomInfo.toggle();
+                }
+                setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            });
+
+            //选中过滤零速度，则不可以使用显示停车点功能
+            $("#chkIsSpeeds").change(function () {
+                if ($('#chkIsSpeeds').is(':checked')) {
+                    chkShowStopPoint.disabled = true;
+                }
+                else {
+                    chkShowStopPoint.disabled = false;
+                }
+            });
+
+            //时间控件
+            $("#StartTime,#EndTime").datetimepicker({
+                changeMonth: true,
+                changeYear: true,
+                timeText: '@UIText.Time',
+                hourText: '@UIText.Hour',
+                minuteText: '@UIText.Minute',
+                currentText: '@UIText.Now',
+                closeText: '@UIText.Complete',
+                showSecond: true, //显示秒  
+                timeFormat: 'HH:mm:ss' //格式化时间  
+            });
+            var d = new Date();
+            $("#StartTime").datetimepicker('setDate', new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7));
+            $("#EndTime").datetimepicker('setDate', new Date());
+
+            //输入地址信息提示
+            var autoOptions = {
+                input: "tipinput"
+            };
+            var auto = new AMap.Autocomplete(autoOptions);
+            var placeSearch = new AMap.PlaceSearch({
+                map: map
+            });  //构造地点查询类
+            AMap.event.addListener(auto, "select", select);//注册监听，当选中某条记录时会触发
+            function select(e) {
+                placeSearch.setCity(e.poi.adcode);
+                placeSearch.search(e.poi.name);  //关键字查询查询
+            }
+
+
+        // 巡航器相关initRouteItem方法中用到
+        //按照顺序将文字引用放到数组中，不考虑重复元素，这样在后面显示的时候可以直接按照数组的下标顺序显示
+        var routeItemTextArray = ['@DisplayText.NormalSignal', '@DisplayText.BlindArea', '@DisplayText.Alarm', '@DisplayText.FixedArea', '@DisplayText.Point',
+    '@DisplayText.Number', '@DisplayText.Speed'];
+        //showSignalsByPathSimplifier方法中用到
+        var pathSimplifierTextArray = ['@DisplayText.ACCState', '@DisplayText.TurnOff', '@DisplayText.ACCState', '@DisplayText.TurnOn', '@DisplayText.Temperature',
+            '@DisplayText.Speed', '@DisplayText.Time', '@DisplayText.Mileage', '@DisplayText.ExceptionInfo', '@DisplayText.NormalSignal', '@DisplayText.BlindArea',
+            '@DisplayText.Alarm', '@DisplayText.FixedArea', '@DataAnnotations.DoNotSupportCanvas', '@DisplayText.Point', '@DisplayText.Point', '@DisplayText.Number',
+            '@DisplayText.NormalSignal', '@DisplayText.BlindArea', '@DisplayText.Alarm', '@DisplayText.FixedArea'];
+        //巡航器相关的变量定义和功能设置，其中有引用资源文件，此处作为参数传到js文件中
+        var navigBtnsConf = [{
+            name: '@DisplayText.StartNavg',
+            action: 'start',
+            enableExp: 'navgStatus === "stop" || navgStatus === "pause"'
+        }, {
+            name: '@DisplayText.Pause',
+            action: 'pause',
+            enableExp: 'navgStatus === "moving"'
+        }, {
+            name: '@DisplayText.Resume',
+            action: 'resume',
+            enableExp: 'navgStatus === "pause"'
+        }];
+        //查询结果有数据，处理数据
+        function MapInfo(value) {
+            $("#panel").css("display", "block");
+            $("#outer-box").css("padding-right", "300px");
+            signalList = value;
+            showSignalsByPathSimplifier(value, routeItemTextArray, pathSimplifierTextArray, navigBtnsConf, map);      //巡航器设置
+            showStopPoints(value);    //显示停车点
+        }
+
+
+//加载停车点图标，显示停车点、停车时长信息
+function showStopPoints(value) {
+    stopPoints = new Array();
+    stopContent = new Array();
+    for (var i = 0; i < value.length; i++) {
+        if (value[i].IsStopPoint == true) {
+            //stopPoints.push(new AMap.LngLat(value[i].Longitude, value[i].Latitude));
+            stopPoints.push([value[i].Longitude, value[i].Latitude]);
+            stopContent.push(value[i].StopContent);
+        }
+    }
+    //在地图上显示
+    AMapUI.loadUI(['misc/MarkerList', 'overlay/SimpleMarker', 'overlay/SimpleInfoWindow'], function (MarkerList, SimpleMarker, SimpleInfoWindow) {
+        var defaultIconStyle = 'red', //默认的图标样式
+        hoverIconStyle = 'blue', //鼠标hover时的样式
+        selectedIconStyle = 'blue'; //选中时的图标样式
+
+        markerList = new MarkerList({
+            //关联的map对象
+            map: map,
+            //返回数据项的Id
+            getDataId: function (dataItem, index) {
+                //index表示该数据项在数组中的索引位置，从0开始，如果确实没有id，可以返回index代替
+                return dataItem.id;
+            },
+            //返回数据项的位置信息，需要是AMap.LngLat实例，或者是经纬度数组，比如[116.79, 39.90]
+            getPosition: function (dataItem) {
+                return dataItem.position;
+            },
+            //返回数据项对应的Marker
+            getMarker: function (dataItem, context, recycledMarker) {
+                //存在可回收利用的marker
+                if (recycledMarker) {
+                    //直接更新内容返回
+                    recycledMarker.setIconLabel('P');
+                    recycledMarker.setIconStyle(dataItem.iconStyle);
+                    return recycledMarker;
+                }
+                //返回一个新的Marker
+                return new SimpleMarker({
+                    iconTheme: 'numv1',
+                    iconStyle: 'red',
+                    //图标文字
+                    iconLabel: {
+                        //P
+                        innerHTML: 'P',
+                        style: {
+                            //颜色, #333, red等等，这里仅作示例，取iconStyle中首尾相对的颜色
+                            color: 'white'
+                        }
+                    },
+                    //显示定位点
+                    showPositionPoint: true
+                });
+            },
+            //返回数据项对应的infoWindow，其中content内部要换行显示，在获取到content后，将其中的'-'全部替换为换行符可实现换行
+            //为了实现换行功能，后台获取的dataItem.infoWinContent数据格式在需要换行的地方添加了'-'
+            getInfoWindow: function (dataItem, context, recycledInfoWindow) {
+                var tpl = '<p style="width:170px;"><%- dataItem.infoWinContent %></p>';
+                //MarkerList.utils.template支持underscore语法的模板
+                var content = MarkerList.utils.template(tpl, {
+                    dataItem: dataItem,
+                    dataIndex: context.index
+                });
+                //第二个参数中的 g 表示全部匹配
+                //换行符在生成content后添加才有换行效果
+                var _regS = new RegExp('-', "g");
+                content = content.replace(_regS, "</br>");
+                if (recycledInfoWindow) {
+                    //存在可回收利用的infoWindow, 直接更新内容返回
+                    recycledInfoWindow.setContent(content);
+                    return recycledInfoWindow;
+                }
+                //返回一个新的InfoWindow
+                return new AMap.InfoWindow({
+                    offset: new AMap.Pixel(0, -23),
+                    content: content
+                });
+            },
+            //marker上监听的事件
+            markerEvents: ['click', 'mouseover', 'mouseout'],
+            //makeSelectedEvents:false,
+            selectedClassNames: 'selected',
+            autoSetFitView: true
+        });
+
+        markerList.on('selectedChanged', function (event, info) {
+            if (info.selected) {
+                if (info.selected.marker) {
+                    //更新为选中样式
+                    info.selected.marker.setIconStyle(selectedIconStyle);
+                }
+            }
+            if (info.unSelected && info.unSelected.marker) {
+                //更新为默认样式
+                info.unSelected.marker.setIconStyle(defaultIconStyle);
+            }
+        });
+        markerList.on('markerMouseover', function (event, record) {
+            if (record && record.marker) {
+                //非选中的id
+                if (!this.isSelectedDataId(record.id)) {
+                    //设置为hover样式
+                    record.marker.setIconStyle(hoverIconStyle);
+                }
+            }
+        });
+        markerList.on('markerMouseout', function (event, record) {
+            if (record && record.marker) {
+                if (!this.isSelectedDataId(record.id)) {
+                    //恢复默认样式
+                    record.marker.setIconStyle(defaultIconStyle);
+                }
+            }
+        });
+
+        //构建一个数据项数组，数据项本身没有格式要求，但需要支持下述的getDataId和getPosition
+        var data = new Array();
+        for (var i = 0; i < stopPoints.length; i++) {
+            data.push({ position: stopPoints[i], iconStyle: 'red', infoWinContent: stopContent[i] });
+        }
+        //展示该数据
+        markerList.render(data);
+    });
+}
+
+//清除marker，右下方列表显示信息时候，点击不同行显示车辆图表前先判断marker，有数据先清除再展示
+//marker是在Index页面定义的变量，作为参数传递到js文件中无法实时更改返回marker的值，所以单独作为函数在这边判断
+function removeMarker() {
+    if (marker != null) {
+        marker.setMap(null);
+    }
+}
+
+//加载右下方信息列表，点击行信息时，在地图上显示车辆图标
+// marker是在Index页面定义的变量，作为参数传递到js文件中无法实时更改返回marker的值，所以暂时放在这边
+function MapMarkerMove(lng, lat, angle, speed, time, mileage, value) {
+    //汽车行驶图标
+    var icons = funGetVehicleImage(angle);
+    var latLng = new AMap.LngLat(lng, lat);
+    marker = new AMap.Marker({
+        position: latLng,
+        map: map,
+        icon: icons,
+        offset: new AMap.Pixel(-10, -10),
+        autoRotation: true,
+        title: ""
+    });
+
+    //构建信息窗体中显示的内容
+    var info = [];
+    info.push("<div>");
+    info.push("@DisplayText.Speed:" + speed + "");
+    info.push("@DisplayText.Time:" + formatNumToDate(time) + "");
+    info.push("@DisplayText.Mileage:" + mileage + "");
+    if (value.ACCState == false) {
+        info.push("@DisplayText.ACCState:@DisplayText.TurnOff ");
+            }
+            else {
+                info.push("@DisplayText.ACCState:@DisplayText.TurnOn ");
+            }
+            if (value.Temperature != null) {
+                info.push("@DisplayText.Temperature ( ℃ ):" + value.Temperature + "");
+            }
+            info.push("@DisplayText.ExceptionInfo:" + value.ExName + "</div>");
+
+    //自定义信息窗体
+    var infoWindow = new AMap.InfoWindow({
+        content: info.join("<br/>"),  //使用默认信息窗体框样式，显示信息内容
+        offset: new AMap.Pixel(1, -10)
+    });
+    //鼠标点击marker弹出自定义的信息窗体
+    AMap.event.addListener(marker, 'click', function () {
+        infoWindow.open(map, marker.getPosition());
+    });
+
+    var nowBounds = map.getBounds();
+    var lat_m = nowBounds.getNorthEast().Latitude;
+    var lng_m = nowBounds.getNorthEast().Longitude;
+    var lat_s = nowBounds.getSouthWest().Latitude;
+    var lng_s = nowBounds.getSouthWest().Longitude;
+    //车辆超出地图屏幕，自动移动车辆到中心点
+    if (parseFloat(lng_m) < parseFloat(lng) || parseFloat(lng) < parseFloat(lng_s)
+                || parseFloat(lat_m) < parseFloat(lat) || parseFloat(lat) < parseFloat(lat_s)) {
+        //map.setCenter(latLng, map.getZoom()); //按照所选层级播放
+        map.setFitView();
+    }
+    return marker;
+}
+
+        //点击地图右上角图片按钮，加载权限范围内的电子围栏；具体电子围栏的绘制和图标样式加载方法createElectricFence在js文件中定义
+        function ShowEFMarker() {
+            if (IsShowStopContentList == false) {      //如果是显示停车点列表，就不要清空地图，在原有显示历史轨迹基础上显示用户权限下的地标信息
+                map.clearMap();         //清理地图
+            }
+            removeBtnGroupImgsClass();
+            showElectricFence();            //显示右上角所有图标
+
+            if (showEFMarkerBtnFlag == 0) {
+                document.getElementById("btnGroupMarkerSelImg").style.display = "";
+                document.getElementById("btnGroupMarkerImg").style.display = "none";
+                showEFMarkerBtnFlag = 1;
+            }
+            else {
+                document.getElementById("btnGroupMarkerSelImg").style.display = "none";
+                document.getElementById("btnGroupMarkerImg").style.display = "";
+                showEFMarkerBtnFlag = 0;
+            }
+
+            if (showEFMarkerBtnFlag == 1) {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Content("~/Home/GetEFMarkersInfo")",
+                    success: function (result) {
+                        if ($.handleAjaxError(result)) { return; }
+                        if (result.length > 0) {
+                            for (var i = 0; i < result.length; i++) {
+                                createElectricFence(result[i], map);       //引用historicalRoutePage.js中方法
+                            }
+                        }
+                        else {
+                            var _message = '@DataAnnotations.UserReturnNoData';
+                            $.showPromptDialog(_message, null, null, null, false);
+                        }
+                    }
+                });
+            }
+        }
+
+
+        function buildStopContentWithDiv(result, i) {
+            //添加ul,li,存放生成数据  
+            $("#divStopContentData").append(" <ul id='ul" + i + "' class='table-row' style='cursor:pointer;' onclick='changeActiveRow(this)'> </ul>");
+            $("#ul" + i + "").append(" <li class='table-cell3'>" + result.StartStopVehicleTime + " </li>");
+            $("#ul" + i + "").append(" <li class='table-cell3'>" + result.StopVehicleDuration + " </li>");
+            $("#ul" + i + "").append(" <li class='table-cell1'> </li>");
+            //行点中显示在地图上
+            $("#ul" + i + "").click(function () {
+                //Index页面定义的判断清空marker方法
+                removeMarker();
+                var lng = result.Longitude;
+                var lat = result.Latitude;
+                var angle = result.Angle;
+                MapMarkerMove(lng, lat, angle, result.Speed, result.Time, result.Mileage, result);
+                map.setZoomAndCenter(14, new AMap.LngLat(lng, lat));                   //点击右下方停车点列表时，放大地图到当前图标
+            });
+        }
+
+
+
+        //显示温度图表
+        function showTempDatas(datas) {
+            var isShowChart = false;
+            // 判断是否有温度数据
+            for (var i = 0; i < datas.length; i++) {
+                if (datas[i].Temperature != null) { isShowChart = true; }
+            }
+            if (isShowChart) {
+                // 基于准备好的dom，初始化echarts实例
+                // $("#TemperatureChart")[0]是DOM对象
+                var tpChart = echarts.init($("#TemperatureChart")[0]);
+                //国际化label用传参方式带过去
+                var intelLabel = ["@DisplayText.Speed"];
+                // 指定图表的配置项和数据，在echartsSetting.js中数据处理、图表配置
+                var option = $.TpOptionLine(datas, intelLabel);
+                // 使用刚指定的配置项和数据显示图表。
+                tpChart.setOption(option);
+                // 门磁图表
+                var dsChart = echarts.init($("#DoorSensorChart")[0]);
+                var intelLabel2 = ["@DisplayText.Close", "@DisplayText.Open"];
+                // 使用指定的配置项和数据显示图表。
+                dsChart.setOption($.DsOptionLine(datas, intelLabel2));
+                //联动配置
+                echarts.connect([tpChart, dsChart]);
+            } else {
+                $btnShowTemper.show();
+                if (showTopChart == true) {
+                    $("#topChart").dialog("close");
+                    showTopChart = false;
+                }
+                $.showPromptDialog("@DataAnnotations.SearchResultWithNoTemperData", null, null, null, true);
+            }
+        }
+
+        //显示温度曲线表
+        $btnShowTemper.click(function () {
+            $("#dsMoveDiv").css({ display: "none" });
+            $("#topChart").dialog({    //加载对话框
+                height: 480,
+                width: 760,
+                modal: false,
+                position: { my: "left bottom", at: "left bottom", of: "#container" }       //加载的位置
+            });
+            showTopChart = true;
+            showTempDatas(signalList);    //加载温度曲线
+        });
+
+        //查询数据
+        $("#btnSearch").on("click", function () {
+            //点击查询就将上次查询数据清除
+            clearMapAndRightBottomContent();
+            hideLeftBtn();
+            //定义参数变量
+            var _vehicleName = $hidVehicleName.val();
+            var StartTime = $("#StartTime").val();
+            var EndTime = $("#EndTime").val();
+            var Vid = $hidVehicleID.val();
+            var VIN = $hidVIN.val();
+            var txtDate = $("#txtDate").val();
+            var IsSpeed = false;
+            if ($('#chkIsSpeeds').is(':checked')) {
+                IsSpeed = true;
+            }
+            var showStopPoint = false;
+            if (chkShowStopPoint.disabled == false && $('#chkShowStopPoint').is(':checked')) {
+                showStopPoint = true;
+            }
+            if (judgeSearchInfo(_vehicleName, StartTime, EndTime) == false)    //查询条件判断
+            {
+                return;
+            }
+
+            //查询过程中不可以做其他操作
+            $("#btnSearchLoding").show();
+            $("#btnSearch").hide();
+            btnSpeedTrack.disabled = true;
+            btnOutExcel.disabled = true;
+            btnSearchLoding.disabled = true;
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/HistoricalRoute/Home/Search")",
+                data: {
+                    vid: Vid,
+                    vName: _vehicleName,
+                    VIN: VIN,
+                    startTime: StartTime,
+                    endTime: EndTime,
+                    invTime: txtDate,
+                    isSpeed: IsSpeed,
+                    showStopPoint: showStopPoint
+                },
+                success: function (responseTest) {
+                    if ($.handleAjaxError(responseTest)) { return; }
+                    if (responseTest.length > 0) {
+                        showLeftBtn();         //显示按钮
+                        searchResult = responseTest;
+                        exportType = 1;
+                        //显示里程和地图里程
+                        $("#showMileageInfoDIV").css({ display: "block" });
+                        mileageLbl.innerText = responseTest[responseTest.length - 1].Mileage + "（km）";
+                        mapMileageLbl.innerText = responseTest[responseTest.length - 1].MapMileage + "（km）";
+                        MapInfo(responseTest);
+                    } else {
+                        var _message = '@DataAnnotations.SearchReturnNoData';
+                        $.showPromptDialog(_message, null, null, null, true);
+                    }
+                    //查询结果显示结束，其余按钮可以操作
+                    $("#btnSearchLoding").hide();
+                    $("#btnSearch").show();
+                    btnSpeedTrack.disabled = false;
+                    btnOutExcel.disabled = false;
+                    btnSearchLoding.disabled = false;
+                }
+            });
+        });
+
+        //超速轨迹
+        $("#btnSpeedTrack").click(function () {
+            //点击查询就将上次查询数据清除
+            clearMapAndRightBottomContent();
+            hideLeftBtn();
+            //定义参数变量
+            var _vehicleName = $hidVehicleName.val();
+            var StartTime = $("#StartTime").val();
+            var EndTime = $("#EndTime").val();
+            var Vid = $hidVehicleID.val();
+            var VIN = $hidVIN.val();
+            var txtDate = $("#txtDate").val();
+            var IsSpeed = false;
+            if ($('#chkIsSpeeds').is(':checked')) {
+                IsSpeed = true;
+            }
+            if (judgeSearchInfo(_vehicleName, StartTime, EndTime) == false)    //查询条件判断
+            {
+                return;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/HistoricalRoute/Home/SearchOverSpeedException")",
+                data: {
+                    vid: Vid,
+                    vName: _vehicleName,
+                    VIN: VIN,
+                    startTime: StartTime,
+                    endTime: EndTime,
+                    invTime: txtDate,
+                    isSpeed: IsSpeed
+                },
+                success: function (responseTest) {
+                    if ($.handleAjaxError(responseTest)) { return; }
+                    if (responseTest.length > 0) {
+                        $btnShowAlarmInfo.show();
+                        $tbShowResult.show();
+                        searchResult = responseTest;
+                        exportType = 3;
+                        MapInfo(responseTest);
+                    }
+                    else {
+                        var _message = '@DataAnnotations.SearchReturnNoData';
+                        $.showPromptDialog(_message, null, null, null, true);
+                    }
+                }
+            });
+        });
+
+        //查询条件判断验证
+        function judgeSearchInfo(_vehicleName, StartTime, EndTime) {
+            //搜索条件不能为空
+            if (_vehicleName == undefined || _vehicleName == "" || _vehicleName.trim() == "") {
+                var _message = '@DataAnnotations.PleaseInputVehicleNameFirst';
+                $.showPromptDialog(_message, null, null, null, true);
+                return false;
+            }
+            //开始时间、结束时间不能为空
+            if (StartTime == "" || EndTime == "") {
+                $.showPromptDialog('@DataAnnotations.PleaseSelectSearchTime', null, null, null, true);
+                return false;
+            }
+            var _startTime = new Date(StartTime);
+            var _endTime = new Date(EndTime);
+            //开始时间不得大于结束时间
+            if (_startTime > _endTime) {
+                var _message = '@DataAnnotations.StartTimeMoreThanEndTimeError';
+                $.showPromptDialog(_message, null, null, null, true);
+                return false;
+            }
+            //开始时间和结束时间间隔不超过两个月
+            var dataDiff = GetDateDiff(StartTime, EndTime);
+            if (dataDiff >= 2) {
+                var _message = '@DataAnnotations.TimeRangeOver2Months';
+                $.showPromptDialog(_message, null, null, null, true);
+                return false;
+            }
+            return true;
+        }
+
+        //清除地图数据和右下方加载的数据
+        function clearMapAndRightBottomContent() {
+            tdBottomHide();       //右下方数据展示窗口隐藏
+            removeMarker();     //移除地图上原有的marker
+            //隐藏温度表
+            if (showTopChart == true) {
+                $("#topChart").dialog("close");
+                showTopChart = false;
+                $("#dsMoveDiv").css({ display: "none" });
+            }
+            $tbShowResult.hide();       //左侧轨迹播放隐藏
+            clearPathSimplifierIns();      //清除历史轨迹线路
+            //清除停车点数据
+            if (markerList != null) {
+                markerList.render([]);
+            }
+            map.clearMap();
+            searchResult = "";
+        }
+
+        //隐藏左边显示按钮
+        function hideLeftBtn() {
+            $btnShowTemper.hide();
+            $btnSearchLoding1.hide();
+            $btnShowAlarmInfo.hide();
+            $btnHideAlarmInfo.hide();
+            $btnShowSignalsList.hide();
+            $btnHideSignalsList.hide();
+            $btnShowPressureList.hide();
+            $btnHidePressureList.hide();
+            $btnShowStopContentList.hide();
+            $btnHideStopContentList.hide();
+        }
+
+        //显示左侧功能按钮
+        function showLeftBtn() {
+            $btnShowAlarmInfo.show();
+            $btnShowSignalsList.show();
+            $btnShowTemper.show();
+            $btnShowPressureList.show();
+            $tbShowResult.show();
+            $btnShowStopContentList.show();
+        }
+
+        //导出
+        $("#btnOutExcel").on("click", function () {
+            if (searchResult == undefined || searchResult == "" || exportType == 0) {
+                var _message = '@DataAnnotations.PleaseSearchFirst';
+                $.showPromptDialog(_message, null, null, null, true);
+                return;
+            }
+            var vid = $hidVehicleID.val();
+            var vName = $hidVehicleName.val();
+            var VIN = $hidVIN.val();
+            var strucName = $hidStrucName.val();
+            var StartTime = $("#StartTime").val();
+            var EndTime = $("#EndTime").val();
+            var txtDate = $("#txtDate").val();
+            var IsSpeed = false;
+            if ($('#chkIsSpeeds').is(':checked')) {
+                IsSpeed = true;
+            }
+            var _url;
+            var _params = "vid=" + vid + "&" + "vName=" + vName + "&" + "VIN=" + VIN + "&" + "strucName=" + strucName + "&" + "startTime=" + StartTime + "&" + "endTime=" + EndTime + "&" + "invTime=" + txtDate + "&" + "isSpeed=" + IsSpeed + "&" + "exportType=" + exportType;
+            if (exportType == 1) {
+                _url = "@Url.Content("~/HistoricalRoute/Home/ExportAllToExcel")" + "?" + _params;
+            }
+            if (exportType == 2 || exportType == 3) {
+                _url = "@Url.Content("~/HistoricalRoute/Home/ExportExceptionToExcel")" + "?" + _params;
+            }
+            $('<form method="POST" action="' + _url + '"></form>').appendTo('body').submit().remove();
+        });
+
+        //显示报警信息
+        $btnShowAlarmInfo.click(function () {
+            //隐藏按钮和右下方信息
+            hideLeftBtn();
+            tdBottomHide();
+            //设置要显示的按钮
+            $btnShowTemper.show();
+            $btnHideAlarmInfo.show();
+            $btnShowSignalsList.show();
+            $btnShowPressureList.show();
+            $btnShowStopContentList.show();
+            IsAlarmShowOrSignalsList = false;
+            IsShowPressureList = false;
+            IsShowStopContentList = false;
+            //右下方加载数据
+            for (var i = 0; i < searchResult.length; i++) {
+                if (searchResult[i].ExName != "") {
+                    buildAlarmContentWithDiv(searchResult[i], i, buildContentTextArray);
+                }
+            }
+            $tdBottomInfo.show();
+            setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            if (showTopChart == true) {       //在温度曲线图关闭的状态下调用下面的语句会报错
+                $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+            }
+        });
+
+        //隐藏报警信息
+        $btnHideAlarmInfo.click(function () {
+            $btnShowAlarmInfo.show();
+            $btnHideAlarmInfo.hide();
+            $("#divData").empty();
+            $tdBottomInfo.hide();
+            setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            if (showTopChart == true) {          //在温度曲线图关闭的状态下调用下面的语句会报错
+                $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+            }
+        });
+
+        //显示信号列表信息
+        $btnShowSignalsList.click(function () {
+            //隐藏按钮和右下方信息
+            hideLeftBtn();
+            tdBottomHide();
+            //设置要显示的按钮，信号列表显示为加载中
+            $btnSearchLoding1.show();
+            $btnSearchLoding1.disabled = true;
+            $btnShowTemper.show();
+            $btnShowAlarmInfo.show();
+            $btnShowPressureList.show();
+            $btnShowStopContentList.show();
+            IsAddExpand = true;
+            IsAlarmShowOrSignalsList = true;
+            IsShowPressureList = false;
+            IsShowStopContentList = false;
+            //右下方加载数据
+            buildSearchResultSignalsContentWithDiv(0, 30, searchResult, buildContentTextArray);
+            //查询结束，结束显示加载中
+            $btnSearchLoding1.hide();
+            btnSearchLoding1.disabled = false;
+            $btnHideSignalsList.show();
+            $tdBottomSignalsInfo.show();
+            setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            if (showTopChart == true) {       //在温度曲线图关闭的状态下调用下面的语句会报错
+                $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+            }
+        })
+
+        //隐藏信号列表信息
+        $btnHideSignalsList.click(function () {
+            $btnHideSignalsList.hide();
+            $btnShowSignalsList.show();
+            $("#divData1").empty();
+            $tdBottomSignalsInfo.hide();
+            IsAddExpand = false;
+            setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            if (showTopChart == true) {          //在温度曲线图关闭的状态下调用下面的语句会报错
+                $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+            }
+        });
+
+        //显示气压卸料列表信息
+        $btnShowPressureList.click(function () {
+            //隐藏按钮和右下方信息
+            hideLeftBtn();
+            tdBottomHide();
+            //设置要显示的按钮
+            $btnShowTemper.show();
+            $btnShowAlarmInfo.show();
+            $btnShowSignalsList.show();
+            $btnHidePressureList.show();
+            $btnShowStopContentList.show();
+            IsAlarmShowOrSignalsList = false;
+            IsShowPressureList = true;
+            IsShowStopContentList = false;
+            //右下方加载数据
+            for (var i = 0; i < searchResult.length; i++) {
+                if (searchResult[i].PressureFlag == true) {
+                    buildPressureListContentWithDiv(searchResult[i], i, buildContentTextArray);
+                }
+            }
+            $tdBottomPressureInfo.show();
+            setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            if (showTopChart == true) {       //在温度曲线图关闭的状态下调用下面的语句会报错
+                $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+            }
+        });
+
+        //隐藏气压卸料列表信息
+        $btnHidePressureList.click(function () {
+            $btnShowPressureList.show();
+            $btnHidePressureList.hide();
+            $("#divPressureData").empty();
+            $tdBottomPressureInfo.hide();
+            setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            if (showTopChart == true) {          //在温度曲线图关闭的状态下调用下面的语句会报错
+                $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+            }
+        });
+
+
+        //显示停车点列表
+        $btnShowStopContentList.click(function () {
+            //地图上图标、右下数据清除
+            tdBottomHide();       //右下方数据展示窗口隐藏
+            removeMarker();     //移除地图上原有的marker
+            //隐藏温度表
+            if (showTopChart == true) {
+                $("#topChart").dialog("close");
+                showTopChart = false;
+                $("#dsMoveDiv").css({ display: "none" });
+            }
+            //清除停车点数据
+            if (markerList != null) {
+                markerList.render([]);
+            }
+            //左侧按钮显示调整
+            hideLeftBtn();
+            $btnShowTemper.show();
+            $btnShowAlarmInfo.show();
+            $btnShowSignalsList.show();
+            $btnShowPressureList.show();
+            $btnHideStopContentList.show();
+            IsAlarmShowOrSignalsList = false;
+            IsShowPressureList = false;
+            IsShowStopContentList = true;
+            //右下方加载数据
+            showEFMarkerBtnFlag = 0;
+            ShowEFMarker();        //显示权限范围内的电子围栏
+            for (var i = 0; i < searchResult.length; i++) {
+                if (searchResult[i].IsStopPoint == true && searchResult[i].StartStopVehicleTime != null && searchResult[i].StopVehicleDuration != null) {
+                    buildStopContentWithDiv(searchResult[i], i);       //右下角加载停车点信息
+                }
+            }
+            $tdBottomStopContentInfo.show();
+            setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            if (showTopChart == true) {       //在温度曲线图关闭的状态下调用下面的语句会报错
+                $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+            }
+        });
+
+
+        //隐藏停车点列表
+        $btnHideStopContentList.click(function () {
+            $btnShowStopContentList.show();
+            $btnHideStopContentList.hide();
+            $("#divStopContentData").empty();
+            $tdBottomStopContentInfo.hide();
+            setContentSize(IsAlarmShowOrSignalsList, IsShowPressureList, IsShowStopContentList);
+            if (showTopChart == true) {          //在温度曲线图关闭的状态下调用下面的语句会报错
+                $("#topChart").dialog("option", "position", { my: "left bottom", at: "left bottom", of: "#container" });
+            }
+        });
+
+
+
+        //在鼠标绘制矩形、圆形、多边形之前清理
+        function claerMapBeforeMouse() {
+            map.clearMap();
+            //自适应
+            map.setFitView();
+            //菜单重置
+            menu = new ContextMenu(map);
+
+            $("#FenceTypeInfo").val("");//清空内容，防止地图没了还可以跳出电子围栏
+            $("#btnGroupCircleSelImg").hide();
+            $("#btnGroupRectSelImg").hide();
+            $("#btnGroupPolygonSelImg").hide();
+            $("#btnGroupCircleImg").show();
+            $("#btnGroupRectImg").show();
+            $("#btnGroupPolygonImg").show();
+        }
+
+        //鼠标绘制圆形
+        function mouseCircle() {
+
+            hasDrawFlag = 0;
+
+            //清理
+            claerMapBeforeMouse();
+            removeBtnGroupImgsClass();
+            rulerBtnFlag = 0;
+            rectBtnFlag = 0;
+            polygonBtnFlag = 0;
+            showEFMarkerBtnFlag = 0;
+
+            if (circleBtnFlag == 0) {
+                document.getElementById("btnGroupCircleSelImg").style.display = "";
+                document.getElementById("btnGroupCircleImg").style.display = "none";
+                circleBtnFlag = 1;
+            }
+            else {
+                document.getElementById("btnGroupCircleSelImg").style.display = "none";
+                document.getElementById("btnGroupCircleImg").style.display = "";
+                circleBtnFlag = 0;
+            }
+
+            if (mousetool) {
+                mousetool.close(true);
+            }
+            if (circleBtnFlag == 1) {
+                map.plugin(["AMap.MouseTool"], function () {
+                    mousetool = new AMap.MouseTool(map);
+                    mousetool.circle(); //圆形
+                    AMap.event.addListener(mousetool, "draw", function (e) {
+                        var radius = e.obj.getRadius();
+                        var center = e.obj.getCenter();
+                        //getRealTimeCircleVehicles(radius, center);
+                        mousetool.close(false);
+                        hasDrawFlag = 1;
+                        //圆形中心点加半径
+                        $("#FenceTypeInfo").val(center + ";" + radius);
+                    });
+                });
+                circleBtnFlag == 0;
+            }
+        }
+
+        //鼠标绘制矩形
+        function mouseRect() {
+            hasDrawFlag = 0;
+
+            //清理
+            claerMapBeforeMouse();
+            removeBtnGroupImgsClass();
+            polygonBtnFlag = 0;
+            circleBtnFlag = 0;
+            showEFMarkerBtnFlag = 0;
+
+            if (rectBtnFlag == 0) {
+                document.getElementById("btnGroupRectSelImg").style.display = "";
+                document.getElementById("btnGroupRectImg").style.display = "none";
+                rectBtnFlag = 1;
+            }
+            else {
+                document.getElementById("btnGroupRectSelImg").style.display = "none";
+                document.getElementById("btnGroupRectImg").style.display = "";
+                rectBtnFlag = 0;
+            }
+
+            if (mousetool) {
+                mousetool.close(true);
+            }
+            if (rectBtnFlag == 1) {
+                map.plugin(["AMap.MouseTool"], function () {
+                    mousetool = new AMap.MouseTool(map);
+                    mousetool.rectangle(); //使用鼠标工具，在地图上画矩形
+                    AMap.event.addListener(mousetool, "draw", function (e) {
+                        var point = e.obj.getPath();
+                        //getRealTimeRectangleVehicles(point);
+                        mousetool.close(false);//false:鼠标操作关闭,保留所绘制的覆盖物对象;true:鼠标操作关闭,清除覆盖物对象
+                        hasDrawFlag = 1;
+
+                        var rs = "";
+                        for (var i = 0; i < point.length; i++) {
+                            if (i == 0)
+                            { rs = rs + point[i]; }
+                            else
+                            { rs = rs + ";" + point[i]; }
+                        }
+                        $("#FenceTypeInfo").val(rs);
+                    });
+                });
+            }
+        }
+
+        //鼠标绘制多边形
+        function mousePolygon() {
+            hasDrawFlag = 0;
+
+            //清理
+            claerMapBeforeMouse();
+            removeBtnGroupImgsClass();
+            rulerBtnFlag = 0;
+            rectBtnFlag = 0;
+            circleBtnFlag = 0;
+            showEFMarkerBtnFlag = 0;
+
+            if (polygonBtnFlag == 0) {
+                document.getElementById("btnGroupPolygonSelImg").style.display = "";
+                document.getElementById("btnGroupPolygonImg").style.display = "none";
+                polygonBtnFlag = 1;
+            }
+            else {
+                document.getElementById("btnGroupPolygonSelImg").style.display = "none";
+                document.getElementById("btnGroupPolygonImg").style.display = "";
+                polygonBtnFlag = 0;
+
+            }
+            if (mousetool) {
+                mousetool.close(true);
+            }
+            if (polygonBtnFlag == 1) {
+                map.plugin(["AMap.MouseTool"], function () {
+                    mousetool = new AMap.MouseTool(map);
+                    mousetool.polygon(); //多边形
+                    AMap.event.addListener(mousetool, "draw", function (e) {
+                        var point = e.obj.getPath();
+                        //getRealTimePolygonVehicles(point);
+                        mousetool.close(false);
+                        hasDrawFlag = 1;
+
+                        var rs = "";
+                        for (var i = 0; i < point.length; i++) {
+                            if (i == 0)
+                            { rs = rs + point[i]; }
+                            else
+                            { rs = rs + ";" + point[i]; }
+                        }
+                        $("#FenceTypeInfo").val(rs);
+                    });
+                });
+            }
+        }
+
+        //******右键菜单【start】******
+        var menu = new ContextMenu(map);
+        function ContextMenu(map) {
+            var me = this;
+            this.mouseTool = new AMap.MouseTool(map); //地图中添加鼠标工具MouseTool插件
+            this.contextMenuPositon = null;
+            var content = [];
+            content.push($("#hiddenMenu").html())
+            this.contextMenu = new AMap.ContextMenu({ isCustom: true, content: content.join('') });//通过content自定义右键菜单内容
+            //地图绑定鼠标右击事件——弹出右键菜单
+            map.on('rightclick', function (e) {
+                me.contextMenu.open(map, e.lnglat);
+                me.contextMenuPositon = e.lnglat; //右键菜单位置
+            });
+        }
+
+        ContextMenu.prototype.selectMenu = function selectMenu(tag) {//右键菜单缩放地图
+            this.contextMenu.close();//放前面，不然点击完后不自动消失，会比较丑
+
+            if (tag === 0) {//普通
+                electricFenceType = 1;
+                showElectricFence();
+            }
+            if (tag === 1) {//南钢
+                electricFenceType = 2;
+                showElectricFence();
+            }
+
+            if (tag == 2) {
+                if (!hasDrawFlag) {
+                    $.showPromptDialog("<b>@DataAnnotations.PleaseFirstRightClickAddEF</b></br><b>@DataAnnotations.ThenClickTopRightTool </b>@DataAnnotations.DrawEFArea", "@UIText.InformationTitle", "@UIText.Close", null);
+                    return false;
+                }
+
+                var drawFlagStr = $("#FenceTypeInfo").val();
+                if (drawFlagStr == "" || drawFlagStr.length < 1) {
+                    $.showPromptDialog("<b>@DataAnnotations.PleaseFirstRightClickAddEF</b></br><b>@DataAnnotations.ThenClickTopRightTool </b>@DataAnnotations.DrawEFArea", "@UIText.InformationTitle", "@UIText.Close", null);
+                    return false;
+                }
+                var drawFlag = 0;
+                if (circleBtnFlag == 1) {
+                    drawFlag = 1;
+                }
+                else if (rectBtnFlag == 1) {
+                    drawFlag = 2;
+                }
+                else if (polygonBtnFlag == 1) {
+                    drawFlag = 3;
+                }
+                if (electricFenceType == 1) {
+                    showNormalElectricFence(drawFlag, drawFlagStr);
+                }
+                else {
+                    // 南钢
+                    showNJGHElectricFence(drawFlag, drawFlagStr);
+                }
+            }
+        }
+
+        //显示绘制图标
+        function showElectricFence() {
+            $("#btnGroup").width(200);
+            $("#btnGroupBottom").width(200);
+            $(".electricFence").hide();
+            $("#btnGroupCircleImg").show();
+            $("#btnGroupRectImg").show();
+            $("#btnGroupPolygonImg").show();
+        }
+
+        //显示普通电子围栏弹窗
+        function showNormalElectricFence(drawFlag, drawFlagStr) {
+            var _url = "@Url.Content("~/Admin/ElectricFence/AddElectricFence")";
+            var _data = { drawFlag: drawFlag, drawFlagStr: drawFlagStr };
+            var _title = "@UIText.AddButton";
+            $.showEditDialog(_url, _data, _title, claerMapBeforeMouse);
+        }
+
+        //显示普通电子围栏弹窗
+        function showNJGHElectricFence(drawFlag, drawFlagStr) {
+            var _url = "@Url.Content("~/Admin/ElectricFence/NGJH_AddElectricFence")";
+            var _data = { drawFlag: drawFlag, drawFlagStr: drawFlagStr };
+            var _title = "@UIText.AddButton";
+            $.showEditDialog(_url, _data, _title, claerMapBeforeMouse);
+        }
+
+        //******右键菜单【end】******
+    </script>
+}

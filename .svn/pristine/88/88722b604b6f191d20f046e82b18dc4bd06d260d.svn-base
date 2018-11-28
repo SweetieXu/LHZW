@@ -1,0 +1,230 @@
+﻿@using Asiatek.Model
+@using Asiatek.Resource
+@using Asiatek.AjaxPager
+@model SearchDataWithPagedDatas<VehicleSearchModel, VehicleListModel>
+
+@{
+    string informationTitle = UIText.InformationTitle;
+    string closeBtnText = UIText.Close;
+    string editText = UIText.EditButton;
+    string delText = UIText.DeleteButton;
+    string updateTargetId = "Admin_Vehicle_VehicleSetting_divVehicles";
+    var pagedDatas = Model.PagedDatas;
+}
+
+
+@if (pagedDatas.Count == 0)
+{
+    <h3>@Asiatek.Resource.UIText.NoDatas</h3>
+}
+else
+{
+    using (Ajax.BeginForm("DeleteVehicle", "Vehicle", new AjaxOptions()
+    {
+        OnSuccess = "delCallBack"
+    }, new { id = "frmDelVehicle" }))
+    {
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="chkAll" />
+                </th>
+                <th>
+                    <label>@UIText.Operation</label>
+                </th>
+                <th>@Html.DisplayNameFor(m => m.PlateNum)</th>
+                <th>@Html.DisplayNameFor(m => m.VehicleName)</th>
+                <th>@Html.DisplayNameFor(m => m.TerminalCode)</th>
+                <th>@Html.DisplayNameFor(m => m.SIMCode)</th>
+                <th>@Html.DisplayNameFor(m => m.TerminalName)</th>
+                <th>@Html.DisplayNameFor(m => m.VehicleType)</th>
+                <th>@Html.DisplayNameFor(m => m.StrucName)</th>
+                <th>@Html.DisplayNameFor(m => m.PlateColor)</th>
+                <th>@Html.DisplayNameFor(m => m.WarrantyDate)</th>
+                <th>@Html.DisplayNameFor(m => m.SoftwareDate)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in pagedDatas)
+            {
+                var trclass="";
+                if(!item.IsReceived){
+                    trclass = "danger";
+                }else if(item.Status==7){
+                    trclass = "warning";
+                }else if (item.Status==8){
+                    trclass = "info";
+                }
+                if (item.TerminalCode == null || item.TerminalCode==""){
+                    trclass = "warning";
+                }
+                <tr class="@trclass">
+                    <td>
+                        <input type="checkbox" name="vid" value="@item.ID" id="chkVID@(item.ID)" />
+                    </td>
+                    <td>
+                        @*     <span class="btn btn-default" onclick="edit(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>*@
+                      @*  <span class="btn btn-default" onclick="editNew(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>*@
+                   @*       <span class="btn btn-default" onclick="edit_New(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>*@
+                        @if (AsiatekUIHelper.CheckPremission("NewEditVehicle", "Vehicle", "Admin"))
+                        {
+                          <span class="btn btn-default" onclick="newEdit(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>
+                        }
+                        @if (AsiatekUIHelper.CheckPremission("NewEditVehicle_SZYD", "Vehicle", "Admin"))
+                        {
+                          <span class="btn btn-info" onclick="newEdit_SZYD(@item.ID)" title="@editText">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </span>
+                        }
+                        @if (item.Status == 8 && AsiatekUIHelper.CheckPremission("SendParameter", "Vehicle", "Admin"))
+                        {
+                             <span class="btn btn-primary" onclick="sendparameter('@item.ID','@item.TerminalCode','@item.PlateNum')" title="@UIText.SendParameter" id="sendparameter">
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                        </span>
+                        }
+                    </td>
+                    <td>
+                        <label for="chkVID@(item.ID)">@item.PlateNum</label>
+                    </td>
+                    <td>
+                        <label>@item.VehicleName</label>
+                    </td>
+                    <td>
+                        <label>@item.TerminalCode</label>
+                    </td>
+                    <td>
+                        <label>@item.SIMCode</label>
+                    </td>
+                    <td>
+                        <label>@item.TerminalName</label>
+                    </td>
+                    <td>
+                        <label>@item.VehicleType</label>
+                    </td>
+                    <td>
+                        <label>@(item.StrucName.Length > 8 ? item.StrucName.Substring(0, 8) + "..." : item.StrucName)</label>
+                    </td>
+                    <td>
+                        <label>@item.PlateColor</label>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.WarrantyDate)
+                    </td>
+                    <td>
+                        @(item.SoftwareDate.HasValue ? item.SoftwareDate.Value.ToString("yyyy/M/d") : "")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+            if (ViewBag.ExportToExcel == null)
+            {
+    @Ajax.AsiatekAjaxPagerBootstrap(new AjaxPagerOptions()
+            {
+                AreaName = "Admin",
+                ControllerName = "Vehicle",
+                ActionName = "GetVehicleInfo",
+                UpdateTargetId = updateTargetId,
+                OnSuccess = "commonAjaxSuccess",
+            });
+            }
+    }
+}
+
+
+<script>
+    //删除完成后
+    var delCallBack = function (result) {
+        if ($.handleAjaxError(result)) {
+            return;
+        }
+        $.showPromptDialog(result.Message);
+        //删除成功后重新提交查询表单
+        refreshSearchForm();
+    }
+    //刷新搜索表单
+    var refreshSearchForm = function () {
+        var _currentPage = '@pagedDatas.CurrentPageIndex';
+        //将当前页索引设置到搜索表单的内容中
+        var $hidSearchPage = $("#frmSearchVehicle #hidSearchPage");
+        $hidSearchPage.val(_currentPage);
+        //提交搜索表单进行搜索
+        $("#frmSearchVehicle").submit();
+        //搜索过后将表单中的当前页索引重新设置为1，因为当我们手动点查询时，都查询第一页
+        $hidSearchPage.val('1');
+    }
+
+    var edit = function (id) {
+        var _url = "@Url.Content("~/Admin/Vehicle/EditVehicle")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    var editNew = function (id) {
+        var _url = "@Url.Content("~/Admin/Vehicle/EditVehicleNew")";
+        var _data = { id: id };
+        var _title = "@editText";
+          $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    var edit_New = function (id) {
+        var _url = "@Url.Content("~/Admin/Vehicle/EditVehicle_New")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+    var sendparameter = function (id, terminalcode, platenum) {
+        $("#sendparameter").attr("onclick", "null");
+        $("#sendparameter").addClass("disabled");
+        var antiForgeryToken = $('@Html.AntiForgeryToken()');
+        var _url = "@Url.Content("~/Admin/Vehicle/SendParameter")";
+        var message = "@UIText.ConfirmSend";
+        $.showConfirmDialog(message, '@UIText.SendParameter', '@UIText.Confirm', '@UIText.Cancel', function () {
+            $.ajax({
+                url: _url,
+                type: 'POST',
+                data: { VehicleID: id, TerminalCode: terminalcode, PlateNum: platenum, __RequestVerificationToken: antiForgeryToken.val() },
+                dataType: 'json',
+                traditional: true,//必须加上
+                cache: false,
+                success: function (data) {
+                    delCallBack(data);
+                }
+            });
+        })
+    }
+    var newEdit = function (id) {
+        var _url = "@Url.Content("~/Admin/Vehicle/NewEditVehicle")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    }
+
+    var newEdit_SZYD = function (id) {
+        var _url = "@Url.Content("~/Admin/Vehicle/NewEditVehicle_SZYD")";
+        var _data = { id: id };
+        var _title = "@editText";
+        $.showEditDialog(_url, _data, _title, refreshSearchForm);
+    };
+      var _$chkAllObj = $("#chkAll");
+      var _$chkObjs = $("input[name='vid']");
+      $.setCheckBox(_$chkAllObj, _$chkObjs);
+</script>
+
+
+
+
+
+
+

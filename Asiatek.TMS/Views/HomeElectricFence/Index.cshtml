@@ -1,0 +1,567 @@
+﻿@using Asiatek.Resource
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <style>
+        .indexDefault {
+            background-color: #2a363f!important;
+            color: lightgray!important;
+        }
+
+        .hundredPercentWidth, .hundredPercentHeight {
+            width: 100%;
+        }
+
+        #tdToggleLeftInfo, #tdToggleBottomInfo {
+            cursor: pointer;
+        }
+
+        h4 {
+            font-weight: bold;
+        }
+
+        .mapDialogImg {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 6px;
+            margin-top: 6px;
+        }
+
+        .test {
+            width: 260px;
+            height: 20px;
+            left: 50%;
+            top: 50%;
+        }
+
+        /**修改editableSelect默认样式**/
+        .es-list {
+            position: absolute;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #d1d1d1;
+            display: none;
+            z-index: 2147483647;
+            background: white;
+            max-height: 160px;
+            overflow-y: auto;
+            -moz-box-shadow: 0 2px 3px #333333;
+            -webkit-box-shadow: 0 2px 3px #333333;
+            box-shadow: 0 2px 3px #333333;
+        }
+
+            .es-list li {
+                display: block;
+                padding: 5px 10px;
+                margin: 0;
+            }
+
+                .es-list li.selected {
+                    background: white;
+                }
+
+        .es-visible {
+            color: #333333;
+        }
+
+        /*右下方可拉动样式*/
+         #expander{ width:100%; height:5px; background-color:lightgray!important;}
+         #expander:hover{ cursor:n-resize;}
+
+    </style>
+}
+
+
+<div class="row" style="overflow: auto; height: 100%;">
+    <table class="hundredPercentWidth">
+        <tbody class="hundredPercentWidth">
+            <tr class="hundredPercentWidth">
+                <!--左侧边栏-->
+                <td class="indexDefault" id="tdLeftInfo" style="vertical-align: top;">
+                    <div id="tdLeftDivInfo" style="width: 300px; overflow-y: auto;">
+                        <table id="tbSearchType1" class="hundredPercentHeight">
+                            <tbody>
+                                <!--搜索输入框-->
+                                <tr style="height: 80px; margin: 10px;">
+                                    <td colspan="3" style="text-align: center;">
+                                        <input id="txtVehicleName" type="text" name="vehicleName" class="form-control" placeholder="@UIText.PleaseInput@DisplayText.VehicleName" style="width:180px; margin-left:20px;" />
+                                        <input type="hidden" name="hidVehicleID" id="hidVehicleID" value="" />
+                                        <input type="hidden" name="hidVehicleName" id="hidVehicleName" value="" />
+                                    </td>
+                                </tr>
+                                <!--搜索输入框-->
+                            </tbody>
+                        </table>
+                        <!--查询结果显示-->
+                        <table class="hundredPercentHeight">
+                            <tbody>
+                                <!--按钮-->
+                                <tr>
+                                    <td>
+                                        <button id="btnConfirm" class="btn btn-primary" style="margin-left: 20px;">
+                                            <span class="glyphicon">@UIText.Search@DisplayText.Fence</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr style="height: 20px;"></tr>
+                                <!--按钮-->
+                            </tbody>
+                        </table>
+                        <table id="tbEFResult" class="hundredPercentHeight" style="border: solid; color: #0198fe;">
+                            <tbody>
+                                <tr>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="hundredPercentHeight" id="tbBtnSearch" style="display: none;">
+                            <tbody>
+                                <tr style="height: 10px;"></tr>
+                                <!--按钮-->
+                                <tr style="height: 50px;">
+                                    <td>
+                                        <button id="btnSearch" class="btn btn-primary" style="margin-left: 20px;">
+                                            <span class="glyphicon">@UIText.Search@DisplayText.Exception</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!--按钮-->
+                                <tr style="height: 10px;"></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <!--左侧边栏-->
+                <!--左侧收缩栏-->
+                <td onmouseover="style.backgroundColor='#C86F70'" onmouseout="style.backgroundColor='#0198fe'" style="background-color: #0198fe;" id="tdToggleLeftInfo">
+                    <div style="width: 6px;"></div>
+                </td>
+                <!--左侧收缩栏-->
+                <!--右侧内容：包括地图和下方表格-->
+                <td id="tdRightContent" class="hundredPercentWidth">
+                    <table class="hundredPercentWidth hundredPercentHeight">
+                        <tbody>
+                            <!--地图-->
+                            <tr class="hundredPercentHeight">
+                                <td style="background-color: darkgray;">
+                                    <div id="container">
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--地图-->
+                            <!--下方收缩栏-->
+                            <tr onmouseover="style.backgroundColor='#C86F70'" onmouseout="style.backgroundColor='#0198fe'" style="height: 6px; font-size: xx-small; background-color: #0198fe; text-align: center;">
+                                <td id="tdToggleBottomInfo"></td>
+                            </tr>
+                            <!--下方收缩栏-->
+                            <!--下方内容显示-->
+                            <tr class="indexDefault">
+                                <td id="tdBottomInfo">
+                                    <div id="divBottomInfo" style="height: 100px; overflow: auto;">
+                                        <div id="expander"></div>
+                                        <!--下方显示信息-->
+                                        <table class="table table-condensed" id="tbCheckedExceptions">
+                                            <thead>
+                                                <tr style="height: 28px;">
+                                                    <th>@DisplayText.ElectricFenceName</th>
+                                                    <th>@DisplayText.ExceptionTypeName</th>
+                                                    <th>@DisplayText.StartTime</th>
+                                                    <th>@DisplayText.StartAddress</th>
+                                                    <th>@DisplayText.EndTime</th>
+                                                    <th>@DisplayText.EndAddress</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                        <!--下方显示信息-->
+                                    </div>
+                                </td>
+                            </tr>
+                            <!--下方内容显示-->
+                        </tbody>
+                    </table>
+                </td>
+                <!--右侧内容-->
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=865e5946e363e3889a01b89f8ba5d069"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <script src="@Url.Content("~/Scripts/gaodeMap/realTimeMap.js")"></script>
+
+    <script>
+        var $tdLeftInfo = $("#tdLeftInfo");//左侧信息
+        var $tdToggleLeftInfo = $("#tdToggleLeftInfo");//左侧收缩栏
+        var $tdBottomInfo = $("#tdBottomInfo");//下方信息
+        var $tdToggleBottomInfo = $("#tdToggleBottomInfo");//下方收缩栏
+        var $tbCheckedExceptions = $("#tbCheckedExceptions");//下方显示信息
+
+        var $tbEFResult = $("#tbEFResult");//显示电子围栏查询结果 
+        var $tbBtnSearch = $("#tbBtnSearch");//查询电子围栏
+        var ckdvVehicleCode;
+
+        //定义map对象
+        var mapObj = initMap('container', true, 12, null);
+        var points;
+        //添加标尺、鹰眼、比例尺
+        addControl(true, true, false, true, false, mapObj);
+        addRangingTool(mapObj);
+
+        window.onload = function () { setContentSize(); };
+        window.onresize = function () { setContentSize(); };
+
+        $(function () {
+            $tdBottomInfo.hide();
+            $tbBtnSearch.hide();
+            setContentSize();
+            initVehicleNameAutoComplete();
+
+            //右下方divBottomInfo拖动功能
+            var src_posi_Y = 0, dest_posi_Y = 0, move_Y = 0, is_mouse_down = false, destHeight = 100;
+            $("#expander")
+            .mousedown(function (e) {
+                src_posi_Y = e.pageY;
+                is_mouse_down = true;
+            });
+            $(document).bind("click mouseup", function (e) {
+                if (is_mouse_down) {
+                    is_mouse_down = false;
+                }
+            })
+            .mousemove(function (e) {
+                dest_posi_Y = e.pageY;
+                move_Y = src_posi_Y - dest_posi_Y;
+                src_posi_Y = dest_posi_Y;
+                destHeight = $("#divBottomInfo").height() + move_Y;
+                if (is_mouse_down) {
+                    $("#divBottomInfo").css("height", destHeight > 100 ? destHeight : 100);       //高度等于100时，不可以再向下拖动（右下方最小高度为100px）
+                    setContentSize();                  //调整页面布局
+                }
+            });
+
+        });
+
+
+        //点击收缩栏事件
+        $tdToggleLeftInfo.on("click", function () {
+            $tdLeftInfo.toggle();
+            setContentSize();
+        });
+        $tdToggleBottomInfo.on("click", function () {
+            $tdBottomInfo.toggle();
+            setContentSize();
+        });
+
+        function clearSetParams() {
+            //$tbShowResult.find("tbody").empty();
+            $tbEFResult.find("tbody").empty();
+            $tbBtnSearch.hide();
+            mapObj.clearMap();
+            mapObj.setFitView();
+        }
+
+
+        //初始化车代号搜索自动补全功能
+        var initVehicleNameAutoComplete = function () {
+            $("#txtVehicleName").autocomplete({
+                delay: 500,
+                minLength: 1,
+                select: function (event, ui) {
+                    $("#hidVehicleName").val(ui.item.value);
+                    $("#hidVehicleID").val(ui.item.VID);
+                },
+                source: function (request, response) {
+                        @*  $.get('@Url.Content("~/Home/GetUserVehiclesByVehicleName")', { vehicleName: request.term }, function (data, status, xhr) {
+                        if ($.handleAjaxError(data)) {
+                            return;
+                        }
+                        response(data);
+                    });*@
+                        // 提取到公共控制器
+                        $.get('@Url.Content("~/Common/GetUserVehiclesByVehicleName")', { vehicleName: request.term }, function (data, status, xhr) {
+                            if ($.handleAjaxError(data)) {
+                                return;
+                            }
+                            response(data);
+                        });
+                    }
+                });
+
+            }
+
+
+            var setContentSize = function () {
+                var height = document.documentElement.scrollHeight;
+                var container = document.getElementById("container");//地图
+                var tdRightContent = document.getElementById("tdRightContent");
+                var tdBottom = document.getElementById("tdBottomInfo").clientHeight;//右侧底部高度 
+                var tdLeftDivInfo = document.getElementById("tdLeftDivInfo");//左侧边栏div
+
+                //布局页面div
+                var mainDiv = document.getElementById("mainDiv");
+                var headDivHt = document.getElementById("headDiv").clientHeight;
+                var menusDiv = document.getElementById("menusDiv");
+                var menusDivHt = document.getElementById("menusDiv").clientHeight;
+                var bottomDivHt = document.getElementById("bottomDiv").clientHeight;
+
+                tdRightContent.style.height = window.innerHeight - headDivHt - menusDivHt - bottomDivHt + "px";
+                if (window.innerHeight < 550) {
+                    container.style.height = height - headDivHt - menusDivHt - bottomDivHt - 6 - tdBottom + "px";
+                } else {
+                    container.style.height = window.innerHeight - headDivHt - menusDivHt - bottomDivHt - 6 - tdBottom + "px";
+                }
+                tdLeftDivInfo.style.height = tdRightContent.style.height;
+
+                mainDiv.style.width = window.innerWidth + "px";
+                menusDiv.style.width = window.innerWidth + "px";
+            }
+
+
+            //根据车辆编号查询电子围栏                 
+            function getElectricFenceByVehicleID(vehicleID) {
+                $tbCheckedExceptions.find("tbody").empty();
+                clearSetParams();
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Content("~/HomeElectricFence/GetElectricFenceByVehicleID")",
+                data: {
+                    vehicleID: vehicleID
+                },
+                success: function (responseTest) {
+                    if ($.handleAjaxError(responseTest)) { return; }
+
+                    if (responseTest.length > 0) {
+                        ckdvVehicleCode = new Object();
+                        $tbBtnSearch.show();
+                        for (var i = 0; i < responseTest.length; i++) {
+                            showElectricFenceInDiv(responseTest[i], i);
+                        }
+                        setContentSize();
+                    }
+                    else {
+                        var _message = '@DataAnnotations.SearchReturnNoData';
+                        $.showPromptDialog(_message, null, null, null, true);
+                    }
+
+                }
+            });
+        }
+
+
+        //左侧div显示电子围栏
+        function showElectricFenceInDiv(result, i) {
+            var _$tbody = $tbEFResult.find("tbody");
+            var _$tr = $("<tr style='height:30px;'></tr>");
+            if (i == 0) {
+                _$tr.append($("<td style='padding-left:20px;'><input type='radio' name='ckdvResult' id='ckdvResult" + result.ID + "' checked='checked'></td>"));
+                ckdvVehicleCode[result.ID] = result.VehicleID;
+                createElectricFence(result);
+            } else {
+                _$tr.append($("<td style='padding-left:20px;'><input type='radio' name='ckdvResult' id='ckdvResult" + result.ID + "'></td>"));
+            }
+            _$tr.append($("<td style='padding-top:3px;'><label for='ckdvResult" + result.ID + "'>" + result.FenceName + "</label></td>"));
+            if (result.FenceType == 1) {
+                _$tr.append($("<td style='padding-bottom:2px;'></td>").text("@UIText.Circle@UIText.Area"));
+            }
+            if (result.FenceType == 2) {
+                _$tr.append($("<td style='padding-bottom:2px;'></td>").text("@UIText.Rectangle@UIText.Area"));
+            }
+            if (result.FenceType == 3) {
+                _$tr.append($("<td style='padding-bottom:2px;'></td>").text("@UIText.Polygon@UIText.Area"));
+            }
+            _$tbody.append(_$tr);
+            $tbEFResult.find("span").text("(" + $tbEFResult.find("tbody>tr").length + ")");
+
+            $("#ckdvResult" + result.ID + "").click(function () {
+                mapObj.clearMap();
+                mapObj.setFitView();
+                $tbCheckedExceptions.find("tbody").empty();
+                ckdvVehicleCode = new Object();
+                ckdvVehicleCode[result.ID] = result.VehicleID;
+                createElectricFence(result);
+            });
+        }
+
+
+        //电子围栏显示在地图上
+        function createElectricFence(result) {
+            points = new Array();
+            //圆形
+            if (result.FenceType == 1) {
+                var circleInfo = result.FenceTypeInfo.split(';');
+                var center = circleInfo[0].split(',');
+                var centerlng = center[0];
+                var centerlat = center[1];
+                points.push([centerlng, centerlat]);
+                var circle = new AMap.Circle({
+                    map: mapObj,
+                    center: [centerlng, centerlat],
+                    radius: circleInfo[1],
+                    fillOpacity: 0.3,
+                    fillColor: "#0D9BF2",
+                    strokeWeight: 2,
+                    strokeColor: "#0D9BF2"
+                });
+            }
+            //矩形
+            if (result.FenceType == 2) {
+                var rectInfo = result.FenceTypeInfo.split(';');
+                var rectArr = new Array();//多边形覆盖物节点坐标数组
+                for (var i = 0; i < rectInfo.length; i++) {
+                    var point = rectInfo[i].split(',');
+                    var lng = point[0];
+                    var lat = point[1];
+                    rectArr.push([lng, lat]);
+                    points.push([lng, lat]);
+                }
+                var rect = new AMap.Polygon({
+                    map: mapObj,
+                    path: rectArr,
+                    fillOpacity: 0.3,
+                    fillColor: "#0D9BF2",
+                    strokeWeight: 2,
+                    strokeColor: "#0D9BF2"
+                });
+            }
+            //多边形
+            if (result.FenceType == 3) {
+                var polygonInfo = result.FenceTypeInfo.split(';');
+                var polygonArr = new Array();//多边形覆盖物节点坐标数组
+                for (var i = 0; i < polygonInfo.length; i++) {
+                    var point = polygonInfo[i].split(',');
+                    var lng = point[0];
+                    var lat = point[1];
+                    polygonArr.push([lng, lat]);
+                    points.push([lng, lat]);
+                }
+                var polygon = new AMap.Polygon({
+                    map: mapObj,
+                    path: polygonArr,
+                    fillOpacity: 0.3,
+                    fillColor: "#0D9BF2",
+                    strokeWeight: 2,
+                    strokeColor: "#0D9BF2"
+                });
+            }
+            GetBestMap(points);
+        }
+
+
+        //创建右下方电子围栏异常信息
+        function buildEFResultContent(result) {
+            var _$tbody = $tbCheckedExceptions.find("tbody");
+            var _$tr = $("<tr></tr>");
+            _$tr.data("exid", result.ExID);
+            _$tr.append($("<td></td>").text(result.FenceName));
+            if (result.ExceptionType == 0)//驶入
+            {
+                _$tr.append($("<td></td>").text("@UIText.DriveIn@UIText.Area"));
+        }
+        if (result.ExceptionType == 1)//驶出
+        {
+            _$tr.append($("<td></td>").text("@UIText.DriveOut@UIText.Area"));
+        }
+            if (result.ExceptionType == 2)//超速
+            {
+                _$tr.append($("<td></td>").text("@UIText.AreaOverSpeed"));
+            }
+            _$tr.append($("<td></td>").text(result.SignalStartTime));
+            _$tr.append($("<td></td>").text(result.StartAddress));
+            _$tr.append($("<td></td>").text(result.SignalEndTime));
+            _$tr.append($("<td></td>").text(result.EndAddress));
+            _$tbody.append(_$tr);
+            $tbCheckedExceptions.find("span").text("(" + $tbCheckedExceptions.find("tbody>tr").length + ")");
+        }
+
+
+        //根据点显示最佳位置
+        function GetBestMap(points) {
+            //1 创建对象
+            //2 在标记点添加的时候，把经纬度信息extend进去。
+            for (var i = 0; i < points.length; i++) {
+                AMap.Bounds.extend(points[i]);
+            }
+            //3 在设置完所有的标记点之后，调用下面的方法，就成功了。
+            mapObj.setFitView();
+        }
+
+        //日期格式转化
+        function compareNine(value) {
+            return value > 9 ? value : '0' + value;
+        }
+        function formatNumToDate(value) {
+            var now = eval(value.replace(/\/Date\((\d+)\)\//gi, "new Date($1)"));///.../gi是用来标记正则开始和结束；\是转义符；()标注了正则匹配分组1，$1 
+
+            //或者使用下面方式计算
+            var year = now.getYear() + 1900;//或者 now.getFullYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            return year + "-" + compareNine(month) + "-" + compareNine(date) + " " + compareNine(hour) + ":" + compareNine(minute) + ":" + compareNine(second);
+        }
+
+
+        //确认按钮
+        $("#btnConfirm").on("click", function () {
+            var vehicleID = $("#hidVehicleID").val();
+            if (vehicleID == "" || vehicleID.trim() == "" || vehicleID == undefined) {
+                $.showPromptDialog("@DataAnnotations.PleaseInputVehicleNameFirst", null, null, null, true);
+        }
+        else {
+            getElectricFenceByVehicleID(vehicleID);
+        }
+            });
+
+
+    $("#txtVehicleName").bind("input propertychange", function () {
+        $("#hidVehicleID").val('');
+    })
+
+
+    //异常查询
+    $("#btnSearch").on("click", function () {
+        var fenceID;
+        for (var key in ckdvVehicleCode) {
+            vehicleID = ckdvVehicleCode[key];
+            fenceID = key;
+        }
+        $.ajax({
+            type: "GET",
+            url: "@Url.Content("~/HomeElectricFence/GetElectricFenceExInfo")",
+                    data: {
+                        vehicleID: vehicleID,
+                        fenceID: fenceID
+                    },
+                    success: function (responseTest) {
+                        if ($.handleAjaxError(responseTest)) { return; }
+                        //清理
+                        $tbCheckedExceptions.find("tbody").empty();
+
+                        if (responseTest.length > 0) {
+                            for (var i = 0; i < responseTest.length; i++) {
+                                buildEFResultContent(responseTest[i]);
+                            }
+
+                            $tdBottomInfo.show();
+                            setContentSize();
+                        }
+                        else {
+                            var _message = '@DataAnnotations.SearchReturnNoData';
+                            $.showPromptDialog(_message, null, null, null, true);
+                        }
+                    }
+                });
+            });
+
+
+    </script>
+}

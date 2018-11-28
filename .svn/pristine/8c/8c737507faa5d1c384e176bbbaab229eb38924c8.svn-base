@@ -1,0 +1,36 @@
+08:55:21：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleDistance(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 488
+----------------------------------------------------------------------------------------------------
+08:56:31：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleDistance(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 488
+----------------------------------------------------------------------------------------------------
+09:03:16：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleDistance(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 488
+----------------------------------------------------------------------------------------------------
+09:03:44：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleDistance(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 488
+----------------------------------------------------------------------------------------------------
+09:07:28：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleDistance(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 488
+----------------------------------------------------------------------------------------------------
+10:45:57：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleExceptionsForEquipmen(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 ExceptionTypeID, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 276
+----------------------------------------------------------------------------------------------------
+10:46:01：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleExceptionsForEquipmen(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 ExceptionTypeID, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 276
+----------------------------------------------------------------------------------------------------
+10:55:17：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleExceptionsForEquipmen(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 ExceptionTypeID, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 276
+----------------------------------------------------------------------------------------------------
+11:27:30：
+异常信息：未将对象引用设置到对象的实例。
+堆栈信息：   在 Asiatek.WebDataService.HistoricalData.GetVehicleExceptionsForEquipmen(Int32 VehicleID, DateTime StartDateTime, DateTime EndDateTime, Int32 ExceptionTypeID, Int32 UserID) 位置 e:\SVNCode\TMS2.0\Asiatek.WebDataService\HistoricalData.asmx.cs:行号 276
+----------------------------------------------------------------------------------------------------

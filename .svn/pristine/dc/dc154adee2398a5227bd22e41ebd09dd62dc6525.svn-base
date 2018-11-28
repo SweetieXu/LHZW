@@ -1,0 +1,328 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model EditEFPropertyModel
+
+<style>
+    .tdClass {
+        margin-left:20px;
+    }
+</style>
+
+@using (Ajax.BeginForm("EditEFProperty", "ElectricFenceProperty", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmEditEFProperty" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m=>m.ID)
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.PropertyName)：</td>
+                <td>@Html.TextBoxFor(m => m.PropertyName)</td>
+                <td>@Html.LabelForRequired(m => m.FenceState)：</td>
+                <td>
+                    @Html.RadioButtonFor(m => m.FenceState, true, new { id="FenceState0"}) <label for="FenceState0">@UIText.EnableButton</label>
+                    @Html.RadioButtonFor(m => m.FenceState, false, new { id="FenceState1"}) <label for="FenceState1">@UIText.UnEnableButton</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.PropertyName)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.FenceState)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.ValidStartTime)：</td>
+                <td><input id="ValidStartTime" type="text" name="ValidStartTime" class="form-control" style="width:160px" value="@Model.ValidStartTime.ToString("yyyy-MM-dd HH:mm:ss")"/></td>
+                <td>@Html.LabelForRequired(m => m.ValidEndTime)：</td>
+                <td><input id="ValidEndTime" type="text" name="ValidEndTime" class="form-control" style="width:160px" value="@Model.ValidEndTime.ToString("yyyy-MM-dd HH:mm:ss")"/></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ValidStartTime)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.ValidEndTime)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.AlarmType)：</td>
+                <td>
+                    @Html.RadioButtonFor(m => m.AlarmType, false, new { id = "AlarmType0" ,onclick="check0(this)" }) <label for="AlarmType0">@UIText.ForbidIn</label>
+                    @Html.RadioButtonFor(m => m.AlarmType, true, new { id = "AlarmType1", onclick="check1(this)" }) <label for="AlarmType1">@UIText.ForbidOut</label>
+                    @Html.RadioButtonFor(m => m.IsSpeed, true, new { id = "IsSpeed0" }) <label for="IsSpeed0">@DisplayText.IsCheckSpeed</label>
+                    @Html.RadioButtonFor(m => m.IsSpeed, false, new { id = "IsSpeed1" }) <label for="IsSpeed1">@DisplayText.NotificationTypeAny</label>
+                </td>
+                <td>@Html.LabelFor(m => m.MaxSpeed)：</td>
+                <td>@Html.TextBoxFor(m => m.MaxSpeed)</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.AlarmType)</td>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.MaxSpeed)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.IsPeriod)：</td>
+                <td>
+                    @Html.RadioButtonFor(m => m.IsPeriod, true, new { id = "IsPeriod0" }) <label for="IsPeriod0">@DisplayText.Yes</label>
+                    @Html.RadioButtonFor(m => m.IsPeriod, false, new { id = "IsPeriod1" }) <label for="IsPeriod1">@DisplayText.No</label>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>@Html.ValidationMessageFor(m => m.IsPeriod)</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="4" id="showIsPeriod" style="display:none;">
+                    <table>
+                        <tr>
+                            <td> 
+                                <input type="checkbox" id="week0" name="Week" />
+                                @Html.TextBoxFor(m => m.EFPropertyPeriod[0].Week, new { @style = "display:none;" })
+                                <label for="week0">@DisplayText.Monday</label>
+                            </td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[0].StartTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[0].StartTime, new { id = "AddStartTime0", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[0].EndTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[0].EndTime, new { id = "AddEndTime0", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="week1" name="Week" />
+                                @Html.TextBoxFor(m => m.EFPropertyPeriod[1].Week, new { @style = "display:none;" })
+                                <label for="week1">@DisplayText.Tuesday</label>
+                            </td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[1].StartTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[1].StartTime, new { id = "AddStartTime1", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[1].EndTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[1].EndTime, new { id = "AddEndTime1", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="week2" name="Week" />
+                                @Html.TextBoxFor(m => m.EFPropertyPeriod[2].Week, new { @style = "display:none;" })
+                                <label for="week2">@DisplayText.Wednesday</label>
+                            </td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[2].StartTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[2].StartTime, new { id = "AddStartTime2", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[2].EndTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[2].EndTime, new { id = "AddEndTime2", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="week3" name="Week" />
+                                @Html.TextBoxFor(m => m.EFPropertyPeriod[3].Week, new { @style = "display:none;" })
+                                <label for="week3">@DisplayText.Thursday</label>
+                            </td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[3].StartTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[3].StartTime, new { id = "AddStartTime3", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[3].EndTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[3].EndTime, new { id = "AddEndTime3", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="week4" name="Week" />
+                                @Html.TextBoxFor(m => m.EFPropertyPeriod[4].Week, new { @style = "display:none;" })
+                                <label for="week4">@DisplayText.Friday</label>
+                            </td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[4].StartTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[4].StartTime, new { id = "AddStartTime4", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[4].EndTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[4].EndTime, new { id = "AddEndTime4", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="week5" name="Week" />
+                                @Html.TextBoxFor(m => m.EFPropertyPeriod[5].Week, new { @style = "display:none;" })
+                                <label for="week5">@DisplayText.Saturday</label>
+                            </td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[5].StartTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[5].StartTime, new { id = "AddStartTime5", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[5].EndTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[5].EndTime, new { id = "AddEndTime5", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="week6" name="Week" />
+                                @Html.TextBoxFor(m => m.EFPropertyPeriod[6].Week, new { @style = "display:none;" })
+                                <label for="week6">@DisplayText.Sunday</label>
+                            </td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[6].StartTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[6].StartTime, new { id = "AddStartTime6", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                            <td>@Html.LabelFor(m => m.EFPropertyPeriod[6].EndTime, new { @class = "tdClass" })：</td>
+                            <td>@Html.TextBoxFor(m => m.EFPropertyPeriod[6].EndTime, new { id = "AddEndTime6", style = "width:160px;", @class = "datepickerTimeClass" })</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+           
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmEditEFProperty = $("#frmEditEFProperty");
+    $frmEditEFProperty.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    $frmEditEFProperty.fixUnobtrusiveValidation();
+
+    $(function () {
+        //初始限速值可用设置
+        if ($('#IsSpeed1').is(':checked')) {
+            $("#MaxSpeed").attr('disabled', true);
+        }
+        //初始周期显示设置
+        if ($('#IsPeriod0').is(':checked')) {
+            $("#showIsPeriod").show();
+        }
+        //checkbox选中
+        for (var i = 0; i < 7; i++) {
+            $("#EFPropertyPeriod_" + i + "__Week").val(null);
+            if ($('#AddStartTime' + i + '').val() != null && $('#AddStartTime' + i + '').val() != '') {
+                $('#week' + i + '').attr("checked", true);
+            }
+        }
+    })
+
+    //有效期时间控件
+    $("#ValidStartTime,#ValidEndTime").datetimepicker({
+        changeMonth: true,
+        changeYear: true,
+        timeText: '@UIText.Time',
+        hourText: '@UIText.Hour',
+        minuteText: '@UIText.Minute',
+        currentText: '@UIText.Now',
+        closeText: '@UIText.Complete',
+        showSecond: true, //显示秒  
+        timeFormat: 'HH:mm:ss', //格式化时间  
+        minDate: new Date('@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")')
+    });
+
+    //周期开始、结束时间  只显示time
+    $(".datepickerTimeClass").datetimepicker({
+        timeOnly: true,//只选择时间
+        timeOnlyTitle: '@UIText.Choose@UIText.Time',//timeOnly为true时有效
+        timeText: '@UIText.Time',
+            hourText: '@UIText.Hour',
+            minuteText: '@UIText.Minute',
+            secondText: '@UIText.Second',
+            currentText: '@UIText.Now',
+            closeText: '@UIText.Complete',
+            showSecond: true, //显示秒  
+            timeFormat: 'HH:mm:ss' //格式化时间  
+    });
+
+    var flag = true;      //禁入禁出互斥
+    // 禁入点击选中、取消
+    var flag0 = true;
+    function check0(id) {
+        if (flag == false) { flag0 = true; $("#AlarmType0").val("true"); $("#AlarmType1").val("false"); }
+        id.checked = flag0;
+        flag0 = !flag0;
+        flag = true;
+    }
+    // 禁出点击选中、取消
+    var flag1 = true;
+    function check1(id) {
+        if (flag == true) { flag1 = true; $("#AlarmType0").val("false"); $("#AlarmType1").val("true"); }
+        id.checked = flag1;
+        flag1 = !flag1;
+        flag = false;
+    }
+
+    var weekChecked = false;//用于是周期，没有选中任何星期
+    // 限速click事件
+    $("#IsSpeed0").click(function () {
+        $("#MaxSpeed").removeAttr('disabled');
+    });
+    //不限速
+    $("#IsSpeed1").click(function () {
+        $("#MaxSpeed").attr('disabled', true);
+    });
+    //是周期
+    $("#IsPeriod0").click(function () {
+        $("#showIsPeriod").show();
+    });
+    //不是周期
+    $("#IsPeriod1").click(function () {
+        $("#showIsPeriod").hide();
+    });
+
+    //提交时前台各种验证
+    $frmEditEFProperty.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+
+    var checkForm = function () {
+        //开始时间 结束时间验证
+        var validStartTime = new Date($("#ValidStartTime").val());
+        var validEndTime = new Date($("#ValidEndTime").val());
+        if (validStartTime > validEndTime) {
+            $.showPromptDialog('@DataAnnotations.StartTimeMoreThanEndTimeError', '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        //限速值验证
+        if ($('#IsSpeed0').is(':checked')) {
+            var maxSpeed = $("#MaxSpeed").val();
+            if (maxSpeed == "") {
+                $.showPromptDialog('@DataAnnotations.PleaseInputMaxSpeedFirst', '@UIText.InformationTitle', '@UIText.Close');
+                  return false;
+              }
+        }
+        //报警类型验证
+        if ($('#IsSpeed1').is(':checked') && !$('#AlarmType0').is(':checked') && !$('#AlarmType1').is(':checked')) {
+            $.showPromptDialog('@DataAnnotations.PleaseChooseOneAlarmType', '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        //周期时间验证
+        for (var i = 0; i < 7; i++) {
+            if ($('#week' + i + '').is(':checked')) {
+                weekChecked = true;
+                $("#EFPropertyPeriod_" + i + "__Week").val(i);
+                var startTime = $("#AddStartTime" + i + "").val();
+                var endTime = $("#AddEndTime" + i + "").val();
+                if (startTime == "" || endTime == "") {
+                    //验证不通过时，将修改的数值再设为初始值
+                    $("#EFPropertyPeriod_" + i + "__Week").val(null);
+                    weekChecked = false;
+
+                    $.showPromptDialog('@DataAnnotations.PleaseInputTimeFirst', '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+                if (startTime > endTime) {
+                    //验证不通过时，将修改的数值再设为初始值
+                    $("#EFPropertyPeriod_" + i + "__Week").val(null);
+                    weekChecked = false;
+
+                    $.showPromptDialog('@DataAnnotations.StartTimeMoreThanEndTimeError', '@UIText.InformationTitle', '@UIText.Close');
+                    return false;
+                }
+            }
+        }
+        //验证：是周期，没有选中任何星期的情况
+        if ($('#IsPeriod0').is(':checked') && weekChecked == false) {
+            $.showPromptDialog('@DataAnnotations.PleaseChooseWeekFirst', '@UIText.InformationTitle', '@UIText.Close');
+            return false;
+        }
+        return true;
+    }
+</script>

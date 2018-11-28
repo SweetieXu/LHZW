@@ -1,0 +1,285 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model TemperatureAlarmRuleAddModel
+
+@using (Ajax.BeginForm("AddTemperatureAlarmRule", "TemperatureAlarmRule", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddTemperatureAlarmRule" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed table-hover">
+        <tbody>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.Name)：</td>
+                <td>@Html.TextBoxFor(m => m.Name)</td>
+                <td>@Html.LabelForRequired(m => m.AffiliatedStrucID)：</td>
+                <td>
+                    <input id="txtAddTemperatureAlarmRuleStrucs" type="text" name="txtAddTemperatureAlarmRuleStrucs"  placeholder="@(UIText.PleaseInput + DisplayText.StrucWhichUseVehicle + DisplayText.Name)" />
+                    @Html.HiddenFor(m => m.AffiliatedStrucID, new { id = "hidAddFormAffiliatedStrucID" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @Html.ValidationMessageFor(m => m.Name)
+                </td>
+                <td colspan="2">
+                    @Html.ValidationMessageFor(m => m.AffiliatedStrucID)
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.LabelForRequired(m => m.StartTime)：</td>
+                <td>@Html.TextBoxFor(m => m.StartTime, new { id = "txtAddTemperatureAlarmRuleStartTime" })</td>
+                <td>@Html.LabelForRequired(m => m.EndTime)：</td>
+                <td>@Html.TextBoxFor(m => m.EndTime, new { id = "txtAddTemperatureAlarmRuleEndTime" })</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @Html.ValidationMessageFor(m => m.StartTime)
+                </td>
+                <td colspan="2">
+                    @Html.ValidationMessageFor(m => m.EndTime)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div>
+                        <table id="tbTemperatureAlarmRuleDetails">
+                            @for (int i = 0; i < Model.TemperatureAlarmRuleDetails.Count; i++)
+                            {
+                                var item = Model.TemperatureAlarmRuleDetails[i];
+                                <tr>
+                                    <td colspan="6">
+                                        <input type="checkbox" name="chkSensorIndex" id="chk@(item.SensorCode)" value="@i" />
+                                        <input type="hidden" name="TemperatureAlarmRuleDetails[@i].SensorCode" value="@item.SensorCode" />
+                                        <label for="chk@(item.SensorCode)">@item.SensorName</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.LabelForRequired(m => item.InstallationPosition):
+                                    </td>
+                                    <td>
+                                        <input type="text" id="txtInstallationPosition@(i)" name="TemperatureAlarmRuleDetails[@i].InstallationPosition" value="@Model.TemperatureAlarmRuleDetails[i].InstallationPosition" />
+                                    </td>
+                                    <td>
+                                        @Html.LabelForRequired(m => item.LowestTemperature):
+                                    </td>
+                                    <td>
+                                        <input type="number" id="numLowestTemperature@(i)" name="TemperatureAlarmRuleDetails[@i].LowestTemperature" value="@Model.TemperatureAlarmRuleDetails[i].LowestTemperature" />
+                                    </td>
+                                    <td>
+                                        @Html.LabelForRequired(m => item.HighestTemperature):
+                                    </td>
+                                    <td>
+                                        <input type="number" id="numHighestTemperature@(i)" name="TemperatureAlarmRuleDetails[@i].HighestTemperature" value="@Model.TemperatureAlarmRuleDetails[i].HighestTemperature" />
+                                    </td>
+                                    <td>
+                                        @Html.LabelForRequired(m => item.Enabled):
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" id="chkEnableAlarm@(i)" name="TemperatureAlarmRuleDetails[@i].Enabled" value="true"/>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Description)：</td>
+                <td colspan="3">@Html.TextAreaFor(m => m.Description, new { @class = "fixTextArea" })</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="3">@Html.ValidationMessageFor(m => m.Description)</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-primary" title="@UIText.SaveButton"><span class="glyphicon glyphicon-ok"></span></button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+
+<script>
+    var $frmAddTemperatureAlarmRule = $("#frmAddTemperatureAlarmRule");
+    $frmAddTemperatureAlarmRule.find("input:not(:submit,:checkbox),textarea,select").addClass("form-control");
+    $frmAddTemperatureAlarmRule.fixUnobtrusiveValidation(function (form) {
+        if (checkForm()) {
+            $(form).ajaxSubmit({
+                success: function (responseText, statusText, xhr, $form) {
+                    showCommonEditResult(responseText);
+                }
+            });
+        }
+        return false;
+    });
+    var $txtAddTemperatureAlarmRuleStrucs = $("#txtAddTemperatureAlarmRuleStrucs");
+    var $hidAddFormAffiliatedStrucID = $("#hidAddFormAffiliatedStrucID");
+    //文本框的值发生改变就清空值 并显示错误提示
+    $txtAddTemperatureAlarmRuleStrucs.bind("input propertychange", function () {
+        $hidAddFormAffiliatedStrucID.val(null);
+        $("span[data-valmsg-for='AffiliatedStrucID']").show();
+    })
+
+    /*
+     appendTo:
+     必须指定该元素，否则对于jquery ui dialog中使用的该控件的弹出选择部分会因为层级原因会被dialog遮挡，
+     而且因为dialog的层级会动态调整即使设定了autocomplete的z-index也可能会失效，
+     所以必须设置ui-dialog的z-index，但是全局修改可能造成其他问题
+   */
+    $txtAddTemperatureAlarmRuleStrucs.autocomplete({
+        delay: 500,
+        minLength: 1,
+        appendTo: $frmAddTemperatureAlarmRule,
+        select: function (event, ui) {
+            $("span[data-valmsg-for=AffiliatedStrucID]").hide();
+            $hidAddFormAffiliatedStrucID.val(ui.item.ID);
+        },
+        source: function (request, response) {
+            $.get('@Url.Content("~/Common/GetStructuresByName")', { name: request.term }, function (data, status, xhr) {
+                if ($.handleAjaxError(data)) {
+                    return;
+                }
+                response(data);
+            });
+        }
+    });
+
+        var $txtAddTemperatureAlarmRuleStartTime = $("#txtAddTemperatureAlarmRuleStartTime");
+        var $txtAddTemperatureAlarmRuleEndTime = $("#txtAddTemperatureAlarmRuleEndTime");
+        $txtAddTemperatureAlarmRuleStartTime.datetimepicker({
+            timeOnly: true,//只选择时间
+            timeOnlyTitle: '@UIText.Choose@UIText.Time',//timeOnly为true时有效
+            timeText: '@UIText.Time',
+            hourText: '@UIText.Hour',
+            minuteText: '@UIText.Minute',
+            secondText: '@UIText.Second',
+            currentText: '@UIText.Now',
+            closeText: '@UIText.Complete',
+            showSecond: true, //显示秒  
+            timeFormat: 'HH:mm:ss', //格式化时间  
+        });
+        $txtAddTemperatureAlarmRuleEndTime.datetimepicker({
+            timeOnly: true,//只选择时间
+            timeOnlyTitle: '@UIText.Choose@UIText.Time',//timeOnly为true时有效
+            timeText: '@UIText.Time',
+            hourText: '@UIText.Hour',
+            minuteText: '@UIText.Minute',
+            secondText: '@UIText.Second',
+            currentText: '@UIText.Now',
+            closeText: '@UIText.Complete',
+            showSecond: true, //显示秒  
+            timeFormat: 'HH:mm:ss', //格式化时间  
+        });
+
+
+        var checkForm = function () {
+            //验证时间有效性
+            var _startTimeVal = $txtAddTemperatureAlarmRuleStartTime.val();
+            var _endTimeVal = $txtAddTemperatureAlarmRuleEndTime.val();
+            if (_endTimeVal <= _startTimeVal) {
+                $.showPromptDialog('@DataAnnotations.StartTimeMoreThanEndTimeError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            //验证是否配置了温度传感器
+            var _$checkedSensorIndex = $("#tbTemperatureAlarmRuleDetails input:checkbox[name='chkSensorIndex']:checked");
+            if (_$checkedSensorIndex.length == 0) {
+                $.showPromptDialog('@UIText.ConfigureAtLeastOneTemperatureSensor', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            //验证配置的温度传感器是否填写了参数
+            var _error = false;
+            _$checkedSensorIndex.each(function (index, item) {
+                var _$txtInstallationPosition = $("#txtInstallationPosition" + index);
+                var _$numLowestTemperature = $("#numLowestTemperature" + index);
+                var _$numHighestTemperature = $("#numHighestTemperature" + index);
+                var _installationPosition = _$txtInstallationPosition.val().trim();
+                if (_installationPosition === undefined || _installationPosition === "") {
+                    _error = true;
+                    return;
+                }
+                var _lowestTemperatureVal = _$numLowestTemperature.val().trim();
+                if (_lowestTemperatureVal === "" || isNaN(_lowestTemperatureVal)) {
+                    _error = true;
+                    return;
+                }
+                var _highestTemperatureVal = _$numHighestTemperature.val().trim();
+                if (_highestTemperatureVal === "" || isNaN(_highestTemperatureVal)) {
+                    _error = true;
+                    return;
+                }
+                if (parseFloat(_highestTemperatureVal) <= parseFloat(_lowestTemperatureVal)) {
+                    _error = true;
+                    return;
+                }
+            });
+            if (_error) {
+                $.showPromptDialog('@UIText.ParameterConfigurationError', '@UIText.InformationTitle', '@UIText.Close');
+                return false;
+            }
+            return true;
+        }
+
+        $("#tbTemperatureAlarmRuleDetails input").prop("readonly", true);
+
+        $("input:checkbox[name='chkSensorIndex']").change(function () {
+            var _$this = $(this);
+            var _val = _$this.val();
+            var _checked = _$this.prop("checked");
+            var _$checkedSensorIndex = $("#tbTemperatureAlarmRuleDetails input:checkbox[name='chkSensorIndex']:checked");
+            if (_checked) {
+                if (_$checkedSensorIndex.length == 1 && _val != 0) {//第一次选中温度传感器且不是顺序排第一个的，那么不允许
+                    _$this.prop("checked", false);
+                    $.showPromptDialog('@UIText.MustBeConfiguredInOrder', '@UIText.InformationTitle', '@UIText.Close');
+                    return;
+                } else if (_$checkedSensorIndex.length > 1) {//已经选过了其他传感器之后，验证现在选中的顺序是不是排在之前的后一位
+                    var _maxIndex = 0;
+                    _$checkedSensorIndex.each(function (index, item) {
+                        if (item.value != _val) {//不是当前值的最大值
+                            _maxIndex = item.value;
+                        }
+                    });
+                    if (_val - _maxIndex > 1) {
+                        _$this.prop("checked", false);
+                        $.showPromptDialog('@UIText.MustBeConfiguredInOrder', '@UIText.InformationTitle', '@UIText.Close');
+                        return;
+                    }
+                }
+        } else {//取消选中的时候,检查是否在后续传感器选中的情况下取消了顺序更靠前的
+            var _finded = false;
+            _$checkedSensorIndex.each(function (index, item) {
+                if (item.value > _val) {
+                    _finded = true;
+                }
+            });
+            if (_finded) {
+                $.showPromptDialog('@UIText.MustBeConfiguredInOrder', '@UIText.InformationTitle', '@UIText.Close');
+                _$this.prop("checked", true);
+                return;
+            }
+            }
+            var _$inputs = _$this.closest("tr").next("tr").first().find("input");
+            if (_checked) {
+                _$inputs.prop("readonly", false);
+            } else {
+                _$inputs.prop("readonly", true);
+                _$inputs.val('');
+            }
+            
+            //$("#chkEnableAlarm" + _val).prop("checked", _checked).val(_checked);
+            $("#chkEnableAlarm" + _val).prop("checked", _checked);
+        });;
+
+</script>
+
+

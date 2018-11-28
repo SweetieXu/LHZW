@@ -1,0 +1,234 @@
+﻿@using Asiatek.Model
+@using Asiatek.TMS.Helpers
+@using Asiatek.Resource
+@model VehicleAddModel
+
+
+
+@using (Ajax.BeginForm("AddVehicle", "Vehicle", new AjaxOptions()
+{
+    OnSuccess = "showCommonEditResult",
+}, new { id = "frmAddVehicle" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <fieldset>
+        <legend>@UIText.VehicleBasicInfo</legend>
+        <table class="table table-striped table-condensed table-hover">
+            <tbody>
+                <tr>
+                    <td>@Html.LabelForRequired(m => m.VehicleCode)：</td>
+                    <td>@Html.TextBoxFor(m => m.VehicleCode)</td>
+                    <td>@Html.LabelForRequired(m => m.VehicleName)：</td>
+                    <td>@Html.TextBoxFor(m => m.VehicleName)</td>
+                    <td>@Html.LabelForRequired(m => m.IsReceived)：</td>
+                    <td>@Html.CheckBoxFor(m => m.IsReceived)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.VehicleCode)</td>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.VehicleName)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelForRequired(m => m.TerminalCode)：</td>
+                    <td>@Html.TextBoxFor(m => m.TerminalCode)</td>
+                    <td>@Html.LabelForRequired(m => m.PlateNum)：</td>
+                    <td>@Html.TextBoxFor(m => m.PlateNum)</td>
+                    <td>@Html.LabelForRequired(m => m.IsAccess)：</td>
+                    <td>@Html.CheckBoxFor(m => m.IsAccess)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.TerminalCode)</td>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.PlateNum)</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelForRequired(m => m.SIMCode)：</td>
+                    <td>@Html.TextBoxFor(m => m.SIMCode)</td>
+                    <td>@Html.LabelForRequired(m => m.PlateColorsSelectList)：</td>
+                    <td>@Html.DropDownListFor(m => m.PlateColorCode, Model.PlateColorsSelectList)</td>
+                    <td>@Html.LabelForRequired(m => m.IsTransmit)：</td>
+                    <td>@Html.CheckBoxFor(m => m.IsTransmit)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.SIMCode)</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelForRequired(m => m.TerminalTypesSelectList)：</td>
+                    <td>@Html.DropDownListFor(m => m.TerminalTypeID, Model.TerminalTypesSelectList)</td>
+                    <td>@Html.LabelForRequired(m => m.VehicleTypesSelectList)：</td>
+                    <td>@Html.DropDownListFor(m => m.VehicleTypeCode, Model.VehicleTypesSelectList)</td>
+                    <td>@Html.LabelForRequired(m => m.IsDangerous)：</td>
+                    <td>@Html.CheckBoxFor(m => m.IsDangerous)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelForRequired(m => m.StructuresSelectList)：</td>
+                    @*        <td>@Html.DropDownListFor(m => m.StrucID, Model.StructuresSelectList)</td>*@
+                    <td>
+                        <select id="ddlAddVehicleStrucs">
+                        </select>
+                        <input type="hidden" name="StrucID" value="-1" id="hidAddVehicleStrucID" />
+                    </td>
+                    <td>@Html.LabelForRequired(m => m.OwnershipSelectList)：</td>
+                    <td>
+                        <select id="ddlAddVehicleOwnerships">
+                        </select>
+                        <input type="hidden" name="Ownership" value="-1" id="hidAddVehicleOwnership" />
+                    </td>
+                    @*                    <td>@Html.DropDownListFor(m => m.Ownership, Model.OwnershipSelectList)</td>*@
+                    <td>@Html.LabelForRequired(m => m.SpeedLimit)：</td>
+                    <td>@Html.EditorFor(m => m.SpeedLimit)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>@Html.ValidationMessageFor(m => m.SpeedLimit)</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelForRequired(m => m.WarrantyDate)：</td>
+                    <td>@Html.TextBoxFor(m => m.WarrantyDate, new { id = "txtWarrantyDate" })</td>
+                    <td></td>
+                    <td></td>
+                    <td>@Html.LabelForRequired(m => m.DrivingTime)：</td>
+                    <td>@Html.EditorFor(m => m.DrivingTime)</td>
+                </tr>
+                <tr>
+                    <td colspan="2">@Html.ValidationMessageFor(m => m.WarrantyDate)</td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2">@Html.ValidationMessageFor(m => m.DrivingTime)</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelForRequired(m => m.Icon)：</td>
+                    <td colspan="5">
+                        @foreach (var item in Model.Icons)
+                        {
+                            bool temp = item == Model.Icon;
+                            if (temp)
+                            {
+                            <input type="radio" name="icon" value="@item" id="rdo@(item)" checked="checked"/>
+                            }
+                            else
+                            {  
+                            <input type="radio" name="icon" value="@item" id="rdo@(item)"/>
+
+                            }
+                   
+                            <label for="rdo@(item)">
+                                <img src="@Url.Content("~/Content/vehicleIcons/" + item + "/Legend.png")" alt=""  /></label>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>@Html.LabelFor(m => m.Remark)：</td>
+                    <td colspan="5">
+                        @Html.TextAreaFor(m => m.Remark, new { @class = "fixTextArea" })
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">@Html.ValidationMessageFor(m => m.Remark)</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <input type="submit" value="@UIText.SaveButton" class="btn btn-primary"/>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </fieldset>
+
+}
+
+
+<script>
+    var $frmAddVehicle = $("#frmAddVehicle");
+    $frmAddVehicle.find("input:not(:submit,:checkbox,:radio),textarea,select").addClass("form-control");
+    $frmAddVehicle.fixUnobtrusiveValidation();
+    $.datepicker.regional['common'] = {
+        monthNames: ['1', '2', '3', '4', '5', '6',
+        '7', '8', '9', '10', '11', '12'],
+        monthNamesShort: ['1', '2', '3', '4', '5', '6',
+        '7', '8', '9', '10', '11', '12'],
+        dayNames: ['7', '1', '2', '3', '4', '5', '6'],
+        dayNamesMin: ['7', '1', '2', '3', '4', '5', '6'],
+        dateFormat: 'yy-MM-dd',
+    };
+    $.datepicker.setDefaults($.datepicker.regional['common']);
+    $("#txtWarrantyDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        minDate: new Date('@DateTime.Now.ToString("yyyy-MM-dd")')
+    });
+
+
+    var $ddlAddVehicleStrucs = $("#ddlAddVehicleStrucs");
+    var $hidAddVehicleStrucID = $("#hidAddVehicleStrucID");
+    var $ddlAddVehicleOwnerships = $("#ddlAddVehicleOwnerships");
+    var $hidAddVehicleOwnership = $("#hidAddVehicleOwnership");
+    $.get("@Url.Content("~/Admin/Structure/GetStructures")", {}, function (result)
+    {
+        if ($.handleAjaxError(result))
+        {
+            return;
+        }
+        var _html = "";
+        for (var i = 0; i < result.length; i++)
+        {
+            var obj = result[i];
+            if (i == 0)
+            {
+                _html += "<option selected='selected' value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+                $hidAddVehicleStrucID.val(obj.ID);
+                $hidAddVehicleOwnership.val(obj.ID);
+            } else
+            {
+                _html += "<option value='" + obj.ID + "'>" + obj.StrucName + "</option>";
+            }
+
+        }
+        $ddlAddVehicleStrucs.html(_html);
+        $ddlAddVehicleStrucs.editableSelect({ effects: 'fade' }).on('select.editable-select', function (e, li)
+        {
+            $hidAddVehicleStrucID.val(li.val());
+        });
+        $ddlAddVehicleOwnerships.html(_html);
+        $ddlAddVehicleOwnerships.editableSelect({ effects: 'fade' }).on('select.editable-select', function (e, li)
+        {
+            $hidAddVehicleOwnership.val(li.val());
+        });
+    });
+</script>

@@ -1,0 +1,123 @@
+﻿@functions{
+
+    public static string GetDisplayText(string name)
+    {
+        return GetResourceText(name, Asiatek.Resource.DisplayText.ResourceManager);
+    }
+
+    public static string GetDataAnnotations(string name)
+    {
+        return GetResourceText(name, Asiatek.Resource.DataAnnotations.ResourceManager);
+    }
+
+    public static string GetPromptInformation(string name)
+    {
+        return GetResourceText(name, Asiatek.Resource.PromptInformation.ResourceManager);
+    }
+
+    public static string GetUIText(string name)
+    {
+        return GetResourceText(name, Asiatek.Resource.UIText.ResourceManager);
+    }
+
+
+    public static string GetResourceText(string name, System.Resources.ResourceManager rm)
+    {
+        var temp = rm.GetString(name, System.Threading.Thread.CurrentThread.CurrentUICulture);
+        if (string.IsNullOrWhiteSpace(temp))
+        {
+            return name;
+        }
+        else
+        {
+            return temp;
+        }
+    }
+
+
+
+    /// <summary>
+    /// 检查功能是否包含在权限内
+    /// </summary>
+    public static bool CheckPremission(string actionName, string controllerName, string areaName = "DefaultArea")
+    {
+        Asiatek.Model.UserSessionModel model = Session["currentUser"] as Asiatek.Model.UserSessionModel;
+        if (model == null)
+        {
+            return false;
+        }
+        var temp = model.Functions.Where(f =>
+            f.AreaName == areaName
+            && f.ControllerName == controllerName
+            && f.ActionName == actionName).SingleOrDefault();
+        return temp != null;
+    }
+
+}
+
+
+@functions{
+    public static string CurrentUserInfo()
+    {
+        //用户编号|用户名|角色编号|角色名称|角色等级|用户昵称|单位ID
+        var identity = HttpContext.Current.User.Identity.Name;
+        string[] identities = identity.Split('|');
+        string userName = identities[1];//用户名
+        string roleName = identities[3];//角色名
+        string nickName = identities[5];//用户昵称
+        return string.Format("{0}：{1}，{2}", roleName, nickName, Asiatek.Resource.UIText.Welcome);
+    }
+}
+
+
+@helper ShowFunctionTree(IEnumerable<Asiatek.Model.FunctionTreeNodeModel> funs, int parentID)
+{
+    
+    <div id="divFunctionTree" style="height: 300px; overflow-y: scroll;">
+        @BuildFunctionTree(funs, parentID)
+    </div>
+    <script>
+        $("#divFunctionTree").setCheckBoxTreeStyle(true);
+    </script>
+}
+
+@helper BuildFunctionTree(IEnumerable<Asiatek.Model.FunctionTreeNodeModel> funs, int parentID)
+{
+    
+    var temp = funs.Where(f => f.ParentID == parentID);
+    if (temp.Count() == 0)
+    {
+        return;
+    }
+    <ul style="padding-left: 40px;">
+        @foreach (var item in temp)
+        {
+            <li>
+                @if (item.Checked)
+                {
+                    <input type="checkbox" name="functionids" value="@item.ID" checked="checked"/>
+                }
+                else
+                {
+                    <input type="checkbox" name="functionids" value="@item.ID" />
+                }
+
+                <label class="lblFunctionTree">@item.FunctionName</label>
+                @BuildFunctionTree(funs, item.ID)
+            </li>
+        }
+    </ul>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
